@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\HumanResources;
+namespace App\Http\Controllers\Accounting;
 
 use Illuminate\Http\Request;
-use App\Models\HumanResources\MilitaryAccounting;
+use App\Models\Accounting\ClosingFinancialPeriod;
 
 /**
- * Контроллер воинского учета работников
+ * Контроллер закрытия финансового периода
  */
 
-class MilitaryAccountingController extends BaseHumanResourcesController
+class ClosingFinancialPeriodsController extends BaseAccountingController
 {
     /**
      * Display a listing of the resource.
@@ -18,9 +18,9 @@ class MilitaryAccountingController extends BaseHumanResourcesController
      */
     public function index()
     {
-        $items = 'test military-accounting'; 
+        $items = 'test closing-financial-periods'; 
         
-        return view('humanresources.military-accounting.index', compact('items'));
+        return view('accounting.closing-financial-periods.index', compact('items'));
     }
 
     /**

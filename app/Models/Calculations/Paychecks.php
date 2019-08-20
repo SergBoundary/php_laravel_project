@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * Модель обслуживания расчетного листа по заработной плате
  */
 
-class Paycheck extends Model
+class Paychecks extends Model
 {
     use SoftDeletes;
 }

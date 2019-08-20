@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\Accounting;
+namespace App\Http\Controllers\Calculations;
 
 use Illuminate\Http\Request;
-use App\Models\Accounting\ClosingFinancialPeriod;
+use App\Models\Calculations\Paycheck;
 
 /**
- * Контроллер закрытия финансового периода
+ * Контроллер расчетного листа по заработной плате
  */
 
-class ClosingFinancialPeriodController extends BaseAccountingController
+class PaychecksController extends BaseCalculationsController
 {
     /**
      * Display a listing of the resource.
@@ -18,9 +18,9 @@ class ClosingFinancialPeriodController extends BaseAccountingController
      */
     public function index()
     {
-        $items = 'test closing-financial-period'; 
+        $items = 'test paychecks'; 
         
-        return view('accounting.closing-financial-period.index', compact('items'));
+        return view('calculations.paychecks.index', compact('items'));
     }
 
     /**

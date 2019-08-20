@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * Модель обслуживания учета гражданств работника
  */
 
-class PersonalCitizenship extends Model
+class PersonalCitizenships extends Model
 {
     use SoftDeletes;
 }

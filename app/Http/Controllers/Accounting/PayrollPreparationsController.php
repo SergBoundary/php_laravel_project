@@ -9,7 +9,7 @@ use App\Models\Accounting\PayrollPreparation;
  * Контроллер подготовки расчета заработной платы
  */
 
-class PayrollPreparationController extends BaseAccountingController
+class PayrollPreparationsController extends BaseAccountingController
 {
     /**
      * Display a listing of the resource.
@@ -18,9 +18,9 @@ class PayrollPreparationController extends BaseAccountingController
      */
     public function index()
     {
-        $items = 'test payroll-preparation'; 
+        $items = 'test payroll-preparations'; 
         
-        return view('accounting.payroll-preparation.index', compact('items'));
+        return view('accounting.payroll-preparations.index', compact('items'));
     }
 
     /**

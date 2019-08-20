@@ -17,7 +17,7 @@ Route::get('/', function () {
 
 Route::group(['namespace' => 'HumanResources', 'prefix' => 'hr'], function(){
     Route::resource('personal-cards', 'PersonalCardsController');
-    Route::resource('allocation', 'AllocationController');
+    Route::resource('allocations', 'AllocationsController');
     Route::resource('documents', 'DocumentsController');
     Route::resource('provisions', 'ProvisionsController');
     Route::resource('recruitment-orders', 'RecruitmentOrdersController');
@@ -26,14 +26,14 @@ Route::group(['namespace' => 'HumanResources', 'prefix' => 'hr'], function(){
     Route::resource('personal-pasports', 'PersonalPasportsController');
     Route::resource('personal-addresses', 'PersonalAddressesController');
     Route::resource('personal-communications', 'PersonalCommunicationsController');
-    Route::resource('personal-citizenship', 'PersonalCitizenshipController');
+    Route::resource('personal-citizenships', 'PersonalCitizenshipsController');
     Route::resource('personal-educations', 'PersonalEducationsController');
     Route::resource('personal-taxes', 'PersonalTaxesController');
     Route::resource('work-experiences', 'WorkExperiencesController');
     Route::resource('last-jobs', 'LastJobsController');
     Route::resource('insurance-certificates', 'InsuranceCertificatesController');
     Route::resource('salary-cards', 'SalaryCardsController');
-    Route::resource('military-accounting', 'MilitaryAccountingController');
+    Route::resource('military-accountings', 'MilitaryAccountingsController');
 });
 
 Route::group(['namespace' => 'Accounting', 'prefix' => 'acc'], function(){
@@ -53,13 +53,13 @@ Route::group(['namespace' => 'Accounting', 'prefix' => 'acc'], function(){
     Route::resource('vacation-amounts', 'VacationAmountsController');
     Route::resource('absence-from-works', 'AbsenceFromWorksController');
     Route::resource('special-eatings', 'SpecialEatingsController');
-    Route::resource('payroll-preparation', 'PayrollPreparationController');
-    Route::resource('closing-financial-period', 'ClosingFinancialPeriodController');
+    Route::resource('payroll-preparations', 'PayrollPreparationsController');
+    Route::resource('closing-financial-periods', 'ClosingFinancialPeriodsController');
 });
 
 Route::group(['namespace' => 'Calculations', 'prefix' => 'calc'], function(){
-    Route::resource('payroll', 'PayrollController');
-    Route::resource('paycheck', 'PaycheckController');
+    Route::resource('payrolls', 'PayrollsController');
+    Route::resource('paychecks', 'PaychecksController');
 });
 
 Route::group(['namespace' => 'References', 'prefix' => 'ref'], function(){

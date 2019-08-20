@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\Calculations;
+namespace App\Http\Controllers\HumanResources;
 
 use Illuminate\Http\Request;
-use App\Models\Calculations\Payroll;
+use App\Models\HumanResources\Allocation;
 
 /**
- * Контроллер расчета заработной платы
+ * Контроллер учета должностных перемещений работника
  */
 
-class PayrollController extends BaseCalculationsController
+class AllocationsController extends BaseHumanResourcesController
 {
     /**
      * Display a listing of the resource.
@@ -18,9 +18,9 @@ class PayrollController extends BaseCalculationsController
      */
     public function index()
     {
-        $items = 'test payroll'; 
+        $items = 'test allocations'; 
         
-        return view('calculations.payroll.index', compact('items'));
+        return view('humanresources.allocations.index', compact('items'));
     }
 
     /**

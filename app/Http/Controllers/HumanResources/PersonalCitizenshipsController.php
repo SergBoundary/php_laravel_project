@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\Calculations;
+namespace App\Http\Controllers\HumanResources;
 
 use Illuminate\Http\Request;
-use App\Models\Calculations\Paycheck;
+use App\Models\HumanResources\PersonalCitizenship;
 
 /**
- * Контроллер расчетного листа по заработной плате
+ * Контроллер учета гражданств работника
  */
 
-class PaycheckController extends BaseCalculationsController
+class PersonalCitizenshipsController extends BaseHumanResourcesController
 {
     /**
      * Display a listing of the resource.
@@ -18,9 +18,9 @@ class PaycheckController extends BaseCalculationsController
      */
     public function index()
     {
-        $items = 'test paycheck'; 
+        $items = 'test personal-citizenships'; 
         
-        return view('calculations.paycheck.index', compact('items'));
+        return view('humanresources.personal-citizenships.index', compact('items'));
     }
 
     /**

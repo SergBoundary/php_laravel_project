@@ -6,10 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Модель обслуживания подготовки расчета заработной платы
+ * Модель обслуживания закрытия финансового периода
  */
 
-class PayrollPreparation extends Model
+class ClosingFinancialPeriods extends Model
 {
     use SoftDeletes;
 }

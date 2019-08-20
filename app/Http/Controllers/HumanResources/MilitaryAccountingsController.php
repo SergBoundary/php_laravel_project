@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\HumanResources;
 
 use Illuminate\Http\Request;
-use App\Models\HumanResources\PersonalCitizenship;
+use App\Models\HumanResources\MilitaryAccounting;
 
 /**
- * Контроллер учета гражданств работника
+ * Контроллер воинского учета работников
  */
 
-class PersonalCitizenshipController extends BaseHumanResourcesController
+class MilitaryAccountingsController extends BaseHumanResourcesController
 {
     /**
      * Display a listing of the resource.
@@ -18,9 +18,9 @@ class PersonalCitizenshipController extends BaseHumanResourcesController
      */
     public function index()
     {
-        $items = 'test personal-citizenship'; 
+        $items = 'test military-accountings'; 
         
-        return view('humanresources.personal-citizenship.index', compact('items'));
+        return view('humanresources.military-accountings.index', compact('items'));
     }
 
     /**

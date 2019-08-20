@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * Модель обслуживания воинского учета работников
  */
 
-class MilitaryAccounting extends Model
+class MilitaryAccountings extends Model
 {
     use SoftDeletes;
 }
