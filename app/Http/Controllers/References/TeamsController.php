@@ -18,7 +18,9 @@ class TeamsController extends BaseReferencesController
      */
     public function index()
     {
-        //
+        $items = 'test teams'; 
+        
+        return view('references.teams.index', compact('items'));
     }
 
     /**

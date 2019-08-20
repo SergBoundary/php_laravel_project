@@ -18,7 +18,9 @@ class ObjectGroupsController extends BaseReferencesController
      */
     public function index()
     {
-        //
+        $items = 'test object-groups'; 
+        
+        return view('references.object-groups.index', compact('items'));
     }
 
     /**

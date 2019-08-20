@@ -18,7 +18,9 @@ class AbsenceFromWorksController extends BaseAccountingController
      */
     public function index()
     {
-        //
+        $items = 'test absence-from-works'; 
+        
+        return view('accounting.absence-from-works.index', compact('items'));
     }
 
     /**

@@ -18,7 +18,9 @@ class PersonalCitizenshipController extends BaseHumanResourcesController
      */
     public function index()
     {
-        //
+        $items = 'test personal-citizenship'; 
+        
+        return view('humanresources.personal-citizenship.index', compact('items'));
     }
 
     /**

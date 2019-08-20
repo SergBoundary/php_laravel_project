@@ -18,7 +18,9 @@ class PersonalTaxesController extends BaseHumanResourcesController
      */
     public function index()
     {
-        //
+        $items = 'test personal-taxes'; 
+        
+        return view('humanresources.personal-taxes.index', compact('items'));
     }
 
     /**

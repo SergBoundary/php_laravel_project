@@ -18,7 +18,9 @@ class ProvisionsController extends BaseHumanResourcesController
      */
     public function index()
     {
-        //
+        $items = 'test provisions'; 
+        
+        return view('humanresources.provisions.index', compact('items'));
     }
 
     /**

@@ -18,7 +18,9 @@ class StudyModesController extends BaseReferencesController
      */
     public function index()
     {
-        //
+        $items = 'test study-modes'; 
+        
+        return view('references.study-modes.index', compact('items'));
     }
 
     /**

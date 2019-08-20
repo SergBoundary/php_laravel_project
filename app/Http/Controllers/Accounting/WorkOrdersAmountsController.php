@@ -18,7 +18,9 @@ class WorkOrdersAmountsController extends BaseAccountingController
      */
     public function index()
     {
-        //
+        $items = 'test work-orders-amounts'; 
+        
+        return view('accounting.work-orders-amounts.index', compact('items'));
     }
 
     /**

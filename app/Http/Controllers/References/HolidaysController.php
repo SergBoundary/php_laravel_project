@@ -18,7 +18,9 @@ class HolidaysController extends BaseReferencesController
      */
     public function index()
     {
-        //
+        $items = 'test holidays'; 
+        
+        return view('references.holidays.index', compact('items'));
     }
 
     /**

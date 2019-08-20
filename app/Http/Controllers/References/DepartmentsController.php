@@ -18,7 +18,9 @@ class DepartmentsController extends BaseReferencesController
      */
     public function index()
     {
-        //
+        $items = 'test departments'; 
+        
+        return view('references.departments.index', compact('items'));
     }
 
     /**

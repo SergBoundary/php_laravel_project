@@ -18,7 +18,9 @@ class ShoeSizesController extends BaseReferencesController
      */
     public function index()
     {
-        //
+        $items = 'test shoe-sizes'; 
+        
+        return view('references.shoe-sizes.index', compact('items'));
     }
 
     /**

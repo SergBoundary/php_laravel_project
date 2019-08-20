@@ -18,7 +18,9 @@ class ClosingFinancialPeriodController extends BaseAccountingController
      */
     public function index()
     {
-        //
+        $items = 'test closing-financial-period'; 
+        
+        return view('accounting.closing-financial-period.index', compact('items'));
     }
 
     /**

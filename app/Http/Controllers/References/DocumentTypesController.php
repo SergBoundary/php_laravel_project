@@ -18,7 +18,9 @@ class DocumentTypesController extends BaseReferencesController
      */
     public function index()
     {
-        //
+        $items = 'test document-types'; 
+        
+        return view('references.document-types.index', compact('items'));
     }
 
     /**

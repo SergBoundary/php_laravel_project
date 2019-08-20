@@ -19,7 +19,9 @@ class PersonalCommunicationsController extends BaseHumanResourcesController
      */
     public function index()
     {
-        //
+        $items = 'test personal-communications'; 
+        
+        return view('humanresources.personal-communications.index', compact('items'));
     }
 
     /**

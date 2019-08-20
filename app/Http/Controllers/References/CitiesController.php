@@ -18,7 +18,9 @@ class CitiesController extends BaseReferencesController
      */
     public function index()
     {
-        //
+        $items = 'test cities'; 
+        
+        return view('references.cities.index', compact('items'));
     }
 
     /**

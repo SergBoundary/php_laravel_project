@@ -3,6 +3,7 @@
 namespace App\Models\References;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Модель обслуживания списка текущих курсов валют
@@ -10,5 +11,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class CurrencyKurses extends Model
 {
-    //
+    use SoftDeletes;
 }

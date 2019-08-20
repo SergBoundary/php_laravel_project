@@ -18,7 +18,9 @@ class TaxScalesController extends BaseReferencesController
      */
     public function index()
     {
-        //
+        $items = 'test tax-scales'; 
+        
+        return view('references.tax-scales.index', compact('items'));
     }
 
     /**

@@ -18,7 +18,9 @@ class DepartmentAccrualsController extends BaseAccountingController
      */
     public function index()
     {
-        //
+        $items = 'test department-accruals'; 
+        
+        return view('accounting.department-accruals.index', compact('items'));
     }
 
     /**

@@ -18,7 +18,9 @@ class SubordinationsController extends BaseReferencesController
      */
     public function index()
     {
-        //
+        $items = 'test subordinations'; 
+        
+        return view('references.subordinations.index', compact('items'));
     }
 
     /**

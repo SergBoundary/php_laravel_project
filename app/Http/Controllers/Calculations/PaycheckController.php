@@ -18,7 +18,9 @@ class PaycheckController extends BaseCalculationsController
      */
     public function index()
     {
-        //
+        $items = 'test paycheck'; 
+        
+        return view('calculations.paycheck.index', compact('items'));
     }
 
     /**

@@ -18,7 +18,9 @@ class AccrualsController extends BaseReferencesController
      */
     public function index()
     {
-        //
+        $items = 'test accruals'; 
+        
+        return view('references.accruals.index', compact('items'));
     }
 
     /**

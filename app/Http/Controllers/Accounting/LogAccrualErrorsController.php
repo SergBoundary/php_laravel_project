@@ -18,7 +18,9 @@ class LogAccrualErrorsController extends BaseAccountingController
      */
     public function index()
     {
-        //
+        $items = 'test log-accrual-errors'; 
+        
+        return view('accounting.log-accrual-errors.index', compact('items'));
     }
 
     /**

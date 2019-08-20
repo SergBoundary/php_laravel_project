@@ -18,7 +18,9 @@ class ObjectsController extends BaseReferencesController
      */
     public function index()
     {
-        //
+        $items = 'test objects'; 
+        
+        return view('references.objects.index', compact('items'));
     }
 
     /**

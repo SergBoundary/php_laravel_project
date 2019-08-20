@@ -18,7 +18,9 @@ class DistrictsController extends BaseReferencesController
      */
     public function index()
     {
-        //
+        $items = 'test districts'; 
+        
+        return view('references.districts.index', compact('items'));
     }
 
     /**

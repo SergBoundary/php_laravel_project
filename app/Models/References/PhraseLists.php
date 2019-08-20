@@ -3,6 +3,7 @@
 namespace App\Models\References;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Модель обслуживания списка формулировок для заполнения документов и форм 
@@ -10,5 +11,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class PhraseLists extends Model
 {
-    //
+    use SoftDeletes;
 }

@@ -3,6 +3,7 @@
 namespace App\Models\Accounting;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Модель обслуживания расчета сумм начислений работникам
@@ -10,5 +11,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class AccrualTimesheets extends Model
 {
-    //
+    use SoftDeletes;
 }

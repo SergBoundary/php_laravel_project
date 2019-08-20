@@ -18,7 +18,9 @@ class PersonalPasportsController extends BaseHumanResourcesController
      */
     public function index()
     {
-        //
+        $items = 'test personal-pasports'; 
+        
+        return view('humanresources.personal-pasports.index', compact('items'));
     }
 
     /**

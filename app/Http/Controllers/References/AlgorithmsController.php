@@ -18,7 +18,9 @@ class AlgorithmsController extends BaseReferencesController
      */
     public function index()
     {
-        //
+        $items = 'test algorithms'; 
+        
+        return view('references.algorithms.index', compact('items'));
     }
 
     /**

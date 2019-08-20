@@ -18,7 +18,9 @@ class FamilyRelationTypesController extends BaseReferencesController
      */
     public function index()
     {
-        //
+        $items = 'test family-relation-types'; 
+        
+        return view('references.family-relation-types.index', compact('items'));
     }
 
     /**

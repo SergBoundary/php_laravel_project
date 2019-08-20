@@ -18,7 +18,9 @@ class AccrualTimesheetsController extends BaseAccountingController
      */
     public function index()
     {
-        //
+        $items = 'test accrual-timesheets'; 
+        
+        return view('accounting.accrual-timesheets.index', compact('items'));
     }
 
     /**

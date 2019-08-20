@@ -18,7 +18,9 @@ class WorkWeekTypesController extends BaseReferencesController
      */
     public function index()
     {
-        //
+        $items = 'test work-week-types'; 
+        
+        return view('references.work-week-types.index', compact('items'));
     }
 
     /**

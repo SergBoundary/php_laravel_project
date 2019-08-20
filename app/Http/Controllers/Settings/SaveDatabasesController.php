@@ -18,7 +18,9 @@ class SaveDatabasesController extends BaseSettingsController
      */
     public function index()
     {
-        //
+        $items = 'test save-databases'; 
+        
+        return view('settings.save-databases.index', compact('items'));
     }
 
     /**

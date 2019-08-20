@@ -3,6 +3,7 @@
 namespace App\Models\HumanResources;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Модель обслуживания учета должностных перемещений работника
@@ -10,5 +11,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class Allocation extends Model
 {
-    //
+    use SoftDeletes;
 }

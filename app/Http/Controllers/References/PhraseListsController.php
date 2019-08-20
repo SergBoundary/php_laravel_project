@@ -18,7 +18,9 @@ class PhraseListsController extends BaseReferencesController
      */
     public function index()
     {
-        //
+        $items = 'test phrase-lists'; 
+        
+        return view('references.phrase-lists.index', compact('items'));
     }
 
     /**

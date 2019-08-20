@@ -18,7 +18,9 @@ class AbsenceClassifiersController extends BaseReferencesController
      */
     public function index()
     {
-        //
+        $items = 'test absence-classifiers'; 
+        
+        return view('references.absence-classifiers.index', compact('items'));
     }
 
     /**

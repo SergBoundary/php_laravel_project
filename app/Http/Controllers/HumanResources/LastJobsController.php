@@ -18,7 +18,9 @@ class LastJobsController extends BaseHumanResourcesController
      */
     public function index()
     {
-        //
+        $items = 'test last-jobs'; 
+        
+        return view('humanresources.last-jobs.index', compact('items'));
     }
 
     /**

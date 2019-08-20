@@ -18,7 +18,9 @@ class PhraseListGroupsController extends BaseReferencesController
      */
     public function index()
     {
-        //
+        $items = 'test phrase-list-groups'; 
+        
+        return view('references.phrase-list-groups.index', compact('items'));
     }
 
     /**

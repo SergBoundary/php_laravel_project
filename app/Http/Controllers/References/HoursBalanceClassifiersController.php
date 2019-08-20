@@ -18,7 +18,9 @@ class HoursBalanceClassifiersController extends BaseReferencesController
      */
     public function index()
     {
-        //
+        $items = 'test hours-balance-classifiers'; 
+        
+        return view('references.hours-balance-classifiers.index', compact('items'));
     }
 
     /**

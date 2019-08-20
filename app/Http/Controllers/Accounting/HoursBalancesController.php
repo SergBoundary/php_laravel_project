@@ -18,7 +18,9 @@ class HoursBalancesController extends BaseAccountingController
      */
     public function index()
     {
-        //
+        $items = 'test hours-balances'; 
+        
+        return view('accounting.hours-balances.index', compact('items'));
     }
 
     /**

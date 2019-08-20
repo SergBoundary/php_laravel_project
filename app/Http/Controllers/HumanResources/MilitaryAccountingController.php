@@ -18,7 +18,9 @@ class MilitaryAccountingController extends BaseHumanResourcesController
      */
     public function index()
     {
-        //
+        $items = 'test military-accounting'; 
+        
+        return view('humanresources.military-accounting.index', compact('items'));
     }
 
     /**

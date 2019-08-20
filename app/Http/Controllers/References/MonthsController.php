@@ -18,7 +18,9 @@ class MonthsController extends BaseReferencesController
      */
     public function index()
     {
-        //
+        $items = 'test months'; 
+        
+        return view('references.months.index', compact('items'));
     }
 
     /**

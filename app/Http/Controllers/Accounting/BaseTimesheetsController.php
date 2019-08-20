@@ -18,7 +18,9 @@ class BaseTimesheetsController extends BaseAccountingController
      */
     public function index()
     {
-        //
+        $items = 'test base-timesheets'; 
+        
+        return view('accounting.base-timesheets.index', compact('items'));
     }
 
     /**

@@ -18,7 +18,9 @@ class ConstantsController extends BaseSettingsController
      */
     public function index()
     {
-        //
+        $items = 'test constants'; 
+        
+        return view('settings.constants.index', compact('items'));
     }
 
     /**

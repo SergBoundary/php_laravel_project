@@ -3,6 +3,7 @@
 namespace App\Models\References;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Модель обслуживания списка объектов
@@ -10,5 +11,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class Objects extends Model
 {
-    //
+    use SoftDeletes;
 }

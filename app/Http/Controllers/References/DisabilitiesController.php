@@ -18,7 +18,9 @@ class DisabilitiesController extends BaseReferencesController
      */
     public function index()
     {
-        //
+        $items = 'test disabilities'; 
+        
+        return view('references.disabilities.index', compact('items'));
     }
 
     /**

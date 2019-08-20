@@ -18,7 +18,9 @@ class AccountsController extends BaseReferencesController
      */
     public function index()
     {
-        //
+        $items = 'test accounts'; 
+        
+        return view('references.accounts.index', compact('items'));
     }
 
     /**

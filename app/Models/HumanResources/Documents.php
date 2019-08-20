@@ -3,6 +3,7 @@
 namespace App\Models\HumanResources;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Модель обслуживания учета кадровых документов
@@ -10,5 +11,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class Documents extends Model
 {
-    //
+    use SoftDeletes;
 }

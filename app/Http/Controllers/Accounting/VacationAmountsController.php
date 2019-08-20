@@ -18,7 +18,9 @@ class VacationAmountsController extends BaseAccountingController
      */
     public function index()
     {
-        //
+        $items = 'test vacation-amounts'; 
+        
+        return view('accounting.vacation-amounts.index', compact('items'));
     }
 
     /**

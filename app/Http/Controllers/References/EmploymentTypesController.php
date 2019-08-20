@@ -18,7 +18,9 @@ class EmploymentTypesController extends BaseReferencesController
      */
     public function index()
     {
-        //
+        $items = 'test employment-types'; 
+        
+        return view('references.employment-types.index', compact('items'));
     }
 
     /**

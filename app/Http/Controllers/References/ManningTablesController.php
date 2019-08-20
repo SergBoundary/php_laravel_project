@@ -18,7 +18,9 @@ class ManningTablesController extends BaseReferencesController
      */
     public function index()
     {
-        //
+        $items = 'test manning-tables'; 
+        
+        return view('references.manning-tables.index', compact('items'));
     }
 
     /**

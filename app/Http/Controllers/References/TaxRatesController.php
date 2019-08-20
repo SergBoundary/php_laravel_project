@@ -18,7 +18,9 @@ class TaxRatesController extends BaseReferencesController
      */
     public function index()
     {
-        //
+        $items = 'test tax-rates'; 
+        
+        return view('references.tax-rates.index', compact('items'));
     }
 
     /**

@@ -18,7 +18,9 @@ class ManningOrdersController extends BaseHumanResourcesController
      */
     public function index()
     {
-        //
+        $items = 'test manning-orders'; 
+        
+        return view('humanresources.manning-orders.index', compact('items'));
     }
 
     /**

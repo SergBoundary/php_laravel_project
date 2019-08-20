@@ -18,7 +18,9 @@ class PersonalAddressesController extends BaseHumanResourcesController
      */
     public function index()
     {
-        //
+        $items = 'test personal-addresses'; 
+        
+        return view('humanresources.personal-addresses.index', compact('items'));
     }
 
     /**

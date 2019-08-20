@@ -18,7 +18,9 @@ class PayrollPreparationController extends BaseAccountingController
      */
     public function index()
     {
-        //
+        $items = 'test payroll-preparation'; 
+        
+        return view('accounting.payroll-preparation.index', compact('items'));
     }
 
     /**

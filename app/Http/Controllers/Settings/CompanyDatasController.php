@@ -18,7 +18,9 @@ class CompanyDatasController extends BaseSettingsController
      */
     public function index()
     {
-        //
+        $items = 'test company-datas'; 
+        
+        return view('settings.company-datas.index', compact('items'));
     }
 
     /**

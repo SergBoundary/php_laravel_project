@@ -18,7 +18,9 @@ class CalculationSetupsController extends BaseSettingsController
      */
     public function index()
     {
-        //
+        $items = 'test calculation-setups'; 
+        
+        return view('settings.calculation-setups.index', compact('items'));
     }
 
     /**

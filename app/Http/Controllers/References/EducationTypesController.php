@@ -18,7 +18,9 @@ class EducationTypesController extends BaseReferencesController
      */
     public function index()
     {
-        //
+        $items = 'test education-types'; 
+        
+        return view('references.education-types.index', compact('items'));
     }
 
     /**

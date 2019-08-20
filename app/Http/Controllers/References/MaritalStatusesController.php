@@ -18,7 +18,9 @@ class MaritalStatusesController extends BaseReferencesController
      */
     public function index()
     {
-        //
+        $items = 'test marital-statuses'; 
+        
+        return view('references.marital-statuses.index', compact('items'));
     }
 
     /**

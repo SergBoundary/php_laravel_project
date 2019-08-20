@@ -18,7 +18,9 @@ class CurrenciesController extends BaseReferencesController
      */
     public function index()
     {
-        //
+        $items = 'test currencies'; 
+        
+        return view('references.currencies.index', compact('items'));
     }
 
     /**

@@ -18,7 +18,9 @@ class RegionsController extends BaseReferencesController
      */
     public function index()
     {
-        //
+        $items = 'test regions'; 
+        
+        return view('references.regions.index', compact('items'));
     }
 
     /**

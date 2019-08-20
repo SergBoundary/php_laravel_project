@@ -18,7 +18,9 @@ class RanksController extends BaseReferencesController
      */
     public function index()
     {
-        //
+        $items = 'test ranks'; 
+        
+        return view('references.ranks.index', compact('items'));
     }
 
     /**

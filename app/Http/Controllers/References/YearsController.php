@@ -18,7 +18,9 @@ class YearsController extends BaseReferencesController
      */
     public function index()
     {
-        //
+        $items = 'test years'; 
+        
+        return view('references.years.index', compact('items'));
     }
 
     /**

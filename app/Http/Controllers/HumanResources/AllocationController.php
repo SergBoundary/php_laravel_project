@@ -18,7 +18,9 @@ class AllocationController extends BaseHumanResourcesController
      */
     public function index()
     {
-        //
+        $items = 'test allocation'; 
+        
+        return view('humanresources.allocation.index', compact('items'));
     }
 
     /**

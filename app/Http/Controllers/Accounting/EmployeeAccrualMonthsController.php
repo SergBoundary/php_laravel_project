@@ -18,7 +18,9 @@ class EmployeeAccrualMonthsController extends BaseAccountingController
      */
     public function index()
     {
-        //
+        $items = 'test employee-accrual-months'; 
+        
+        return view('accounting.employee-accrual-months.index', compact('items'));
     }
 
     /**

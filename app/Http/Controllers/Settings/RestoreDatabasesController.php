@@ -18,7 +18,9 @@ class RestoreDatabasesController extends BaseSettingsController
      */
     public function index()
     {
-        //
+        $items = 'test restore-databases'; 
+        
+        return view('settings.restore-databases.index', compact('items'));
     }
 
     /**

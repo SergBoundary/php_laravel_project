@@ -18,7 +18,9 @@ class PieceworksController extends BaseReferencesController
      */
     public function index()
     {
-        //
+        $items = 'test pieceworks'; 
+        
+        return view('references.pieceworks.index', compact('items'));
     }
 
     /**

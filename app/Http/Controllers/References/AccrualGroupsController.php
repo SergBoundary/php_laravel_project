@@ -18,7 +18,9 @@ class AccrualGroupsController extends BaseReferencesController
      */
     public function index()
     {
-        //
+        $items = 'test accrual-groups'; 
+        
+        return view('references.accrual-groups.index', compact('items'));
     }
 
     /**

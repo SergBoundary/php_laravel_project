@@ -3,6 +3,7 @@
 namespace App\Models\References;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Модель обслуживания списка месяцев
@@ -10,5 +11,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class Months extends Model
 {
-    //
+    use SoftDeletes;
 }

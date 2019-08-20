@@ -3,6 +3,7 @@
 namespace App\Models\Settings;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Модель обслуживания настроек восстановления базы данных
@@ -10,5 +11,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class RestoreDatabases extends Model
 {
-    //
+    use SoftDeletes;
 }

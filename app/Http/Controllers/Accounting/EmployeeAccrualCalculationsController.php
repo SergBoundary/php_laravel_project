@@ -18,7 +18,9 @@ class EmployeeAccrualCalculationsController extends BaseAccountingController
      */
     public function index()
     {
-        //
+        $items = 'test employee-accrual-calculations'; 
+        
+        return view('accounting.employee-accrual-calculations.index', compact('items'));
     }
 
     /**

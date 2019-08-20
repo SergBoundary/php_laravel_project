@@ -18,7 +18,9 @@ class NationalitiesController extends BaseReferencesController
      */
     public function index()
     {
-        //
+        $items = 'test nationalities'; 
+        
+        return view('references.nationalities.index', compact('items'));
     }
 
     /**

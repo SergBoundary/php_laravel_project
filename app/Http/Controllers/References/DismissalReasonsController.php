@@ -18,7 +18,9 @@ class DismissalReasonsController extends BaseReferencesController
      */
     public function index()
     {
-        //
+        $items = 'test dismissal-reasons'; 
+        
+        return view('references.dismissal-reasons.index', compact('items'));
     }
 
     /**

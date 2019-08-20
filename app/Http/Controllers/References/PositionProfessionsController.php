@@ -18,7 +18,9 @@ class PositionProfessionsController extends BaseReferencesController
      */
     public function index()
     {
-        //
+        $items = 'test position-professions'; 
+        
+        return view('references.position-professions.index', compact('items'));
     }
 
     /**

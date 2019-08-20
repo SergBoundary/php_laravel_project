@@ -18,7 +18,9 @@ class RecruitmentOrdersController extends BaseHumanResourcesController
      */
     public function index()
     {
-        //
+        $items = 'test recruitment-orders'; 
+        
+        return view('humanresources.recruitment-orders.index', compact('items'));
     }
 
     /**

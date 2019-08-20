@@ -18,7 +18,8 @@ class EmployeeFamiliesController extends BaseHumanResourcesController
      */
     public function index()
     {
-        //
+        $items = 'test employee-families'; 
+        return view('humanresources.employee-families.index', compact('items'));
     }
 
     /**

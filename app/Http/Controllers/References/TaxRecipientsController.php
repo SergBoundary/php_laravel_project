@@ -18,7 +18,9 @@ class TaxRecipientsController extends BaseReferencesController
      */
     public function index()
     {
-        //
+        $items = 'test tax-recipients'; 
+        
+        return view('references.tax-recipients.index', compact('items'));
     }
 
     /**

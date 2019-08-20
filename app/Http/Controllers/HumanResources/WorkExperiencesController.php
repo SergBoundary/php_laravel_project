@@ -18,7 +18,9 @@ class WorkExperiencesController extends BaseHumanResourcesController
      */
     public function index()
     {
-        //
+        $items = 'test work-experiences'; 
+        
+        return view('humanresources.work-experiences.index', compact('items'));
     }
 
     /**

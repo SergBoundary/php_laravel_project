@@ -18,7 +18,9 @@ class DepartmentGroupsController extends BaseReferencesController
      */
     public function index()
     {
-        //
+        $items = 'test department-groups'; 
+        
+        return view('references.department-groups.index', compact('items'));
     }
 
     /**

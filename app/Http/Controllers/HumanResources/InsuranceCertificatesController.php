@@ -18,7 +18,9 @@ class InsuranceCertificatesController extends BaseHumanResourcesController
      */
     public function index()
     {
-        //
+        $items = 'test insurance-certificates'; 
+        
+        return view('humanresources.insurance-certificates.index', compact('items'));
     }
 
     /**

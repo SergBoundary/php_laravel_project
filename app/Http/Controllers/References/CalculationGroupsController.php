@@ -18,7 +18,9 @@ class CalculationGroupsController extends BaseReferencesController
      */
     public function index()
     {
-        //
+        $items = 'test calculation-groups'; 
+        
+        return view('references.calculation-groups.index', compact('items'));
     }
 
     /**
