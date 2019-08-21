@@ -18,9 +18,10 @@ class WorkExperiencesController extends BaseHumanResourcesController
      */
     public function index()
     {
-        $items = 'test work-experiences'; 
+        $title = 'Трудовой стараж работника'; 
+        $items = WorkExperiences::all(); 
         
-        return view('humanresources.work-experiences.index', compact('items'));
+        return view('humanresources.work-experiences.index', compact('title', 'items'));
     }
 
     /**

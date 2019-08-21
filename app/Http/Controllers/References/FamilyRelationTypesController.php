@@ -18,9 +18,10 @@ class FamilyRelationTypesController extends BaseReferencesController
      */
     public function index()
     {
-        $items = 'test family-relation-types'; 
+        $title = 'Сстепень родства'; 
+        $items = FamilyRelationTypes::all(); 
         
-        return view('references.family-relation-types.index', compact('items'));
+        return view('references.family-relation-types.index', compact('title', 'items'));
     }
 
     /**

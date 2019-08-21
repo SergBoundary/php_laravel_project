@@ -18,9 +18,10 @@ class StudyModesController extends BaseReferencesController
      */
     public function index()
     {
-        $items = 'test study-modes'; 
+        $title = 'Режимы (формы) обучения'; 
+        $items = StudyModes::all(); 
         
-        return view('references.study-modes.index', compact('items'));
+        return view('references.study-modes.index', compact('title', 'items'));
     }
 
     /**

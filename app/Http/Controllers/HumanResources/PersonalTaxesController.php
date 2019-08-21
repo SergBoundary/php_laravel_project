@@ -18,9 +18,10 @@ class PersonalTaxesController extends BaseHumanResourcesController
      */
     public function index()
     {
-        $items = 'test personal-taxes'; 
+        $title = 'Налоговая информация работника'; 
+        $items = PersonalTaxes::all(); 
         
-        return view('humanresources.personal-taxes.index', compact('items'));
+        return view('humanresources.personal-taxes.index', compact('title', 'items'));
     }
 
     /**

@@ -18,9 +18,10 @@ class HoursBalanceClassifiersController extends BaseReferencesController
      */
     public function index()
     {
-        $items = 'test hours-balance-classifiers'; 
+        $title = 'Классификатор графиков распределения рабочих часов'; 
+        $items = HoursBalanceClassifiers::all(); 
         
-        return view('references.hours-balance-classifiers.index', compact('items'));
+        return view('references.hours-balance-classifiers.index', compact('title', 'items'));
     }
 
     /**

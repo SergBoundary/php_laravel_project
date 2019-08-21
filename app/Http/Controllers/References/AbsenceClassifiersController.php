@@ -18,9 +18,10 @@ class AbsenceClassifiersController extends BaseReferencesController
      */
     public function index()
     {
-        $items = 'test absence-classifiers'; 
+        $title = 'Классификатор отсутствия на работе'; 
+        $items = AbsenceClassifiers::all(); 
         
-        return view('references.absence-classifiers.index', compact('items'));
+        return view('references.absence-classifiers.index', compact('title', 'items'));
     }
 
     /**

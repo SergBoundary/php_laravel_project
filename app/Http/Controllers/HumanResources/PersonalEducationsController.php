@@ -18,9 +18,10 @@ class PersonalEducationsController extends BaseHumanResourcesController
      */
     public function index()
     {
-        $items = 'test personal-educations'; 
+        $title = 'Образование и квалификация работника'; 
+        $items = PersonalEducations::all(); 
         
-        return view('humanresources.personal-educations.index', compact('items'));
+        return view('humanresources.personal-educations.index', compact('title', 'items'));
     }
 
     /**

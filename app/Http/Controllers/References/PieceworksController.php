@@ -18,9 +18,10 @@ class PieceworksController extends BaseReferencesController
      */
     public function index()
     {
-        $items = 'test pieceworks'; 
+        $title = 'Виды сдельных работ'; 
+        $items = Pieceworks::all(); 
         
-        return view('references.pieceworks.index', compact('items'));
+        return view('references.pieceworks.index', compact('title', 'items'));
     }
 
     /**

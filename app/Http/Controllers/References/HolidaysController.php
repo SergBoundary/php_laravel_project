@@ -18,9 +18,10 @@ class HolidaysController extends BaseReferencesController
      */
     public function index()
     {
-        $items = 'test holidays'; 
+        $title = 'Праздничные дни'; 
+        $items = Holidays::all(); 
         
-        return view('references.holidays.index', compact('items'));
+        return view('references.holidays.index', compact('title', 'items'));
     }
 
     /**

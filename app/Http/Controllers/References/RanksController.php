@@ -18,9 +18,10 @@ class RanksController extends BaseReferencesController
      */
     public function index()
     {
-        $items = 'test ranks'; 
+        $title = 'Уровни квалификации (разряды, ранги)'; 
+        $items = Ranks::all(); 
         
-        return view('references.ranks.index', compact('items'));
+        return view('references.ranks.index', compact('title', 'items'));
     }
 
     /**

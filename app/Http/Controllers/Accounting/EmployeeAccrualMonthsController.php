@@ -18,9 +18,10 @@ class EmployeeAccrualMonthsController extends BaseAccountingController
      */
     public function index()
     {
-        $items = 'test employee-accrual-months'; 
+        $title = 'Суммы начислений работникам за месяц'; 
+        $items = EmployeeAccrualMonths::all(); 
         
-        return view('accounting.employee-accrual-months.index', compact('items'));
+        return view('accounting.employee-accrual-months.index', compact('title', 'items'));
     }
 
     /**

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\HumanResources;
 
 use Illuminate\Http\Request;
-use App\Models\HumanResources\MilitaryAccounting;
+use App\Models\HumanResources\MilitaryAccountings;
 
 /**
  * Контроллер воинского учета работников
@@ -18,9 +18,11 @@ class MilitaryAccountingsController extends BaseHumanResourcesController
      */
     public function index()
     {
-        $items = 'test military-accountings'; 
+        $title = 'Воинский учет работникa'; 
+        $items = MilitaryAccountings::all(); 
         
-        return view('humanresources.military-accountings.index', compact('items'));
+        return view('humanresources.military-accountings.index', compact('title', 'items'));
+
     }
 
     /**

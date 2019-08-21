@@ -18,9 +18,10 @@ class EmployeeAccrualYearsController extends BaseAccountingController
      */
     public function index()
     {
-        $items = 'test employee-accrual-years'; 
+        $title = 'Суммы начислений работникам за год'; 
+        $items = EmployeeAccrualYears::all(); 
         
-        return view('accounting.employee-accrual-years.index', compact('items'));
+        return view('accounting.employee-accrual-years.index', compact('title', 'items'));
     }
 
     /**

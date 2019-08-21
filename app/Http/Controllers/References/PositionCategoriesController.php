@@ -18,9 +18,10 @@ class PositionCategoriesController extends BaseReferencesController
      */
     public function index()
     {
-        $items = 'test position-categories'; 
+        $title = 'Категории должностей'; 
+        $items = PositionCategories::all(); 
         
-        return view('references.position-categories.index', compact('items'));
+        return view('references.position-categories.index', compact('title', 'items'));
     }
 
     /**

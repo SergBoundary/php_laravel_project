@@ -19,9 +19,10 @@ class PersonalCommunicationsController extends BaseHumanResourcesController
      */
     public function index()
     {
-        $items = 'test personal-communications'; 
+        $title = 'Способы коммуникации с работником'; 
+        $items = PersonalCommunications::all(); 
         
-        return view('humanresources.personal-communications.index', compact('items'));
+        return view('humanresources.personal-communications.index', compact('title', 'items'));
     }
 
     /**

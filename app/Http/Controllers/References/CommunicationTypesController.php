@@ -18,9 +18,10 @@ class CommunicationTypesController extends BaseReferencesController
      */
     public function index()
     {
-        $items = 'test communication-types'; 
+        $title = 'Способы коммуникации с работником'; 
+        $items = CommunicationTypes::all(); 
         
-        return view('references.communication-types.index', compact('items'));
+        return view('references.communication-types.index', compact('title', 'items'));
     }
 
     /**

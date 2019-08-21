@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\HumanResources;
 
 use Illuminate\Http\Request;
-use App\Models\HumanResources\PersonalCitizenship;
+use App\Models\HumanResources\PersonalCitizenships;
 
 /**
  * Контроллер учета гражданств работника
@@ -18,9 +18,10 @@ class PersonalCitizenshipsController extends BaseHumanResourcesController
      */
     public function index()
     {
-        $items = 'test personal-citizenships'; 
+        $title = 'Гражданства работника'; 
+        $items = PersonalCitizenships::all(); 
         
-        return view('humanresources.personal-citizenships.index', compact('items'));
+        return view('humanresources.personal-citizenships.index', compact('title', 'items'));
     }
 
     /**

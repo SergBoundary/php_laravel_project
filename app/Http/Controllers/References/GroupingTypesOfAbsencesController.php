@@ -18,9 +18,10 @@ class GroupingTypesOfAbsencesController extends BaseReferencesController
      */
     public function index()
     {
-        $items = 'test grouping-types-of-absences'; 
+        $title = 'Виды отсутствия на работе'; 
+        $items = GroupingTypesOfAbsences::all(); 
         
-        return view('references.grouping-types-of-absences.index', compact('items'));
+        return view('references.grouping-types-of-absences.index', compact('title', 'items'));
     }
 
     /**

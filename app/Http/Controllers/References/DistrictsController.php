@@ -18,9 +18,10 @@ class DistrictsController extends BaseReferencesController
      */
     public function index()
     {
-        $items = 'test districts'; 
+        $title = 'Области (штатов, земель, воевудств)'; 
+        $items = Districts::all(); 
         
-        return view('references.districts.index', compact('items'));
+        return view('references.districts.index', compact('title', 'items'));
     }
 
     /**

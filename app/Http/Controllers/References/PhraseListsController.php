@@ -18,9 +18,10 @@ class PhraseListsController extends BaseReferencesController
      */
     public function index()
     {
-        $items = 'test phrase-lists'; 
+        $title = 'Формулировки для заполнения документов и форм '; 
+        $items = PhraseLists::all(); 
         
-        return view('references.phrase-lists.index', compact('items'));
+        return view('references.phrase-lists.index', compact('title', 'items'));
     }
 
     /**

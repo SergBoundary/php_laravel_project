@@ -18,9 +18,10 @@ class PhraseListGroupsController extends BaseReferencesController
      */
     public function index()
     {
-        $items = 'test phrase-list-groups'; 
+        $title = 'Группы формулировок для заполнения документов и форм '; 
+        $items = PhraseListGroups::all(); 
         
-        return view('references.phrase-list-groups.index', compact('items'));
+        return view('references.phrase-list-groups.index', compact('title', 'items'));
     }
 
     /**

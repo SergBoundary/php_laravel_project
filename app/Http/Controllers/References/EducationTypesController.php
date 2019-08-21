@@ -18,9 +18,10 @@ class EducationTypesController extends BaseReferencesController
      */
     public function index()
     {
-        $items = 'test education-types'; 
+        $title = 'Уровни образования'; 
+        $items = EducationTypes::all(); 
         
-        return view('references.education-types.index', compact('items'));
+        return view('references.education-types.index', compact('title', 'items'));
     }
 
     /**

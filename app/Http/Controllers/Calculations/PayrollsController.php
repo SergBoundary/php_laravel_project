@@ -18,9 +18,10 @@ class PayrollsController extends BaseCalculationsController
      */
     public function index()
     {
-        $items = 'test payrolls'; 
+        $title = 'Расчет заработной платы'; 
+        $items = 'Расчеты..'; 
         
-        return view('calculations.payrolls.index', compact('items'));
+        return view('calculations.payrolls.index', compact('title', 'items'));
     }
 
     /**

@@ -18,9 +18,10 @@ class MaritalStatusesController extends BaseReferencesController
      */
     public function index()
     {
-        $items = 'test marital-statuses'; 
+        $title = 'Семейное положение'; 
+        $items = MaritalStatuses::all(); 
         
-        return view('references.marital-statuses.index', compact('items'));
+        return view('references.marital-statuses.index', compact('title', 'items'));
     }
 
     /**

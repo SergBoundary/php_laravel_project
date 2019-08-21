@@ -18,9 +18,10 @@ class EmployeeAccrualsController extends BaseAccountingController
      */
     public function index()
     {
-        $items = 'test employee-accruals'; 
+        $title = 'Суммы начислений работникам'; 
+        $items = EmployeeAccruals::all(); 
         
-        return view('accounting.employee-accruals.index', compact('items'));
+        return view('accounting.employee-accruals.index', compact('title', 'items'));
     }
 
     /**

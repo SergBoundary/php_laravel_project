@@ -18,9 +18,10 @@ class ClothingSizesController extends BaseReferencesController
      */
     public function index()
     {
-        $items = 'test clothing-sizes'; 
+        $title = 'Размеры одежды'; 
+        $items = ClothingSizes::all(); 
         
-        return view('references.clothing-sizes.index', compact('items'));
+        return view('references.clothing-sizes.index', compact('title', 'items'));
     }
 
     /**

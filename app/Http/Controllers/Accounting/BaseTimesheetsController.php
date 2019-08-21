@@ -18,9 +18,10 @@ class BaseTimesheetsController extends BaseAccountingController
      */
     public function index()
     {
-        $items = 'test base-timesheets'; 
+        $title = 'Табель отработанного времени'; 
+        $items = BaseTimesheets::all(); 
         
-        return view('accounting.base-timesheets.index', compact('items'));
+        return view('accounting.base-timesheets.index', compact('title', 'items'));
     }
 
     /**

@@ -18,9 +18,10 @@ class TaxOfficesController extends BaseReferencesController
      */
     public function index()
     {
-        $items = 'test tax-offices'; 
+        $title = 'Налоговые инспекции'; 
+        $items = TaxOffices::all(); 
         
-        return view('references.tax-offices.index', compact('items'));
+        return view('references.tax-offices.index', compact('title', 'items'));
     }
 
     /**

@@ -18,9 +18,10 @@ class ShoeSizesController extends BaseReferencesController
      */
     public function index()
     {
-        $items = 'test shoe-sizes'; 
+        $title = 'Размеры обуви'; 
+        $items = ShoeSizes::all(); 
         
-        return view('references.shoe-sizes.index', compact('items'));
+        return view('references.shoe-sizes.index', compact('title', 'items'));
     }
 
     /**

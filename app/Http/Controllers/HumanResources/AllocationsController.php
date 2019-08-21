@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\HumanResources;
 
 use Illuminate\Http\Request;
-use App\Models\HumanResources\Allocation;
+use App\Models\HumanResources\Allocations;
 
 /**
  * Контроллер учета должностных перемещений работника
@@ -18,9 +18,10 @@ class AllocationsController extends BaseHumanResourcesController
      */
     public function index()
     {
-        $items = 'test allocations'; 
+        $title = 'Должностные перемещения работника'; 
+        $items = Allocations::all(); 
         
-        return view('humanresources.allocations.index', compact('items'));
+        return view('humanresources.allocations.index', compact('title', 'items'));
     }
 
     /**

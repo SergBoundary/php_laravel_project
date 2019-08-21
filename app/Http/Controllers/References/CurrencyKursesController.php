@@ -18,9 +18,10 @@ class CurrencyKursesController extends BaseReferencesController
      */
     public function index()
     {
-        $items = 'test currency-kurses'; 
+        $title = 'Текущие курсы валют'; 
+        $items = CurrencyKurses::all(); 
         
-        return view('references.currency-kurses.index', compact('items'));
+        return view('references.currency-kurses.index', compact('title', 'items'));
     }
 
     /**

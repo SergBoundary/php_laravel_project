@@ -18,9 +18,10 @@ class ConstantsController extends BaseSettingsController
      */
     public function index()
     {
-        $items = 'test constants'; 
+        $title = 'Константы системы'; 
+        $items = Constants::all(); 
         
-        return view('settings.constants.index', compact('items'));
+        return view('settings.constants.index', compact('title', 'items'));
     }
 
     /**

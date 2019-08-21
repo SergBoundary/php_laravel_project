@@ -18,9 +18,10 @@ class HoursBalancesController extends BaseAccountingController
      */
     public function index()
     {
-        $items = 'test hours-balances'; 
+        $title = 'Распределение часов'; 
+        $items = HoursBalances::all(); 
         
-        return view('accounting.hours-balances.index', compact('items'));
+        return view('accounting.hours-balances.index', compact('title', 'items'));
     }
 
     /**

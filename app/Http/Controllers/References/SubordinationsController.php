@@ -18,9 +18,10 @@ class SubordinationsController extends BaseReferencesController
      */
     public function index()
     {
-        $items = 'test subordinations'; 
+        $title = 'Уровни должностей'; 
+        $items = Subordinations::all(); 
         
-        return view('references.subordinations.index', compact('items'));
+        return view('references.subordinations.index', compact('title', 'items'));
     }
 
     /**

@@ -18,9 +18,10 @@ class WorkOrdersAmountsController extends BaseAccountingController
      */
     public function index()
     {
-        $items = 'test work-orders-amounts'; 
+        $title = 'Суммы нарядов'; 
+        $items = WorkOrdersAmounts::all(); 
         
-        return view('accounting.work-orders-amounts.index', compact('items'));
+        return view('accounting.work-orders-amounts.index', compact('title', 'items'));
     }
 
     /**

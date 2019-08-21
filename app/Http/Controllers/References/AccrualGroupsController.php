@@ -18,9 +18,10 @@ class AccrualGroupsController extends BaseReferencesController
      */
     public function index()
     {
-        $items = 'test accrual-groups'; 
+        $title = 'Группы видов начислений'; 
+        $items = AccrualGroups::all(); 
         
-        return view('references.accrual-groups.index', compact('items'));
+        return view('references.accrual-groups.index', compact('title', 'items'));
     }
 
     /**

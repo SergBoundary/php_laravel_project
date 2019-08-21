@@ -18,9 +18,10 @@ class DocumentTypesController extends BaseReferencesController
      */
     public function index()
     {
-        $items = 'test document-types'; 
+        $title = 'Виды кадровых документов'; 
+        $items = DocumentTypes::all(); 
         
-        return view('references.document-types.index', compact('items'));
+        return view('references.document-types.index', compact('title', 'items'));
     }
 
     /**

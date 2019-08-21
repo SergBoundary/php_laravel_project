@@ -18,9 +18,10 @@ class VacationAmountsController extends BaseAccountingController
      */
     public function index()
     {
-        $items = 'test vacation-amounts'; 
+        $title = 'Суммы отпускных'; 
+        $items = VacationAmounts::all(); 
         
-        return view('accounting.vacation-amounts.index', compact('items'));
+        return view('accounting.vacation-amounts.index', compact('title', 'items'));
     }
 
     /**

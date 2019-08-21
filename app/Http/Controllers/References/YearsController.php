@@ -18,9 +18,10 @@ class YearsController extends BaseReferencesController
      */
     public function index()
     {
-        $items = 'test years'; 
+        $title = 'Года'; 
+        $items = Years::all(); 
         
-        return view('references.years.index', compact('items'));
+        return view('references.years.index', compact('title', 'items'));
     }
 
     /**

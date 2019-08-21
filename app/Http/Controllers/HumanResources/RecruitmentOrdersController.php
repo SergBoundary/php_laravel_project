@@ -18,9 +18,10 @@ class RecruitmentOrdersController extends BaseHumanResourcesController
      */
     public function index()
     {
-        $items = 'test recruitment-orders'; 
+        $title = 'Найм и увольнение работника'; 
+        $items = RecruitmentOrders::all(); 
         
-        return view('humanresources.recruitment-orders.index', compact('items'));
+        return view('humanresources.recruitment-orders.index', compact('title', 'items'));
     }
 
     /**

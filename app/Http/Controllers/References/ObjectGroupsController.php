@@ -18,9 +18,10 @@ class ObjectGroupsController extends BaseReferencesController
      */
     public function index()
     {
-        $items = 'test object-groups'; 
+        $title = 'Группы объектов'; 
+        $items = ObjectGroups::all(); 
         
-        return view('references.object-groups.index', compact('items'));
+        return view('references.object-groups.index', compact('title', 'items'));
     }
 
     /**

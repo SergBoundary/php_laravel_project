@@ -18,9 +18,10 @@ class SaveDatabasesController extends BaseSettingsController
      */
     public function index()
     {
-        $items = 'test save-databases'; 
+        $title = 'Настройки сохранения базы данных'; 
+        $items = SaveDatabases::all(); 
         
-        return view('settings.save-databases.index', compact('items'));
+        return view('settings.save-databases.index', compact('title', 'items'));
     }
 
     /**

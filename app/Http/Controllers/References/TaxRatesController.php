@@ -18,9 +18,10 @@ class TaxRatesController extends BaseReferencesController
      */
     public function index()
     {
-        $items = 'test tax-rates'; 
+        $title = 'Классификатор налоговых ставок'; 
+        $items = TaxRates::all(); 
         
-        return view('references.tax-rates.index', compact('items'));
+        return view('references.tax-rates.index', compact('title', 'items'));
     }
 
     /**

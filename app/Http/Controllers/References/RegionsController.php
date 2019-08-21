@@ -18,9 +18,10 @@ class RegionsController extends BaseReferencesController
      */
     public function index()
     {
-        $items = 'test regions'; 
+        $title = 'Районы'; 
+        $items = Regions::all(); 
         
-        return view('references.regions.index', compact('items'));
+        return view('references.regions.index', compact('title', 'items'));
     }
 
     /**

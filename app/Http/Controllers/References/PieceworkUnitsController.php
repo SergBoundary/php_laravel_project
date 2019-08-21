@@ -18,9 +18,10 @@ class PieceworkUnitsController extends BaseReferencesController
      */
     public function index()
     {
-        $items = 'test piecework-units'; 
+        $title = 'Единицы изменерия сдельных работ'; 
+        $items = PieceworkUnits::all(); 
         
-        return view('references.piecework-units.index', compact('items'));
+        return view('references.piecework-units.index', compact('title', 'items'));
     }
 
     /**

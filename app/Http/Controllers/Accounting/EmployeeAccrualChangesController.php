@@ -18,9 +18,10 @@ class EmployeeAccrualChangesController extends BaseAccountingController
      */
     public function index()
     {
-        $items = 'test employee-accrual-changes'; 
+        $title = 'Переформирование начислений работникам'; 
+        $items = EmployeeAccrualChanges::all(); 
         
-        return view('accounting.employee-accrual-changes.index', compact('items'));
+        return view('accounting.employee-accrual-changes.index', compact('title', 'items'));
     }
 
     /**

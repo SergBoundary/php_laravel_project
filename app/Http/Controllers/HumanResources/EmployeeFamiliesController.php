@@ -18,8 +18,10 @@ class EmployeeFamiliesController extends BaseHumanResourcesController
      */
     public function index()
     {
-        $items = 'test employee-families'; 
-        return view('humanresources.employee-families.index', compact('items'));
+        $title = 'Близкое окружение работника'; 
+        $items = EmployeeFamilies::all(); 
+        
+        return view('humanresources.employee-families.index', compact('title', 'items'));
     }
 
     /**

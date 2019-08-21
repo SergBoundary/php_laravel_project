@@ -18,9 +18,10 @@ class CalculationSetupsController extends BaseSettingsController
      */
     public function index()
     {
-        $items = 'test calculation-setups'; 
+        $title = 'Настройки финансовых параметров расчетов'; 
+        $items = CalculationSetups::all(); 
         
-        return view('settings.calculation-setups.index', compact('items'));
+        return view('settings.calculation-setups.index', compact('title', 'items'));
     }
 
     /**

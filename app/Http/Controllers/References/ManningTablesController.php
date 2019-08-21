@@ -18,9 +18,10 @@ class ManningTablesController extends BaseReferencesController
      */
     public function index()
     {
-        $items = 'test manning-tables'; 
+        $title = 'Штатное расписание (количество, оклады и квалификации работников)'; 
+        $items = ManningTables::all(); 
         
-        return view('references.manning-tables.index', compact('items'));
+        return view('references.manning-tables.index', compact('title', 'items'));
     }
 
     /**

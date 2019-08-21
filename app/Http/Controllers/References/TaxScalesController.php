@@ -18,9 +18,10 @@ class TaxScalesController extends BaseReferencesController
      */
     public function index()
     {
-        $items = 'test tax-scales'; 
+        $title = 'Шкала расчета подоходного налога'; 
+        $items = TaxScales::all(); 
         
-        return view('references.tax-scales.index', compact('items'));
+        return view('references.tax-scales.index', compact('title', 'items'));
     }
 
     /**

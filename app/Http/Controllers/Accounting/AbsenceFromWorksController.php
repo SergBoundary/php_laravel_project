@@ -18,9 +18,10 @@ class AbsenceFromWorksController extends BaseAccountingController
      */
     public function index()
     {
-        $items = 'test absence-from-works'; 
+        $title = 'Отсутствия на работе'; 
+        $items = AbsenceFromWorks::all(); 
         
-        return view('accounting.absence-from-works.index', compact('items'));
+        return view('accounting.absence-from-works.index', compact('title', 'items'));
     }
 
     /**

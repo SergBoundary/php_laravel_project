@@ -18,9 +18,10 @@ class ObjectsController extends BaseReferencesController
      */
     public function index()
     {
-        $items = 'test objects'; 
+        $title = 'Объекты'; 
+        $items = Objects::all(); 
         
-        return view('references.objects.index', compact('items'));
+        return view('references.objects.index', compact('title', 'items'));
     }
 
     /**

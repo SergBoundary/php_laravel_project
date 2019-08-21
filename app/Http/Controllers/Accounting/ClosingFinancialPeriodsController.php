@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Accounting;
 
 use Illuminate\Http\Request;
-use App\Models\Accounting\ClosingFinancialPeriod;
+use App\Models\Accounting\ClosingFinancialPeriods;
 
 /**
  * Контроллер закрытия финансового периода
@@ -18,9 +18,10 @@ class ClosingFinancialPeriodsController extends BaseAccountingController
      */
     public function index()
     {
-        $items = 'test closing-financial-periods'; 
+        $title = 'Закрытие финансового периода'; 
+        $items = 'Расчеты..'; 
         
-        return view('accounting.closing-financial-periods.index', compact('items'));
+        return view('accounting.closing-financial-periods.index', compact('title', 'items'));
     }
 
     /**

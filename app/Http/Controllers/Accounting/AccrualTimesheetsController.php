@@ -18,9 +18,10 @@ class AccrualTimesheetsController extends BaseAccountingController
      */
     public function index()
     {
-        $items = 'test accrual-timesheets'; 
+        $title = 'Расчет сумм начислений работникам'; 
+        $items = AccrualTimesheets::all(); 
         
-        return view('accounting.accrual-timesheets.index', compact('items'));
+        return view('accounting.accrual-timesheets.index', compact('title', 'items'));
     }
 
     /**

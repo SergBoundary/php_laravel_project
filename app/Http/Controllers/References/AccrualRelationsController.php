@@ -18,9 +18,10 @@ class AccrualRelationsController extends BaseReferencesController
      */
     public function index()
     {
-        $items = 'test accrual-relations'; 
+        $title = 'Зависимости начислений'; 
+        $items = AccrualRelations::all(); 
         
-        return view('references.accrual-relations.index', compact('items'));
+        return view('references.accrual-relations.index', compact('title', 'items'));
     }
 
     /**

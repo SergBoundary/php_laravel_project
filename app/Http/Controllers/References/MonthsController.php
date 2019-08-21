@@ -18,9 +18,10 @@ class MonthsController extends BaseReferencesController
      */
     public function index()
     {
-        $items = 'test months'; 
+        $title = 'Месяца'; 
+        $items = Months::all(); 
         
-        return view('references.months.index', compact('items'));
+        return view('references.months.index', compact('title', 'items'));
     }
 
     /**

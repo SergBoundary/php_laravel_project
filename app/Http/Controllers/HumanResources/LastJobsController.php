@@ -18,9 +18,10 @@ class LastJobsController extends BaseHumanResourcesController
      */
     public function index()
     {
-        $items = 'test last-jobs'; 
+        $title = 'Предыдущие места работы'; 
+        $items = LastJobs::all(); 
         
-        return view('humanresources.last-jobs.index', compact('items'));
+        return view('humanresources.last-jobs.index', compact('title', 'items'));
     }
 
     /**

@@ -18,9 +18,10 @@ class SpecialEatingsController extends BaseAccountingController
      */
     public function index()
     {
-        $items = 'test special-eatings'; 
+        $title = 'Специальное питание'; 
+        $items = SpecialEatings::all(); 
         
-        return view('accounting.special-eatings.index', compact('items'));
+        return view('accounting.special-eatings.index', compact('title', 'items'));
     }
 
     /**

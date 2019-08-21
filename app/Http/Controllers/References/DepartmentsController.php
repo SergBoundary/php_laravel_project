@@ -18,9 +18,10 @@ class DepartmentsController extends BaseReferencesController
      */
     public function index()
     {
-        $items = 'test departments'; 
+        $title = 'Подразделения компании'; 
+        $items = Departments::all(); 
         
-        return view('references.departments.index', compact('items'));
+        return view('references.departments.index', compact('title', 'items'));
     }
 
     /**

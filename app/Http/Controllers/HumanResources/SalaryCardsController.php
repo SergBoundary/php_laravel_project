@@ -18,9 +18,10 @@ class SalaryCardsController extends BaseHumanResourcesController
      */
     public function index()
     {
-        $items = 'test salary-cards'; 
+        $title = 'Зарплатные карты работника'; 
+        $items = SalaryCards::all(); 
         
-        return view('humanresources.salary-cards.index', compact('items'));
+        return view('humanresources.salary-cards.index', compact('title', 'items'));
     }
 
     /**

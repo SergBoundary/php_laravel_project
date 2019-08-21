@@ -18,9 +18,10 @@ class PersonalCardsController extends BaseHumanResourcesController
      */
     public function index()
     {
-        $items = 'test personal-cards'; 
+        $title = 'Карточка работника'; 
+        $items = PersonalCards::all(); 
         
-        return view('humanresources.personal-cards.index', compact('items'));
+        return view('humanresources.personal-cards.index', compact('title', 'items'));
     }
 
     /**

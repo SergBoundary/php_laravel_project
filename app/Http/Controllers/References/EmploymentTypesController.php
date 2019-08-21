@@ -18,9 +18,10 @@ class EmploymentTypesController extends BaseReferencesController
      */
     public function index()
     {
-        $items = 'test employment-types'; 
+        $title = 'Виды трудовых отношений'; 
+        $items = EmploymentTypes::all(); 
         
-        return view('references.employment-types.index', compact('items'));
+        return view('references.employment-types.index', compact('title', 'items'));
     }
 
     /**

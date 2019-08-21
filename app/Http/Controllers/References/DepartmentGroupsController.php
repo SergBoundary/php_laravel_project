@@ -18,9 +18,10 @@ class DepartmentGroupsController extends BaseReferencesController
      */
     public function index()
     {
-        $items = 'test department-groups'; 
+        $title = 'Группы подразделений компании'; 
+        $items = DepartmentGroups::all(); 
         
-        return view('references.department-groups.index', compact('items'));
+        return view('references.department-groups.index', compact('title', 'items'));
     }
 
     /**

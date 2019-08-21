@@ -18,9 +18,10 @@ class CompanyDatasController extends BaseSettingsController
      */
     public function index()
     {
-        $items = 'test company-datas'; 
+        $title = 'Реквизиты компании'; 
+        $items = CompanyDatas::all(); 
         
-        return view('settings.company-datas.index', compact('items'));
+        return view('settings.company-datas.index', compact('title', 'items'));
     }
 
     /**

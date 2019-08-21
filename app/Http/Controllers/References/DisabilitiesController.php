@@ -18,9 +18,10 @@ class DisabilitiesController extends BaseReferencesController
      */
     public function index()
     {
-        $items = 'test disabilities'; 
+        $title = 'Группы инвалидности'; 
+        $items = Disabilities::all(); 
         
-        return view('references.disabilities.index', compact('items'));
+        return view('references.disabilities.index', compact('title', 'items'));
     }
 
     /**

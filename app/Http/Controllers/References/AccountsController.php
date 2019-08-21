@@ -18,9 +18,10 @@ class AccountsController extends BaseReferencesController
      */
     public function index()
     {
-        $items = 'test accounts'; 
+        $title = 'Бухгалтерские счета'; 
+        $items = Accounts::all(); 
         
-        return view('references.accounts.index', compact('items'));
+        return view('references.accounts.index', compact('title', 'items'));
     }
 
     /**

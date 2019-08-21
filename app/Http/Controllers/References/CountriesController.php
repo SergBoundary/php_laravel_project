@@ -18,11 +18,10 @@ class CountriesController extends BaseReferencesController
      */
     public function index()
     {
-        $items = Countries::all();
-        //$items = Countries::withTrashed()->get();
-        //$items = 'test countries'; 
+        $title = 'Страны'; 
+        $items = Countries::all(); 
         
-        return view('references.countries.index', compact('items'));
+        return view('references.countries.index', compact('title', 'items'));
     }
 
     /**

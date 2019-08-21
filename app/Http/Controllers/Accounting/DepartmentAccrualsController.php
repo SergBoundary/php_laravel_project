@@ -18,9 +18,10 @@ class DepartmentAccrualsController extends BaseAccountingController
      */
     public function index()
     {
-        $items = 'test department-accruals'; 
+        $title = 'Суммы начисления по подразделению'; 
+        $items = DepartmentAccruals::all(); 
         
-        return view('accounting.department-accruals.index', compact('items'));
+        return view('accounting.department-accruals.index', compact('title', 'items'));
     }
 
     /**

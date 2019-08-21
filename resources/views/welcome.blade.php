@@ -10,7 +10,7 @@
                 <a class="btn btn-outline-secondary btn-toolbar btn-sm" href='{{ url('hr/insurance-certificates') }}'>1. 4. Insurance Certificates</a>
                 <a class="btn btn-outline-secondary btn-toolbar btn-sm" href='{{ url('hr/last-jobs') }}'>1. 5. Last Jobs</a>
                 <a class="btn btn-outline-secondary btn-toolbar btn-sm" href='{{ url('hr/manning-orders') }}'>1. 6. Manning Orders</a>
-                <a class="btn btn-outline-secondary btn-toolbar btn-sm" href='{{ url('hr/military-accounting') }}'>1. 7. Military Accounting</a>
+                <a class="btn btn-outline-secondary btn-toolbar btn-sm" href='{{ url('hr/military-accountings') }}'>1. 7. Military Accountings</a>
                 <a class="btn btn-outline-secondary btn-toolbar btn-sm" href='{{ url('hr/personal-addresses') }}'>1. 8. Personal Addresses</a>
                 <a class="btn btn-outline-secondary btn-toolbar btn-sm" href='{{ url('hr/personal-cards') }}'>1. 9. Personal Cards</a>
                 <a class="btn btn-outline-secondary btn-toolbar btn-sm" href='{{ url('hr/personal-citizenships') }}'>1. 10. Personal Citizenships</a>

@@ -18,9 +18,10 @@ class CalculationGroupsController extends BaseReferencesController
      */
     public function index()
     {
-        $items = 'test calculation-groups'; 
+        $title = 'Виды расчетов'; 
+        $items = CalculationGroups::all(); 
         
-        return view('references.calculation-groups.index', compact('items'));
+        return view('references.calculation-groups.index', compact('title', 'items'));
     }
 
     /**

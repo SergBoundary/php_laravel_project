@@ -18,9 +18,10 @@ class RestoreDatabasesController extends BaseSettingsController
      */
     public function index()
     {
-        $items = 'test restore-databases'; 
+        $title = 'Настройки восстановления базы данных'; 
+        $items = RestoreDatabases::all(); 
         
-        return view('settings.restore-databases.index', compact('items'));
+        return view('settings.restore-databases.index', compact('title', 'items'));
     }
 
     /**

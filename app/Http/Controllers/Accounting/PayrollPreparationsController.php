@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Accounting;
 
 use Illuminate\Http\Request;
-use App\Models\Accounting\PayrollPreparation;
+use App\Models\Accounting\PayrollPreparations;
 
 /**
  * Контроллер подготовки расчета заработной платы
@@ -18,9 +18,10 @@ class PayrollPreparationsController extends BaseAccountingController
      */
     public function index()
     {
-        $items = 'test payroll-preparations'; 
+        $title = 'Подготовка расчета заработной платы'; 
+        $items = 'Расчеты..';
         
-        return view('accounting.payroll-preparations.index', compact('items'));
+        return view('accounting.payroll-preparations.index', compact('title', 'items'));
     }
 
     /**

@@ -18,9 +18,10 @@ class DismissalReasonsController extends BaseReferencesController
      */
     public function index()
     {
-        $items = 'test dismissal-reasons'; 
+        $title = 'Основания увольнения работника'; 
+        $items = DismissalReasons::all(); 
         
-        return view('references.dismissal-reasons.index', compact('items'));
+        return view('references.dismissal-reasons.index', compact('title', 'items'));
     }
 
     /**

@@ -18,9 +18,10 @@ class PositionProfessionsController extends BaseReferencesController
      */
     public function index()
     {
-        $items = 'test position-professions'; 
+        $title = 'Государственный классификатор профессий'; 
+        $items = PositionProfessions::all(); 
         
-        return view('references.position-professions.index', compact('items'));
+        return view('references.position-professions.index', compact('title', 'items'));
     }
 
     /**

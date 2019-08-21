@@ -3,16 +3,21 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-12">
+        <div class="col-md-10">
             <div class="card">
-                <ol>
-                @foreach($items as $item)
-                    <li>{{ $item->title }}</li>
-                @endforeach
-                </ol>
+                <div class="card-header">{{$title}}</div>
+                <div class="card-body">
+                    @if(count($items) > 0)
+                        @foreach($items as $item)
+                            <p>Запись #{{ $item->id }}</p>
+                        @endforeach
+                    @else
+                        <em>Данные отсутствуют..</em>
+                    @endif
+                </div>
+                
             </div>
         </div>
     </div>
-</div>
-            
+</div>            
 @endsection

@@ -18,8 +18,10 @@ class DocumentsController extends BaseHumanResourcesController
      */
     public function index()
     {
-        $items = 'test documents'; 
-        return view('humanresources.documents.index', compact('items'));
+        $title = 'Кадровые документы'; 
+        $items = Documents::all(); 
+        
+        return view('humanresources.documents.index', compact('title', 'items'));
     }
 
     /**

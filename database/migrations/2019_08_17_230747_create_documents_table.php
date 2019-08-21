@@ -22,7 +22,7 @@ class CreateDocumentsTable extends Migration
             $table->text('description'); // Описание документа
             $table->boolean('print'); // Статус печати документа: 0 - не распечатан; 1 - распечатан
             $table->integer('document_type_id')->unsigned(); // Код типа документа
-            $table->integer('personal_card_id')->unsigned(); // Личная карточка работника
+            $table->integer('personal_card_id')->unsigned()->default(0); // Личная карточка работника
             $table->integer('create_user_id')->unsigned(); // Пользователь, создавший документ
             $table->integer('editor_user_id')->unsigned(); // Пользователь, изменивший документ
             $table->timestamps(); // Поля с датой создания и датой изменения записи

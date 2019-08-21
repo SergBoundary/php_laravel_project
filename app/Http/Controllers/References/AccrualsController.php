@@ -18,9 +18,10 @@ class AccrualsController extends BaseReferencesController
      */
     public function index()
     {
-        $items = 'test accruals'; 
+        $title = 'Классификатор начислений'; 
+        $items = Accruals::all(); 
         
-        return view('references.accruals.index', compact('items'));
+        return view('references.accruals.index', compact('title', 'items'));
     }
 
     /**

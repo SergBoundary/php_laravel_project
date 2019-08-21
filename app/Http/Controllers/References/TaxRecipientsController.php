@@ -18,9 +18,10 @@ class TaxRecipientsController extends BaseReferencesController
      */
     public function index()
     {
-        $items = 'test tax-recipients'; 
+        $title = 'Получатели подоходного налога'; 
+        $items = TaxRecipients::all(); 
         
-        return view('references.tax-recipients.index', compact('items'));
+        return view('references.tax-recipients.index', compact('title', 'items'));
     }
 
     /**
