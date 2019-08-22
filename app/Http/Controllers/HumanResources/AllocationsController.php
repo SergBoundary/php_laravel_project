@@ -31,7 +31,7 @@ class AllocationsController extends BaseHumanResourcesController
      */
     public function create()
     {
-        //
+        dd(__METHOD__);
     }
 
     /**
@@ -42,7 +42,7 @@ class AllocationsController extends BaseHumanResourcesController
      */
     public function store(Request $request)
     {
-        //
+        dd(__METHOD__);
     }
 
     /**
@@ -53,7 +53,7 @@ class AllocationsController extends BaseHumanResourcesController
      */
     public function show($id)
     {
-        //
+        dd(__METHOD__);
     }
 
     /**
@@ -64,7 +64,7 @@ class AllocationsController extends BaseHumanResourcesController
      */
     public function edit($id)
     {
-        //
+        dd(__METHOD__);
     }
 
     /**
@@ -76,7 +76,7 @@ class AllocationsController extends BaseHumanResourcesController
      */
     public function update(Request $request, $id)
     {
-        //
+        dd(__METHOD__);
     }
 
     /**
@@ -87,6 +87,6 @@ class AllocationsController extends BaseHumanResourcesController
      */
     public function destroy($id)
     {
-        //
+        dd(__METHOD__);
     }
 }
