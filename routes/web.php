@@ -37,7 +37,11 @@ Route::group(['namespace' => 'HumanResources', 'prefix' => 'hr'], function(){
     Route::resource('last-jobs', 'LastJobsController')->names('hr.last-jobs');
     Route::resource('insurance-certificates', 'InsuranceCertificatesController')->names('hr.insurance-certificates');
     Route::resource('salary-cards', 'SalaryCardsController')->names('hr.salary-cards');
-    Route::resource('military-accountings', 'MilitaryAccountingsController')->names('hr.military-accountings');
+    Route::resource('military-accountings', 'MilitaryAccountingsController')->names('hr.military-accountings');Route::resource('visa-statuses', 'VisaStatusesController')->names('hr.visa-statuses');
+    Route::resource('visa-documents', 'VisaDocumentsController')->names('hr.visa-documents');
+    Route::resource('border-crossings', 'BorderCrossingsController')->names('hr.border-crossings');
+    Route::resource('migartion-statuses', 'MigartionStatusesController')->names('hr.migartion-statuses');
+    Route::resource('migartion-documents', 'MigartionDocumentsController')->names('hr.migartion-documents');
 });
 Route::group(['namespace' => 'Accounting', 'prefix' => 'acc'], function(){
     Route::resource('base-timesheets', 'BaseTimesheetsController')->names('acc.base-timesheets');

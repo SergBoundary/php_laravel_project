@@ -4,24 +4,29 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-10">
-                <a class="btn btn-outline-secondary btn-toolbar btn-sm" href='{{ url('hr/allocations') }}'>1. 1. Allocations</a>
-                <a class="btn btn-outline-secondary btn-toolbar btn-sm" href='{{ url('hr/documents') }}'>1. 2. Documents</a>
-                <a class="btn btn-outline-secondary btn-toolbar btn-sm" href='{{ url('hr/employee-families') }}'>1. 3. Employee Families</a>
-                <a class="btn btn-outline-secondary btn-toolbar btn-sm" href='{{ url('hr/insurance-certificates') }}'>1. 4. Insurance Certificates</a>
-                <a class="btn btn-outline-secondary btn-toolbar btn-sm" href='{{ url('hr/last-jobs') }}'>1. 5. Last Jobs</a>
-                <a class="btn btn-outline-secondary btn-toolbar btn-sm" href='{{ url('hr/manning-orders') }}'>1. 6. Manning Orders</a>
-                <a class="btn btn-outline-secondary btn-toolbar btn-sm" href='{{ url('hr/military-accountings') }}'>1. 7. Military Accountings</a>
-                <a class="btn btn-outline-secondary btn-toolbar btn-sm" href='{{ url('hr/personal-addresses') }}'>1. 8. Personal Addresses</a>
-                <a class="btn btn-outline-secondary btn-toolbar btn-sm" href='{{ url('hr/personal-cards') }}'>1. 9. Personal Cards</a>
-                <a class="btn btn-outline-secondary btn-toolbar btn-sm" href='{{ url('hr/personal-citizenships') }}'>1. 10. Personal Citizenships</a>
-                <a class="btn btn-outline-secondary btn-toolbar btn-sm" href='{{ url('hr/personal-communications') }}'>1. 11. Personal Communications</a>
-                <a class="btn btn-outline-secondary btn-toolbar btn-sm" href='{{ url('hr/personal-educations') }}'>1. 12. Personal Educations</a>
-                <a class="btn btn-outline-secondary btn-toolbar btn-sm" href='{{ url('hr/personal-pasports') }}'>1. 13. Personal Pasports</a>
-                <a class="btn btn-outline-secondary btn-toolbar btn-sm" href='{{ url('hr/personal-taxes') }}'>1. 14. Personal Taxes</a>
-                <a class="btn btn-outline-secondary btn-toolbar btn-sm" href='{{ url('hr/provisions') }}'>1. 15. Provisions</a>
-                <a class="btn btn-outline-secondary btn-toolbar btn-sm" href='{{ url('hr/recruitment-orders') }}'>1. 16. Recruitment Orders</a>
-                <a class="btn btn-outline-secondary btn-toolbar btn-sm" href='{{ url('hr/salary-cards') }}'>1. 17. Salary Cards</a>
-                <a class="btn btn-outline-secondary btn-toolbar btn-sm" href='{{ url('hr/work-experiences') }}'>1. 18. Work Experiences</a><br />
+                <a class='btn btn-outline-secondary btn-toolbar btn-sm' href='{{ url('hr/allocations') }}'>1. 1. Allocations</a>
+                <a class='btn btn-outline-secondary btn-toolbar btn-sm' href='{{ url('hr/border-crossings') }}'>1. 2. BorderCrossings</a>
+                <a class='btn btn-outline-secondary btn-toolbar btn-sm' href='{{ url('hr/documents') }}'>1. 3. Documents</a>
+                <a class='btn btn-outline-secondary btn-toolbar btn-sm' href='{{ url('hr/employee-families') }}'>1. 4. Employee Families</a>
+                <a class='btn btn-outline-secondary btn-toolbar btn-sm' href='{{ url('hr/insurance-certificates') }}'>1. 5. Insurance Certificates</a>
+                <a class='btn btn-outline-secondary btn-toolbar btn-sm' href='{{ url('hr/last-jobs') }}'>1. 6. Last Jobs</a>
+                <a class='btn btn-outline-secondary btn-toolbar btn-sm' href='{{ url('hr/manning-orders') }}'>1. 7. Manning Orders</a>
+                <a class='btn btn-outline-secondary btn-toolbar btn-sm' href='{{ url('hr/migartion-documents') }}'>1. 8. MigartionDocuments</a>
+                <a class='btn btn-outline-secondary btn-toolbar btn-sm' href='{{ url('hr/migartion-statuses') }}'>1. 9. MigartionStatuses</a>
+                <a class='btn btn-outline-secondary btn-toolbar btn-sm' href='{{ url('hr/military-accountings') }}'>1. 10. Military Accounting</a>
+                <a class='btn btn-outline-secondary btn-toolbar btn-sm' href='{{ url('hr/personal-addresses') }}'>1. 11. Personal Addresses</a>
+                <a class='btn btn-outline-secondary btn-toolbar btn-sm' href='{{ url('hr/personal-cards') }}'>1. 12. Personal Cards</a>
+                <a class='btn btn-outline-secondary btn-toolbar btn-sm' href='{{ url('hr/personal-citizenships') }}'>1. 13. Personal Citizenships</a>
+                <a class='btn btn-outline-secondary btn-toolbar btn-sm' href='{{ url('hr/personal-communications') }}'>1. 14. Personal Communications</a>
+                <a class='btn btn-outline-secondary btn-toolbar btn-sm' href='{{ url('hr/personal-educations') }}'>1. 15. Personal Educations</a>
+                <a class='btn btn-outline-secondary btn-toolbar btn-sm' href='{{ url('hr/personal-pasports') }}'>1. 16. Personal Pasports</a>
+                <a class='btn btn-outline-secondary btn-toolbar btn-sm' href='{{ url('hr/personal-taxes') }}'>1. 17. Personal Taxes</a>
+                <a class='btn btn-outline-secondary btn-toolbar btn-sm' href='{{ url('hr/provisions') }}'>1. 18. Provisions</a>
+                <a class='btn btn-outline-secondary btn-toolbar btn-sm' href='{{ url('hr/recruitment-orders') }}'>1. 19. Recruitment Orders</a>
+                <a class='btn btn-outline-secondary btn-toolbar btn-sm' href='{{ url('hr/salary-cards') }}'>1. 20. Salary Cards</a>
+                <a class='btn btn-outline-secondary btn-toolbar btn-sm' href='{{ url('hr/visa-documents') }}'>1. 21. VisaDocuments</a>
+                <a class='btn btn-outline-secondary btn-toolbar btn-sm' href='{{ url('hr/visa-statuses') }}'>1. 22. VisaStatuses</a>
+                <a class='btn btn-outline-secondary btn-toolbar btn-sm' href='{{ url('hr/work-experiences') }}'>1. 23. Work Experiences</a><br />
                 <a class="btn btn-outline-secondary btn-toolbar btn-sm" href='{{ url('acc/absence-from-works') }}'>2. 1. Absence From Works</a>
                 <a class="btn btn-outline-secondary btn-toolbar btn-sm" href='{{ url('acc/accrual-timesheets') }}'>2. 2. Accrual Timesheets</a>
                 <a class="btn btn-outline-secondary btn-toolbar btn-sm" href='{{ url('acc/base-timesheets') }}'>2. 3. Base Timesheets</a>
