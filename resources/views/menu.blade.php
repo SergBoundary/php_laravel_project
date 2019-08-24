@@ -9,11 +9,7 @@
                         <a class='btn btn-outline-secondary btn-toolbar btn-lg' href='{{ url($item->url) }}'>{{ $item->name }}</a><br>
                     @endforeach
                 @else
-                    <em>Данные отсутствуют..</em>
-                    <a class='btn btn-outline-secondary btn-toolbar btn-lg' href='{{ url('human-resources') }}'>Кадры</a><br>
-                    <a class='btn btn-outline-secondary btn-toolbar btn-lg' href='{{ url('accounting') }}'>Финансы</a><br>
-                    <a class='btn btn-outline-secondary btn-toolbar btn-lg' href='{{ url('references') }}'>Справочники</a><br>
-                    <a class='btn btn-outline-secondary btn-toolbar btn-lg' href='{{ url('settings') }}'>Настройки</a>
+                    <em>Что-то пошло не так..</em>
                 @endif
             </div>
         </div>

@@ -20,13 +20,10 @@ class Controller extends BaseController
         // Извлекаем данные текущего пункта меню
         $currents = Menu::where('url', $url)->first();
         $id = $currents->id;
-        // Извлекаем данные полного списка меню 
-        $items = Menu::all();
-        // Отсекаем пункты меню дальше текущего пункта
-        $cut = $items->slice(0, $id);
-        $cut->all();
-        // Переворачиваем список для чтения с конца к началу
-        $sorted = $cut->sortKeysDesc();
+        // Извлекаем данные, отсекая пункты меню дальше текущего пункта
+        $items = Menu::where('id', '<=', $id)->get();
+        // Переворачиваем список для чтения с конца
+        $sorted = $items->sortKeysDesc();
         $sorted->values()->all();
         // Проходим по спису пунктов меню
         foreach ($sorted as $item){
