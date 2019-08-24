@@ -16,12 +16,15 @@ class RanksController extends BaseReferencesController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $title = 'Уровни квалификации (разряды, ранги)'; 
+        $url = $request->path();
+        
+        $paths = $this->createMenu($url);
+        $title = $paths->where('url', $url)->first();
         $items = Ranks::all(); 
         
-        return view('references.ranks.index', compact('title', 'items'));
+        return view('references.ranks.index', compact('paths', 'title', 'items'));
     }
 
     /**

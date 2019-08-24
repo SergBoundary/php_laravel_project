@@ -16,12 +16,15 @@ class VisaStatusesController extends BaseHumanResourcesController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $title = 'Визы работника на пребывание в стране'; 
+        $url = $request->path();
+        
+        $paths = $this->createMenu($url);
+        $title = $paths->where('url', $url)->first();
         $items = VisaStatuses::all(); 
         
-        return view('humanresources.visa-statuses.index', compact('title', 'items'));
+        return view('humanresources.visa-statuses.index', compact('paths', 'title', 'items'));
     }
 
     /**

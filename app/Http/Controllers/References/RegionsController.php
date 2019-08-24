@@ -16,12 +16,15 @@ class RegionsController extends BaseReferencesController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $title = 'Районы'; 
+        $url = $request->path();
+        
+        $paths = $this->createMenu($url);
+        $title = $paths->where('url', $url)->first();
         $items = Regions::all(); 
         
-        return view('references.regions.index', compact('title', 'items'));
+        return view('references.regions.index', compact('paths', 'title', 'items'));
     }
 
     /**

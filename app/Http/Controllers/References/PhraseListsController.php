@@ -16,12 +16,15 @@ class PhraseListsController extends BaseReferencesController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $title = 'Формулировки для заполнения документов и форм '; 
+        $url = $request->path();
+        
+        $paths = $this->createMenu($url);
+        $title = $paths->where('url', $url)->first();
         $items = PhraseLists::all(); 
         
-        return view('references.phrase-lists.index', compact('title', 'items'));
+        return view('references.phrase-lists.index', compact('paths', 'title', 'items'));
     }
 
     /**

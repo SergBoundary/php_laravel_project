@@ -24,7 +24,7 @@
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    Sahaty
+                    <img src="/img/sahaty_logo.png" width="40" height="40" alt="">
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
@@ -33,7 +33,19 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
-
+                    @if(count($paths) > 0)
+                        @foreach($paths as $path)
+                        <li class="nav-item">
+                            <div class="nav-link">
+                                <span style="margin-left: -10px;">@if (!$loop->first)/@endif</span>
+                                @if (!$loop->last)<a href="{{ url($path['url']) }}">{{ $path['name'] }}</a>@endif
+                                @if ($loop->last){{ $path['name'] }}@endif
+                            </div>
+                        </li>
+                        @endforeach
+                    @else
+                        <em>Данные отсутствуют..</em>
+                    @endif
                     </ul>
 
                     <!-- Right Side Of Navbar -->

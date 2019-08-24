@@ -16,12 +16,15 @@ class PersonalTaxesController extends BaseHumanResourcesController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $title = 'Налоговая информация работника'; 
+        $url = $request->path();
+        
+        $paths = $this->createMenu($url);
+        $title = $paths->where('url', $url)->first();
         $items = PersonalTaxes::all(); 
         
-        return view('humanresources.personal-taxes.index', compact('title', 'items'));
+        return view('humanresources.personal-taxes.index', compact('paths', 'title', 'items'));
     }
 
     /**

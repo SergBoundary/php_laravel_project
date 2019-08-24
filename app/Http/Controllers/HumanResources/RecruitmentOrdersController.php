@@ -16,12 +16,15 @@ class RecruitmentOrdersController extends BaseHumanResourcesController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $title = 'Найм и увольнение работника'; 
+        $url = $request->path();
+        
+        $paths = $this->createMenu($url);
+        $title = $paths->where('url', $url)->first();
         $items = RecruitmentOrders::all(); 
         
-        return view('humanresources.recruitment-orders.index', compact('title', 'items'));
+        return view('humanresources.recruitment-orders.index', compact('paths', 'title', 'items'));
     }
 
     /**

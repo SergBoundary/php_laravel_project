@@ -16,12 +16,15 @@ class PhraseListGroupsController extends BaseReferencesController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $title = 'Группы формулировок для заполнения документов и форм '; 
+        $url = $request->path();
+        
+        $paths = $this->createMenu($url);
+        $title = $paths->where('url', $url)->first();
         $items = PhraseListGroups::all(); 
         
-        return view('references.phrase-list-groups.index', compact('title', 'items'));
+        return view('references.phrase-list-groups.index', compact('paths', 'title', 'items'));
     }
 
     /**

@@ -16,12 +16,15 @@ class ManningTablesController extends BaseReferencesController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $title = 'Штатное расписание (количество, оклады и квалификации работников)'; 
+        $url = $request->path();
+        
+        $paths = $this->createMenu($url);
+        $title = $paths->where('url', $url)->first();
         $items = ManningTables::all(); 
         
-        return view('references.manning-tables.index', compact('title', 'items'));
+        return view('references.manning-tables.index', compact('paths', 'title', 'items'));
     }
 
     /**

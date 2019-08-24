@@ -16,12 +16,15 @@ class MaritalStatusesController extends BaseReferencesController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $title = 'Семейное положение'; 
+        $url = $request->path();
+        
+        $paths = $this->createMenu($url);
+        $title = $paths->where('url', $url)->first();
         $items = MaritalStatuses::all(); 
         
-        return view('references.marital-statuses.index', compact('title', 'items'));
+        return view('references.marital-statuses.index', compact('paths', 'title', 'items'));
     }
 
     /**

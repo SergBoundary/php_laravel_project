@@ -16,12 +16,15 @@ class TaxRatesController extends BaseReferencesController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $title = 'Классификатор налоговых ставок'; 
+        $url = $request->path();
+        
+        $paths = $this->createMenu($url);
+        $title = $paths->where('url', $url)->first();
         $items = TaxRates::all(); 
         
-        return view('references.tax-rates.index', compact('title', 'items'));
+        return view('references.tax-rates.index', compact('paths', 'title', 'items'));
     }
 
     /**

@@ -16,12 +16,15 @@ class EmploymentTypesController extends BaseReferencesController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $title = 'Виды трудовых отношений'; 
+        $url = $request->path();
+        
+        $paths = $this->createMenu($url);
+        $title = $paths->where('url', $url)->first();
         $items = EmploymentTypes::all(); 
         
-        return view('references.employment-types.index', compact('title', 'items'));
+        return view('references.employment-types.index', compact('paths', 'title', 'items'));
     }
 
     /**

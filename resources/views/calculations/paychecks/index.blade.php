@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-10">
             <div class="card">
-                <div class="card-header">{{$title}}</div>
+                <div class="card-header">{{$title['name']}}</div>
                 <div class="card-body">
                     <p>{{ $items }}</p>
                 </div>

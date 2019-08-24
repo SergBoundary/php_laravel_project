@@ -16,12 +16,15 @@ class PieceworksController extends BaseReferencesController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $title = 'Виды сдельных работ'; 
+        $url = $request->path();
+        
+        $paths = $this->createMenu($url);
+        $title = $paths->where('url', $url)->first();
         $items = Pieceworks::all(); 
         
-        return view('references.pieceworks.index', compact('title', 'items'));
+        return view('references.pieceworks.index', compact('paths', 'title', 'items'));
     }
 
     /**

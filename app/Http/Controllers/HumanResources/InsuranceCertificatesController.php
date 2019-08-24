@@ -16,12 +16,15 @@ class InsuranceCertificatesController extends BaseHumanResourcesController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $title = 'Страховые свидетельства работника'; 
+        $url = $request->path();
+        
+        $paths = $this->createMenu($url);
+        $title = $paths->where('url', $url)->first();
         $items = InsuranceCertificates::all(); 
         
-        return view('humanresources.insurance-certificates.index', compact('title', 'items'));
+        return view('humanresources.insurance-certificates.index', compact('paths', 'title', 'items'));
     }
 
     /**

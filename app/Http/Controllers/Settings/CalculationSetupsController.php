@@ -16,12 +16,15 @@ class CalculationSetupsController extends BaseSettingsController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $title = 'Настройки финансовых параметров расчетов'; 
+        $url = $request->path();
+        
+        $paths = $this->createMenu($url);
+        $title = $paths->where('url', $url)->first();
         $items = CalculationSetups::all(); 
         
-        return view('settings.calculation-setups.index', compact('title', 'items'));
+        return view('settings.calculation-setups.index', compact('paths', 'title', 'items'));
     }
 
     /**

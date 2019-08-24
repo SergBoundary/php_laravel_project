@@ -16,12 +16,15 @@ class FamilyRelationTypesController extends BaseReferencesController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $title = 'Сстепень родства'; 
+        $url = $request->path();
+        
+        $paths = $this->createMenu($url);
+        $title = $paths->where('url', $url)->first();
         $items = FamilyRelationTypes::all(); 
         
-        return view('references.family-relation-types.index', compact('title', 'items'));
+        return view('references.family-relation-types.index', compact('paths', 'title', 'items'));
     }
 
     /**

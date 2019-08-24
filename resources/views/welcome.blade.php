@@ -4,7 +4,11 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-10">
-                <a class='btn btn-outline-secondary btn-toolbar btn-sm' href='{{ url('hr/allocations') }}'>1. 1. Allocations</a>
+                <a class='btn btn-outline-secondary btn-toolbar btn-lg' href='{{ url('human-resources') }}'>Кадры</a><br>
+                <a class='btn btn-outline-secondary btn-toolbar btn-lg' href='{{ url('accounting') }}'>Финансы</a><br>
+                <a class='btn btn-outline-secondary btn-toolbar btn-lg' href='{{ url('references') }}'>Справочники</a><br>
+                <a class='btn btn-outline-secondary btn-toolbar btn-lg' href='{{ url('settings') }}'>Настройки</a>
+<!--                <a class='btn btn-outline-secondary btn-toolbar btn-sm' href='{{ url('hr/allocations') }}'>1. 1. Allocations</a>
                 <a class='btn btn-outline-secondary btn-toolbar btn-sm' href='{{ url('hr/border-crossings') }}'>1. 2. BorderCrossings</a>
                 <a class='btn btn-outline-secondary btn-toolbar btn-sm' href='{{ url('hr/documents') }}'>1. 3. Documents</a>
                 <a class='btn btn-outline-secondary btn-toolbar btn-sm' href='{{ url('hr/employee-families') }}'>1. 4. Employee Families</a>
@@ -30,7 +34,6 @@
                 <a class="btn btn-outline-secondary btn-toolbar btn-sm" href='{{ url('acc/absence-from-works') }}'>2. 1. Absence From Works</a>
                 <a class="btn btn-outline-secondary btn-toolbar btn-sm" href='{{ url('acc/accrual-timesheets') }}'>2. 2. Accrual Timesheets</a>
                 <a class="btn btn-outline-secondary btn-toolbar btn-sm" href='{{ url('acc/base-timesheets') }}'>2. 3. Base Timesheets</a>
-                <a class="btn btn-outline-secondary btn-toolbar btn-sm" href='{{ url('acc/closing-financial-periods') }}'>2. 4. Closing Financial Periods</a>
                 <a class="btn btn-outline-secondary btn-toolbar btn-sm" href='{{ url('acc/department-accruals') }}'>2. 5. Department Accruals</a>
                 <a class="btn btn-outline-secondary btn-toolbar btn-sm" href='{{ url('acc/employee-accrual-calculations') }}'>2. 6. Employee Accrual Calculations</a>
                 <a class="btn btn-outline-secondary btn-toolbar btn-sm" href='{{ url('acc/employee-accrual-changes') }}'>2. 7. Employee Accrual Changes</a>
@@ -39,14 +42,15 @@
                 <a class="btn btn-outline-secondary btn-toolbar btn-sm" href='{{ url('acc/employee-accruals') }}'>2. 10. Employee Accruals</a>
                 <a class="btn btn-outline-secondary btn-toolbar btn-sm" href='{{ url('acc/hours-balances') }}'>2. 11. Hours Balances</a>
                 <a class="btn btn-outline-secondary btn-toolbar btn-sm" href='{{ url('acc/log-accrual-errors') }}'>2. 12. Log Accrual Errors</a>
-                <a class="btn btn-outline-secondary btn-toolbar btn-sm" href='{{ url('acc/payroll-preparations') }}'>2. 13. Payroll Preparations</a>
                 <a class="btn btn-outline-secondary btn-toolbar btn-sm" href='{{ url('acc/special-eatings') }}'>2. 14. Special Eatings</a>
                 <a class="btn btn-outline-secondary btn-toolbar btn-sm" href='{{ url('acc/vacation-amounts') }}'>2. 15. Vacation Amounts</a>
                 <a class="btn btn-outline-secondary btn-toolbar btn-sm" href='{{ url('acc/vacations') }}'>2. 16. Vacations</a>
                 <a class="btn btn-outline-secondary btn-toolbar btn-sm" href='{{ url('acc/work-orders') }}'>2. 17. Work Orders</a>
                 <a class="btn btn-outline-secondary btn-toolbar btn-sm" href='{{ url('acc/work-orders-amounts') }}'>2. 18. Work Orders Amounts</a><br />
-                <a class="btn btn-outline-secondary btn-toolbar btn-sm" href='{{ url('calc/paychecks') }}'>3. 1. Paychecks</a>
-                <a class="btn btn-outline-secondary btn-toolbar btn-sm" href='{{ url('calc/payrolls') }}'>3. 2. Payrolls</a><br />
+                <a class="btn btn-outline-secondary btn-toolbar btn-sm" href='{{ url('calc/closing-financial-periods') }}'>3. 1. Closing Financial Periods</a>
+                <a class="btn btn-outline-secondary btn-toolbar btn-sm" href='{{ url('calc/paychecks') }}'>3. 2. Paychecks</a>
+                <a class="btn btn-outline-secondary btn-toolbar btn-sm" href='{{ url('calc/payroll-preparations') }}'>3. 3. Payroll Preparations</a>
+                <a class="btn btn-outline-secondary btn-toolbar btn-sm" href='{{ url('calc/payrolls') }}'>3. 4. Payrolls</a><br />
                 <a class="btn btn-outline-secondary btn-toolbar btn-sm" href='{{ url('ref/absence-classifiers') }}'>4. 1. Absence Classifiers</a>
                 <a class="btn btn-outline-secondary btn-toolbar btn-sm" href='{{ url('ref/accounts') }}'>4. 2. Accounts</a>
                 <a class="btn btn-outline-secondary btn-toolbar btn-sm" href='{{ url('ref/accrual-groups') }}'>4. 3. Accrual Groups</a>
@@ -101,8 +105,9 @@
                 <a class="btn btn-outline-secondary btn-toolbar btn-sm" href='{{ url('set/calculation-setups') }}'>5. 1. Calculation Setups</a>
                 <a class="btn btn-outline-secondary btn-toolbar btn-sm" href='{{ url('set/company-datas') }}'>5. 2. Company Datas</a>
                 <a class="btn btn-outline-secondary btn-toolbar btn-sm" href='{{ url('set/constants') }}'>5. 3. Constants</a>
-                <a class="btn btn-outline-secondary btn-toolbar btn-sm" href='{{ url('set/restore-databases') }}'>5. 4. Restore Databases</a>
-                <a class="btn btn-outline-secondary btn-toolbar btn-sm" href='{{ url('set/save-databases') }}'>5. 5. Save Databases</a>
+                <a class='btn btn-outline-secondary btn-toolbar btn-sm' href='{{ url('menu') }}'>5. 4. Menus</a>
+                <a class="btn btn-outline-secondary btn-toolbar btn-sm" href='{{ url('set/restore-databases') }}'>5. 5. Restore Databases</a>
+                <a class="btn btn-outline-secondary btn-toolbar btn-sm" href='{{ url('set/save-databases') }}'>5. 6. Save Databases</a>-->
             </div>
         </div>
     </div>

@@ -16,12 +16,15 @@ class MigartionStatusesController extends BaseHumanResourcesController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $title = 'Миграционный статус работника'; 
+        $url = $request->path();
+        
+        $paths = $this->createMenu($url);
+        $title = $paths->where('url', $url)->first();
         $items = MigartionStatuses::all(); 
         
-        return view('humanresources.migartion-statuses.index', compact('title', 'items'));
+        return view('humanresources.migartion-statuses.index', compact('paths', 'title', 'items'));
     }
 
     /**

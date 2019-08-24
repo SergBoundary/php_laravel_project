@@ -16,12 +16,15 @@ class MonthsController extends BaseReferencesController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $title = 'Месяца'; 
+        $url = $request->path();
+        
+        $paths = $this->createMenu($url);
+        $title = $paths->where('url', $url)->first();
         $items = Months::all(); 
         
-        return view('references.months.index', compact('title', 'items'));
+        return view('references.months.index', compact('paths', 'title', 'items'));
     }
 
     /**

@@ -16,12 +16,15 @@ class ProvisionsController extends BaseHumanResourcesController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $title = 'Материальное обеспечение работника'; 
+        $url = $request->path();
+        
+        $paths = $this->createMenu($url);
+        $title = $paths->where('url', $url)->first();
         $items = Provisions::all(); 
         
-        return view('humanresources.provisions.index', compact('title', 'items'));
+        return view('humanresources.provisions.index', compact('paths', 'title', 'items'));
     }
 
     /**

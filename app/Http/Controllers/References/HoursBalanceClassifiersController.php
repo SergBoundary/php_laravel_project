@@ -16,12 +16,15 @@ class HoursBalanceClassifiersController extends BaseReferencesController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $title = 'Классификатор графиков распределения рабочих часов'; 
+        $url = $request->path();
+        
+        $paths = $this->createMenu($url);
+        $title = $paths->where('url', $url)->first();
         $items = HoursBalanceClassifiers::all(); 
         
-        return view('references.hours-balance-classifiers.index', compact('title', 'items'));
+        return view('references.hours-balance-classifiers.index', compact('paths', 'title', 'items'));
     }
 
     /**

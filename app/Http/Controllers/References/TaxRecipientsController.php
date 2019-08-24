@@ -16,12 +16,15 @@ class TaxRecipientsController extends BaseReferencesController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $title = 'Получатели подоходного налога'; 
+        $url = $request->path();
+        
+        $paths = $this->createMenu($url);
+        $title = $paths->where('url', $url)->first();
         $items = TaxRecipients::all(); 
         
-        return view('references.tax-recipients.index', compact('title', 'items'));
+        return view('references.tax-recipients.index', compact('paths', 'title', 'items'));
     }
 
     /**

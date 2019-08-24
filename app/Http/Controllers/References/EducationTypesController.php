@@ -16,12 +16,15 @@ class EducationTypesController extends BaseReferencesController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $title = 'Уровни образования'; 
+        $url = $request->path();
+        
+        $paths = $this->createMenu($url);
+        $title = $paths->where('url', $url)->first();
         $items = EducationTypes::all(); 
         
-        return view('references.education-types.index', compact('title', 'items'));
+        return view('references.education-types.index', compact('paths', 'title', 'items'));
     }
 
     /**

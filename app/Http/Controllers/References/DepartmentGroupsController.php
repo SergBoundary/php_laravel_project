@@ -16,12 +16,15 @@ class DepartmentGroupsController extends BaseReferencesController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $title = 'Группы подразделений компании'; 
+        $url = $request->path();
+        
+        $paths = $this->createMenu($url);
+        $title = $paths->where('url', $url)->first();
         $items = DepartmentGroups::all(); 
         
-        return view('references.department-groups.index', compact('title', 'items'));
+        return view('references.department-groups.index', compact('paths', 'title', 'items'));
     }
 
     /**

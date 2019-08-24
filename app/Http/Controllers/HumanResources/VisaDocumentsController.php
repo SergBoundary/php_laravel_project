@@ -16,12 +16,15 @@ class VisaDocumentsController extends BaseHumanResourcesController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $title = 'Документы работника для получения визы'; 
+        $url = $request->path();
+        
+        $paths = $this->createMenu($url);
+        $title = $paths->where('url', $url)->first();
         $items = VisaDocuments::all(); 
         
-        return view('humanresources.visa-documents.index', compact('title', 'items'));
+        return view('humanresources.visa-documents.index', compact('paths', 'title', 'items'));
     }
 
     /**

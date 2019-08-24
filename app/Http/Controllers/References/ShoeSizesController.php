@@ -16,12 +16,15 @@ class ShoeSizesController extends BaseReferencesController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $title = 'Размеры обуви'; 
+        $url = $request->path();
+        
+        $paths = $this->createMenu($url);
+        $title = $paths->where('url', $url)->first();
         $items = ShoeSizes::all(); 
         
-        return view('references.shoe-sizes.index', compact('title', 'items'));
+        return view('references.shoe-sizes.index', compact('paths', 'title', 'items'));
     }
 
     /**

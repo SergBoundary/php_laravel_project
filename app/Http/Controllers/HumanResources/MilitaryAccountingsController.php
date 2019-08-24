@@ -16,12 +16,15 @@ class MilitaryAccountingsController extends BaseHumanResourcesController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $title = 'Воинский учет работникa'; 
+        $url = $request->path();
+        
+        $paths = $this->createMenu($url);
+        $title = $paths->where('url', $url)->first();
         $items = MilitaryAccountings::all(); 
         
-        return view('humanresources.military-accountings.index', compact('title', 'items'));
+        return view('humanresources.military-accountings.index', compact('paths', 'title', 'items'));
 
     }
 

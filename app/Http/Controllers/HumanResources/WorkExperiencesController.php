@@ -16,12 +16,15 @@ class WorkExperiencesController extends BaseHumanResourcesController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $title = 'Трудовой стараж работника'; 
+        $url = $request->path();
+        
+        $paths = $this->createMenu($url);
+        $title = $paths->where('url', $url)->first();
         $items = WorkExperiences::all(); 
         
-        return view('humanresources.work-experiences.index', compact('title', 'items'));
+        return view('humanresources.work-experiences.index', compact('paths', 'title', 'items'));
     }
 
     /**

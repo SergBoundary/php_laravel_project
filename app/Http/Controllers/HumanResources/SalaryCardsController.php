@@ -16,12 +16,15 @@ class SalaryCardsController extends BaseHumanResourcesController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $title = 'Зарплатные карты работника'; 
+        $url = $request->path();
+        
+        $paths = $this->createMenu($url);
+        $title = $paths->where('url', $url)->first();
         $items = SalaryCards::all(); 
         
-        return view('humanresources.salary-cards.index', compact('title', 'items'));
+        return view('humanresources.salary-cards.index', compact('paths', 'title', 'items'));
     }
 
     /**

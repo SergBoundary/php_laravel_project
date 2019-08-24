@@ -16,12 +16,15 @@ class PositionCategoriesController extends BaseReferencesController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $title = 'Категории должностей'; 
+        $url = $request->path();
+        
+        $paths = $this->createMenu($url);
+        $title = $paths->where('url', $url)->first();
         $items = PositionCategories::all(); 
         
-        return view('references.position-categories.index', compact('title', 'items'));
+        return view('references.position-categories.index', compact('paths', 'title', 'items'));
     }
 
     /**

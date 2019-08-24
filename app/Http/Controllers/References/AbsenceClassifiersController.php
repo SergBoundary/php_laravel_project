@@ -16,12 +16,15 @@ class AbsenceClassifiersController extends BaseReferencesController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $title = 'Классификатор отсутствия на работе'; 
+        $url = $request->path();
+        
+        $paths = $this->createMenu($url);
+        $title = $paths->where('url', $url)->first();
         $items = AbsenceClassifiers::all(); 
         
-        return view('references.absence-classifiers.index', compact('title', 'items'));
+        return view('references.absence-classifiers.index', compact('paths', 'title', 'items'));
     }
 
     /**

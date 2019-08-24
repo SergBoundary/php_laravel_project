@@ -11,9 +11,9 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+//Route::get('/', function () {
+//    return view('menu');
+//});
 
 Auth::routes();
 
@@ -60,10 +60,10 @@ Route::group(['namespace' => 'Accounting', 'prefix' => 'acc'], function(){
     Route::resource('vacation-amounts', 'VacationAmountsController')->names('acc.vacation-amounts');
     Route::resource('absence-from-works', 'AbsenceFromWorksController')->names('acc.absence-from-works');
     Route::resource('special-eatings', 'SpecialEatingsController')->names('acc.special-eatings');
-    Route::resource('payroll-preparations', 'PayrollPreparationsController')->names('acc.payroll-preparations');
-    Route::resource('closing-financial-periods', 'ClosingFinancialPeriodsController')->names('acc.closing-financial-periods');
 });
 Route::group(['namespace' => 'Calculations', 'prefix' => 'calc'], function(){
+    Route::resource('payroll-preparations', 'PayrollPreparationsController')->names('calc.payroll-preparations');
+    Route::resource('closing-financial-periods', 'ClosingFinancialPeriodsController')->names('calc.closing-financial-periods');
     Route::resource('payrolls', 'PayrollsController')->names('calc.payrolls');
     Route::resource('paychecks', 'PaychecksController')->names('calc.paychecks');
 });
@@ -126,5 +126,18 @@ Route::group(['namespace' => 'Settings', 'prefix' => 'set'], function(){
     Route::resource('constants', 'ConstantsController')->names('set.constants');
     Route::resource('restore-databases', 'RestoreDatabasesController')->names('set.restore-databases');
     Route::resource('save-databases', 'SaveDatabasesController')->names('set.save-databases');
+});
+Route::group(['namespace' => 'Settings', 'prefix' => ''], function(){
+    Route::resource('/', 'MenuController')->names('menu');
+    Route::resource('human-resources', 'MenuController')->names('menu.hr');
+    Route::resource('accounting', 'MenuController')->names('menu.acc');
+    Route::resource('references', 'MenuController')->names('menu.ref');
+    Route::resource('settings', 'MenuController')->names('menu.set');
+    
+    Route::resource('calc/accounting', 'MenuController')->names('menu.calc.accounting');
+    Route::resource('ref/human-resources', 'MenuController')->names('menu.ref.human-resources');
+    Route::resource('ref/accounting', 'MenuController')->names('menu.ref.accounting');
+    Route::resource('ref/general', 'MenuController')->names('menu.ref.general');
+    Route::resource('ref/base', 'MenuController')->names('menu.ref.base');
 });
 

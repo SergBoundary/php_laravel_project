@@ -16,12 +16,15 @@ class PersonalAddressesController extends BaseHumanResourcesController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $title = 'Адреса работника'; 
+        $url = $request->path();
+        
+        $paths = $this->createMenu($url);
+        $title = $paths->where('url', $url)->first();
         $items = PersonalAddresses::all(); 
         
-        return view('humanresources.personal-addresses.index', compact('title', 'items'));
+        return view('humanresources.personal-addresses.index', compact('paths', 'title', 'items'));
     }
 
     /**

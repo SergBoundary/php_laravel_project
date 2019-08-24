@@ -7,7 +7,44 @@ use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
+use App\Models\Settings\Menu;
+
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+    
+    public function createMenu($url) {
+        $data = [];
+        $i = 1;
+        
+        // Извлекаем данные текущего пункта меню
+        $currents = Menu::where('url', $url)->first();
+        $id = $currents->id;
+        // Извлекаем данные полного списка меню 
+        $items = Menu::all();
+        // Отсекаем пункты меню дальше текущего пункта
+        $cut = $items->slice(0, $id);
+        $cut->all();
+        // Переворачиваем список для чтения с конца к началу
+        $sorted = $cut->sortKeysDesc();
+        $sorted->values()->all();
+        // Проходим по спису пунктов меню
+        foreach ($sorted as $item){
+            // Находим нужный номер id в списке
+            if($id == $item->id){
+                $data[$i]['id'] = $item->id;
+                $data[$i]['name'] = $item->name;
+                $data[$i]['url'] = $item->url;
+                // Запоминаем id вышестоящего пункта меню
+                $id = $item->parent_id;
+                $i++;
+                // Выходим из списка, если id вышестоящего пункта меню не существует
+                if($id == 0) {
+                    krsort($data);
+                    $collection = collect($data);
+                    return $collection;
+                }
+            }
+        }
+    }
 }

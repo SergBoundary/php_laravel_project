@@ -16,12 +16,15 @@ class DepartmentsController extends BaseReferencesController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $title = 'Подразделения компании'; 
+        $url = $request->path();
+        
+        $paths = $this->createMenu($url);
+        $title = $paths->where('url', $url)->first();
         $items = Departments::all(); 
         
-        return view('references.departments.index', compact('title', 'items'));
+        return view('references.departments.index', compact('paths', 'title', 'items'));
     }
 
     /**

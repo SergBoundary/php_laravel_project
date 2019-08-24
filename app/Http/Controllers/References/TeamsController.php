@@ -16,12 +16,15 @@ class TeamsController extends BaseReferencesController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $title = 'Бригады'; 
+        $url = $request->path();
+        
+        $paths = $this->createMenu($url);
+        $title = $paths->where('url', $url)->first();
         $items = Teams::all(); 
         
-        return view('references.teams.index', compact('title', 'items'));
+        return view('references.teams.index', compact('paths', 'title', 'items'));
     }
 
     /**

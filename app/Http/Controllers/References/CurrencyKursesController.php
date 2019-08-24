@@ -16,12 +16,15 @@ class CurrencyKursesController extends BaseReferencesController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $title = 'Текущие курсы валют'; 
+        $url = $request->path();
+        
+        $paths = $this->createMenu($url);
+        $title = $paths->where('url', $url)->first();
         $items = CurrencyKurses::all(); 
         
-        return view('references.currency-kurses.index', compact('title', 'items'));
+        return view('references.currency-kurses.index', compact('paths', 'title', 'items'));
     }
 
     /**

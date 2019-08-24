@@ -16,12 +16,15 @@ class PersonalCardsController extends BaseHumanResourcesController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $title = 'Карточка работника'; 
+        $url = $request->path();
+        
+        $paths = $this->createMenu($url);
+        $title = $paths->where('url', $url)->first();
         $items = PersonalCards::all(); 
         
-        return view('humanresources.personal-cards.index', compact('title', 'items'));
+        return view('humanresources.personal-cards.index', compact('paths', 'title', 'items'));
     }
 
     /**

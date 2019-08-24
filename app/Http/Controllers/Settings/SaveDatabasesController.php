@@ -16,12 +16,15 @@ class SaveDatabasesController extends BaseSettingsController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $title = 'Настройки сохранения базы данных'; 
+        $url = $request->path();
+        
+        $paths = $this->createMenu($url);
+        $title = $paths->where('url', $url)->first();
         $items = SaveDatabases::all(); 
         
-        return view('settings.save-databases.index', compact('title', 'items'));
+        return view('settings.save-databases.index', compact('paths', 'title', 'items'));
     }
 
     /**

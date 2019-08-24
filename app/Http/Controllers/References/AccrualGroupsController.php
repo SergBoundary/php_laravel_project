@@ -16,12 +16,15 @@ class AccrualGroupsController extends BaseReferencesController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $title = 'Группы видов начислений'; 
+        $url = $request->path();
+        
+        $paths = $this->createMenu($url);
+        $title = $paths->where('url', $url)->first();
         $items = AccrualGroups::all(); 
         
-        return view('references.accrual-groups.index', compact('title', 'items'));
+        return view('references.accrual-groups.index', compact('paths', 'title', 'items'));
     }
 
     /**

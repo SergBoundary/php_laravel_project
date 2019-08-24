@@ -16,12 +16,15 @@ class CommunicationTypesController extends BaseReferencesController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $title = 'Способы коммуникации с работником'; 
+        $url = $request->path();
+        
+        $paths = $this->createMenu($url);
+        $title = $paths->where('url', $url)->first();
         $items = CommunicationTypes::all(); 
         
-        return view('references.communication-types.index', compact('title', 'items'));
+        return view('references.communication-types.index', compact('paths', 'title', 'items'));
     }
 
     /**

@@ -16,12 +16,15 @@ class AccrualsController extends BaseReferencesController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $title = 'Классификатор начислений'; 
+        $url = $request->path();
+        
+        $paths = $this->createMenu($url);
+        $title = $paths->where('url', $url)->first();
         $items = Accruals::all(); 
         
-        return view('references.accruals.index', compact('title', 'items'));
+        return view('references.accruals.index', compact('paths', 'title', 'items'));
     }
 
     /**

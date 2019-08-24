@@ -1,27 +1,30 @@
 <?php
 
-namespace App\Http\Controllers\Accounting;
+namespace App\Http\Controllers\Calculations;
 
 use Illuminate\Http\Request;
-use App\Models\Accounting\ClosingFinancialPeriods;
+use App\Models\Calculations\ClosingFinancialPeriods;
 
 /**
  * Контроллер закрытия финансового периода
  */
 
-class ClosingFinancialPeriodsController extends BaseAccountingController
+class ClosingFinancialPeriodsController extends BaseCalculationsController
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $title = 'Закрытие финансового периода'; 
-        $items = 'Расчеты..'; 
+        $url = $request->path();
         
-        return view('accounting.closing-financial-periods.index', compact('title', 'items'));
+        $paths = $this->createMenu($url);
+        $title = $paths->where('url', $url)->first();
+        $items = 'Расчеты..';
+        
+        return view('calculations.closing-financial-periods.index', compact('paths', 'title', 'items'));
     }
 
     /**

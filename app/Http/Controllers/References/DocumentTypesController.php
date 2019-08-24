@@ -16,12 +16,15 @@ class DocumentTypesController extends BaseReferencesController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $title = 'Виды кадровых документов'; 
+        $url = $request->path();
+        
+        $paths = $this->createMenu($url);
+        $title = $paths->where('url', $url)->first();
         $items = DocumentTypes::all(); 
         
-        return view('references.document-types.index', compact('title', 'items'));
+        return view('references.document-types.index', compact('paths', 'title', 'items'));
     }
 
     /**

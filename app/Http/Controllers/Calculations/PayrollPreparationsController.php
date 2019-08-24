@@ -1,27 +1,30 @@
 <?php
 
-namespace App\Http\Controllers\Accounting;
+namespace App\Http\Controllers\Calculations;
 
 use Illuminate\Http\Request;
-use App\Models\Accounting\PayrollPreparations;
+use App\Models\Calculations\PayrollPreparations;
 
 /**
  * Контроллер подготовки расчета заработной платы
  */
 
-class PayrollPreparationsController extends BaseAccountingController
+class PayrollPreparationsController extends BaseCalculationsController
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $title = 'Подготовка расчета заработной платы'; 
+        $url = $request->path();
+        
+        $paths = $this->createMenu($url);
+        $title = $paths->where('url', $url)->first();
         $items = 'Расчеты..';
         
-        return view('accounting.payroll-preparations.index', compact('title', 'items'));
+        return view('calculations.payroll-preparations.index', compact('paths', 'title', 'items'));
     }
 
     /**

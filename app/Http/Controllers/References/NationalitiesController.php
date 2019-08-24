@@ -16,12 +16,15 @@ class NationalitiesController extends BaseReferencesController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $title = 'Национальности'; 
+        $url = $request->path();
+        
+        $paths = $this->createMenu($url);
+        $title = $paths->where('url', $url)->first();
         $items = Nationalities::all(); 
         
-        return view('references.nationalities.index', compact('title', 'items'));
+        return view('references.nationalities.index', compact('paths', 'title', 'items'));
     }
 
     /**

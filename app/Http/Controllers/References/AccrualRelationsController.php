@@ -16,12 +16,15 @@ class AccrualRelationsController extends BaseReferencesController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $title = 'Зависимости начислений'; 
+        $url = $request->path();
+        
+        $paths = $this->createMenu($url);
+        $title = $paths->where('url', $url)->first();
         $items = AccrualRelations::all(); 
         
-        return view('references.accrual-relations.index', compact('title', 'items'));
+        return view('references.accrual-relations.index', compact('paths', 'title', 'items'));
     }
 
     /**

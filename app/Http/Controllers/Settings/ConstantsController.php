@@ -16,12 +16,15 @@ class ConstantsController extends BaseSettingsController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $title = 'Константы системы'; 
+        $url = $request->path();
+        
+        $paths = $this->createMenu($url);
+        $title = $paths->where('url', $url)->first();
         $items = Constants::all(); 
         
-        return view('settings.constants.index', compact('title', 'items'));
+        return view('settings.constants.index', compact('paths', 'title', 'items'));
     }
 
     /**

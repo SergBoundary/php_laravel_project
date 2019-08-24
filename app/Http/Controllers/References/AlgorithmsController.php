@@ -16,12 +16,15 @@ class AlgorithmsController extends BaseReferencesController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $title = 'Алгоритмы начислений'; 
+        $url = $request->path();
+        
+        $paths = $this->createMenu($url);
+        $title = $paths->where('url', $url)->first();
         $items = Algorithms::all(); 
         
-        return view('references.algorithms.index', compact('title', 'items'));
+        return view('references.algorithms.index', compact('paths', 'title', 'items'));
     }
 
     /**

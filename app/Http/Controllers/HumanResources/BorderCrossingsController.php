@@ -16,12 +16,15 @@ class BorderCrossingsController extends BaseHumanResourcesController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $title = 'Пересечения границы работником'; 
+        $url = $request->path();
+        
+        $paths = $this->createMenu($url);
+        $title = $paths->where('url', $url)->first();
         $items = BorderCrossings::all(); 
         
-        return view('humanresources.border-crossings.index', compact('title', 'items'));
+        return view('humanresources.border-crossings.index', compact('paths', 'title', 'items'));
     }
 
     /**

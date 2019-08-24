@@ -16,12 +16,15 @@ class PersonalCitizenshipsController extends BaseHumanResourcesController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $title = 'Гражданства работника'; 
+        $url = $request->path();
+        
+        $paths = $this->createMenu($url);
+        $title = $paths->where('url', $url)->first();
         $items = PersonalCitizenships::all(); 
         
-        return view('humanresources.personal-citizenships.index', compact('title', 'items'));
+        return view('humanresources.personal-citizenships.index', compact('paths', 'title', 'items'));
     }
 
     /**

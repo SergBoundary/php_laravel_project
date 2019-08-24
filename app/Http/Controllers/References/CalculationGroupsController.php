@@ -16,12 +16,15 @@ class CalculationGroupsController extends BaseReferencesController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $title = 'Виды расчетов'; 
+        $url = $request->path();
+        
+        $paths = $this->createMenu($url);
+        $title = $paths->where('url', $url)->first();
         $items = CalculationGroups::all(); 
         
-        return view('references.calculation-groups.index', compact('title', 'items'));
+        return view('references.calculation-groups.index', compact('paths', 'title', 'items'));
     }
 
     /**

@@ -16,12 +16,15 @@ class PaychecksController extends BaseCalculationsController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $title = 'Расчетный лист по заработной плате'; 
+        $url = $request->path();
+        
+        $paths = $this->createMenu($url);
+        $title = $paths->where('url', $url)->first(); 
         $items = 'Расчеты..'; 
         
-        return view('calculations.paychecks.index', compact('title', 'items'));
+        return view('calculations.paychecks.index', compact('paths', 'title', 'items'));
     }
 
     /**

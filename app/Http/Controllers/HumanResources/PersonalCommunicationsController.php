@@ -17,12 +17,15 @@ class PersonalCommunicationsController extends BaseHumanResourcesController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $title = 'Способы коммуникации с работником'; 
+        $url = $request->path();
+        
+        $paths = $this->createMenu($url);
+        $title = $paths->where('url', $url)->first();
         $items = PersonalCommunications::all(); 
         
-        return view('humanresources.personal-communications.index', compact('title', 'items'));
+        return view('humanresources.personal-communications.index', compact('paths', 'title', 'items'));
     }
 
     /**

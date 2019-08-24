@@ -16,12 +16,15 @@ class WorkWeekTypesController extends BaseReferencesController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $title = 'Виды рабочих недель'; 
+        $url = $request->path();
+        
+        $paths = $this->createMenu($url);
+        $title = $paths->where('url', $url)->first();
         $items = WorkWeekTypes::all(); 
         
-        return view('references.work-week-types.index', compact('title', 'items'));
+        return view('references.work-week-types.index', compact('paths', 'title', 'items'));
     }
 
     /**

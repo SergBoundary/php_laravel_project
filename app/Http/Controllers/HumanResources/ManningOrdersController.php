@@ -16,12 +16,15 @@ class ManningOrdersController extends BaseHumanResourcesController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $title = 'Должностные назначения'; 
+        $url = $request->path();
+        
+        $paths = $this->createMenu($url);
+        $title = $paths->where('url', $url)->first();
         $items = ManningOrders::all(); 
         
-        return view('humanresources.manning-orders.index', compact('title', 'items'));
+        return view('humanresources.manning-orders.index', compact('paths', 'title', 'items'));
 
     }
 

@@ -16,12 +16,15 @@ class DocumentsController extends BaseHumanResourcesController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $title = 'Кадровые документы'; 
+        $url = $request->path();
+        
+        $paths = $this->createMenu($url);
+        $title = $paths->where('url', $url)->first();
         $items = Documents::all(); 
         
-        return view('humanresources.documents.index', compact('title', 'items'));
+        return view('humanresources.documents.index', compact('paths', 'title', 'items'));
     }
 
     /**

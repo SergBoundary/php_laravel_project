@@ -16,12 +16,15 @@ class ObjectGroupsController extends BaseReferencesController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $title = 'Группы объектов'; 
+        $url = $request->path();
+        
+        $paths = $this->createMenu($url);
+        $title = $paths->where('url', $url)->first();
         $items = ObjectGroups::all(); 
         
-        return view('references.object-groups.index', compact('title', 'items'));
+        return view('references.object-groups.index', compact('paths', 'title', 'items'));
     }
 
     /**

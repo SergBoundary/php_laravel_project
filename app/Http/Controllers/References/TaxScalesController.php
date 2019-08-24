@@ -16,12 +16,15 @@ class TaxScalesController extends BaseReferencesController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $title = 'Шкала расчета подоходного налога'; 
+        $url = $request->path();
+        
+        $paths = $this->createMenu($url);
+        $title = $paths->where('url', $url)->first(); 
         $items = TaxScales::all(); 
         
-        return view('references.tax-scales.index', compact('title', 'items'));
+        return view('references.tax-scales.index', compact('paths', 'title', 'items'));
     }
 
     /**

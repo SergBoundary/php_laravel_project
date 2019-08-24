@@ -16,12 +16,15 @@ class PersonalEducationsController extends BaseHumanResourcesController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $title = 'Образование и квалификация работника'; 
+        $url = $request->path();
+        
+        $paths = $this->createMenu($url);
+        $title = $paths->where('url', $url)->first();
         $items = PersonalEducations::all(); 
         
-        return view('humanresources.personal-educations.index', compact('title', 'items'));
+        return view('humanresources.personal-educations.index', compact('paths', 'title', 'items'));
     }
 
     /**

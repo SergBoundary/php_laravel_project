@@ -28,7 +28,6 @@ class CreateDocumentsTable extends Migration
             $table->timestamps(); // Поля с датой создания и датой изменения записи
             $table->softDeletes(); // Поле с датой удаления (исключения) записи из обслуживания
             
-            $table->foreign('document_id')->references('id')->on('documents');
             $table->foreign('document_type_id')->references('id')->on('document_types');
             $table->foreign('personal_card_id')->references('id')->on('personal_cards');
             $table->foreign('create_user_id')->references('id')->on('users');

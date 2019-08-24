@@ -16,12 +16,15 @@ class LastJobsController extends BaseHumanResourcesController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $title = 'Предыдущие места работы'; 
+        $url = $request->path();
+        
+        $paths = $this->createMenu($url);
+        $title = $paths->where('url', $url)->first(); 
         $items = LastJobs::all(); 
         
-        return view('humanresources.last-jobs.index', compact('title', 'items'));
+        return view('humanresources.last-jobs.index', compact('paths', 'title', 'items'));
     }
 
     /**

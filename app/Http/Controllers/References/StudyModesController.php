@@ -16,12 +16,15 @@ class StudyModesController extends BaseReferencesController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $title = 'Режимы (формы) обучения'; 
+        $url = $request->path();
+        
+        $paths = $this->createMenu($url);
+        $title = $paths->where('url', $url)->first();
         $items = StudyModes::all(); 
         
-        return view('references.study-modes.index', compact('title', 'items'));
+        return view('references.study-modes.index', compact('paths', 'title', 'items'));
     }
 
     /**

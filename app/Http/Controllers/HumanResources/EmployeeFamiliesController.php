@@ -16,12 +16,15 @@ class EmployeeFamiliesController extends BaseHumanResourcesController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $title = 'Близкое окружение работника'; 
+        $url = $request->path();
+        
+        $paths = $this->createMenu($url);
+        $title = $paths->where('url', $url)->first();
         $items = EmployeeFamilies::all(); 
         
-        return view('humanresources.employee-families.index', compact('title', 'items'));
+        return view('humanresources.employee-families.index', compact('paths', 'title', 'items'));
     }
 
     /**

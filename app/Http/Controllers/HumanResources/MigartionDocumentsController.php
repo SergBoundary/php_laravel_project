@@ -16,12 +16,15 @@ class MigartionDocumentsController extends BaseHumanResourcesController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $title = 'Документы работника для легализации пребывания'; 
+        $url = $request->path();
+        
+        $paths = $this->createMenu($url);
+        $title = $paths->where('url', $url)->first();
         $items = MigartionDocuments::all(); 
         
-        return view('humanresources.migartion-documents.index', compact('title', 'items'));
+        return view('humanresources.migartion-documents.index', compact('paths', 'title', 'items'));
     }
 
     /**

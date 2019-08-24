@@ -16,12 +16,15 @@ class RestoreDatabasesController extends BaseSettingsController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $title = 'Настройки восстановления базы данных'; 
+        $url = $request->path();
+        
+        $paths = $this->createMenu($url);
+        $title = $paths->where('url', $url)->first();
         $items = RestoreDatabases::all(); 
         
-        return view('settings.restore-databases.index', compact('title', 'items'));
+        return view('settings.restore-databases.index', compact('paths', 'title', 'items'));
     }
 
     /**

@@ -16,12 +16,15 @@ class AccountsController extends BaseReferencesController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $title = 'Бухгалтерские счета'; 
+        $url = $request->path();
+        
+        $paths = $this->createMenu($url);
+        $title = $paths->where('url', $url)->first();
         $items = Accounts::all(); 
         
-        return view('references.accounts.index', compact('title', 'items'));
+        return view('references.accounts.index', compact('paths', 'title', 'items'));
     }
 
     /**

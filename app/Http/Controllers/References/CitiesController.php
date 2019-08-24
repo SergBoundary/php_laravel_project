@@ -16,12 +16,15 @@ class CitiesController extends BaseReferencesController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $title = 'Населенные пункты'; 
+        $url = $request->path();
+        
+        $paths = $this->createMenu($url);
+        $title = $paths->where('url', $url)->first();
         $items = Cities::all(); 
         
-        return view('references.cities.index', compact('title', 'items'));
+        return view('references.cities.index', compact('paths', 'title', 'items'));
     }
 
     /**

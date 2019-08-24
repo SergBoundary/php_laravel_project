@@ -16,12 +16,15 @@ class GroupingTypesOfAbsencesController extends BaseReferencesController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $title = 'Виды отсутствия на работе'; 
+        $url = $request->path();
+        
+        $paths = $this->createMenu($url);
+        $title = $paths->where('url', $url)->first(); 
         $items = GroupingTypesOfAbsences::all(); 
         
-        return view('references.grouping-types-of-absences.index', compact('title', 'items'));
+        return view('references.grouping-types-of-absences.index', compact('paths', 'title', 'items'));
     }
 
     /**

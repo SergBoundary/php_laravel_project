@@ -16,12 +16,15 @@ class DismissalReasonsController extends BaseReferencesController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $title = 'Основания увольнения работника'; 
+        $url = $request->path();
+        
+        $paths = $this->createMenu($url);
+        $title = $paths->where('url', $url)->first();
         $items = DismissalReasons::all(); 
         
-        return view('references.dismissal-reasons.index', compact('title', 'items'));
+        return view('references.dismissal-reasons.index', compact('paths', 'title', 'items'));
     }
 
     /**

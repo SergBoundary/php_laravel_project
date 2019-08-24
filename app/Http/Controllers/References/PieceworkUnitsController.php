@@ -16,12 +16,15 @@ class PieceworkUnitsController extends BaseReferencesController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $title = 'Единицы изменерия сдельных работ'; 
+        $url = $request->path();
+        
+        $paths = $this->createMenu($url);
+        $title = $paths->where('url', $url)->first();
         $items = PieceworkUnits::all(); 
         
-        return view('references.piecework-units.index', compact('title', 'items'));
+        return view('references.piecework-units.index', compact('paths', 'title', 'items'));
     }
 
     /**

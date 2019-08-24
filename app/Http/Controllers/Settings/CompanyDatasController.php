@@ -16,12 +16,15 @@ class CompanyDatasController extends BaseSettingsController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $title = 'Реквизиты компании'; 
+        $url = $request->path();
+        
+        $paths = $this->createMenu($url);
+        $title = $paths->where('url', $url)->first();
         $items = CompanyDatas::all(); 
         
-        return view('settings.company-datas.index', compact('title', 'items'));
+        return view('settings.company-datas.index', compact('paths', 'title', 'items'));
     }
 
     /**

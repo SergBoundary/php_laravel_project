@@ -16,12 +16,15 @@ class PositionsController extends BaseReferencesController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $title = 'Должности'; 
+        $url = $request->path();
+        
+        $paths = $this->createMenu($url);
+        $title = $paths->where('url', $url)->first();
         $items = Positions::all(); 
         
-        return view('references.positions.index', compact('title', 'items'));
+        return view('references.positions.index', compact('paths', 'title', 'items'));
     }
 
     /**

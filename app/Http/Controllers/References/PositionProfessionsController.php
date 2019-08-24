@@ -16,12 +16,15 @@ class PositionProfessionsController extends BaseReferencesController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $title = 'Государственный классификатор профессий'; 
+        $url = $request->path();
+        
+        $paths = $this->createMenu($url);
+        $title = $paths->where('url', $url)->first();
         $items = PositionProfessions::all(); 
         
-        return view('references.position-professions.index', compact('title', 'items'));
+        return view('references.position-professions.index', compact('paths', 'title', 'items'));
     }
 
     /**

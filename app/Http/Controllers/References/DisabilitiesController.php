@@ -16,12 +16,15 @@ class DisabilitiesController extends BaseReferencesController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $title = 'Группы инвалидности'; 
+        $url = $request->path();
+        
+        $paths = $this->createMenu($url);
+        $title = $paths->where('url', $url)->first();
         $items = Disabilities::all(); 
         
-        return view('references.disabilities.index', compact('title', 'items'));
+        return view('references.disabilities.index', compact('paths', 'title', 'items'));
     }
 
     /**

@@ -16,12 +16,15 @@ class PersonalPasportsController extends BaseHumanResourcesController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $title = 'Паспорта работника'; 
+        $url = $request->path();
+        
+        $paths = $this->createMenu($url);
+        $title = $paths->where('url', $url)->first();
         $items = PersonalPasports::all(); 
         
-        return view('humanresources.personal-pasports.index', compact('title', 'items'));
+        return view('humanresources.personal-pasports.index', compact('paths', 'title', 'items'));
     }
 
     /**
