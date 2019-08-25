@@ -15,7 +15,9 @@ class CreateCurrenciesTable extends Migration
     {
         Schema::create('currencies', function (Blueprint $table) {
             $table->increments('id'); // ID записи
-            $table->string('title', 10)->unique(); // Наименование валюты
+            $table->string('title', 30)->unique(); // Наименование валюты
+            $table->char('symbol', 3)->unique(); // Символьный код валюты
+            $table->char('number', 3)->unique(); // Номерной код валюты
             $table->timestamps(); // Поля с датой создания и датой изменения записи
             $table->softDeletes(); // Поле с датой удаления (исключения) записи из обслуживания
         });

@@ -18,6 +18,7 @@ class CreateRegionsTable extends Migration
             $table->integer('country_id')->unsigned(); // Код страны
             $table->integer('district_id')->unsigned(); // Код области
             $table->string('title', 50)->unique(); // Наименование района
+            $table->string('national_name', 50)->unique()->nullable(); // Национальное наименование района
             $table->timestamps(); // Поля с датой создания и датой изменения записи
             $table->softDeletes(); // Поле с датой удаления (исключения) записи из обслуживания
             

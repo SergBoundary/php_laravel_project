@@ -4,6 +4,7 @@
 /storage/*.key
 /vendor
 /nbproject
+/folder_tmp
 .env
 .env.backup
 .phpunit.result.cache

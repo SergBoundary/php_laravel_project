@@ -19,6 +19,7 @@ class CreateCitiesTable extends Migration
             $table->integer('district_id')->unsigned(); // Код области
             $table->integer('region_id')->unsigned(); // Код района
             $table->string('title', 100)->unique(); // Название населенного пункта
+            $table->string('national_name', 100)->unique()->nullable(); // Национальное наименование населенного пункта
             $table->timestamps(); // Поля с датой создания и датой изменения записи
             $table->softDeletes(); // Поле с датой удаления (исключения) записи из обслуживания
             

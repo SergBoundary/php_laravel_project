@@ -16,7 +16,9 @@ class CreateDistrictsTable extends Migration
         Schema::create('districts', function (Blueprint $table) {
             $table->increments('id'); // ID записи
             $table->integer('country_id')->unsigned(); // Код страны
-            $table->string('title', 30)->unique(); // Наименование области (штата, земли, воевудства)
+            $table->string('title', 50)->unique(); // Наименование области (штата, земли, воевудства)
+            $table->string('national_name', 50)->unique()->nullable(); // Национальное наименование областии (штата, земли, воевудства)
+            $table->char('number_iso', 8)->nullable(); // Международный код области (штата, земли, воевудства)
             $table->timestamps(); // Поля с датой создания и датой изменения записи
             $table->softDeletes(); // Поле с датой удаления (исключения) записи из обслуживания
             
