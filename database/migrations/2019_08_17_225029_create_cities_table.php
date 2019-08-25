@@ -25,7 +25,6 @@ class CreateCitiesTable extends Migration
             
             $table->foreign('country_id')->references('id')->on('countries');
             $table->foreign('district_id')->references('id')->on('districts');
-            $table->foreign('region_id')->references('id')->on('regions');
         });
     }
 

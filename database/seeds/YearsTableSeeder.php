@@ -13,307 +13,307 @@ class YearsTableSeeder extends Seeder
     {
         $data = [
             [
-                'title' => '1950',
+                'number' => '1950',
                 'created_at' => now(),
             ],
             [
-                'title' => '1951',
+                'number' => '1951',
                 'created_at' => now(),
             ],
             [
-                'title' => '1952',
+                'number' => '1952',
                 'created_at' => now(),
             ],
             [
-                'title' => '1953',
+                'number' => '1953',
                 'created_at' => now(),
             ],
             [
-                'title' => '1954',
+                'number' => '1954',
                 'created_at' => now(),
             ],
             [
-                'title' => '1955',
+                'number' => '1955',
                 'created_at' => now(),
             ],
             [
-                'title' => '1956',
+                'number' => '1956',
                 'created_at' => now(),
             ],
             [
-                'title' => '1957',
+                'number' => '1957',
                 'created_at' => now(),
             ],
             [
-                'title' => '1958',
+                'number' => '1958',
                 'created_at' => now(),
             ],
             [
-                'title' => '1959',
+                'number' => '1959',
                 'created_at' => now(),
             ],
             [
-                'title' => '1960',
+                'number' => '1960',
                 'created_at' => now(),
             ],
             [
-                'title' => '1961',
+                'number' => '1961',
                 'created_at' => now(),
             ],
             [
-                'title' => '1962',
+                'number' => '1962',
                 'created_at' => now(),
             ],
             [
-                'title' => '1963',
+                'number' => '1963',
                 'created_at' => now(),
             ],
             [
-                'title' => '1964',
+                'number' => '1964',
                 'created_at' => now(),
             ],
             [
-                'title' => '1965',
+                'number' => '1965',
                 'created_at' => now(),
             ],
             [
-                'title' => '1966',
+                'number' => '1966',
                 'created_at' => now(),
             ],
             [
-                'title' => '1967',
+                'number' => '1967',
                 'created_at' => now(),
             ],
             [
-                'title' => '1968',
+                'number' => '1968',
                 'created_at' => now(),
             ],
             [
-                'title' => '1969',
+                'number' => '1969',
                 'created_at' => now(),
             ],
             [
-                'title' => '1970',
+                'number' => '1970',
                 'created_at' => now(),
             ],
             [
-                'title' => '1971',
+                'number' => '1971',
                 'created_at' => now(),
             ],
             [
-                'title' => '1972',
+                'number' => '1972',
                 'created_at' => now(),
             ],
             [
-                'title' => '1973',
+                'number' => '1973',
                 'created_at' => now(),
             ],
             [
-                'title' => '1974',
+                'number' => '1974',
                 'created_at' => now(),
             ],
             [
-                'title' => '1975',
+                'number' => '1975',
                 'created_at' => now(),
             ],
             [
-                'title' => '1976',
+                'number' => '1976',
                 'created_at' => now(),
             ],
             [
-                'title' => '1977',
+                'number' => '1977',
                 'created_at' => now(),
             ],
             [
-                'title' => '1978',
+                'number' => '1978',
                 'created_at' => now(),
             ],
             [
-                'title' => '1979',
+                'number' => '1979',
                 'created_at' => now(),
             ],
             [
-                'title' => '1980',
+                'number' => '1980',
                 'created_at' => now(),
             ],
             [
-                'title' => '1981',
+                'number' => '1981',
                 'created_at' => now(),
             ],
             [
-                'title' => '1982',
+                'number' => '1982',
                 'created_at' => now(),
             ],
             [
-                'title' => '1983',
+                'number' => '1983',
                 'created_at' => now(),
             ],
             [
-                'title' => '1984',
+                'number' => '1984',
                 'created_at' => now(),
             ],
             [
-                'title' => '1985',
+                'number' => '1985',
                 'created_at' => now(),
             ],
             [
-                'title' => '1986',
+                'number' => '1986',
                 'created_at' => now(),
             ],
             [
-                'title' => '1987',
+                'number' => '1987',
                 'created_at' => now(),
             ],
             [
-                'title' => '1988',
+                'number' => '1988',
                 'created_at' => now(),
             ],
             [
-                'title' => '1989',
+                'number' => '1989',
                 'created_at' => now(),
             ],
             [
-                'title' => '1990',
+                'number' => '1990',
                 'created_at' => now(),
             ],
             [
-                'title' => '1991',
+                'number' => '1991',
                 'created_at' => now(),
             ],
             [
-                'title' => '1992',
+                'number' => '1992',
                 'created_at' => now(),
             ],
             [
-                'title' => '1993',
+                'number' => '1993',
                 'created_at' => now(),
             ],
             [
-                'title' => '1994',
+                'number' => '1994',
                 'created_at' => now(),
             ],
             [
-                'title' => '1995',
+                'number' => '1995',
                 'created_at' => now(),
             ],
             [
-                'title' => '1996',
+                'number' => '1996',
                 'created_at' => now(),
             ],
             [
-                'title' => '1997',
+                'number' => '1997',
                 'created_at' => now(),
             ],
             [
-                'title' => '1998',
+                'number' => '1998',
                 'created_at' => now(),
             ],
             [
-                'title' => '1999',
+                'number' => '1999',
                 'created_at' => now(),
             ],
             [
-                'title' => '2000',
+                'number' => '2000',
                 'created_at' => now(),
             ],
             [
-                'title' => '2001',
+                'number' => '2001',
                 'created_at' => now(),
             ],
             [
-                'title' => '2002',
+                'number' => '2002',
                 'created_at' => now(),
             ],
             [
-                'title' => '2003',
+                'number' => '2003',
                 'created_at' => now(),
             ],
             [
-                'title' => '2004',
+                'number' => '2004',
                 'created_at' => now(),
             ],
             [
-                'title' => '2005',
+                'number' => '2005',
                 'created_at' => now(),
             ],
             [
-                'title' => '2006',
+                'number' => '2006',
                 'created_at' => now(),
             ],
             [
-                'title' => '2007',
+                'number' => '2007',
                 'created_at' => now(),
             ],
             [
-                'title' => '2008',
+                'number' => '2008',
                 'created_at' => now(),
             ],
             [
-                'title' => '2009',
+                'number' => '2009',
                 'created_at' => now(),
             ],
             [
-                'title' => '2010',
+                'number' => '2010',
                 'created_at' => now(),
             ],
             [
-                'title' => '2011',
+                'number' => '2011',
                 'created_at' => now(),
             ],
             [
-                'title' => '2012',
+                'number' => '2012',
                 'created_at' => now(),
             ],
             [
-                'title' => '2013',
+                'number' => '2013',
                 'created_at' => now(),
             ],
             [
-                'title' => '2014',
+                'number' => '2014',
                 'created_at' => now(),
             ],
             [
-                'title' => '2015',
+                'number' => '2015',
                 'created_at' => now(),
             ],
             [
-                'title' => '2016',
+                'number' => '2016',
                 'created_at' => now(),
             ],
             [
-                'title' => '2017',
+                'number' => '2017',
                 'created_at' => now(),
             ],
             [
-                'title' => '2018',
+                'number' => '2018',
                 'created_at' => now(),
             ],
             [
-                'title' => '2019',
+                'number' => '2019',
                 'created_at' => now(),
             ],
             [
-                'title' => '2020',
+                'number' => '2020',
                 'created_at' => now(),
             ],
             [
-                'title' => '2021',
+                'number' => '2021',
                 'created_at' => now(),
             ],
             [
-                'title' => '2022',
+                'number' => '2022',
                 'created_at' => now(),
             ],
             [
-                'title' => '2023',
+                'number' => '2023',
                 'created_at' => now(),
             ],
             [
-                'title' => '2024',
+                'number' => '2024',
                 'created_at' => now(),
             ],
             [
-                'title' => '2025',
+                'number' => '2025',
                 'created_at' => now(),
             ],
         ];

@@ -15,7 +15,7 @@ class CreateYearsTable extends Migration
     {
         Schema::create('years', function (Blueprint $table) {
             $table->increments('id'); // ID записи
-            $table->tinyInteger('number')->unique(); // Число года
+            $table->smallInteger('number')->unique(); // Число года
             $table->timestamps(); // Поля с датой создания и датой изменения записи
             $table->softDeletes(); // Поле с датой удаления (исключения) записи из обслуживания
         });
