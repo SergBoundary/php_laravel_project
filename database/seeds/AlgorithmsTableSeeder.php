@@ -13,307 +13,95 @@ class AlgorithmsTableSeeder extends Seeder
     {
         $data = [
             [
-                'number' => '1950',
+                'title' => 'Сумма',
                 'created_at' => now(),
             ],
             [
-                'number' => '1951',
+                'title' => 'Оклад по дням',
                 'created_at' => now(),
             ],
             [
-                'number' => '1952',
+                'title' => 'Тариф',
                 'created_at' => now(),
             ],
             [
-                'number' => '1953',
+                'title' => 'Сдельно',
                 'created_at' => now(),
             ],
             [
-                'number' => '1954',
+                'title' => 'Больничные',
                 'created_at' => now(),
             ],
             [
-                'number' => '1955',
+                'title' => 'Отускные',
                 'created_at' => now(),
             ],
             [
-                'number' => '1956',
+                'title' => 'Средний за год',
                 'created_at' => now(),
             ],
             [
-                'number' => '1957',
+                'title' => 'Средний 2-х мес.',
                 'created_at' => now(),
             ],
             [
-                'number' => '1958',
+                'title' => 'Средний прошлого месяца',
                 'created_at' => now(),
             ],
             [
-                'number' => '1959',
+                'title' => 'Процент от суммы',
                 'created_at' => now(),
             ],
             [
-                'number' => '1960',
+                'title' => 'Депонент',
                 'created_at' => now(),
             ],
             [
-                'number' => '1961',
+                'title' => 'Часть от суммы',
                 'created_at' => now(),
             ],
             [
-                'number' => '1962',
+                'title' => 'По шкале за месяц',
                 'created_at' => now(),
             ],
             [
-                'number' => '1963',
+                'title' => 'Долг на начало месяца',
                 'created_at' => now(),
             ],
             [
-                'number' => '1964',
+                'title' => 'Долг на конец месяца',
                 'created_at' => now(),
             ],
             [
-                'number' => '1965',
+                'title' => 'Процент от прош.месяца',
                 'created_at' => now(),
             ],
             [
-                'number' => '1966',
+                'title' => 'Процент за квартал',
                 'created_at' => now(),
             ],
             [
-                'number' => '1967',
+                'title' => 'По шкале итог',
                 'created_at' => now(),
             ],
             [
-                'number' => '1968',
+                'title' => 'Оклад по часам',
                 'created_at' => now(),
             ],
             [
-                'number' => '1969',
+                'title' => 'Подоходный по шкале месяц',
                 'created_at' => now(),
             ],
             [
-                'number' => '1970',
+                'title' => 'Подоходный по шкале итого',
                 'created_at' => now(),
             ],
             [
-                'number' => '1971',
+                'title' => 'Процент от тарифа',
                 'created_at' => now(),
             ],
             [
-                'number' => '1972',
-                'created_at' => now(),
-            ],
-            [
-                'number' => '1973',
-                'created_at' => now(),
-            ],
-            [
-                'number' => '1974',
-                'created_at' => now(),
-            ],
-            [
-                'number' => '1975',
-                'created_at' => now(),
-            ],
-            [
-                'number' => '1976',
-                'created_at' => now(),
-            ],
-            [
-                'number' => '1977',
-                'created_at' => now(),
-            ],
-            [
-                'number' => '1978',
-                'created_at' => now(),
-            ],
-            [
-                'number' => '1979',
-                'created_at' => now(),
-            ],
-            [
-                'number' => '1980',
-                'created_at' => now(),
-            ],
-            [
-                'number' => '1981',
-                'created_at' => now(),
-            ],
-            [
-                'number' => '1982',
-                'created_at' => now(),
-            ],
-            [
-                'number' => '1983',
-                'created_at' => now(),
-            ],
-            [
-                'number' => '1984',
-                'created_at' => now(),
-            ],
-            [
-                'number' => '1985',
-                'created_at' => now(),
-            ],
-            [
-                'number' => '1986',
-                'created_at' => now(),
-            ],
-            [
-                'number' => '1987',
-                'created_at' => now(),
-            ],
-            [
-                'number' => '1988',
-                'created_at' => now(),
-            ],
-            [
-                'number' => '1989',
-                'created_at' => now(),
-            ],
-            [
-                'number' => '1990',
-                'created_at' => now(),
-            ],
-            [
-                'number' => '1991',
-                'created_at' => now(),
-            ],
-            [
-                'number' => '1992',
-                'created_at' => now(),
-            ],
-            [
-                'number' => '1993',
-                'created_at' => now(),
-            ],
-            [
-                'number' => '1994',
-                'created_at' => now(),
-            ],
-            [
-                'number' => '1995',
-                'created_at' => now(),
-            ],
-            [
-                'number' => '1996',
-                'created_at' => now(),
-            ],
-            [
-                'number' => '1997',
-                'created_at' => now(),
-            ],
-            [
-                'number' => '1998',
-                'created_at' => now(),
-            ],
-            [
-                'number' => '1999',
-                'created_at' => now(),
-            ],
-            [
-                'number' => '2000',
-                'created_at' => now(),
-            ],
-            [
-                'number' => '2001',
-                'created_at' => now(),
-            ],
-            [
-                'number' => '2002',
-                'created_at' => now(),
-            ],
-            [
-                'number' => '2003',
-                'created_at' => now(),
-            ],
-            [
-                'number' => '2004',
-                'created_at' => now(),
-            ],
-            [
-                'number' => '2005',
-                'created_at' => now(),
-            ],
-            [
-                'number' => '2006',
-                'created_at' => now(),
-            ],
-            [
-                'number' => '2007',
-                'created_at' => now(),
-            ],
-            [
-                'number' => '2008',
-                'created_at' => now(),
-            ],
-            [
-                'number' => '2009',
-                'created_at' => now(),
-            ],
-            [
-                'number' => '2010',
-                'created_at' => now(),
-            ],
-            [
-                'number' => '2011',
-                'created_at' => now(),
-            ],
-            [
-                'number' => '2012',
-                'created_at' => now(),
-            ],
-            [
-                'number' => '2013',
-                'created_at' => now(),
-            ],
-            [
-                'number' => '2014',
-                'created_at' => now(),
-            ],
-            [
-                'number' => '2015',
-                'created_at' => now(),
-            ],
-            [
-                'number' => '2016',
-                'created_at' => now(),
-            ],
-            [
-                'number' => '2017',
-                'created_at' => now(),
-            ],
-            [
-                'number' => '2018',
-                'created_at' => now(),
-            ],
-            [
-                'number' => '2019',
-                'created_at' => now(),
-            ],
-            [
-                'number' => '2020',
-                'created_at' => now(),
-            ],
-            [
-                'number' => '2021',
-                'created_at' => now(),
-            ],
-            [
-                'number' => '2022',
-                'created_at' => now(),
-            ],
-            [
-                'number' => '2023',
-                'created_at' => now(),
-            ],
-            [
-                'number' => '2024',
-                'created_at' => now(),
-            ],
-            [
-                'number' => '2025',
+                'title' => 'Доплата до мин.зп.',
                 'created_at' => now(),
             ],
         ];
