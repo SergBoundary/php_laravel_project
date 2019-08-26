@@ -6,15 +6,15 @@
         <div class="col-md-10">
             <div class="card">
                 <div class="card-header">{{$title['name']}}</div>
-                <div class="card-body">
+                <ul class="list-group list-group-flush">
                     @if(count($items) > 0)
                         @foreach($items as $item)
-                            <p>Запись #{{ $item->id }}</p>
+                        <li class="list-group-item">{{ $item->title }}</li>
                         @endforeach
                     @else
                         <em>Данные отсутствуют..</em>
                     @endif
-                </div>
+                </ul>
                 
             </div>
         </div>
