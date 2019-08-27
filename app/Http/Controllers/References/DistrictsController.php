@@ -86,7 +86,7 @@ class DistrictsController extends BaseReferencesController
      */
     public function update(Request $request, $id)
     {
-        //
+        dd(__METHOD__, $request, $id);
     }
 
     /**

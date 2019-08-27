@@ -12,7 +12,7 @@
                     <div class="card-header"><h3>{{$title['name']}}</h3></div>
                     <div class="card-body">
 
-                        <form method="POST" action="{{ route('register') }}">
+                        <form method="POST" action="{{ route('ref.districts.update', $districts->id) }}">
                             @method('PATCH')
                             @csrf
                             <div class="row justify-content-center">
