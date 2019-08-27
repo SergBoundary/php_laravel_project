@@ -1104,7 +1104,7 @@ class MenusTableSeeder extends Seeder
             [
                 'parent_id' => 94,
                 'sort' => 6,
-                'name' => 'Области (штатов, земель, воевудств)',
+                'name' => 'Области (штаты, земели, воевудства)',
                 'url' => 'ref/districts',
                 'access_0' => 2,
                 'access_1' => 2,

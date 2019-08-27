@@ -16,14 +16,18 @@ class MenuController extends BaseSettingsController
      *
      * @return \Illuminate\Http\Response
      */
+    
+    protected $url;
+    
     public function index(Request $request)
     {
-        $url = $request->path();
+        $this->url = $request->path();
         
-        $paths = $this->createMenu($url);
+        $paths = $this->createMenu($this->url);
+        $title = $paths->where('url', $this->url)->first();
         $parent = $paths->last();
         $items = Menu::where('parent_id', $parent['id'])->orderBy('sort')->get();
         
-        return view('menu', compact('paths', 'items'));
+        return view('menu', compact('title', 'paths', 'items'));
     }
 }

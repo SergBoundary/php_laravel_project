@@ -14,6 +14,7 @@ class CountriesTableSeeder extends Seeder
         $data = [
             [
                 'title' => 'Австрия',
+                'national_name' => 'Österreich',
                 'symbol_alfa2' => 'AT',
                 'symbol_alfa3' => 'AUT',
                 'number_iso' => '040',
@@ -22,6 +23,7 @@ class CountriesTableSeeder extends Seeder
             ],
             [
                 'title' => 'Албания',
+                'national_name' => 'Shqipëria',
                 'symbol_alfa2' => 'AL',
                 'symbol_alfa3' => 'ALB',
                 'number_iso' => '008',
@@ -30,6 +32,7 @@ class CountriesTableSeeder extends Seeder
             ],
             [
                 'title' => 'Андорра',
+                'national_name' => 'Andorra',
                 'symbol_alfa2' => 'AD',
                 'symbol_alfa3' => 'AND',
                 'number_iso' => '020',
@@ -38,6 +41,7 @@ class CountriesTableSeeder extends Seeder
             ],
             [
                 'title' => 'Беларусь',
+                'national_name' => 'Беларусь',
                 'symbol_alfa2' => 'BY',
                 'symbol_alfa3' => 'BLR',
                 'number_iso' => '112',
@@ -46,6 +50,7 @@ class CountriesTableSeeder extends Seeder
             ],
             [
                 'title' => 'Бельгия',
+                'national_name' => 'België',
                 'symbol_alfa2' => 'BE',
                 'symbol_alfa3' => 'BEL',
                 'number_iso' => '056',
@@ -54,6 +59,7 @@ class CountriesTableSeeder extends Seeder
             ],
             [
                 'title' => 'Болгария',
+                'national_name' => 'България',
                 'symbol_alfa2' => 'BG',
                 'symbol_alfa3' => 'BGR',
                 'number_iso' => '100',
@@ -62,6 +68,7 @@ class CountriesTableSeeder extends Seeder
             ],
             [
                 'title' => 'Босния и Герцеговина',
+                'national_name' => 'Bosna i Hercegovina',
                 'symbol_alfa2' => 'BA',
                 'symbol_alfa3' => 'BIH',
                 'number_iso' => '070',
@@ -69,7 +76,17 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
+                'title' => 'Великобритания',
+                'national_name' => 'United Kingdom',
+                'symbol_alfa2' => 'GB',
+                'symbol_alfa3' => 'GBR',
+                'number_iso' => '826',
+                'visible' => 0,
+                'created_at' => now(),
+            ],
+            [
                 'title' => 'Венгрия',
+                'national_name' => 'Magyarország ',
                 'symbol_alfa2' => 'HU',
                 'symbol_alfa3' => 'HUN',
                 'number_iso' => '348',
@@ -78,6 +95,7 @@ class CountriesTableSeeder extends Seeder
             ],
             [
                 'title' => 'Германия',
+                'national_name' => 'Deutschland',
                 'symbol_alfa2' => 'DE',
                 'symbol_alfa3' => 'DEU',
                 'number_iso' => '276',
@@ -86,6 +104,7 @@ class CountriesTableSeeder extends Seeder
             ],
             [
                 'title' => 'Греция',
+                'national_name' => NULL,
                 'symbol_alfa2' => 'GR',
                 'symbol_alfa3' => 'GRC',
                 'number_iso' => '300',
@@ -94,6 +113,7 @@ class CountriesTableSeeder extends Seeder
             ],
             [
                 'title' => 'Дания',
+                'national_name' => NULL,
                 'symbol_alfa2' => 'DK',
                 'symbol_alfa3' => 'DNK',
                 'number_iso' => '208',
@@ -102,6 +122,7 @@ class CountriesTableSeeder extends Seeder
             ],
             [
                 'title' => 'Ирландия',
+                'national_name' => NULL,
                 'symbol_alfa2' => 'IE',
                 'symbol_alfa3' => 'IRL',
                 'number_iso' => '372',
@@ -110,6 +131,7 @@ class CountriesTableSeeder extends Seeder
             ],
             [
                 'title' => 'Исландия',
+                'national_name' => NULL,
                 'symbol_alfa2' => 'IS',
                 'symbol_alfa3' => 'ISL',
                 'number_iso' => '352',
@@ -118,6 +140,7 @@ class CountriesTableSeeder extends Seeder
             ],
             [
                 'title' => 'Испания',
+                'national_name' => NULL,
                 'symbol_alfa2' => 'ES',
                 'symbol_alfa3' => 'ESP',
                 'number_iso' => '724',
@@ -126,6 +149,7 @@ class CountriesTableSeeder extends Seeder
             ],
             [
                 'title' => 'Италия',
+                'national_name' => NULL,
                 'symbol_alfa2' => 'IT',
                 'symbol_alfa3' => 'ITA',
                 'number_iso' => '380',
@@ -134,6 +158,7 @@ class CountriesTableSeeder extends Seeder
             ],
             [
                 'title' => 'Латвия',
+                'national_name' => NULL,
                 'symbol_alfa2' => 'LV',
                 'symbol_alfa3' => 'LVA',
                 'number_iso' => '428',
@@ -142,6 +167,7 @@ class CountriesTableSeeder extends Seeder
             ],
             [
                 'title' => 'Литва',
+                'national_name' => NULL,
                 'symbol_alfa2' => 'LT',
                 'symbol_alfa3' => 'LTU',
                 'number_iso' => '440',
@@ -150,6 +176,7 @@ class CountriesTableSeeder extends Seeder
             ],
             [
                 'title' => 'Лихтенштейн',
+                'national_name' => NULL,
                 'symbol_alfa2' => 'LI',
                 'symbol_alfa3' => 'LIE',
                 'number_iso' => '438',
@@ -158,6 +185,7 @@ class CountriesTableSeeder extends Seeder
             ],
             [
                 'title' => 'Люксембург',
+                'national_name' => NULL,
                 'symbol_alfa2' => 'LU',
                 'symbol_alfa3' => 'LUX',
                 'number_iso' => '442',
@@ -166,6 +194,7 @@ class CountriesTableSeeder extends Seeder
             ],
             [
                 'title' => 'Македония',
+                'national_name' => NULL,
                 'symbol_alfa2' => 'MK',
                 'symbol_alfa3' => 'MKD',
                 'number_iso' => '807',
@@ -174,6 +203,7 @@ class CountriesTableSeeder extends Seeder
             ],
             [
                 'title' => 'Мальта',
+                'national_name' => NULL,
                 'symbol_alfa2' => 'MT',
                 'symbol_alfa3' => 'MLT',
                 'number_iso' => '470',
@@ -182,6 +212,7 @@ class CountriesTableSeeder extends Seeder
             ],
             [
                 'title' => 'Молдова',
+                'national_name' => NULL,
                 'symbol_alfa2' => 'MD',
                 'symbol_alfa3' => 'MDA',
                 'number_iso' => '498',
@@ -190,6 +221,7 @@ class CountriesTableSeeder extends Seeder
             ],
             [
                 'title' => 'Монако',
+                'national_name' => NULL,
                 'symbol_alfa2' => 'MC',
                 'symbol_alfa3' => 'MCO',
                 'number_iso' => '492',
@@ -198,6 +230,7 @@ class CountriesTableSeeder extends Seeder
             ],
             [
                 'title' => 'Нидерланды',
+                'national_name' => NULL,
                 'symbol_alfa2' => 'NL',
                 'symbol_alfa3' => 'NLD',
                 'number_iso' => '528',
@@ -206,6 +239,7 @@ class CountriesTableSeeder extends Seeder
             ],
             [
                 'title' => 'Норвегия',
+                'national_name' => NULL,
                 'symbol_alfa2' => 'NO',
                 'symbol_alfa3' => 'NOR',
                 'number_iso' => '578',
@@ -214,6 +248,7 @@ class CountriesTableSeeder extends Seeder
             ],
             [
                 'title' => 'Ватикан',
+                'national_name' => NULL,
                 'symbol_alfa2' => 'VA',
                 'symbol_alfa3' => 'VAT',
                 'number_iso' => '336',
@@ -222,6 +257,7 @@ class CountriesTableSeeder extends Seeder
             ],
             [
                 'title' => 'Польша',
+                'national_name' => 'Polska',
                 'symbol_alfa2' => 'PL',
                 'symbol_alfa3' => 'POL',
                 'number_iso' => '616',
@@ -230,6 +266,7 @@ class CountriesTableSeeder extends Seeder
             ],
             [
                 'title' => 'Португалия',
+                'national_name' => NULL,
                 'symbol_alfa2' => 'PT',
                 'symbol_alfa3' => 'PRT',
                 'number_iso' => '620',
@@ -238,6 +275,7 @@ class CountriesTableSeeder extends Seeder
             ],
             [
                 'title' => 'Россия',
+                'national_name' => NULL,
                 'symbol_alfa2' => 'RU',
                 'symbol_alfa3' => 'RUS',
                 'number_iso' => '643',
@@ -246,6 +284,7 @@ class CountriesTableSeeder extends Seeder
             ],
             [
                 'title' => 'Румыния',
+                'national_name' => NULL,
                 'symbol_alfa2' => 'RO',
                 'symbol_alfa3' => 'ROU',
                 'number_iso' => '642',
@@ -254,6 +293,7 @@ class CountriesTableSeeder extends Seeder
             ],
             [
                 'title' => 'Сан-Марино',
+                'national_name' => NULL,
                 'symbol_alfa2' => 'SM',
                 'symbol_alfa3' => 'SMR',
                 'number_iso' => '674',
@@ -262,6 +302,7 @@ class CountriesTableSeeder extends Seeder
             ],
             [
                 'title' => 'Сербия',
+                'national_name' => NULL,
                 'symbol_alfa2' => 'RS',
                 'symbol_alfa3' => 'SRB',
                 'number_iso' => '688',
@@ -270,6 +311,7 @@ class CountriesTableSeeder extends Seeder
             ],
             [
                 'title' => 'Словакия',
+                'national_name' => NULL,
                 'symbol_alfa2' => 'SK',
                 'symbol_alfa3' => 'SVK',
                 'number_iso' => '703',
@@ -278,6 +320,7 @@ class CountriesTableSeeder extends Seeder
             ],
             [
                 'title' => 'Словения',
+                'national_name' => NULL,
                 'symbol_alfa2' => 'SI',
                 'symbol_alfa3' => 'SVN',
                 'number_iso' => '705',
@@ -285,15 +328,8 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
-                'title' => 'Великобритания',
-                'symbol_alfa2' => 'GB',
-                'symbol_alfa3' => 'GBR',
-                'number_iso' => '826',
-                'visible' => 0,
-                'created_at' => now(),
-            ],
-            [
                 'title' => 'Украина',
+                'national_name' => 'Україна',
                 'symbol_alfa2' => 'UA',
                 'symbol_alfa3' => 'UKR',
                 'number_iso' => '804',
@@ -301,15 +337,8 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
-                'title' => 'Фарерские острова',
-                'symbol_alfa2' => 'FO',
-                'symbol_alfa3' => 'FRO',
-                'number_iso' => '234',
-                'visible' => 0,
-                'created_at' => now(),
-            ],
-            [
                 'title' => 'Финляндия',
+                'national_name' => NULL,
                 'symbol_alfa2' => 'FI',
                 'symbol_alfa3' => 'FIN',
                 'number_iso' => '246',
@@ -318,6 +347,7 @@ class CountriesTableSeeder extends Seeder
             ],
             [
                 'title' => 'Франция',
+                'national_name' => NULL,
                 'symbol_alfa2' => 'FR',
                 'symbol_alfa3' => 'FRA',
                 'number_iso' => '250',
@@ -326,6 +356,7 @@ class CountriesTableSeeder extends Seeder
             ],
             [
                 'title' => 'Хорватия',
+                'national_name' => NULL,
                 'symbol_alfa2' => 'HR',
                 'symbol_alfa3' => 'HRV',
                 'number_iso' => '191',
@@ -334,6 +365,7 @@ class CountriesTableSeeder extends Seeder
             ],
             [
                 'title' => 'Черногория',
+                'national_name' => NULL,
                 'symbol_alfa2' => 'ME',
                 'symbol_alfa3' => 'MNE',
                 'number_iso' => '499',
@@ -342,6 +374,7 @@ class CountriesTableSeeder extends Seeder
             ],
             [
                 'title' => 'Чехия',
+                'national_name' => NULL,
                 'symbol_alfa2' => 'CZ',
                 'symbol_alfa3' => 'CZE',
                 'number_iso' => '203',
@@ -350,6 +383,7 @@ class CountriesTableSeeder extends Seeder
             ],
             [
                 'title' => 'Швейцария',
+                'national_name' => NULL,
                 'symbol_alfa2' => 'CH',
                 'symbol_alfa3' => 'CHE',
                 'number_iso' => '756',
@@ -358,6 +392,7 @@ class CountriesTableSeeder extends Seeder
             ],
             [
                 'title' => 'Швеция',
+                'national_name' => NULL,
                 'symbol_alfa2' => 'SE',
                 'symbol_alfa3' => 'SWE',
                 'number_iso' => '752',
@@ -366,6 +401,7 @@ class CountriesTableSeeder extends Seeder
             ],
             [
                 'title' => 'Эстония',
+                'national_name' => NULL,
                 'symbol_alfa2' => 'EE',
                 'symbol_alfa3' => 'EST',
                 'number_iso' => '233',

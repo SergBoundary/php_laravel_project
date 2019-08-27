@@ -1,81 +1,76 @@
 @extends('layouts.layout')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-10">
-            <div class="card">
-                <div class="card-header">{{$title['name']}}</div>
-                <div class="card-body">
-                    
-                    <form method="POST" action="{{ route('register') }}">
-                        @csrf
+    @php 
+        /** @var App\Models\References\Districts $paths, $title, $items */
+        /** @var Illuminate\Database\Eloquent $countryList */
+    @endphp
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-10">
+                <div class="card">
+                    <div class="card-header"><h3>{{$title['name']}}</h3></div>
+                    <div class="card-body">
 
-                        <div class="form-group row">
-                            <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Name') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
-
-                                @error('name')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                        <form method="POST" action="{{ route('register') }}">
+                            @method('PATCH')
+                            @csrf
+                            <div class="row justify-content-center">
+                                <div class='form-group col-md-10'>
+                                    <label for='country_id'>Название страны</label>
+                                    <select name='country_id' value='{{ $districts->country_id }}' id='country_id' type='text' placeholder="Выберите страну" class="form-control @error('name') is-invalid @enderror" title='Наименование страны' required>
+                                    @foreach($countryList as $countryOption)
+                                    <option value="{{ $countryOption->id }}" 
+                                        @if($countryOption->id == $districts->country_id) selected @endif>
+                                        {{ $countryOption->id }}. {{ $countryOption->title }}
+                                    </option>
+                                    @endforeach
+                                    </select>
+                                    @error('country_id')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                                <div class='form-group col-md-10'>
+                                    <label for='title'>Название области</label>
+                                    <input name='title' value='{{ $districts->title }}' id='title' type='text' maxlength="50" class="form-control @error('name') is-invalid @enderror" title='Наименование области (штата, земли, воевудства)'>
+                                    @error('title')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                                <div class='form-group col-md-10'>
+                                    <label for='national_name'>Национальное название области</label>
+                                    <input name='national_name' value='{{ $districts->national_name }}' id='national_name' type='text' maxlength="50" class="form-control @error('name') is-invalid @enderror" title='Национальное наименование областии (штата, земли, воевудства)'>
+                                    @error('national_name')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                                <div class='form-group col-md-10'>
+                                    <label for='number_iso'>Код области</label>
+                                    <input name='number_iso' value='{{ $districts->number_iso }}' id='number_iso' type='text' maxlength="8" class="form-control @error('name') is-invalid @enderror" title='Международный код области (штата, земли, воевудства)'>
+                                    @error('number_iso')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                                <div class='form-group col-md-10'>
+                                    <button type="submit" class="btn btn-secondary float-left">
+                                        {{ __('Сохранить') }}
+                                    </button>
+                                    <a class='btn btn-outline-secondary float-left' style="margin-left: 10px;" href='{{ url('ref/districts') }}'>{{ __('Отмена') }}</a><br>
+                                </div>
                             </div>
-                        </div>
+                        </form>
+                    </div>
 
-                        <div class="form-group row">
-                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
-
-                                @error('email')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
-
-                                @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Confirm Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
-                            </div>
-                            <button type="submit" class="btn btn-primary">
-                                +
-                            </button>
-                        </div>
-
-                        <div class="form-group row mb-0">
-                            <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Register') }}
-                                </button>
-                            </div>
-                        </div>
-                    </form>
                 </div>
-                
             </div>
         </div>
-    </div>
-</div>            
+    </div>            
 @endsection

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\References;
 
 use Illuminate\Http\Request;
 use App\Models\References\Districts;
+use App\Models\References\Countries;
 
 /**
  * Контроллер списка областей (штатов, земель, воевудств)
@@ -16,15 +17,16 @@ class DistrictsController extends BaseReferencesController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    
+    protected $url = 'ref/districts';
+    
+    public function index()
     {
-        $url = $request->path();
-        
-        $paths = $this->createMenu($url);
-        $title = $paths->where('url', $url)->first();
+        $paths = $this->createMenu($this->url);
+        $title = $paths->where('url', $this->url)->first();
         $items = Districts::all(); 
         
-        return view('references.districts.index', compact('paths', 'title', 'items'));
+        return view('references.districts.index', compact('title', 'paths', 'items'));
     }
 
     /**
@@ -65,9 +67,14 @@ class DistrictsController extends BaseReferencesController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($id, Request $request)
     {
-        //
+        $paths = $this->createMenu($this->url);
+        $title = $paths->where('url', $this->url)->first();
+        $districts = Districts::find($id);
+        $countryList = Countries::all();
+        
+        return view('references.districts.edit', compact('paths', 'title', 'districts', 'countryList'));
     }
 
     /**
