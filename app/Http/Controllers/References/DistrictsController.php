@@ -22,11 +22,12 @@ class DistrictsController extends BaseReferencesController
     
     public function index()
     {
+//        $this->show(4);
         $paths = $this->createMenu($this->url);
         $title = $paths->where('url', $this->url)->first();
-        $items = Districts::all(); 
+        $countryList = Countries::where('visible', 1)->get();
         
-        return view('references.districts.index', compact('title', 'paths', 'items'));
+        return view('references.districts.index', compact('paths', 'title', 'countryList'));
     }
 
     /**
@@ -58,7 +59,13 @@ class DistrictsController extends BaseReferencesController
      */
     public function show($id)
     {
-        //
+        $paths = $this->createMenu($this->url);
+        $title = $paths->where('url', $this->url)->first();
+        $countryRow = Countries::where('id', $id)->first();
+        $districtList = Districts::where('country_id', $id)->get();
+        
+        return view('references.districts.show', 
+                compact('paths', 'title', 'countryRow', 'districtList'));
     }
 
     /**
@@ -86,7 +93,26 @@ class DistrictsController extends BaseReferencesController
      */
     public function update(Request $request, $id)
     {
-        dd(__METHOD__, $request, $id);
+//        $id = 11111;
+        $districts = Districts::find($id);
+//        dd($districts);
+        if(empty($districts)) {
+            return back()
+                ->withErrors(['msg' => "Запись #{$id} не найдена.."])
+                ->withInput();
+        }
+        $data = $request->all();
+//        dd($data);
+        $result = $districts->fill($data)->save();
+        if($result) {
+            return redirect()
+                ->route('ref.districts.edit', $districts->id)
+                ->with(['success' => "Успешносохранено"]);
+        } else {
+            return back()
+                ->withErrors(['msg' => "Ошибка сохранения.."])
+                ->withInput();
+        }
     }
 
     /**

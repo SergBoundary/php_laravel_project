@@ -12,4 +12,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Districts extends Model
 {
     use SoftDeletes;
+    
+    protected $fillable = [
+        'country_id',
+        'title',
+        'national_name',
+        'number_iso',  
+    ];
 }
