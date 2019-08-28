@@ -141,3 +141,11 @@ Route::group(['namespace' => 'Settings', 'prefix' => ''], function(){
     Route::resource('ref/base', 'MenuController')->names('menu.ref.base');
 });
 
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

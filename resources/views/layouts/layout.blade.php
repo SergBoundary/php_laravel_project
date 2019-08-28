@@ -7,7 +7,13 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>Sahaty: {{$title['name']}}</title>
+    <title>
+        @if($title['name'] == 'SK-BUD')
+            {{$title['name']}}
+        @else
+            SK-BUD: {{$title['name']}}
+        @endif
+    </title>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>

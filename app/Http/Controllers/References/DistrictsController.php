@@ -93,16 +93,21 @@ class DistrictsController extends BaseReferencesController
      */
     public function update(Request $request, $id)
     {
-//        $id = 11111;
+        $rules = [
+            'title' => 'required|string|min:3|max:50',
+            'national_name' => 'string||min:3max:50',
+            'number_iso' => 'string|min:2|max:8',
+            'country_id' => 'required|integer|exists:countries,id',  
+        ];
+        $validateData = validate($request, $rules);
+        
         $districts = Districts::find($id);
-//        dd($districts);
         if(empty($districts)) {
             return back()
                 ->withErrors(['msg' => "Запись #{$id} не найдена.."])
                 ->withInput();
         }
         $data = $request->all();
-//        dd($data);
         $result = $districts->fill($data)->save();
         if($result) {
             return redirect()
