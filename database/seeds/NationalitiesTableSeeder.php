@@ -12,7 +12,26 @@ class NationalitiesTableSeeder extends Seeder
     public function run()
     {
         $data = [
-            
+            [
+                'title' => 'Белорус',
+                'created_at' => now(),
+            ],
+            [
+                'title' => 'Немец',
+                'created_at' => now(),
+            ],
+            [
+                'title' => 'Поляк',
+                'created_at' => now(),
+            ],
+            [
+                'title' => 'Русский',
+                'created_at' => now(),
+            ],
+            [
+                'title' => 'Украинец',
+                'created_at' => now(),
+            ],
         ];
         
         DB::table('nationalities')->insert($data);

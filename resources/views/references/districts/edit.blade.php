@@ -71,9 +71,9 @@
                                         {{ __('Сохранить') }}
                                     </button>
                                     @if(session('success'))
-                                        <a class='btn btn-outline-secondary float-left' style="margin-left: 10px;" href="{{ route('ref.districts.show', $districts->country_id) }}">{{ __('Закрыть') }}</a>
+                                        <a class='btn btn-outline-secondary' style="margin-left: 10px;" href="{{ route('ref.districts.show', $districts->country_id) }}">{{ __('Закрыть') }}</a>
                                     @else
-                                        <a class='btn btn-outline-secondary float-left' style="margin-left: 10px;" href="{{ route('ref.districts.show', $districts->country_id) }}">{{ __('Отмена') }}</a>
+                                        <a class='btn btn-outline-secondary' style="margin-left: 10px;" href="{{ route('ref.districts.show', $districts->country_id) }}">{{ __('Отмена') }}</a>
                                     @endif
                                 </div>
                             </div>

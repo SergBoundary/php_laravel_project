@@ -15,7 +15,9 @@
                         <th scope="col">Название</th>
                         <th scope="col">Национальное название</th>
                         <th scope="col">Код ISO</th>
-                        <th scope="col"></th>
+                        <th scope="col">
+                            <a class="btn btn-outline-secondary btn-sm" href="{{ route('ref.districts.create') }}">{{ __('Добавить') }}</a>
+                        </th>
                     </thead>
                     <tbody>
                         @foreach($districtList as $districtRow)
@@ -24,8 +26,8 @@
                             <td>{{ $districtRow->national_name }}</td>
                             <td>{{ $districtRow->number_iso }}</td>
                             <td>
-                                <a class="btn btn-outline-primary btn-sm" href="{{ url($title['url']) }}/{{ $districtRow->id }}/edit">Edit</a>
-                                <a class="btn btn-outline-danger btn-sm" href="#">Delete</a>
+                                <a class="btn btn-outline-primary btn-sm" href="{{ url($title['url']) }}/{{ $districtRow->id }}/edit">Изменить</a>
+                                <a class="btn btn-outline-danger btn-sm" href="#">Удалить</a>
                             </td>
                         </tr>
                         @endforeach

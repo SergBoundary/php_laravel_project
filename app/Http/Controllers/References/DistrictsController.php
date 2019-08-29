@@ -5,6 +5,8 @@ namespace App\Http\Controllers\References;
 use Illuminate\Http\Request;
 use App\Models\References\Districts;
 use App\Models\References\Countries;
+use App\Http\Requests\References\DistrictsControllerUpdateRequest;
+use App\Http\Requests\References\DistrictsControllerCreateRequest;
 
 /**
  * Контроллер списка областей (штатов, земель, воевудств)
@@ -37,7 +39,11 @@ class DistrictsController extends BaseReferencesController
      */
     public function create()
     {
-        //
+        $districtObj = new Districts();
+        dd($districtObj);
+        $districtList = Districts::all();
+        
+        return view('references.districts.create', compact('districtList'));
     }
 
     /**
@@ -46,7 +52,7 @@ class DistrictsController extends BaseReferencesController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(DistrictsControllerCreateRequest $request)
     {
         //
     }
@@ -91,16 +97,8 @@ class DistrictsController extends BaseReferencesController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(DistrictsControllerUpdateRequest $request, $id)
     {
-        $rules = [
-            'title' => 'required|string|min:3|max:50',
-            'national_name' => 'string||min:3max:50',
-            'number_iso' => 'string|min:2|max:8',
-            'country_id' => 'required|integer|exists:countries,id',  
-        ];
-        $validateData = validate($request, $rules);
-        
         $districts = Districts::find($id);
         if(empty($districts)) {
             return back()
