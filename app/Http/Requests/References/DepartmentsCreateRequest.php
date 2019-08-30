@@ -13,7 +13,7 @@ class DepartmentsCreateRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return auth()->check();
     }
 
     /**
@@ -24,7 +24,10 @@ class DepartmentsCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'department_group_id' => 'required|integer|exists:department_groups,id',
+            'title' => 'required|string|max:50',
+            'department_attribute' => 'required|integer',
+            'print_order' => 'required|integer',
         ];
     }
 }

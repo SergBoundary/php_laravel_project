@@ -13,7 +13,7 @@ class CalculationGroupsUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return auth()->check();
     }
 
     /**
@@ -24,7 +24,9 @@ class CalculationGroupsUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'accrual_groups_id' => 'required|integer|exists:accrual_groups,id',
+            'accrual_id' => 'required|integer|exists:accruals,id',
+            'calculation_attribute' => 'required|integer',
         ];
     }
 }

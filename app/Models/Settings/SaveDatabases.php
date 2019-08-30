@@ -12,4 +12,18 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class SaveDatabases extends Model
 {
     use SoftDeletes;
+    
+    protected $fillable = [
+        'title',
+        'description',
+        'module',
+        'command',
+        'parametr',
+        'start',
+        'expiry',
+        'month_day',
+        'week_day',
+        'run_time',
+        'condition',
+    ];
 }

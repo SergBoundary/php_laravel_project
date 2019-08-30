@@ -12,4 +12,15 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class SpecialEatings extends Model
 {
     use SoftDeletes;
+    
+    protected $fillable = [
+        'personal_card_id',
+        'year_id',
+        'month_id',
+        'residual_amount',
+        'amount',
+        'hours',
+        'unit_price',
+        'unit_quantity',
+    ];
 }

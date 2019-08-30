@@ -13,7 +13,7 @@ class EmployeeAccrualCalculationsUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return auth()->check();
     }
 
     /**
@@ -24,7 +24,16 @@ class EmployeeAccrualCalculationsUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'personal_card_id' => 'required|integer|exists:personal_cards,id',
+            'accrual_id' => 'required|integer|exists:accruals,id',
+            'algorithm_id' => 'required|integer|exists:algorithms,id',
+            'tax_rate_id' => 'required|integer|exists:tax_rates,id',
+            'object_id' => 'required|integer|exists:objects,id',
+            'accrual_amount' => 'required|numeric',
+            'start' => 'required|date',
+            'expiry' => 'date',
+            'save_of_analytics' => 'required|integer',
+            'account_title' => 'required|string|max:10',
         ];
     }
 }

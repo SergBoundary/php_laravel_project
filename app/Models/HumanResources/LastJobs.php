@@ -12,4 +12,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class LastJobs extends Model
 {
     use SoftDeletes;
+    
+    protected $fillable = [
+        'personal_card_id',
+        'last_job',
+        'position_profession_id',
+        'dismissal_date',
+        'dismissal_reason',
+    ];
 }

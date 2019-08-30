@@ -12,4 +12,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class WorkExperiences extends Model
 {
     use SoftDeletes;
+    
+    protected $fillable = [
+        'personal_card_id',
+        'position_profession_id',
+        'work_experience_years',
+        'work_experience_months',
+        'work_experience_days',
+        'work_experience_continuous',
+    ];
 }

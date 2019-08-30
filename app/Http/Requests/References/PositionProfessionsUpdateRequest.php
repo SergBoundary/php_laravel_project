@@ -13,7 +13,7 @@ class PositionProfessionsUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return auth()->check();
     }
 
     /**
@@ -24,7 +24,8 @@ class PositionProfessionsUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'code' => 'required|string|max:10',
+            'title' => 'required|string|max:255',
         ];
     }
 }

@@ -13,7 +13,7 @@ class AccrualsUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return auth()->check();
     }
 
     /**
@@ -24,7 +24,22 @@ class AccrualsUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'accrual_group_id' => 'required|integer|exists:accrual_groups,id',
+            'title' => 'required|string|max:10',
+            'direction' => 'required|integer',
+            'description' => 'required|string|max:50',
+            'description_abbr' => 'required|string|max:10',
+            'description_1с' => 'string|max:100',
+            'algorithm_id' => 'required|integer|exists:algorithms,id',
+            'accrual_sum' => 'required|numeric',
+            'income_number_8dr' => 'required|integer',
+            'calculation_number' => 'required|integer',
+            'accrual_amount' => 'required|numeric',
+            'accrual_analytics' => 'required|integer',
+            'rounded amount' => 'required|integer',
+            'rounded result' => 'required|integer',
+            'account_title' => 'required|string|max:10',
+            'object_id' => 'required|integer|exists:objects,id',
         ];
     }
 }

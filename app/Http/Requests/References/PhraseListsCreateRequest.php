@@ -13,7 +13,7 @@ class PhraseListsCreateRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return auth()->check();
     }
 
     /**
@@ -24,7 +24,8 @@ class PhraseListsCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'phrase_group_id' => 'required|integer|exists:phrase_list_groups,id',
+            'title' => 'required|string|max:100',
         ];
     }
 }

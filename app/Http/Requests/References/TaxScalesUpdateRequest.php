@@ -13,7 +13,7 @@ class TaxScalesUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return auth()->check();
     }
 
     /**
@@ -24,7 +24,10 @@ class TaxScalesUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'title' => 'required|string|max:30',
+            'lower amount' => 'numeric',
+            'top amount' => 'numeric',
+            'tax percentage' => 'required|numeric',
         ];
     }
 }

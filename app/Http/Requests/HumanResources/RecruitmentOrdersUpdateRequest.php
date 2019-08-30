@@ -13,7 +13,7 @@ class RecruitmentOrdersUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return auth()->check();
     }
 
     /**
@@ -24,7 +24,14 @@ class RecruitmentOrdersUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'document_id' => 'required|integer|exists:personal_cards,id',
+            'personal_card_id' => 'required|integer|exists:dismissal_reasons,id',
+            'employment_date' => 'required|date',
+            'employment_order' => 'required|string|max:10',
+            'probation' => 'required|integer',
+            'dismissal_date' => 'required|date',
+            'dismissal_order' => 'required|string|max:10',
+            'dismissal_reason_id' => 'required|integer|exists:documents,id',
         ];
     }
 }

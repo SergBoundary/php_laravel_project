@@ -12,4 +12,24 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Accounts extends Model
 {
     use SoftDeletes;
+    
+    protected $fillable = [
+        'title',
+        'description',
+        'account_balance_type',
+        'balance_type',
+        'task',
+        'currency_status',
+        'transaction_report',
+        'choose_account',
+        'inventory',
+        'inventory_write_off',
+        'clients',
+        'account_objects',
+        'fixed_assets',
+        'main_warehouse',
+        'amount_type',
+        'type',
+        'gross_costs',
+    ];
 }

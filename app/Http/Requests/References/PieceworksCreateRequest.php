@@ -13,7 +13,7 @@ class PieceworksCreateRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return auth()->check();
     }
 
     /**
@@ -24,7 +24,10 @@ class PieceworksCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'title' => 'required|string|max:50',
+            'piecework_unit_id' => 'required|integer|exists:piecework_units,id',
+            'price' => 'required|numeric',
+            'accrual_id' => 'required|integer|exists:accruals,id',
         ];
     }
 }

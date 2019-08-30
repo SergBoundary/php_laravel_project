@@ -12,4 +12,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class AccrualRelations extends Model
 {
     use SoftDeletes;
+    
+    protected $fillable = [
+        'accrual_id',
+        'relation_attribute',
+    ];
 }

@@ -12,4 +12,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class EmployeeAccrualChanges extends Model
 {
     use SoftDeletes;
+    
+    protected $fillable = [
+        'algorithm_id',
+        'tax_rates_id',
+        'date_to',
+        'amount',
+    ];
 }

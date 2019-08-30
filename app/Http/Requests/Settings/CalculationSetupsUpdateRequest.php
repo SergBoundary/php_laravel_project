@@ -13,7 +13,7 @@ class CalculationSetupsUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return auth()->check();
     }
 
     /**
@@ -24,7 +24,12 @@ class CalculationSetupsUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'title' => 'required|string|max:50',
+            'description' => 'required|string|max:255',
+            'condition' => 'required|string|max:255',
+            'value' => 'required|numeric|max:8,2',
+            'start' => 'required|date',
+            'expiry' => 'required|date',
         ];
     }
 }

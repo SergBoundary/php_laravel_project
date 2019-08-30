@@ -12,4 +12,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class MaritalStatuses extends Model
 {
     use SoftDeletes;
+    
+    protected $fillable = [
+        'title',
+    ];
 }

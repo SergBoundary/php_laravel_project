@@ -12,4 +12,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class ManningTables extends Model
 {
     use SoftDeletes;
+    
+    protected $fillable = [
+        'department_id',
+        'position_id',
+        'rank_id',
+        'quantity',
+        'salary',
+        'tariff',
+    ];
 }

@@ -13,7 +13,7 @@ class AbsenceClassifiersUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return auth()->check();
     }
 
     /**
@@ -24,7 +24,10 @@ class AbsenceClassifiersUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'accrual_id' => 'required|integer|exists:accruals,id',
+            'absences_grouping_id' => 'required|integer|exists:grouping_types_of_absences,id',
+            'title' => 'required|string|max:50',
+            'abbr_absence' => 'required|string|max:4',
         ];
     }
 }

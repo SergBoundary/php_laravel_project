@@ -13,7 +13,7 @@ class CurrencyKursesCreateRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return auth()->check();
     }
 
     /**
@@ -24,7 +24,11 @@ class CurrencyKursesCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'base currency_id' => 'required|integer|exists:currencies,id',
+            'quoted currency_id' => 'required|integer|exists:currencies,id',
+            'residual' => 'required|numeric',
+            'bay' => 'required|numeric',
+            'sell' => 'required|numeric',
         ];
     }
 }

@@ -12,4 +12,14 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class EmployeeFamilies extends Model
 {
     use SoftDeletes;
+    
+    protected $fillable = [
+        'personal_card_id',
+        'family_relation_type_id',
+        'surname',
+        'first_name',
+        'second_name',
+        'born_date',
+        'sex',
+    ];
 }

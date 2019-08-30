@@ -11,4 +11,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Departments extends Model
 {
-    use SoftDeletes;}
+    use SoftDeletes;
+    
+    protected $fillable = [
+        'department_group_id',
+        'title',
+        'department_attribute',
+        'print_order',
+    ];
+}

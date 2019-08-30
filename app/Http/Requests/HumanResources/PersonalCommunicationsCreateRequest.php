@@ -13,7 +13,7 @@ class PersonalCommunicationsCreateRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return auth()->check();
     }
 
     /**
@@ -24,7 +24,9 @@ class PersonalCommunicationsCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'personal_card_id' => 'required|integer|exists:personal_cards,id',
+            'communication_type_id' => 'required|integer|exists:communication_types,id',
+            'content' => 'required|string|max:20',
         ];
     }
 }

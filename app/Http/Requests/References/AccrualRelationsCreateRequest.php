@@ -13,7 +13,7 @@ class AccrualRelationsCreateRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return auth()->check();
     }
 
     /**
@@ -24,7 +24,8 @@ class AccrualRelationsCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'accrual_id' => 'required|integer|exists:accruals,id',
+            'relation_attribute' => 'required|integer',
         ];
     }
 }

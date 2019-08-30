@@ -4,7 +4,7 @@ namespace App\Http\Requests\Settings;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CalculationSetupsCreateRequest extends FormRequest
+class MenuCreateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,12 +24,14 @@ class CalculationSetupsCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required|string|max:50',
-            'description' => 'required|string|max:255',
-            'condition' => 'required|string|max:255',
-            'value' => 'required|numeric|max:8,2',
-            'start' => 'required|date',
-            'expiry' => 'required|date',
+            'parent_id' => 'required|integer|exists:menus,id',
+            'sort' => 'required|integer',
+            'name' => 'required|string|max:30',
+            'url' => 'required|string|max:20',
+            'access_0' => 'required|boolean',
+            'access_1' => 'required|boolean',
+            'access_2' => 'required|boolean',
+            'access_3' => 'required|boolean',
         ];
     }
 }

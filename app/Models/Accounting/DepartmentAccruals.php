@@ -12,4 +12,16 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class DepartmentAccruals extends Model
 {
     use SoftDeletes;
+    
+    protected $fillable = [
+        'accrual_id',
+        'department_id',
+        'team_id',
+        'object_id',
+        'accrual_amount',
+        'accrual_date',
+        'year',
+        'month',
+        'loaded',
+    ];
 }

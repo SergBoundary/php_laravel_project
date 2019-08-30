@@ -13,7 +13,7 @@ class PositionsUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return auth()->check();
     }
 
     /**
@@ -24,7 +24,10 @@ class PositionsUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'subordination_id' => 'required|integer|exists:subordinations,id',
+            'position_profession_id' => 'required|integer|exists:position_professions,id',
+            'position_category_id' => 'required|integer|exists:position_categories,id',
+            'title' => 'required|string|max:100',
         ];
     }
 }

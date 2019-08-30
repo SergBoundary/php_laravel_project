@@ -12,4 +12,15 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class MigartionDocuments extends Model
 {
     use SoftDeletes;
+    
+    protected $fillable = [
+        'personal_card_id',
+        'migartion_status_id',
+        'type',
+        'number',
+        'date_issued',
+        'date_expiration',
+        'date_inclusion',
+        'date_seizure',
+    ];
 }

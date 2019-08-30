@@ -12,4 +12,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Allocations extends Model
 {
     use SoftDeletes;
+    
+    protected $fillable = [
+        'personal_card_id',
+        'object_id',
+        'team_id',
+        'document_id',
+        'date',
+    ];
 }

@@ -12,4 +12,15 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class AccrualTimesheets extends Model
 {
     use SoftDeletes;
+    
+    protected $fillable = [
+        'accrual_id',
+        'account_id',
+        'base_timesheet_id',
+        'object_id',
+        'days',
+        'hours',
+        'month',
+        'year',
+    ];
 }

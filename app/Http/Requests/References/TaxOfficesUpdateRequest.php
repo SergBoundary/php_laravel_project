@@ -13,7 +13,7 @@ class TaxOfficesUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return auth()->check();
     }
 
     /**
@@ -24,7 +24,11 @@ class TaxOfficesUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'country_id' => 'required|integer|exists:countries,id',
+            'district_id' => 'required|integer|exists:districts,id',
+            'region_id' => 'integer|exists:regions,id',
+            'city_id' => 'integer|exists:cities,id',
+            'title' => 'required|string|max:100',
         ];
     }
 }

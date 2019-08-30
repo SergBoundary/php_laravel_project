@@ -13,7 +13,7 @@ class BorderCrossingsUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return auth()->check();
     }
 
     /**
@@ -24,7 +24,11 @@ class BorderCrossingsUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'personal_card_id' => 'required|integer|exists:personal_cards,id',
+            'country_out_id' => 'required|integer|exists:countries,id',
+            'country_in_id' => 'required|integer|exists:countries,id',
+            'date' => 'required|date',
+            'comment' => 'string|max:50',
         ];
     }
 }

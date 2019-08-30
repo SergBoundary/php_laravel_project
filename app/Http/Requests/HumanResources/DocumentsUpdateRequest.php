@@ -13,7 +13,7 @@ class DocumentsUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return auth()->check();
     }
 
     /**
@@ -24,7 +24,16 @@ class DocumentsUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'document_id' => 'required|integer|exists:documents,id',
+            'date' => 'required|date',
+            'number' => 'required|string|max:10',
+            'annotation' => 'required|string|max:100',
+            'description' => 'required|string',
+            'print' => 'required|boolean',
+            'document_type_id' => 'required|integer|exists:document_types,id',
+            'personal_card_id' => 'required|integer|exists:personal_cards,id',
+            'create_user_id' => 'required|integer|exists:users,id',
+            'editor_user_id' => 'required|integer|exists:users,id',
         ];
     }
 }

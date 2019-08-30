@@ -11,4 +11,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class CalculationGroups extends Model
 {
-    use SoftDeletes;}
+    use SoftDeletes;
+    
+    protected $fillable = [
+        'accrual_groups_id',
+        'accrual_id',
+        'calculation_attribute',
+    ];
+}

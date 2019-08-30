@@ -13,7 +13,7 @@ class AccountsUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return auth()->check();
     }
 
     /**
@@ -24,7 +24,23 @@ class AccountsUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'title' => 'required|string|max:10',
+            'description' => 'required|string|max:50',
+            'account_balance_type' => 'required|string|max:3',
+            'balance_type' => 'required|integer',
+            'task' => 'required|integer',
+            'currency_status' => 'required|boolean',
+            'transaction_report' => 'required|string|max:3',
+            'choose_account' => 'required|boolean',
+            'inventory' => 'required|string|max:10',
+            'inventory_write_off' => 'required|integer',
+            'clients' => 'required|integer',
+            'account_objects' => 'required|integer',
+            'fixed_assets' => 'required|string|max:10',
+            'main_warehouse' => 'required|integer',
+            'amount_type' => 'required|integer',
+            'type' => 'required|integer',
+            'gross_costs' => 'required|string|max:9',
         ];
     }
 }

@@ -13,7 +13,7 @@ class ConstantsCreateRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return auth()->check();
     }
 
     /**
@@ -24,7 +24,12 @@ class ConstantsCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'title' => 'required|string|max:50',
+            'description' => 'required|string|max:256',
+            'value_number' => 'required|integer',
+            'value_string' => 'required|string|max:255',
+            'start' => 'required|date',
+            'expiry' => 'required|date',
         ];
     }
 }

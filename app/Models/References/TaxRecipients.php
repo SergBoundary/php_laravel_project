@@ -12,4 +12,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class TaxRecipients extends Model
 {
     use SoftDeletes;
+    
+    protected $fillable = [
+        'country_id',
+        'district_id',
+        'region_id',
+        'city_id',
+        'title',
+    ];
 }

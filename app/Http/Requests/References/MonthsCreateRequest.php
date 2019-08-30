@@ -13,7 +13,7 @@ class MonthsCreateRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return auth()->check();
     }
 
     /**
@@ -24,7 +24,8 @@ class MonthsCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'number' => 'required|integer',
+            'title' => 'required|string|max:20',
         ];
     }
 }

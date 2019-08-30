@@ -13,7 +13,7 @@ class ManningOrdersUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return auth()->check();
     }
 
     /**
@@ -24,7 +24,14 @@ class ManningOrdersUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'personal_card_id' => 'required|integer|exists:personal_cards,id',
+            'manning_table_id' => 'required|integer|exists:manning_tables,id',
+            'assignment_date' => 'required|date',
+            'assignment_order' => 'required|string|max:10',
+            'resignation_date' => 'required|date',
+            'resignation_order' => 'required|string|max:10',
+            'salary' => 'required|numeric',
+            'tariff' => 'required|numeric',
         ];
     }
 }

@@ -12,4 +12,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class AccrualGroups extends Model
 {
     use SoftDeletes;
+    
+    protected $fillable = [
+        'title',
+        'description',
+        'type',
+    ];
 }

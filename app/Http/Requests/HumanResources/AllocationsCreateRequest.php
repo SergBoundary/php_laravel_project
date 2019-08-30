@@ -13,7 +13,7 @@ class AllocationsCreateRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return auth()->check();
     }
 
     /**
@@ -24,7 +24,11 @@ class AllocationsCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'personal_card_id' => 'required|integer|exists:personal_cards,id',
+            'object_id' => 'required|integer|exists:objects,id',
+            'team_id' => 'required|integer|exists:teams,id',
+            'document_id' => 'required|integer|exists:documents,id',
+            'date' => 'required|date',
         ];
     }
 }

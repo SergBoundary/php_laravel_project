@@ -12,4 +12,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class CompanyDatas extends Model
 {
     use SoftDeletes;
+    
+    protected $fillable = [
+        'title',
+        'description',
+        'data_short',
+        'data_full',
+        'start',
+        'expiry',
+    ];
 }

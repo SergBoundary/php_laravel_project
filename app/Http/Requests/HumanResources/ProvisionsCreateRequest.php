@@ -13,7 +13,7 @@ class ProvisionsCreateRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return auth()->check();
     }
 
     /**
@@ -24,7 +24,14 @@ class ProvisionsCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'document_id' => 'required|integer|exists:documents,id',
+            'manning_orders_id' => 'required|integer|exists:manning_orders,id',
+            'date_from' => 'required|date',
+            'date_to' => 'required|date',
+            'amount' => 'required|numeric',
+            'rationale_title' => 'required|string|max:100',
+            'provision_date' => 'required|date',
+            'return_date' => 'required|date',
         ];
     }
 }

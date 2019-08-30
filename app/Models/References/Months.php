@@ -12,4 +12,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Months extends Model
 {
     use SoftDeletes;
+    
+    protected $fillable = [
+        'number',
+        'title',
+    ];
 }

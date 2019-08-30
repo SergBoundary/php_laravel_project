@@ -12,4 +12,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Constants extends Model
 {
     use SoftDeletes;
+    
+    protected $fillable = [
+        'title',
+        'description',
+        'value_number',
+        'value_string',
+        'start',
+        'expiry',
+    ];
 }

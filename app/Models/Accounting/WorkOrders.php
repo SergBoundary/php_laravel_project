@@ -12,4 +12,17 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class WorkOrders extends Model
 {
     use SoftDeletes;
+    
+    protected $fillable = [
+        'department_id',
+        'object_id',
+        'team_id',
+        'account_id',
+        'algorithm_id',
+        'date',
+        'number',
+        'amount',
+        'year',
+        'month',
+    ];
 }

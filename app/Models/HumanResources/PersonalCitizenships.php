@@ -12,4 +12,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class PersonalCitizenships extends Model
 {
     use SoftDeletes;
+    
+    protected $fillable = [
+        'personal_card_id',
+        'country_id',
+        'start',
+        'expiry',
+    ];
 }

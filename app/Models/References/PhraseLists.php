@@ -12,4 +12,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class PhraseLists extends Model
 {
     use SoftDeletes;
+    
+    protected $fillable = [
+        'phrase_group_id',
+        'title',
+    ];
 }

@@ -12,4 +12,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class TaxRateAmounts extends Model
 {
     use SoftDeletes;
+    
+    protected $fillable = [
+        'tax_rate_id',
+        'date_from',
+        'amount_from',
+        'amount_to',
+        'amount',
+        'percent',
+    ];
 }

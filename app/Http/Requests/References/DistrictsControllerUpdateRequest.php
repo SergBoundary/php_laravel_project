@@ -13,8 +13,7 @@ class DistrictsControllerUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        //return auth()->check();
-        return true;
+        return auth()->check();
     }
 
     /**
@@ -25,10 +24,10 @@ class DistrictsControllerUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required|string|min:3|max:50',
-            'national_name' => 'string||min:3max:50',
-            'number_iso' => 'string|min:2|max:8',
-            'country_id' => 'required|integer|exists:countries,id', 
+            'country_id' => 'required|integer|exists:countries,id',
+            'title' => 'required|string|max:50',
+            'national_name' => 'string|max:50',
+            'number_iso' => 'string|max:8', 
         ];
     }
 }

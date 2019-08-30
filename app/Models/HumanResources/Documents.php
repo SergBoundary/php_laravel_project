@@ -12,4 +12,17 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Documents extends Model
 {
     use SoftDeletes;
+    
+    protected $fillable = [
+        'document_id',
+        'date',
+        'number',
+        'annotation',
+        'description',
+        'print',
+        'document_type_id',
+        'personal_card_id',
+        'create_user_id',
+        'editor_user_id',
+    ];
 }

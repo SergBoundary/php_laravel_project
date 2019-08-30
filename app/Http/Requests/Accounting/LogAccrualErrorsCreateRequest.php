@@ -13,7 +13,7 @@ class LogAccrualErrorsCreateRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return auth()->check();
     }
 
     /**
@@ -24,7 +24,9 @@ class LogAccrualErrorsCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'personal_card_id' => 'required|integer|exists:personal_cards,id',
+            'message' => 'required|string|max:150',
+            'error_type' => 'required|integer',
         ];
     }
 }

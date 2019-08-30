@@ -13,7 +13,7 @@ class WorkExperiencesCreateRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return auth()->check();
     }
 
     /**
@@ -24,7 +24,12 @@ class WorkExperiencesCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'personal_card_id' => 'required|integer|exists:personal_cards,id',
+            'position_profession_id' => 'required|integer|exists:position_professions,id',
+            'work_experience_years' => 'required|integer',
+            'work_experience_months' => 'required|integer',
+            'work_experience_days' => 'required|integer',
+            'work_experience_continuous' => 'required|integer',
         ];
     }
 }

@@ -18,7 +18,7 @@ class CreateEmployeeAccrualCalculationsTable extends Migration
             $table->integer('personal_card_id')->unsigned(); // Личная карточка работника
             $table->integer('accrual_id')->unsigned(); // Код вида начиления
             $table->integer('algorithm_id')->unsigned(); // Алгоритм начисления работнику
-            $table->integer('tax_id')->unsigned(); // Код ставки налогообложения
+            $table->integer('tax_rate_id')->unsigned(); // Код ставки налогообложения
             $table->integer('object_id')->unsigned(); // Код объекта
             $table->float('accrual_amount', 8,2); // Сумма начисления работнику
             $table->timestamp('start'); // Действие ставки налога от даты
@@ -31,7 +31,7 @@ class CreateEmployeeAccrualCalculationsTable extends Migration
             $table->foreign('personal_card_id')->references('id')->on('personal_cards');
             $table->foreign('accrual_id')->references('id')->on('accruals');
             $table->foreign('algorithm_id')->references('id')->on('algorithms');
-            $table->foreign('tax_id')->references('id')->on('tax_rates');
+            $table->foreign('tax_rate_id')->references('id')->on('tax_rates');
             $table->foreign('object_id')->references('id')->on('objects');
         });
     }

@@ -12,4 +12,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Holidays extends Model
 {
     use SoftDeletes;
+    
+    protected $fillable = [
+        'country_id',
+        'year_id',
+        'month_id',
+        'holiday',
+        'not_work',
+        'religion',
+    ];
 }

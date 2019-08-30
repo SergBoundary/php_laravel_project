@@ -13,7 +13,7 @@ class TaxRatesCreateRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return auth()->check();
     }
 
     /**
@@ -24,7 +24,8 @@ class TaxRatesCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'accrual_id' => 'required|integer|exists:accruals,id',
+            'title' => 'required|string|max:50',
         ];
     }
 }

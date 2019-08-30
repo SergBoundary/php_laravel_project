@@ -12,4 +12,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class AbsenceClassifiers extends Model
 {
     use SoftDeletes;
+    
+    protected $fillable = [
+        'accrual_id',
+        'absences_grouping_id',
+        'title',
+        'abbr_absence',
+    ];
 }

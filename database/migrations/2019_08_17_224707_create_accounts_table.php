@@ -26,7 +26,7 @@ class CreateAccountsTable extends Migration
             $table->char('inventory', 10); // Товарно материальные ценности (ТМЦ)
             $table->tinyInteger('inventory_write_off'); // Списание ТМЦ
             $table->integer('clients'); // Клиенты ???
-            $table->integer('objects'); // Объекты: имущество, обязательства, хозяйственные операции
+            $table->integer('account_objects'); // Объекты учета: имущество, обязательства, хозяйственные операции
             $table->char('fixed_assets', 10); // Основные средства
             $table->integer('main_warehouse'); // Основной склад ???
             $table->tinyInteger('amount_type'); // Тип суммы ???

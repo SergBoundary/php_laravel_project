@@ -13,7 +13,7 @@ class AbsenceFromWorksUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return auth()->check();
     }
 
     /**
@@ -24,7 +24,11 @@ class AbsenceFromWorksUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'personal_card_id' => 'required|integer|exists:personal_cards,id',
+            'absence_classifier_id' => 'required|integer|exists:absence_classifiers,id',
+            'start' => 'required|date',
+            'expiry' => 'date',
+            'rationale' => 'required|string|max:20',
         ];
     }
 }

@@ -12,4 +12,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class CurrencyKurses extends Model
 {
     use SoftDeletes;
+    
+    protected $fillable = [
+        'base currency_id',
+        'quoted currency_id',
+        'residual',
+        'bay',
+        'sell',
+    ];
 }

@@ -12,4 +12,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class PositionProfessions extends Model
 {
     use SoftDeletes;
+    
+    protected $fillable = [
+        'code',
+        'title',
+    ];
 }

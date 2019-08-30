@@ -12,4 +12,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class InsuranceCertificates extends Model
 {
     use SoftDeletes;
+    
+    protected $fillable = [
+        'personal_card_id',
+        'certificate_series',
+        'certificate_number',
+        'insurance_fee',
+        'certificate_expiry',
+    ];
 }

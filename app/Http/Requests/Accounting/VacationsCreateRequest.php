@@ -13,7 +13,7 @@ class VacationsCreateRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return auth()->check();
     }
 
     /**
@@ -24,7 +24,18 @@ class VacationsCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'document_id' => 'required|integer|exists:documents,id',
+            'personal_card_id' => 'required|integer|exists:personal_cards,id',
+            'absence_classifier_id' => 'required|integer|exists:absence_classifiers,id',
+            'period_start' => 'required|date',
+            'period_expiry' => 'required|date',
+            'period' => 'required|integer',
+            'start' => 'required|date',
+            'expiry' => 'required|date',
+            'phrase_list_id' => 'required|integer|exists:phrase_lists,id',
+            'work_days' => 'required|integer',
+            'work_hours' => 'required|integer',
+            'vacation_pay' => 'required|numeric',
         ];
     }
 }

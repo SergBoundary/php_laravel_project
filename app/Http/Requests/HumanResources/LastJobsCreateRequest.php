@@ -13,7 +13,7 @@ class LastJobsCreateRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return auth()->check();
     }
 
     /**
@@ -24,7 +24,11 @@ class LastJobsCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'personal_card_id' => 'required|integer|exists:personal_cards,id',
+            'last_job' => 'required|string|max:100',
+            'position_profession_id' => 'required|integer|exists:position_professions,id',
+            'dismissal_date' => 'required|date',
+            'dismissal_reason' => 'required|string|max:100',
         ];
     }
 }

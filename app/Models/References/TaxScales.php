@@ -12,4 +12,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class TaxScales extends Model
 {
     use SoftDeletes;
+    
+    protected $fillable = [
+        'title',
+        'lower amount',
+        'top amount',
+        'tax percentage',
+    ];
 }

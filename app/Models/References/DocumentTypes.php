@@ -12,4 +12,14 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class DocumentTypes extends Model
 {
     use SoftDeletes;
+    
+    protected $fillable = [
+        'title',
+        'abbr',
+        'standart_status',
+        'standart_number',
+        'template_form',
+        'template_view',
+        'template_print',
+    ];
 }

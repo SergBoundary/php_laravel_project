@@ -12,4 +12,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class PersonalTaxes extends Model
 {
     use SoftDeletes;
+    
+    protected $fillable = [
+        'personal_card_id',
+        'tax_office_id',
+        'tax_recipient_id',
+    ];
 }

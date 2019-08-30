@@ -13,7 +13,7 @@ class RestoreDatabasesUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return auth()->check();
     }
 
     /**
@@ -24,7 +24,12 @@ class RestoreDatabasesUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'title' => 'required|string|max:50',
+            'description' => 'required|string|max:255',
+            'module' => 'required|string|max:50',
+            'command' => 'required|string|max:50',
+            'parametr' => 'required|string|max:50',
+            'condition' => 'required|string|max:255',
         ];
     }
 }

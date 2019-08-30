@@ -12,4 +12,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class BorderCrossings extends Model
 {
     use SoftDeletes;
+    
+    protected $fillable = [
+        'personal_card_id',
+        'country_out_id',
+        'country_in_id',
+        'date',
+        'comment',
+    ];
 }

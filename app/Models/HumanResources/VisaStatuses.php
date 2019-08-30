@@ -12,4 +12,18 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class VisaStatuses extends Model
 {
     use SoftDeletes;
+    
+    protected $fillable = [
+        'personal_card_id',
+        'country_out_id',
+        'country_in_id',
+        'opening_reason ',
+        'submitted',
+        'incomplete',
+        'visa_issued',
+        'visa_type',
+        'date_opening',
+        'date_closing',
+        'closing_reason ',
+    ];
 }

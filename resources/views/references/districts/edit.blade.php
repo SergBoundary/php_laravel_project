@@ -61,7 +61,7 @@
                                 <div class='form-group col-md-10'>
                                     <label for='national_name'>Национальное название области</label>
                                     <input name='national_name' value='{{ $districts->national_name }}' id='national_name' type='text' maxlength="50" class="form-control" title='Национальное наименование областии (штата, земли, воевудства)'>
-                               </div>
+                                </div>
                                 <div class='form-group col-md-10'>
                                     <label for='number_iso'>Код области</label>
                                     <input name='number_iso' value='{{ $districts->number_iso }}' id='number_iso' type='text' maxlength="8" class="form-control" title='Международный код области (штата, земли, воевудства)'>

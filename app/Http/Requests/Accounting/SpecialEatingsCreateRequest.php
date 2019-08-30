@@ -13,7 +13,7 @@ class SpecialEatingsCreateRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return auth()->check();
     }
 
     /**
@@ -24,7 +24,14 @@ class SpecialEatingsCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'personal_card_id' => 'required|integer|exists:personal_cards,id',
+            'year_id' => 'required|integer|exists:years,id',
+            'month_id' => 'required|integer|exists:months,id',
+            'residual_amount' => 'required|numeric',
+            'amount' => 'required|numeric',
+            'hours' => 'required|numeric',
+            'unit_price' => 'required|numeric',
+            'unit_quantity' => 'required|integer',
         ];
     }
 }

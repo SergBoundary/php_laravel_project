@@ -13,7 +13,7 @@ class VisaStatusesUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return auth()->check();
     }
 
     /**
@@ -24,7 +24,17 @@ class VisaStatusesUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'personal_card_id' => 'required|integer|exists:personal_cards,id',
+            'country_out_id' => 'required|integer|exists:countries,id',
+            'country_in_id' => 'required|integer|exists:countries,id',
+            'opening_reason ' => 'required|string|max:100',
+            'submitted' => 'date',
+            'incomplete' => 'date',
+            'visa_issued' => 'date',
+            'visa_type' => 'required|string|max:50',
+            'date_opening' => 'required|date',
+            'date_closing' => 'required|date',
+            'closing_reason ' => 'string|max:100',
         ];
     }
 }

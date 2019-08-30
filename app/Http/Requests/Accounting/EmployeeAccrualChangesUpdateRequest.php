@@ -13,7 +13,7 @@ class EmployeeAccrualChangesUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return auth()->check();
     }
 
     /**
@@ -24,7 +24,10 @@ class EmployeeAccrualChangesUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'algorithm_id' => 'required|integer|exists:algorithms,id',
+            'tax_rates_id' => 'required|integer|exists:tax_rates,id',
+            'date_to' => 'required|date',
+            'amount' => 'required|numeric',
         ];
     }
 }

@@ -13,7 +13,7 @@ class ManningTablesCreateRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return auth()->check();
     }
 
     /**
@@ -24,7 +24,12 @@ class ManningTablesCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'department_id' => 'required|integer|exists:departments,id',
+            'position_id' => 'required|integer|exists:positions,id',
+            'rank_id' => 'required|integer|exists:ranks,id',
+            'quantity' => 'required|integer',
+            'salary' => 'required|numeric',
+            'tariff' => 'required|numeric',
         ];
     }
 }

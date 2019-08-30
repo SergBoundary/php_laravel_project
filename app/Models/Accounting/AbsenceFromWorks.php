@@ -12,4 +12,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class AbsenceFromWorks extends Model
 {
     use SoftDeletes;
+    
+    protected $fillable = [
+        'personal_card_id',
+        'absence_classifier_id',
+        'start',
+        'expiry',
+        'rationale',
+    ];
 }

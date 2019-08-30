@@ -13,7 +13,7 @@ class HoursBalanceClassifiersUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return auth()->check();
     }
 
     /**
@@ -24,7 +24,31 @@ class HoursBalanceClassifiersUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'title' => 'required|string|max:50',
+            'monday_day' => 'string|max:5',
+            'tuesday_day' => 'string|max:5',
+            'wednesday_day' => 'string|max:5',
+            'thursday_day' => 'string|max:5',
+            'friday_day' => 'string|max:5',
+            'saturday_day' => 'string|max:5',
+            'sunday_day' => 'string|max:5',
+            'hours_reduction' => 'string|max:5',
+            'hourly_rate' => 'required|numeric',
+            'period' => 'required|integer',
+            'monday_evening' => 'string|max:5',
+            'tuesday_evening' => 'string|max:5',
+            'wednesday_evening' => 'string|max:5',
+            'thursday_evening' => 'string|max:5',
+            'friday_evening' => 'string|max:5',
+            'saturday_evening' => 'string|max:5',
+            'sunday_evening' => 'string|max:5',
+            'monday_night' => 'string|max:5',
+            'tuesday_night' => 'string|max:5',
+            'wednesday_night' => 'string|max:5',
+            'thursday_night' => 'string|max:5',
+            'friday_night' => 'string|max:5',
+            'saturday_night' => 'string|max:5',
+            'sunday_night' => 'string|max:5',
         ];
     }
 }

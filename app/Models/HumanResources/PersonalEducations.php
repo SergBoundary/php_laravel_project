@@ -12,4 +12,14 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class PersonalEducations extends Model
 {
     use SoftDeletes;
+    
+    protected $fillable = [
+        'personal_card_id',
+        'education_type_id',
+        'study_mode_id',
+        'institution',
+        'specialty',
+        'degree',
+        'diploma',
+    ];
 }

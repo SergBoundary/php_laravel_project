@@ -12,4 +12,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class PersonalCommunications extends Model
 {
     use SoftDeletes;
+    
+    protected $fillable = [
+        'personal_card_id',
+        'communication_type_id',
+        'content',
+    ];
 }

@@ -12,4 +12,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class RestoreDatabases extends Model
 {
     use SoftDeletes;
+    
+    protected $fillable = [
+        'title',
+        'description',
+        'module',
+        'command',
+        'parametr',
+        'condition',
+    ];
 }

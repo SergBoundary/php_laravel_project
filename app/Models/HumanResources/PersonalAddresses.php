@@ -12,4 +12,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class PersonalAddresses extends Model
 {
     use SoftDeletes;
+    
+    protected $fillable = [
+        'personal_card_id',
+        'postcode',
+        'city',
+        'street',
+        'house',
+        'apartment',
+    ];
 }

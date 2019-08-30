@@ -12,4 +12,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Positions extends Model
 {
     use SoftDeletes;
+    
+    protected $fillable = [
+        'subordination_id',
+        'position_profession_id',
+        'position_category_id',
+        'title',
+    ];
 }

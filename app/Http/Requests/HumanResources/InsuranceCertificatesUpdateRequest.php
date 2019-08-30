@@ -13,7 +13,7 @@ class InsuranceCertificatesUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return auth()->check();
     }
 
     /**
@@ -24,7 +24,11 @@ class InsuranceCertificatesUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'personal_card_id' => 'required|integer|exists:personal_cards,id',
+            'certificate_series' => 'required|string|max:10',
+            'certificate_number' => 'required|string|max:50',
+            'insurance_fee' => 'required|numeric',
+            'certificate_expiry' => 'required|date',
         ];
     }
 }

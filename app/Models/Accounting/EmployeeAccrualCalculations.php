@@ -12,4 +12,17 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class EmployeeAccrualCalculations extends Model
 {
     use SoftDeletes;
+    
+    protected $fillable = [
+        'personal_card_id',
+        'accrual_id',
+        'algorithm_id',
+        'tax_rate_id',
+        'object_id',
+        'accrual_amount',
+        'start',
+        'expiry',
+        'save_of_analytics',
+        'account_title',
+    ];
 }

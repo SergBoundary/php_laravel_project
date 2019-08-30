@@ -13,7 +13,7 @@ class RegionsUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return auth()->check();
     }
 
     /**
@@ -24,7 +24,10 @@ class RegionsUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'country_id' => 'required|integer|exists:countries,id',
+            'district_id' => 'required|integer|exists:districts,id',
+            'title' => 'required|string|max:50',
+            'national_name' => 'string|max:50',
         ];
     }
 }

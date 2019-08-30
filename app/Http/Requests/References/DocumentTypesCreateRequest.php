@@ -13,7 +13,7 @@ class DocumentTypesCreateRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return auth()->check();
     }
 
     /**
@@ -24,7 +24,13 @@ class DocumentTypesCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'title' => 'required|string|max:80',
+            'abbr' => 'required|string|max:10',
+            'standart_status' => 'required|boolean',
+            'standart_number' => 'required|string|max:10',
+            'template_form' => 'required|string|max:50',
+            'template_view' => 'required|string|max:100',
+            'template_print' => 'required|string|max:100',
         ];
     }
 }

@@ -13,7 +13,7 @@ class TaxRateAmountsCreateRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return auth()->check();
     }
 
     /**
@@ -24,7 +24,12 @@ class TaxRateAmountsCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'tax_rate_id' => 'required|integer|exists:tax_rates,id',
+            'date_from' => 'required|date',
+            'amount_from' => 'required|numeric',
+            'amount_to' => 'required|numeric',
+            'amount' => 'required|numeric',
+            'percent' => 'required|numeric',
         ];
     }
 }

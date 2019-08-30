@@ -13,7 +13,7 @@ class ObjectsCreateRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return auth()->check();
     }
 
     /**
@@ -24,7 +24,8 @@ class ObjectsCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'object_group_id' => 'required|integer|exists:object_groups,id',
+            'title' => 'required|string|max:255',
         ];
     }
 }

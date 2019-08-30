@@ -13,7 +13,7 @@ class PersonalTaxesCreateRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return auth()->check();
     }
 
     /**
@@ -24,7 +24,9 @@ class PersonalTaxesCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'personal_card_id' => 'required|integer|exists:personal_cards,id',
+            'tax_office_id' => 'required|integer|exists:tax_offices,id',
+            'tax_recipient_id' => 'required|integer|exists:tax_recipients,id',
         ];
     }
 }

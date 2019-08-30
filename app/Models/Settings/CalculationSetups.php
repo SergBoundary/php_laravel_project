@@ -12,4 +12,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class CalculationSetups extends Model
 {
     use SoftDeletes;
+    
+    protected $fillable = [
+        'title',
+        'description',
+        'condition',
+        'value',
+        'start',
+        'expiry',
+    ];
 }

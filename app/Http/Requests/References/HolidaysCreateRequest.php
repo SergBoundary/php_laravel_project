@@ -13,7 +13,7 @@ class HolidaysCreateRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return auth()->check();
     }
 
     /**
@@ -24,7 +24,12 @@ class HolidaysCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'country_id' => 'required|integer|exists:countries,id',
+            'year_id' => 'required|integer|exists:years,id',
+            'month_id' => 'required|integer|exists:months,id',
+            'holiday' => 'required|integer',
+            'not_work' => 'required|boolean',
+            'religion' => 'required|boolean',
         ];
     }
 }

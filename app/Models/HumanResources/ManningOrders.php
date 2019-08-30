@@ -12,4 +12,15 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class ManningOrders extends Model
 {
     use SoftDeletes;
+    
+    protected $fillable = [
+        'personal_card_id',
+        'manning_table_id',
+        'assignment_date',
+        'assignment_order',
+        'resignation_date',
+        'resignation_order',
+        'salary',
+        'tariff',
+    ];
 }

@@ -12,4 +12,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Pieceworks extends Model
 {
     use SoftDeletes;
+    
+    protected $fillable = [
+        'title',
+        'piecework_unit_id',
+        'price',
+        'accrual_id',
+    ];
 }

@@ -13,7 +13,7 @@ class SalaryCardsUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return auth()->check();
     }
 
     /**
@@ -24,7 +24,9 @@ class SalaryCardsUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'personal_card_id' => 'required|integer|exists:personal_cards,id',
+            'number' => 'required|string|max:50',
+            'expiry' => 'required|date',
         ];
     }
 }

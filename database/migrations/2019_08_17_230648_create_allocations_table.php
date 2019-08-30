@@ -18,6 +18,7 @@ class CreateAllocationsTable extends Migration
             $table->integer('personal_card_id')->unsigned(); // Личная карточка работника
             $table->integer('object_id')->unsigned(); // Распределен на объект
             $table->integer('team_id')->unsigned(); // Распределен в бригаду
+            $table->integer('document_id')->unsigned(); // Номер документа в учете кадровых документов
             $table->timestamp('date'); // Дата распределения
             $table->timestamps(); // Поля с датой создания и датой изменения записи
             $table->softDeletes(); // Поле с датой удаления (исключения) записи из обслуживания
@@ -25,6 +26,7 @@ class CreateAllocationsTable extends Migration
             $table->foreign('personal_card_id')->references('id')->on('personal_cards');
             $table->foreign('object_id')->references('id')->on('objects');
             $table->foreign('team_id')->references('id')->on('teams');
+            $table->foreign('document_id')->references('id')->on('documents');
         });
     }
 

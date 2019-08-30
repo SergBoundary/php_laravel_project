@@ -13,7 +13,7 @@ class PersonalCitizenshipsCreateRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return auth()->check();
     }
 
     /**
@@ -24,7 +24,10 @@ class PersonalCitizenshipsCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'personal_card_id' => 'required|integer|exists:personal_cards,id',
+            'country_id' => 'required|integer|exists:countries,id',
+            'start' => 'required|date',
+            'expiry' => 'required|date',
         ];
     }
 }

@@ -13,7 +13,7 @@ class CurrenciesCreateRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return auth()->check();
     }
 
     /**
@@ -24,7 +24,9 @@ class CurrenciesCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'title' => 'required|string|max:30',
+            'symbol' => 'required|string|max:3',
+            'number' => 'required|string|max:3',
         ];
     }
 }
