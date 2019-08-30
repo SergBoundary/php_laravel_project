@@ -19,37 +19,7 @@ class CreateBaseTimesheetsTable extends Migration
             $table->integer('year_id')->unsigned(); // Год табеля
             $table->integer('month_id')->unsigned(); // Месяц табеля
             $table->integer('accrual_id')->unsigned(); // Код оплаты по табелю: 1 - оклад; 2 - сдельно; 3 - тариф)
-            $table->сhar('day-1', 5)->nullable(); // 1 день месяца
-            $table->сhar('day-2', 5)->nullable(); // 2 день месяца
-            $table->сhar('day-3', 5)->nullable(); // 3 день месяца
-            $table->сhar('day-4', 5)->nullable(); // 4 день месяца
-            $table->сhar('day-5', 5)->nullable(); // 5 день месяца
-            $table->сhar('day-6', 5)->nullable(); // 6 день месяца
-            $table->сhar('day-7', 5)->nullable(); // 7 день месяца
-            $table->сhar('day-8', 5)->nullable(); // 8 день месяца
-            $table->сhar('day-9', 5)->nullable(); // 9 день месяца
-            $table->сhar('day-10', 5)->nullable(); // 10 день месяца
-            $table->сhar('day-11', 5)->nullable(); // 11 день месяца
-            $table->сhar('day-12', 5)->nullable(); // 12 день месяца
-            $table->сhar('day-13', 5)->nullable(); // 13 день месяца
-            $table->сhar('day-14', 5)->nullable(); // 14 день месяца
-            $table->сhar('day-15', 5)->nullable(); // 15 день месяца
-            $table->сhar('day-16', 5)->nullable(); // 16 день месяца
-            $table->сhar('day-17', 5)->nullable(); // 17 день месяца
-            $table->сhar('day-18', 5)->nullable(); // 18 день месяца
-            $table->сhar('day-19', 5)->nullable(); // 19 день месяца
-            $table->сhar('day-20', 5)->nullable(); // 20 день месяца
-            $table->сhar('day-21', 5)->nullable(); // 21 день месяца
-            $table->сhar('day-22', 5)->nullable(); // 22 день месяца
-            $table->сhar('day-23', 5)->nullable(); // 23 день месяца
-            $table->сhar('day-24', 5)->nullable(); // 24 день месяца
-            $table->сhar('day-25', 5)->nullable(); // 25 день месяца
-            $table->сhar('day-26', 5)->nullable(); // 26 день месяца
-            $table->сhar('day-27', 5)->nullable(); // 27 день месяца
-            $table->сhar('day-28', 5)->nullable(); // 28 день месяца
-            $table->сhar('day-29', 5)->nullable(); // 29 день месяца
-            $table->сhar('day-30', 5)->nullable(); // 30 день месяца
-            $table->сhar('day-31', 5)->nullable(); // 31 день месяца
+            
             $table->integer('hours_balance_classifier_id')->unsigned(); // Код баланса для строки табеля
             $table->integer('department_id')->unsigned(); // Подразделение
             $table->float('amount', 8,2); // Размер оклада или тарифа для работника
@@ -70,7 +40,37 @@ class CreateBaseTimesheetsTable extends Migration
             $table->integer('object_id')->unsigned(); // Объект для счета
             $table->timestamps(); // Поля с датой создания и датой изменения записи
             $table->softDeletes(); // Поле с датой удаления (исключения) записи из обслуживания
-            
+            $table->char('day_1', 5)->nullable(); // 1-й день месяца
+            $table->char('day_2', 5)->nullable(); // 2-й день месяца
+            $table->char('day_3', 5)->nullable(); // 3-й день месяца
+            $table->char('day_4', 5)->nullable(); // 4-й день месяца
+            $table->char('day_5', 5)->nullable(); // 5-й день месяца
+            $table->char('day_6', 5)->nullable(); // 6-й день месяца
+            $table->char('day_7', 5)->nullable(); // 7-й день месяца
+            $table->char('day_8', 5)->nullable(); // 8-й день месяца
+            $table->char('day_9', 5)->nullable(); // 9-й день месяца
+            $table->char('day_10', 5)->nullable(); // 10-й день месяца
+            $table->char('day_11', 5)->nullable(); // 11-й день месяца
+            $table->char('day_12', 5)->nullable(); // 12-й день месяца
+            $table->char('day_13', 5)->nullable(); // 13-й день месяца
+            $table->char('day_14', 5)->nullable(); // 14-й день месяца
+            $table->char('day_15', 5)->nullable(); // 15-й день месяца
+            $table->char('day_16', 5)->nullable(); // 16-й день месяца
+            $table->char('day_17', 5)->nullable(); // 17-й день месяца
+            $table->char('day_18', 5)->nullable(); // 18-й день месяца
+            $table->char('day_19', 5)->nullable(); // 19-й день месяца
+            $table->char('day_20', 5)->nullable(); // 20-й день месяца
+            $table->char('day_21', 5)->nullable(); // 21-й день месяца
+            $table->char('day_22', 5)->nullable(); // 22-й день месяца
+            $table->char('day_23', 5)->nullable(); // 23-й день месяца
+            $table->char('day_24', 5)->nullable(); // 24-й день месяца
+            $table->char('day_25', 5)->nullable(); // 25-й день месяца
+            $table->char('day_26', 5)->nullable(); // 26-й день месяца
+            $table->char('day_27', 5)->nullable(); // 27-й день месяца
+            $table->char('day_28', 5)->nullable(); // 28-й день месяца
+            $table->char('day_29', 5)->nullable(); // 29-й день месяца
+            $table->char('day_30', 5)->nullable(); // 30-й день месяца
+            $table->char('day_31', 5)->nullable(); // 31-й день месяца
             $table->foreign('personal_card_id')->references('id')->on('personal_cards');
             $table->foreign('year_id')->references('id')->on('years');
             $table->foreign('month_id')->references('id')->on('months');
