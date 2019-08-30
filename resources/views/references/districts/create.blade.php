@@ -13,7 +13,6 @@
                     <div class="card-body">
 
                         <form method="POST" action="{{ route('ref.districts.store') }}">
-                            @method('PATCH')
                             @csrf
                             @php
                                 /** @var \Illuminate\Support\ViewErrorBag @errors */
@@ -47,8 +46,8 @@
                                     <label for='country_id'>Название страны</label>
                                     <select name='country_id' id='country_id' type='text' placeholder="Выберите страну" class="form-control" title='Наименование страны' required>
                                     @foreach($countryList as $countryOption)
-                                    <option value="{{ $countryOption->id }}"
-                                        {{ $countryOption->id }}. {{ $countryOption->title }}
+                                    <option value="{{ $countryOption->id }}">
+                                        {{ $countryOption->title }}
                                     </option>
                                     @endforeach
                                     </select>

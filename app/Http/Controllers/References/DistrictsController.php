@@ -54,7 +54,18 @@ class DistrictsController extends BaseReferencesController
      */
     public function store(DistrictsControllerCreateRequest $request)
     {
-        //
+        $data = $request->input();
+        $item = (new Districts($data))->create($data);
+        
+        if($item) {
+            return redirect()
+                ->route('ref.districts.edit', $item->id)
+                ->with(['success' => "Успешносохранено"]);
+        } else {
+            return back()
+                ->withErrors(['msg' => "Ошибка сохранения.."])
+                ->withInput();
+        }
     }
 
     /**
@@ -99,17 +110,17 @@ class DistrictsController extends BaseReferencesController
      */
     public function update(DistrictsControllerUpdateRequest $request, $id)
     {
-        $districts = Districts::find($id);
-        if(empty($districts)) {
+        $item = Districts::find($id);
+        if(empty($item)) {
             return back()
                 ->withErrors(['msg' => "Запись #{$id} не найдена.."])
                 ->withInput();
         }
         $data = $request->all();
-        $result = $districts->fill($data)->save();
+        $result = $item->update($data);
         if($result) {
             return redirect()
-                ->route('ref.districts.edit', $districts->id)
+                ->route('ref.districts.edit', $item->id)
                 ->with(['success' => "Успешносохранено"]);
         } else {
             return back()
