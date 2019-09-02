@@ -26,7 +26,7 @@ class CountriesCreateRequest extends FormRequest
         return [
             'title' => 'required|string|max:50',
             'national_name' => 'string|max:50',
-            'symbol_alfa2 ' => 'string|max:2',
+            'symbol_alfa2' => 'string|max:2',
             'symbol_alfa3' => 'string|max:3',
             'number_iso' => 'string|max:3',
             'visible' => 'required|boolean',

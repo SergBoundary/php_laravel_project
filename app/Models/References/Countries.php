@@ -16,7 +16,7 @@ class Countries extends Model
     protected $fillable = [
         'title',
         'national_name',
-        'symbol_alfa2 ',
+        'symbol_alfa2',
         'symbol_alfa3',
         'number_iso',
         'visible',

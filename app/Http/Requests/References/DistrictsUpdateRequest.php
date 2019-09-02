@@ -4,7 +4,7 @@ namespace App\Http\Requests\References;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class DistrictsControllerCreateRequest extends FormRequest
+class DistrictsUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,8 +27,7 @@ class DistrictsControllerCreateRequest extends FormRequest
             'country_id' => 'required|integer|exists:countries,id',
             'title' => 'required|string|max:50',
             'national_name' => 'string|max:50',
-            'number_iso' => 'string|max:8',
-
+            'number_iso' => 'string|max:8', 
         ];
     }
 }

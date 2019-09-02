@@ -16,9 +16,7 @@
                         <th scope="col">Код Alfa2</th>
                         <th scope="col">Код Alfa2</th>
                         <th scope="col">Код ISO</th>
-                        <th scope="col">
-                            <a class="btn btn-outline-secondary btn-sm" href="{{ route('ref.districts.create') }}">{{ __('Добавить') }}</a>
-                        </th>
+                        <th scope="col"></th>
                     </thead>
                     <tbody>
                         @foreach($countryList as $countryOption)

@@ -5,8 +5,8 @@ namespace App\Http\Controllers\References;
 use Illuminate\Http\Request;
 use App\Models\References\Districts;
 use App\Models\References\Countries;
-use App\Http\Requests\References\DistrictsControllerUpdateRequest;
-use App\Http\Requests\References\DistrictsControllerCreateRequest;
+use App\Http\Requests\References\DistrictsUpdateRequest;
+use App\Http\Requests\References\DistrictsCreateRequest;
 
 /**
  * Контроллер списка областей (штатов, земель, воевудств)
@@ -42,8 +42,10 @@ class DistrictsController extends BaseReferencesController
     public function create()
     {
         $paths = $this->createMenu($this->url);
-        $title = $paths->where('url', $this->url)->first();
-        $countryList = Countries::where('visible', 1)->get();
+        $title = $paths->where('url', $this->url)
+                ->first();
+        $countryList = Countries::where('visible', 1)
+                ->get();
         $districtList = Districts::all();
         
         return view('references.districts.create', compact('paths', 'title', 'countryList', 'districtList'));
@@ -55,7 +57,7 @@ class DistrictsController extends BaseReferencesController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(DistrictsControllerCreateRequest $request)
+    public function store(DistrictsCreateRequest $request)
     {
         $data = $request->input();
         $item = (new Districts($data))->create($data);
@@ -63,7 +65,7 @@ class DistrictsController extends BaseReferencesController
         if($item) {
             return redirect()
                 ->route('ref.districts.edit', $item->id)
-                ->with(['success' => "Успешносохранено"]);
+                ->with(['success' => "Успешно сохранено"]);
         } else {
             return back()
                 ->withErrors(['msg' => "Ошибка сохранения.."])
@@ -80,8 +82,10 @@ class DistrictsController extends BaseReferencesController
     public function show($id)
     {
         $paths = $this->createMenu($this->url);
-        $title = $paths->where('url', $this->url)->first();
-        $countryRow = Countries::where('id', $id)->first();
+        $title = $paths->where('url', $this->url)
+                ->first();
+        $countryRow = Countries::where('id', $id)
+                ->first();
         $districtList = Districts::where('country_id', $id)
                 ->orderBy('title')
                 ->get();
@@ -99,7 +103,8 @@ class DistrictsController extends BaseReferencesController
     public function edit($id, Request $request)
     {
         $paths = $this->createMenu($this->url);
-        $title = $paths->where('url', $this->url)->first();
+        $title = $paths->where('url', $this->url)
+                ->first();
         $districts = Districts::find($id);
         $countryList = Countries::all();
         
@@ -113,7 +118,7 @@ class DistrictsController extends BaseReferencesController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(DistrictsControllerUpdateRequest $request, $id)
+    public function update(DistrictsUpdateRequest $request, $id)
     {
         $item = Districts::find($id);
         if(empty($item)) {
@@ -126,7 +131,7 @@ class DistrictsController extends BaseReferencesController
         if($result) {
             return redirect()
                 ->route('ref.districts.edit', $item->id)
-                ->with(['success' => "Успешносохранено"]);
+                ->with(['success' => "Успешно сохранено"]);
         } else {
             return back()
                 ->withErrors(['msg' => "Ошибка сохранения.."])

@@ -4,6 +4,8 @@ namespace App\Http\Controllers\References;
 
 use Illuminate\Http\Request;
 use App\Models\References\Countries;
+use App\Http\Requests\References\CountriesCreateRequest;
+use App\Http\Requests\References\CountriesUpdateRequest;
 
 /**
  * Контроллер списка стран
@@ -16,15 +18,19 @@ class CountriesController extends BaseReferencesController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    
+    protected $url = 'ref/countries';
+    
+    public function index()
     {
-        $url = $request->path();
+        $paths = $this->createMenu($this->url);
+        $title = $paths->where('url', $this->url)
+                ->first();
+        $countryList = Countries::where('visible', 1)
+                ->orderBy('title')
+                ->get();
         
-        $paths = $this->createMenu($url);
-        $title = $paths->where('url', $url)->first();
-        $items = Countries::all(); 
-        
-        return view('references.countries.index', compact('paths', 'title', 'items'));
+        return view('references.countries.index', compact('paths', 'title', 'countryList'));
     }
 
     /**
@@ -34,7 +40,13 @@ class CountriesController extends BaseReferencesController
      */
     public function create()
     {
-        //
+        $paths = $this->createMenu($this->url);
+        $title = $paths->where('url', $this->url)
+                ->first();
+        $countryList = Countries::where('visible', 1)
+                ->get();
+        
+        return view('references.countries.create', compact('paths', 'title', 'countryList'));
     }
 
     /**
@@ -43,9 +55,20 @@ class CountriesController extends BaseReferencesController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CountriesCreateRequest $request)
     {
-        //
+        $data = $request->input();
+        $item = (new Countries($data))->create($data);
+        
+        if($item) {
+            return redirect()
+                ->route('ref.countries.edit', $item->id)
+                ->with(['success' => "Успешно сохранено"]);
+        } else {
+            return back()
+                ->withErrors(['msg' => "Ошибка сохранения.."])
+                ->withInput();
+        }
     }
 
     /**
@@ -65,9 +88,14 @@ class CountriesController extends BaseReferencesController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($id, Request $request)
     {
-        //
+        $paths = $this->createMenu($this->url);
+        $title = $paths->where('url', $this->url)
+                ->first();
+        $countries = Countries::find($id);
+        
+        return view('references.countries.edit', compact('paths', 'title', 'countries'));
     }
 
     /**
@@ -77,9 +105,25 @@ class CountriesController extends BaseReferencesController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(CountriesUpdateRequest $request, $id)
     {
-        //
+        $item = Countries::find($id);
+        if(empty($item)) {
+            return back()
+                ->withErrors(['msg' => "Запись #{$id} не найдена.."])
+                ->withInput();
+        }
+        $data = $request->all();
+        $result = $item->update($data);
+        if($result) {
+            return redirect()
+                ->route('ref.countries.edit', $item->id)
+                ->with(['success' => "Успешно сохранено"]);
+        } else {
+            return back()
+                ->withErrors(['msg' => "Ошибка сохранения.."])
+                ->withInput();
+        }
     }
 
     /**
