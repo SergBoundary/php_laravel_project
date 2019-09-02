@@ -16,12 +16,15 @@ class AbsenceFromWorksController extends BaseAccountingController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $title = 'Отсутствия на работе'; 
+        $url = $request->path();
+        
+        $paths = $this->createMenu($url);
+        $title = $paths->where('url', $url)->first();
         $items = AbsenceFromWorks::all(); 
         
-        return view('accounting.absence-from-works.index', compact('title', 'items'));
+        return view('accounting.absence-from-works.index', compact('paths', 'title', 'items'));
     }
 
     /**

@@ -16,12 +16,15 @@ class BaseTimesheetsController extends BaseAccountingController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $title = 'Табель отработанного времени'; 
+        $url = $request->path();
+        
+        $paths = $this->createMenu($url);
+        $title = $paths->where('url', $url)->first();
         $items = BaseTimesheets::all(); 
         
-        return view('accounting.base-timesheets.index', compact('title', 'items'));
+        return view('accounting.base-timesheets.index', compact('paths', 'title', 'items'));
     }
 
     /**

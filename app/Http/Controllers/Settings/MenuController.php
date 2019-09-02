@@ -21,13 +21,24 @@ class MenuController extends BaseSettingsController
     
     public function index(Request $request)
     {
-        $this->url = $request->path();
+        $user = \Illuminate\Support\Facades\Auth::user();
+//        dd($user->access);
+        if(empty($user)) {
+            return view('guest');
+        } else {
+            $this->url = $request->path();
         
-        $paths = $this->createMenu($this->url);
-        $title = $paths->where('url', $this->url)->first();
-        $parent = $paths->last();
-        $items = Menu::where('parent_id', $parent['id'])->orderBy('sort')->get();
+            $paths = $this->createMenu($this->url);
+            $title = $paths->where('url', $this->url)
+                    ->first();
+            $parent = $paths->last();
+            $items = Menu::where('parent_id', $parent['id'])
+                    ->where('access_'.$user->access, '>', 0)
+                    ->orderBy('sort')
+                    ->get();
+            
+            return view('menu', compact('title', 'paths', 'items'));
+        }
         
-        return view('menu', compact('title', 'paths', 'items'));
     }
 }

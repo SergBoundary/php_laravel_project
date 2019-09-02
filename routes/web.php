@@ -15,6 +15,7 @@
 //    return view('menu');
 //});
 
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
@@ -129,6 +130,7 @@ Route::group(['namespace' => 'Settings', 'prefix' => 'set'], function(){
 });
 Route::group(['namespace' => 'Settings', 'prefix' => ''], function(){
     Route::resource('/', 'MenuController')->names('menu');
+    Route::resource('/', 'MenuController')->names('guest');
     Route::resource('human-resources', 'MenuController')->names('menu.hr');
     Route::resource('accounting', 'MenuController')->names('menu.acc');
     Route::resource('references', 'MenuController')->names('menu.ref');
@@ -140,12 +142,3 @@ Route::group(['namespace' => 'Settings', 'prefix' => ''], function(){
     Route::resource('ref/general', 'MenuController')->names('menu.ref.general');
     Route::resource('ref/base', 'MenuController')->names('menu.ref.base');
 });
-
-
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
-
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');

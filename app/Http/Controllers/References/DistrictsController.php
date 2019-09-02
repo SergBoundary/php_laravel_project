@@ -25,8 +25,11 @@ class DistrictsController extends BaseReferencesController
     public function index()
     {
         $paths = $this->createMenu($this->url);
-        $title = $paths->where('url', $this->url)->first();
-        $countryList = Countries::where('visible', 1)->get();
+        $title = $paths->where('url', $this->url)
+                ->first();
+        $countryList = Countries::where('visible', 1)
+                ->orderBy('title')
+                ->get();
         
         return view('references.districts.index', compact('paths', 'title', 'countryList'));
     }
@@ -79,7 +82,9 @@ class DistrictsController extends BaseReferencesController
         $paths = $this->createMenu($this->url);
         $title = $paths->where('url', $this->url)->first();
         $countryRow = Countries::where('id', $id)->first();
-        $districtList = Districts::where('country_id', $id)->get();
+        $districtList = Districts::where('country_id', $id)
+                ->orderBy('title')
+                ->get();
         
         return view('references.districts.show', 
                 compact('paths', 'title', 'countryRow', 'districtList'));

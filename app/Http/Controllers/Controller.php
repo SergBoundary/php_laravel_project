@@ -16,12 +16,16 @@ class Controller extends BaseController
     public function createMenu($url) {
         $data = [];
         $i = 1;
-        
+        $user = \Illuminate\Support\Facades\Auth::user();
         // Извлекаем данные текущего пункта меню
-        $currents = Menu::where('url', $url)->first();
+        $currents = Menu::where('url', $url)
+                    ->first();
         $id = $currents->id;
         // Извлекаем данные, отсекая пункты меню дальше текущего пункта
-        $items = Menu::where('id', '<=', $id)->get();
+        $items = Menu::where('id', '<=', $id)
+                    ->where('access_'.$user->access, '>', 0)
+                    ->get();
+//        dd($user->access, $items);
         // Переворачиваем список для чтения с конца
         $sorted = $items->sortKeysDesc();
         $sorted->values()->all();

@@ -16,12 +16,15 @@ class WorkOrdersController extends BaseAccountingController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $title = 'Наряды'; 
+        $url = $request->path();
+        
+        $paths = $this->createMenu($url);
+        $title = $paths->where('url', $url)->first();
         $items = WorkOrders::all(); 
         
-        return view('accounting.work-orders.index', compact('title', 'items'));
+        return view('accounting.work-orders.index', compact('paths', 'title', 'items'));
     }
 
     /**

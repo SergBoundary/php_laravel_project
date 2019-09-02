@@ -8,11 +8,15 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>
-        @if($title['name'] == 'SK-BUD')
-            {{$title['name']}}
+        @guest
+            SK-BUD
         @else
-            SK-BUD: {{$title['name']}}
-        @endif
+            @if($title['name'] == 'SK-BUD')
+                {{$title['name']}}
+            @else
+                SK-BUD: {{$title['name']}}
+            @endif
+        @endguest
     </title>
 
     <!-- Scripts -->
@@ -38,32 +42,42 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav mr-auto">
-                    @if(count($paths) > 0)
-                        @foreach($paths as $path)
-                        <li class="nav-item">
-                            <div class="nav-link">
-                                <span style="margin-left: -10px;">@if (!$loop->first)/@endif</span>
-                                @if (!$loop->last)<a href="{{ url($path['url']) }}">{{ $path['name'] }}</a>@endif
-                                @if ($loop->last){{ $path['name'] }}@endif
-                            </div>
-                        </li>
-                        @endforeach
+                    @guest
+                        <ul class="navbar-nav mr-auto">
+                            <li class="nav-item">
+                                <div class="nav-link">
+                                    SK-BUD
+                                </div>
+                            </li>
+                        </ul>
                     @else
-                        <em>Данные отсутствуют..</em>
-                    @endif
-                    </ul>
+                        <ul class="navbar-nav mr-auto">
+                        @if(count($paths) > 0)
+                            @foreach($paths as $path)
+                            <li class="nav-item">
+                                <div class="nav-link">
+                                    <span style="margin-left: -10px;">@if (!$loop->first)/@endif</span>
+                                    @if (!$loop->last)<a href="{{ url($path['url']) }}">{{ $path['name'] }}</a>@endif
+                                    @if ($loop->last){{ $path['name'] }}@endif
+                                </div>
+                            </li>
+                            @endforeach
+                        @else
+                            <em>Данные отсутствуют..</em>
+                        @endif
+                        </ul>
+                    @endguest
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
                         @guest
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                <a class="nav-link" href="{{ route('login') }}">{{ __('Вход') }}</a>
                             </li>
                             @if (Route::has('register'))
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Регистрация') }}</a>
                                 </li>
                             @endif
                         @else
@@ -73,10 +87,13 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{{ route('home') }}">
+                                        {{ __('Кабинет пользователя') }}
+                                    </a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
+                                        {{ __('Выйти') }}
                                     </a>
 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">

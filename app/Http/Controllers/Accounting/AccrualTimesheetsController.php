@@ -16,12 +16,15 @@ class AccrualTimesheetsController extends BaseAccountingController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $title = 'Расчет начислений'; 
+        $url = $request->path();
+        
+        $paths = $this->createMenu($url);
+        $title = $paths->where('url', $url)->first();
         $items = AccrualTimesheets::all(); 
         
-        return view('accounting.accrual-timesheets.index', compact('title', 'items'));
+        return view('accounting.accrual-timesheets.index', compact('paths', 'title', 'items'));
     }
 
     /**
