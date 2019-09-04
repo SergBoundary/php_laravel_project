@@ -24,7 +24,7 @@ class CreateWorkOrdersAmountsTable extends Migration
             $table->integer('quantity'); // Количество выполненой работы
             $table->float('price', 8,2); // Цена единицы
             $table->float('amount', 8,2); // Сумма выполненой работы
-            $table->float('holidays_amount', 8,2); // Сумма выполненой работы
+            $table->float('holidays_amount', 8,2); // Сумма выполненой работы в праздники
             $table->float('hours', 8,2); // Отработано часов на выполнение наряда
             $table->timestamps(); // Поля с датой создания и датой изменения записи
             $table->softDeletes(); // Поле с датой удаления (исключения) записи из обслуживания

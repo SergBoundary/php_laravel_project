@@ -58,11 +58,11 @@ class CountriesController extends BaseReferencesController
     public function store(CountriesCreateRequest $request)
     {
         $data = $request->input();
-        $item = (new Countries($data))->create($data);
+        $result = (new Countries($data))->create($data);
         
-        if($item) {
+        if($result) {
             return redirect()
-                ->route('ref.countries.edit', $item->id)
+                ->route('ref.countries.edit', $result->id)
                 ->with(['success' => "Успешно сохранено"]);
         } else {
             return back()
@@ -117,7 +117,7 @@ class CountriesController extends BaseReferencesController
         $result = $item->update($data);
         if($result) {
             return redirect()
-                ->route('ref.countries.edit', $item->id)
+                ->route('ref.countries.edit', $result->id)
                 ->with(['success' => "Успешно сохранено"]);
         } else {
             return back()
@@ -134,6 +134,18 @@ class CountriesController extends BaseReferencesController
      */
     public function destroy($id)
     {
-        //
+        //$result = Countries::destroy($id);
+        
+        $result = Countries::find($id)->forceDelete();
+        
+        if($result) {
+            return redirect()
+                ->route('ref.countries.index')
+                ->with(['success' => "Успешно сохранено"]);
+        } else {
+            return back()
+                ->withErrors(['msg' => "Ошибка сохранения.."])
+                ->withInput();
+        }
     }
 }

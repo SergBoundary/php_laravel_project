@@ -29,8 +29,14 @@
                             <td>{{ $countryRow->symbol_alfa3 }}</td>
                             <td>{{ $countryRow->number_iso }}</td>
                             <td>
-                                <a class="btn btn-outline-primary btn-sm" href="{{ url($title['url']) }}/{{ $countryRow->id }}/edit">Изменить</a>
-                                <a class="btn btn-outline-danger btn-sm" href="#">Удалить</a>
+                                <div class="btn-group" role="group" aria-label="Record editing">
+                                    <button type="button" class="btn btn-outline-primary btn-sm" href="{{ url($title['url']) }}/{{ $countryRow->id }}/edit">Изменить</button>
+                                    <form method="POST" action="{{ route('ref.countries.destroy', $countryRow->id) }}">
+                                        @method('DELETE')
+                                        @csrf
+                                        <button type="submit" class="btn btn-outline-danger btn-sm" href="#">Удалить</button>
+                                    </form>
+                                </div>
                             </td>
                         </tr>
                         @endforeach

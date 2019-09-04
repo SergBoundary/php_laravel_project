@@ -147,6 +147,18 @@ class DistrictsController extends BaseReferencesController
      */
     public function destroy($id)
     {
-        //
+        //$result = Districts::destroy($id);
+        
+        $result = Districts::find($id)->forceDelete();
+        
+        if($result) {
+            return redirect()
+                ->route('ref.districts.index')
+                ->with(['success' => "Успешно сохранено"]);
+        } else {
+            return back()
+                ->withErrors(['msg' => "Ошибка сохранения.."])
+                ->withInput();
+        }
     }
 }
