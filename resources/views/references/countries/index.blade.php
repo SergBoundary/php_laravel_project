@@ -7,7 +7,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-10">
-                <h3><small class="text-muted text-uppercase">Выберите страну из списка</small></h3><br />
+                <h3><small class="text-muted text-uppercase">Страны</small></h3><br />
                 @if(count($countryList) > 0)
                 <table class="table table-hover">
                     <thead>
@@ -30,11 +30,11 @@
                             <td>{{ $countryRow->number_iso }}</td>
                             <td>
                                 <div class="btn-group" role="group" aria-label="Record editing">
-                                    <button type="button" class="btn btn-outline-primary btn-sm" href="{{ url($title['url']) }}/{{ $countryRow->id }}/edit">Изменить</button>
+                                    <a class="btn btn-outline-primary btn-sm" href="{{ route('ref.countries.edit', $countryRow->id) }}">{{ __('Изменить') }}</a>
                                     <form method="POST" action="{{ route('ref.countries.destroy', $countryRow->id) }}">
                                         @method('DELETE')
                                         @csrf
-                                        <button type="submit" class="btn btn-outline-danger btn-sm" href="#">Удалить</button>
+                                        <button type="submit" class="btn btn-outline-danger btn-sm" href="#">{{ __('Удалить') }}</button>
                                     </form>
                                 </div>
                             </td>

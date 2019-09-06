@@ -27,7 +27,7 @@
                             <td>{{ $districtRow->number_iso }}</td>
                             <td>
                                 <div class="btn-group" role="group" aria-label="Record editing">
-                                    <button type="button" class="btn btn-outline-primary btn-sm" href="{{ url($title['url']) }}/{{ $districtRow->id }}/edit">Изменить</button>
+                                    <a class="btn btn-outline-primary btn-sm" href="{{ route('ref.districts.edit', $districtRow->id) }}">Изменить</a>
                                     <form method="POST" action="{{ route('ref.districts.destroy', $districtRow->id) }}">
                                         @method('DELETE')
                                         @csrf
