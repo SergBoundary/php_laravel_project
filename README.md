@@ -3,8 +3,4 @@ This is contract work. It is done for construction company "SAHATY & SK-BUD". Th
 
 To jest praca kontraktowa. Zrobiona jest dla firmy budowlanej "SAHATY & SK-BUD". Firma uważa analizę oryginalnego systemu księgowego i opracowanie optymalnej bazy danych dla aplikacji internetowej za niepotrzebne, dlatego nie zapłaciła miesiąca pracy wysokiej jakości nad projektem.
 
-<<<<<<< HEAD
 Это работа согласно договору. Она была выполнена для строительной компании "SAHATY & SK-BUD". Компания считает анализ оригинальной системы учета и разработку оптимальной базы данных для веб-приложения не нужной и поэтому не оплатила месяц качественно выполненной работы над проектом.
-=======
-Это работа согласно договору. Она была выполнена для строительной компании "SAHATY & SK-BUD". Компания считает анализ оригинальной системы учета и разработку оптимальной базы данных для веб-приложения не нужной и поэтому не оплатила месяц качественно выполненной работы над проектом.
->>>>>>> cc98c1f801b37d65ac325a5daa37556af14df6b9
