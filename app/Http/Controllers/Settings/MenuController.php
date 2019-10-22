@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Settings;
 
 use Illuminate\Http\Request;
 use App\Models\Settings\Menu;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Контроллер настроек пользовательского меню системы
@@ -17,28 +18,26 @@ class MenuController extends BaseSettingsController
      * @return \Illuminate\Http\Response
      */
     
-    protected $url;
+    protected $path;
     
     public function index(Request $request)
     {
-        $user = \Illuminate\Support\Facades\Auth::user();
-//        dd($user->access);
-        if(empty($user)) {
+        $user = Auth::user();
+        $this->path = $request->path();
+
+        $menu = $this->createMenu($this->path);
+        if(empty($menu)) {
             return view('guest');
-        } else {
-            $this->url = $request->path();
-        
-            $paths = $this->createMenu($this->url);
-            $title = $paths->where('url', $this->url)
-                    ->first();
-            $parent = $paths->last();
-            $items = Menu::where('parent_id', $parent['id'])
-                    ->where('access_'.$user->access, '>', 0)
-                    ->orderBy('sort')
-                    ->get();
-            
-            return view('menu', compact('title', 'paths', 'items'));
         }
+        $title = $menu->where('path', $this->path)
+                ->first();
+        $parent = $menu->last();
+        $items = Menu::where('parent_id', $parent['id'])
+                ->where('access_'.$user->access, '>', 0)
+                ->orderBy('sort')
+                ->get();
+
+        return view('menu', compact('menu', 'title', 'items'));
         
     }
 }

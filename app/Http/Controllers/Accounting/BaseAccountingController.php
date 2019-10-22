@@ -11,5 +11,10 @@ use App\Http\Controllers\Controller;
 
 abstract class BaseAccountingController extends Controller
 {
-    //
+    /**
+     * BaseAccountingController constructor
+     */
+    public function __construct() {
+        
+    }
 }

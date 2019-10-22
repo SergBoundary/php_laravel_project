@@ -11,5 +11,10 @@ use App\Http\Controllers\Controller;
 
 abstract class BaseHumanResourcesController extends Controller
 {
-    //
+    /**
+     * BaseHumanResourcesController constructor
+     */
+    public function __construct() {
+        
+    }
 }

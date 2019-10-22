@@ -11,5 +11,10 @@ use App\Http\Controllers\Controller;
 
 abstract class BaseSettingsController extends Controller
 {
-    //
+    /**
+     * BaseSettingsController constructor
+     */
+    public function __construct() {
+        
+    }
 }

@@ -2,34 +2,51 @@
 
 @section('content')
     @php 
-        /** @var \App\Models\References\Districts $title, $paths, $districts */
+        /** @var \App\Models\References\Districts $menu, $title, $districtList */
+        $country = "";
     @endphp
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-10">
-                <h3><small class="text-muted text-uppercase">Выберите страну из списка</small></h3><br />
-                @if(count($countryList) > 0)
+                <h3><small class="text-muted text-uppercase">{{ $title['name'] }}</small></h3><br />
+                @if(count($districtList) > 0)
                 <table class="table table-hover">
                     <thead>
-                        <th scope="col">Название</th>
+                        <th scope="col" colspan="2">Название области</th>
                         <th scope="col">Национальное название</th>
-                        <th scope="col">Код Alfa2</th>
-                        <th scope="col">Код Alfa2</th>
                         <th scope="col">Код ISO</th>
-                        <th scope="col"></th>
+                        <th scope="col">
+                            <a class="btn btn-outline-secondary btn-sm" href="{{ route('ref.districts.create') }}">{{ __('Добавить') }}</a>
+                        </th>
                     </thead>
                     <tbody>
-                        @foreach($countryList as $countryOption)
+                        @foreach($districtList as $districtRow)
+                        @if ($country != $districtRow->country)
                         <tr>
-                            <td>{{ $countryOption->title }}</th>
-                            <td>{{ $countryOption->national_name }}</td>
-                            <td>{{ $countryOption->symbol_alfa2 }}</td>
-                            <td>{{ $countryOption->symbol_alfa3 }}</td>
-                            <td>{{ $countryOption->number_iso }}</td>
+                            <td colspan="5" class="text-muted text-uppercase"><em>{{ $districtRow->country }}</em></td>
+                        </tr>
+                        @elseif ($country == $districtRow->country)
+                        <tr>
+                            <td> </td>
+                            <td>{{ $districtRow->title }}</td>
+                            <td>{{ $districtRow->national_name }}</td>
+                            <td>{{ $districtRow->number_iso }}</td>
                             <td>
-                                <a class="btn btn-outline-primary btn-sm" href="{{ url($title['url']) }}/{{ $countryOption->id }}">Выбрать</a>
+                                <div class="btn-group" role="group" aria-label="Record editing">
+                                    <form method="POST" action="{{ route('ref.districts.destroy', $districtRow->id) }}">
+                                        @method('DELETE')
+                                        @csrf
+                                        <a class="btn btn-outline-secondary btn-sm" href="{{ route('ref.districts.show', $districtRow->id) }}">{{ __('Открыть') }}</a>
+                                        <a class="btn btn-outline-secondary btn-sm" href="{{ route('ref.districts.edit', $districtRow->id) }}">{{ __('Изменить') }}</a>
+                                        <button type="submit" class="btn btn-outline-danger btn-sm" href="#">{{ __('Удалить') }}</button>
+                                    </form>
+                                </div>
                             </td>
                         </tr>
+                        @endif
+                        @php
+                            $country = $districtRow->country;
+                        @endphp
                         @endforeach
                     </tbody>
                 </table>
@@ -38,5 +55,5 @@
                 @endif
             </div>
         </div>
-    </div>            
+    </div> 
 @endsection

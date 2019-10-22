@@ -11,5 +11,10 @@ use App\Http\Controllers\Controller;
 
 abstract class BaseReferencesController extends Controller
 {
-    //
+    /**
+     * BaseReferencesController constructor
+     */
+    public function __construct() {
+        
+    }
 }

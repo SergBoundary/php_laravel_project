@@ -434,7 +434,7 @@ class DistrictsTableSeeder extends Seeder
             ],
             [
                 'country_id' => 36,
-                'title' => 'Черниговская область[10]',
+                'title' => 'Черниговская область',
                 'national_name' => 'Чернігівська область',
                 'number_iso' => 'UA-74',
                 'created_at' => now(),
@@ -448,8 +448,8 @@ class DistrictsTableSeeder extends Seeder
             ],
             [
                 'country_id' => 36,
-                'title' => 'Автономная Республика Крым[5]',
-                'national_name' => 'Автономна Республіка Крим ',
+                'title' => 'Автономная Республика Крым',
+                'national_name' => 'Автономна Республіка Крим',
                 'number_iso' => 'UA-43',
                 'created_at' => now(),
             ],

@@ -19,4 +19,14 @@ class Districts extends Model
         'national_name',
         'number_iso',  
     ];
+    
+    /**
+     * Страна
+     * 
+     * @return Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function country() {
+        // Запись принадлежит country
+        return $this->belongsTo(Countries::class);
+    }
 }

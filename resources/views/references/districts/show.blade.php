@@ -2,46 +2,54 @@
 
 @section('content')
     @php 
-        /** @var \App\Models\References\Districts $title, $paths, $countryRow, $districtList */
+        /** @var \App\Models\References\Countries $menu, $title, $districtList */
     @endphp
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-10">
-                <h3><small class="text-uppercase">{{$countryRow['title']}}</small></h3><br />
-                <h3><small class="text-muted text-uppercase">{{$title['name']}}</small></h3><br />
-                @if(count($districtList) > 0)
-                <table class="table table-hover">
-                    <thead>
-                        <th scope="col">Название</th>
-                        <th scope="col">Национальное название</th>
-                        <th scope="col">Код ISO</th>
-                        <th scope="col">
-                            <a class="btn btn-outline-secondary btn-sm" href="{{ route('ref.districts.create') }}">{{ __('Добавить') }}</a>
-                        </th>
-                    </thead>
-                    <tbody>
-                        @foreach($districtList as $districtRow)
-                        <tr>
-                            <td>{{ $districtRow->title }}</th>
-                            <td>{{ $districtRow->national_name }}</td>
-                            <td>{{ $districtRow->number_iso }}</td>
-                            <td>
-                                <div class="btn-group" role="group" aria-label="Record editing">
-                                    <a class="btn btn-outline-primary btn-sm" href="{{ route('ref.districts.edit', $districtRow->id) }}">Изменить</a>
-                                    <form method="POST" action="{{ route('ref.districts.destroy', $districtRow->id) }}">
+                <div class="card">
+                    <div class="card-header"><h3>{{$title['name']}}</h3></div>
+                    <div class="card-body">
+
+                        <form name="show">
+                            @method('PATCH')
+                            @csrf
+<!--                            @php
+                                /** @var \Illuminate\Support\ViewErrorBag @errors */
+                            @endphp-->
+                            <!--@include('references.districts.includes.result_messages')-->
+                            <div class="row justify-content-center">
+                                <div class='form-group col-md-10'>
+                                    <label for='title'>Название страны</label>
+                                    <input name='title' value='{{ $districtList->country }}' id='title' type='text' maxlength="50" readonly class="form-control" title='Наименование страна'>
+                                </div>
+                                <div class='form-group col-md-10'>
+                                    <label for='national_name'>Название области</label>
+                                    <input name='national_name' value='{{ $districtList->title }}' id='national_name' type='text' maxlength="50" readonly class="form-control" title='Наименование области (штата, земли, воевудства)'>
+                                </div>
+                                <div class='form-group col-md-10'>
+                                    <label for='symbol_alfa2'>Национальное название</label>
+                                    <input name='symbol_alfa3' value='{{ $districtList->national_name }}' id='symbol_alfa3' type='text' maxlength="8" readonly class="form-control" title='Национальное наименование областии (штата, земли, воевудства)'>
+                                </div>
+                                <div class='form-group col-md-10'>
+                                    <label for='number_iso'>Код страны ISO</label>
+                                    <input name='number_iso' value='{{ $districtList->number_iso }}' id='number_iso' type='text' maxlength="8" readonly class="form-control" title='Международный код области (штата, земли, воевудства)'>
+                                </div>
+                                <div class='form-group col-md-10'> </div>
+                                <div class='form-group col-md-10'>
+                                    <a class="btn btn-outline-secondary" href="{{ route('ref.districts.index') }}">{{ __('Закрыть') }}</a><span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                    <a class="btn btn-outline-secondary" href="{{ route('ref.districts.edit', $districtList->id) }}">{{ __('Изменить') }}</a>
+                                    <form name="delete" method="POST" action="{{ route('ref.districts.destroy', $districtList->id) }}">
                                         @method('DELETE')
                                         @csrf
-                                        <button type="submit" class="btn btn-outline-danger btn-sm" href="#">Удалить</button>
+                                        <button type="submit" class="btn btn-outline-danger" href="#">{{ __('Удалить') }}</button>
                                     </form>
                                 </div>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-                @else
-                    <em>Данные отсутствуют..</em>
-                @endif
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
             </div>
         </div>
     </div>            

@@ -3,35 +3,52 @@
 namespace App\Http\Controllers\References;
 
 use Illuminate\Http\Request;
-use App\Models\References\Districts;
 use App\Models\References\Countries;
-use App\Http\Requests\References\DistrictsUpdateRequest;
+use App\Models\References\Districts;
+use App\Repositories\References\DistrictsRepository;
 use App\Http\Requests\References\DistrictsCreateRequest;
+use App\Http\Requests\References\DistrictsUpdateRequest;
 
 /**
  * Контроллер списка областей (штатов, земель, воевудств)
+ * 
+ * @package App\Http\Controllers\References
  */
 
 class DistrictsController extends BaseReferencesController
 {
+    
+    /**
+     * @var CountriesRepository 
+     */
+    private $districtsRepository;
+    
+    protected $path = 'ref/districts';
+
+    public function __construct() {
+        
+        parent::__construct();
+        
+        $this->districtsRepository = app(DistrictsRepository::class);
+    }
+    
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    
-    protected $url = 'ref/districts';
-    
     public function index()
     {
-        $paths = $this->createMenu($this->url);
-        $title = $paths->where('url', $this->url)
+        $menu = $this->createMenu($this->path);
+        if(empty($menu)) {
+            return view('guest');
+        }
+        $title = $menu->where('path', $this->path)
                 ->first();
-        $countryList = Countries::where('visible', 1)
-                ->orderBy('title')
-                ->get();
-        
-        return view('references.districts.index', compact('paths', 'title', 'countryList'));
+        $districtList = $this->districtsRepository->getListTable();
+//        dd($districtList);
+        return view('references.districts.index', 
+                compact('menu', 'title', 'districtList'));
     }
 
     /**
@@ -41,14 +58,17 @@ class DistrictsController extends BaseReferencesController
      */
     public function create()
     {
-        $paths = $this->createMenu($this->url);
-        $title = $paths->where('url', $this->url)
+        $menu = $this->createMenu($this->path);
+        if(empty($menu)) {
+            return view('guest');
+        }
+        $title = $menu->where('path', $this->path)
                 ->first();
-        $countryList = Countries::where('visible', 1)
-                ->get();
-        $districtList = Districts::all();
+        $countryList = $this->districtsRepository->getListSelect();
+//        $districtList = Districts::all();
         
-        return view('references.districts.create', compact('paths', 'title', 'countryList', 'districtList'));
+        return view('references.districts.create', compact('menu', 'title', 'countryList'));
+//        return view('references.districts.create', compact('menu', 'title', 'countryList', 'districtList'));
     }
 
     /**
@@ -79,19 +99,21 @@ class DistrictsController extends BaseReferencesController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-        $paths = $this->createMenu($this->url);
-        $title = $paths->where('url', $this->url)
+    public function show($id) {
+
+        // Формируем массив подменю выбранного пункта меню
+        $menu = $this->createMenu($this->path);
+        if(empty($menu)) {
+            return view('guest');
+        }
+        // Формируем массив подменю выбранного пункта меню
+        $title = $menu->where('path', $this->path)
                 ->first();
-        $countryRow = Countries::where('id', $id)
-                ->first();
-        $districtList = Districts::where('country_id', $id)
-                ->orderBy('title')
-                ->get();
+
+        // Формируем содержание списка заполняемых полей input
+        $districtList = $this->districtsRepository->getShow($id);
         
-        return view('references.districts.show', 
-                compact('paths', 'title', 'countryRow', 'districtList'));
+        return view('references.districts.show', compact('menu', 'title', 'districtList'));
     }
 
     /**
@@ -102,13 +124,17 @@ class DistrictsController extends BaseReferencesController
      */
     public function edit($id, Request $request)
     {
-        $paths = $this->createMenu($this->url);
-        $title = $paths->where('url', $this->url)
+        $menu = $this->createMenu($this->path);
+        if(empty($menu)) {
+            return view('guest');
+        }
+        $title = $menu->where('path', $this->path)
                 ->first();
-        $districts = Districts::find($id);
-        $countryList = Countries::all();
+//        $countryList = Countries::all();
+        $countryList = $this->districtsRepository->getListSelect();
+        $districtList = $this->districtsRepository->getEdit($id);
         
-        return view('references.districts.edit', compact('paths', 'title', 'districts', 'countryList'));
+        return view('references.districts.edit', compact('menu', 'title', 'districtList', 'countryList'));
     }
 
     /**
@@ -120,7 +146,7 @@ class DistrictsController extends BaseReferencesController
      */
     public function update(DistrictsUpdateRequest $request, $id)
     {
-        $item = Districts::find($id);
+        $item = $this->districtsRepository->getEdit($id);
         if(empty($item)) {
             return back()
                 ->withErrors(['msg' => "Запись #{$id} не найдена.."])
@@ -149,7 +175,7 @@ class DistrictsController extends BaseReferencesController
     {
         //$result = Districts::destroy($id);
         
-        $result = Districts::find($id)->forceDelete();
+        $result = $this->districtsRepository->getEdit($id)->forceDelete();
         
         if($result) {
             return redirect()

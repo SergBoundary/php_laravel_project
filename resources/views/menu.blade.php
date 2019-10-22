@@ -6,7 +6,7 @@
             <div class="col-md-10">
                 @if(count($items) > 0)
                     @foreach($items as $item)
-                        <a class='btn btn-outline-secondary btn-toolbar btn-lg' href='{{ url($item->url) }}'>{{ $item->name }}</a><br>
+                        <a class='btn btn-outline-secondary btn-toolbar btn-lg' href='{{ url($item->path) }}'>{{ $item->name }}</a><br>
                     @endforeach
                 @else
                     <em>Что-то пошло не так..</em>

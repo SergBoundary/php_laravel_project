@@ -52,12 +52,12 @@
                         </ul>
                     @else
                         <ul class="navbar-nav mr-auto">
-                        @if(count($paths) > 0)
-                            @foreach($paths as $path)
+                        @if(count($menu) > 0)
+                            @foreach($menu as $path)
                             <li class="nav-item">
                                 <div class="nav-link">
                                     <span style="margin-left: -10px;">@if (!$loop->first)/@endif</span>
-                                    @if (!$loop->last)<a href="{{ url($path['url']) }}">{{ $path['name'] }}</a>@endif
+                                    @if (!$loop->last)<a href="{{ url($path['path']) }}">{{ $path['name'] }}</a>@endif
                                     @if ($loop->last){{ $path['name'] }}@endif
                                 </div>
                             </li>

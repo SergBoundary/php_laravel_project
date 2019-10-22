@@ -4,33 +4,56 @@ namespace App\Http\Controllers\References;
 
 use Illuminate\Http\Request;
 use App\Models\References\Countries;
+use App\Repositories\References\CountriesRepository;
 use App\Http\Requests\References\CountriesCreateRequest;
 use App\Http\Requests\References\CountriesUpdateRequest;
 
 /**
  * Контроллер списка стран
+ * 
+ * @package App\Http\Controllers\References
  */
 
 class CountriesController extends BaseReferencesController
 {
+    
+    /**
+     * @var CountriesRepository 
+     */
+    private $countriesRepository;
+    
+    protected $path = 'ref/countries';
+
+    public function __construct() {
+        
+        parent::__construct();
+        
+        $this->countriesRepository = app(CountriesRepository::class);
+    }
+    
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    
-    protected $url = 'ref/countries';
-    
     public function index()
     {
-        $paths = $this->createMenu($this->url);
-        $title = $paths->where('url', $this->url)
+        $menu = $this->createMenu($this->path);
+        if(empty($menu)) {
+            return view('guest');
+        }
+        $title = $menu->where('path', $this->path)
+                ->toBase()
                 ->first();
-        $countryList = Countries::where('visible', 1)
-                ->orderBy('title')
-                ->get();
+        $countryList = $this->countriesRepository->getListTable();
+//        $countryList = $this->countriesRepository->getAllPaginate(5);
+//        $countryList = Countries::where('visible', 1)
+//                ->orderBy('title')
+//                ->toBase()
+//                ->get();
         
-        return view('references.countries.index', compact('paths', 'title', 'countryList'));
+        return view('references.countries.index', 
+                compact('menu', 'title', 'countryList'));
     }
 
     /**
@@ -40,13 +63,16 @@ class CountriesController extends BaseReferencesController
      */
     public function create()
     {
-        $paths = $this->createMenu($this->url);
-        $title = $paths->where('url', $this->url)
+        $menu = $this->createMenu($this->path);
+        if(empty($menu)) {
+            return view('guest');
+        }
+        $title = $menu->where('path', $this->path)
+                ->toBase()
                 ->first();
-        $countryList = Countries::where('visible', 1)
-                ->get();
         
-        return view('references.countries.create', compact('paths', 'title', 'countryList'));
+        return view('references.countries.create', 
+                compact('menu', 'title'));
     }
 
     /**
@@ -58,6 +84,7 @@ class CountriesController extends BaseReferencesController
     public function store(CountriesCreateRequest $request)
     {
         $data = $request->input();
+        
         $result = (new Countries($data))->create($data);
         
         if($result) {
@@ -77,9 +104,22 @@ class CountriesController extends BaseReferencesController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-        //
+    public function show($id) {
+
+        // Формируем массив подменю выбранного пункта меню
+        $menu = $this->createMenu($this->path);
+        if(empty($menu)) {
+            return view('guest');
+        }
+        // Формируем массив подменю выбранного пункта меню
+        $title = $menu->where('path', $this->path)
+                ->first();
+
+        // Формируем содержание списка заполняемых полей input
+        $countriesList = Countries::find($id);
+
+        return view('references.countries.show', 
+               compact('menu', 'title', 'countriesList'));
     }
 
     /**
@@ -88,14 +128,22 @@ class CountriesController extends BaseReferencesController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id, Request $request)
+    public function edit($id, CountriesRepository $countries)
     {
-        $paths = $this->createMenu($this->url);
-        $title = $paths->where('url', $this->url)
+        $menu = $this->createMenu($this->path);
+        if(empty($menu)) {
+            return view('guest');
+        }
+        $title = $menu->where('path', $this->path)
+                ->toBase()
                 ->first();
-        $countries = Countries::find($id);
-        
-        return view('references.countries.edit', compact('paths', 'title', 'countries'));
+        $item = $countries->getEdit($id);
+        if(empty($item)) {
+            abort(404);
+        }
+//        dd($item);
+        return view('references.countries.edit', 
+                compact('menu', 'title', 'item'));
     }
 
     /**
@@ -117,7 +165,7 @@ class CountriesController extends BaseReferencesController
         $result = $item->update($data);
         if($result) {
             return redirect()
-                ->route('ref.countries.edit', $result->id)
+                ->route('ref.countries.edit', $item->id)
                 ->with(['success' => "Успешно сохранено"]);
         } else {
             return back()

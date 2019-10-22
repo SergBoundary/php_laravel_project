@@ -24,7 +24,7 @@
                                     <select name='country_id' id='country_id' type='text' placeholder="Выберите страну" class="form-control" title='Наименование страны' required>
                                     @foreach($countryList as $countryOption)
                                     <option value="{{ $countryOption->id }}">
-                                        {{ $countryOption->title }}
+                                        {{ $countryOption->country }}
                                     </option>
                                     @endforeach
                                     </select>
@@ -42,11 +42,11 @@
                                     <input name='number_iso' id='number_iso' type='text' maxlength="8" class="form-control" title='Международный код области (штата, земли, воевудства)'>
                                 </div>
                                 <div class='form-group col-md-10'>
-                                    <button type="submit" class="btn btn-secondary float-left">
+                                    <button type="submit" class="btn btn-outline-secondary float-left">
                                         {{ __('Сохранить') }}
                                     </button>
                                     @if(session('success'))
-                                        <a class='btn btn-outline-secondary' style="margin-left: 10px;" href="{{ route('ref.districts.index') }}">{{ __('Закрыть') }}</a>
+                                        <a class='btn btn-outline-secondary' style="margin-left: 10px;" href="{{ route('ref.districts.show', $districtList->id }}">{{ __('Закрыть') }}</a>
                                     @else
                                         <a class='btn btn-outline-secondary' style="margin-left: 10px;" href="{{ route('ref.districts.index') }}">{{ __('Отмена') }}</a>
                                     @endif

@@ -1,17 +1,15 @@
 <?php
 
-namespace app\Repositories;
+namespace App\Repositories;
 
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class CoreRepository
+ * Репозиторий для выдачи данных по запросу (не создает и не изменяет данные)
  *
  * @author Se Bo
  * 
  * @package App\Repositories
- * 
- * Репозиторий для выдачи данных по запросу
  */
 abstract class CoreRepository {
     /**
@@ -27,7 +25,7 @@ abstract class CoreRepository {
     }
     
     /**
-     * @return mixed Description
+     * @return mixed
      */
     abstract protected function getModelClass();
     
