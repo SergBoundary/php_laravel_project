@@ -10,93 +10,57 @@ use App\Http\Requests\References\DistrictsCreateRequest;
 use App\Http\Requests\References\DistrictsUpdateRequest;
 
 /**
- * Контроллер списка областей (штатов, земель, воевудств)
- * 
+ * Class DistrictsController: Контроллер списка областей (штатов, земель, воевудств)
+ *
+ * @author SeBo
+ *
  * @package App\Http\Controllers\References
  */
+class DistrictsController extends BaseReferencesController {
 
-class DistrictsController extends BaseReferencesController
-{
-    
     /**
-     * @var CountriesRepository 
+     * @var DistrictsRepository
      */
     private $districtsRepository;
-    
-    protected $path = 'ref/districts';
+
+    /**
+     * @var path
+     */
+    private $path = 'ref/districts';
 
     public function __construct() {
-        
+
         parent::__construct();
-        
+
         $this->districtsRepository = app(DistrictsRepository::class);
+
     }
-    
+
     /**
-     * Display a listing of the resource.
+     * Метод создания краткого табличного представления
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
+    public function index() {
+
+        // Формируем массив подменю выбранного пункта меню
         $menu = $this->createMenu($this->path);
         if(empty($menu)) {
             return view('guest');
         }
+        // Формируем массив данных о представлении
         $title = $menu->where('path', $this->path)
                 ->first();
-        $districtList = $this->districtsRepository->getListTable();
-//        dd($districtList);
-        return view('references.districts.index', 
-                compact('menu', 'title', 'districtList'));
+
+        $districtsList = $this->districtsRepository->getListTable();
+
+        return view('references.districts.index',  
+               compact('menu', 'title', 'districtsList'));
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Метод создания полного представления существющей записи
      *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        $menu = $this->createMenu($this->path);
-        if(empty($menu)) {
-            return view('guest');
-        }
-        $title = $menu->where('path', $this->path)
-                ->first();
-        $countryList = $this->districtsRepository->getListSelect();
-//        $districtList = Districts::all();
-        
-        return view('references.districts.create', compact('menu', 'title', 'countryList'));
-//        return view('references.districts.create', compact('menu', 'title', 'countryList', 'districtList'));
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(DistrictsCreateRequest $request)
-    {
-        $data = $request->input();
-        $item = (new Districts($data))->create($data);
-        
-        if($item) {
-            return redirect()
-                ->route('ref.districts.edit', $item->id)
-                ->with(['success' => "Успешно сохранено"]);
-        } else {
-            return back()
-                ->withErrors(['msg' => "Ошибка сохранения.."])
-                ->withInput();
-        }
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show($id) {
@@ -106,46 +70,98 @@ class DistrictsController extends BaseReferencesController
         if(empty($menu)) {
             return view('guest');
         }
-        // Формируем массив подменю выбранного пункта меню
+        // Формируем массив данных о представлении
         $title = $menu->where('path', $this->path)
                 ->first();
 
         // Формируем содержание списка заполняемых полей input
-        $districtList = $this->districtsRepository->getShow($id);
-        
-        return view('references.districts.show', compact('menu', 'title', 'districtList'));
+        $districtsList = $this->districtsRepository->getShow($id);
+
+        return view('references.districts.show', 
+               compact('menu', 'title', 'districtsList'));
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Метод создания представления новой записи
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id, Request $request)
-    {
+    public function create() {
+
+        // Формируем массив подменю выбранного пункта меню
         $menu = $this->createMenu($this->path);
         if(empty($menu)) {
             return view('guest');
         }
+        // Формируем массив данных о представлении
         $title = $menu->where('path', $this->path)
                 ->first();
-//        $countryList = Countries::all();
-        $countryList = $this->districtsRepository->getListSelect();
-        $districtList = $this->districtsRepository->getEdit($id);
-        
-        return view('references.districts.edit', compact('menu', 'title', 'districtList', 'countryList'));
+
+        // Формируем содержание списка выбираемых полей полей select
+        $countryList = $this->districtsRepository->getListSelect(0);
+
+        return view('references.districts.create', 
+               compact('menu', 'title', 
+                      'countryList'));
     }
 
     /**
-     * Update the specified resource in storage.
+     * Метод сохранения созданной новой записи
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(DistrictsUpdateRequest $request, $id)
-    {
+    public function store(DistrictsCreateRequest $request) {
+
+        $data = $request->input();
+
+        $result = (new Districts($data))->create($data);
+
+        if($result) {
+            return redirect()
+                ->route('ref.districts.edit', $result->id)
+                ->with(['success' => "Успешно сохранено"]);
+        } else {
+            return back()
+                ->withErrors(['msg' => "Ошибка сохранения.."])
+                ->withInput();
+        }
+    }
+
+    /**
+     * Метод создания представления изменения
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id) {
+
+        // Формируем массив подменю выбранного пункта меню
+        $menu = $this->createMenu($this->path);
+        if(empty($menu)) {
+            return view('guest');
+        }
+        // Формируем массив данных о представлении
+        $title = $menu->where('path', $this->path)
+                ->first();
+
+        // Формируем содержание списка выбираемых полей полей select
+        $countryList = $this->districtsRepository->getListSelect(0);
+
+        // Формируем содержание списка заполняемых полей input
+        $districtsList = $this->districtsRepository->getEdit($id);
+
+        return view('references.districts.edit', 
+               compact('menu', 'title', 
+                      'countryList', 
+                      'districtsList'));
+    }
+
+    /**
+     * Обновление данных полей измененной записи
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function update(DistrictsUpdateRequest $request, $id) {
+
         $item = $this->districtsRepository->getEdit($id);
         if(empty($item)) {
             return back()
@@ -166,17 +182,14 @@ class DistrictsController extends BaseReferencesController
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Удаление выбранной записи
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
-        //$result = Districts::destroy($id);
-        
+    public function destroy($id) {
+
         $result = $this->districtsRepository->getEdit($id)->forceDelete();
-        
+
         if($result) {
             return redirect()
                 ->route('ref.districts.index')

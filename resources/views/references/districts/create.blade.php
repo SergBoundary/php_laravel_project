@@ -2,7 +2,7 @@
 
 @section('content')
     @php 
-        /** @var \App\Models\References\Districts $paths, $title, $items */
+        /** @var \App\Models\References\Districts $paths, $title, $districtsList */
         /** @var \Illuminate\Database\Eloquent $countryList */
     @endphp
     <div class="container">
@@ -46,7 +46,7 @@
                                         {{ __('Сохранить') }}
                                     </button>
                                     @if(session('success'))
-                                        <a class='btn btn-outline-secondary' style="margin-left: 10px;" href="{{ route('ref.districts.show', $districtList->id }}">{{ __('Закрыть') }}</a>
+                                        <a class='btn btn-outline-secondary' style="margin-left: 10px;" href="{{ route('ref.districts.show', $districtsList->id) }}">{{ __('Закрыть') }}</a>
                                     @else
                                         <a class='btn btn-outline-secondary' style="margin-left: 10px;" href="{{ route('ref.districts.index') }}">{{ __('Отмена') }}</a>
                                     @endif

@@ -2,14 +2,14 @@
 
 @section('content')
     @php 
-        /** @var \App\Models\References\Districts $menu, $title, $districtList */
+        /** @var \App\Models\References\Districts $menu, $title, $districtsList */
         $country = "";
     @endphp
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-10">
                 <h3><small class="text-muted text-uppercase">{{ $title['name'] }}</small></h3><br />
-                @if(count($districtList) > 0)
+                @if(count($districtsList) > 0)
                 <table class="table table-hover">
                     <thead>
                         <th scope="col" colspan="2">Название области</th>
@@ -20,7 +20,7 @@
                         </th>
                     </thead>
                     <tbody>
-                        @foreach($districtList as $districtRow)
+                        @foreach($districtsList as $districtRow)
                         @if ($country != $districtRow->country)
                         <tr>
                             <td colspan="5" class="text-muted text-uppercase"><em>{{ $districtRow->country }}</em></td>

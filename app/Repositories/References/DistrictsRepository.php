@@ -104,9 +104,13 @@ class DistrictsRepository extends CoreRepository {
      * 
      * @return Model
      */
-    public function getListSelect() {
+    public function getListSelect($i) {
         
-        $columns = implode(", ", ['id', 'CONCAT(title, ", ", symbol_alfa2) AS country']);
+        switch ($i) {
+            case 0:
+                $columns = implode(", ", ['id', 'CONCAT(title, ", ", symbol_alfa2) AS country']);
+                break;
+        }
         
         $result = Countries::selectRaw($columns)
             ->where('visible', 1)

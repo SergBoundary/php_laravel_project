@@ -2,7 +2,7 @@
 
 @section('content')
     @php 
-        /** @var \App\Models\References\Districts $menu, $title, $districtList */
+        /** @var \App\Models\References\Districts $menu, $title, $districtsList */
         /** @var \Illuminate\Database\Eloquent $countryList */
     @endphp
     <div class="container">
@@ -12,7 +12,7 @@
                     <div class="card-header"><h3>{{$title['name']}}</h3></div>
                     <div class="card-body">
 
-                        <form method="POST" action="{{ route('ref.districts.update', $districtList->id) }}">
+                        <form method="POST" action="{{ route('ref.districts.update', $districtsList->id) }}">
                             @method('PATCH')
                             @csrf
                             @php
@@ -22,10 +22,10 @@
                             <div class="row justify-content-center">
                                 <div class='form-group col-md-10'>
                                     <label for='country_id'>Название страны</label>
-                                    <select name='country_id' value='{{ $districtList->country_id }}' id='country_id' type='text' placeholder="Выберите страну" class="form-control" title='Наименование страны' required>
+                                    <select name='country_id' value='{{ $districtsList->country_id }}' id='country_id' type='text' placeholder="Выберите страну" class="form-control" title='Наименование страны' required>
                                     @foreach($countryList as $countryOption)
                                     <option value="{{ $countryOption->id }}" 
-                                        @if($countryOption->id == $districtList->country_id) selected @endif>
+                                        @if($countryOption->id == $districtsList->country_id) selected @endif>
                                         {{ $countryOption->country }}
                                     </option>
                                     @endforeach
@@ -33,22 +33,22 @@
                                 </div>
                                 <div class='form-group col-md-10'>
                                     <label for='title'>Название области</label>
-                                    <input name='title' value='{{ $districtList->title }}' id='title' type='text' maxlength="50" class="form-control" title='Наименование области (штата, земли, воевудства)'>
+                                    <input name='title' value='{{ $districtsList->title }}' id='title' type='text' maxlength="50" class="form-control" title='Наименование области (штата, земли, воевудства)'>
                                 </div>
                                 <div class='form-group col-md-10'>
                                     <label for='national_name'>Национальное название области</label>
-                                    <input name='national_name' value='{{ $districtList->national_name }}' id='national_name' type='text' maxlength="50" class="form-control" title='Национальное наименование областии (штата, земли, воевудства)'>
+                                    <input name='national_name' value='{{ $districtsList->national_name }}' id='national_name' type='text' maxlength="50" class="form-control" title='Национальное наименование областии (штата, земли, воевудства)'>
                                 </div>
                                 <div class='form-group col-md-10'>
                                     <label for='number_iso'>Код области</label>
-                                    <input name='number_iso' value='{{ $districtList->number_iso }}' id='number_iso' type='text' maxlength="8" class="form-control" title='Международный код области (штата, земли, воевудства)'>
+                                    <input name='number_iso' value='{{ $districtsList->number_iso }}' id='number_iso' type='text' maxlength="8" class="form-control" title='Международный код области (штата, земли, воевудства)'>
                                 </div>
                                 <div class='form-group col-md-10'>
                                     <button type="submit" class="btn btn-outline-secondary float-left">
                                         {{ __('Сохранить') }}
                                     </button>
                                     @if(session('success'))
-                                        <a class='btn btn-outline-secondary' style="margin-left: 10px;" href="{{ route('ref.districts.show', $districtList->id) }}">{{ __('Закрыть') }}</a>
+                                        <a class='btn btn-outline-secondary' style="margin-left: 10px;" href="{{ route('ref.districts.show', $districtsList->id) }}">{{ __('Закрыть') }}</a>
                                     @else
                                         <a class='btn btn-outline-secondary' style="margin-left: 10px;" href="{{ route('ref.districts.index') }}">{{ __('Отмена') }}</a>
                                     @endif
