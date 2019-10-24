@@ -98,11 +98,11 @@ class DistrictsController extends BaseReferencesController {
                 ->first();
 
         // Формируем содержание списка выбираемых полей полей select
-        $countryList = $this->districtsRepository->getListSelect(0);
+        $countriesList = $this->districtsRepository->getListSelect(0);
 
         return view('references.districts.create', 
                compact('menu', 'title', 
-                      'countryList'));
+                      'countriesList'));
     }
 
     /**
@@ -144,14 +144,14 @@ class DistrictsController extends BaseReferencesController {
                 ->first();
 
         // Формируем содержание списка выбираемых полей полей select
-        $countryList = $this->districtsRepository->getListSelect(0);
+        $countriesList = $this->districtsRepository->getListSelect(0);
 
         // Формируем содержание списка заполняемых полей input
         $districtsList = $this->districtsRepository->getEdit($id);
 
         return view('references.districts.edit', 
                compact('menu', 'title', 
-                      'countryList', 
+                      'countriesList', 
                       'districtsList'));
     }
 
