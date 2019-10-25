@@ -100,7 +100,7 @@ class DistrictsRepository extends CoreRepository {
     /**
      * Получить модель для раскрывающегося списка данных
      * 
-     * @param int $id
+     * @param int $i
      * 
      * @return Model
      */
