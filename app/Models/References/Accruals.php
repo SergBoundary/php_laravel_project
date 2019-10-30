@@ -6,20 +6,21 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Модель обслуживания классификатора начислений
+ * Class Accruals: Справочник. Классификатор начислений
+ *
+ * @author SeBo
  */
+class Accruals extends Model {
 
-class Accruals extends Model
-{
     use SoftDeletes;
-    
+
     protected $fillable = [
         'accrual_group_id',
         'title',
         'direction',
         'description',
         'description_abbr',
-        'description_1с',
+        'description_1c',
         'algorithm_id',
         'accrual_sum',
         'income_number_8dr',
@@ -29,6 +30,5 @@ class Accruals extends Model
         'rounded amount',
         'rounded result',
         'account_title',
-        'object_id',
     ];
 }

@@ -6,16 +6,17 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Модель обслуживания учета документов работника для легализации пребывания в стране
+ * Class MigrationDocuments: Модель учета документов работника для легализации пребывания в стране
+ *
+ * @author SeBo
  */
+class MigrationDocuments extends Model {
 
-class MigrationDocuments extends Model
-{
     use SoftDeletes;
-    
+
     protected $fillable = [
         'personal_card_id',
-        'migartion_status_id',
+        'migration_status_id',
         'type',
         'number',
         'date_issued',

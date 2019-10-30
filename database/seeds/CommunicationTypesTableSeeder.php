@@ -12,7 +12,14 @@ class CommunicationTypesTableSeeder extends Seeder
     public function run()
     {
         $data = [
-            
+            [
+                'title' => 'Телефон',
+                'created_at' => now(),
+            ],
+            [
+                'title' => 'Е-мейл',
+                'created_at' => now(),
+            ],
         ];
         
         DB::table('communication_types')->insert($data);

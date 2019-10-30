@@ -4,61 +4,66 @@ namespace App\Http\Requests\Accounting;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class BaseTimesheetsCreateRequest extends FormRequest
-{
+/**
+ * Class BaseTimesheetsCreateRequest: Правила записи отработанного времени (табель)
+ *
+ * @author SeBo
+ *
+ * @package App\Http\Requests
+ */
+class BaseTimesheetsCreateRequest extends FormRequest {
+
     /**
-     * Determine if the user is authorized to make this request.
+     * Создает реквест, если пользователь авторизован.
      *
      * @return bool
      */
-    public function authorize()
-    {
+    public function authorize() {
         return auth()->check();
     }
 
     /**
-     * Get the validation rules that apply to the request.
+     * Получает правила проверки данных для реквеста.
      *
      * @return array
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             'personal_card_id' => 'required|integer|exists:personal_cards,id',
             'year_id' => 'required|integer|exists:years,id',
             'month_id' => 'required|integer|exists:months,id',
             'accrual_id' => 'required|integer|exists:accruals,id',
-            'day-1' => 'string|max:5',
-            'day-2' => 'string|max:5',
-            'day-3' => 'string|max:5',
-            'day-4' => 'string|max:5',
-            'day-5' => 'string|max:5',
-            'day-6' => 'string|max:5',
-            'day-7' => 'string|max:5',
-            'day-8' => 'string|max:5',
-            'day-9' => 'string|max:5',
-            'day-10' => 'string|max:5',
-            'day-11' => 'string|max:5',
-            'day-12' => 'string|max:5',
-            'day-13' => 'string|max:5',
-            'day-14' => 'string|max:5',
-            'day-15' => 'string|max:5',
-            'day-16' => 'string|max:5',
-            'day-17' => 'string|max:5',
-            'day-18' => 'string|max:5',
-            'day-19' => 'string|max:5',
-            'day-20' => 'string|max:5',
-            'day-21' => 'string|max:5',
-            'day-22' => 'string|max:5',
-            'day-23' => 'string|max:5',
-            'day-24' => 'string|max:5',
-            'day-25' => 'string|max:5',
-            'day-26' => 'string|max:5',
-            'day-27' => 'string|max:5',
-            'day-28' => 'string|max:5',
-            'day-29' => 'string|max:5',
-            'day-30' => 'string|max:5',
-            'day-31' => 'string|max:5',
+            'day_1' => 'string|max:5',
+            'day_2' => 'string|max:5',
+            'day_3' => 'string|max:5',
+            'day_4' => 'string|max:5',
+            'day_5' => 'string|max:5',
+            'day_6' => 'string|max:5',
+            'day_7' => 'string|max:5',
+            'day_8' => 'string|max:5',
+            'day_9' => 'string|max:5',
+            'day_10' => 'string|max:5',
+            'day_11' => 'string|max:5',
+            'day_12' => 'string|max:5',
+            'day_13' => 'string|max:5',
+            'day_14' => 'string|max:5',
+            'day_15' => 'string|max:5',
+            'day_16' => 'string|max:5',
+            'day_17' => 'string|max:5',
+            'day_18' => 'string|max:5',
+            'day_19' => 'string|max:5',
+            'day_20' => 'string|max:5',
+            'day_21' => 'string|max:5',
+            'day_22' => 'string|max:5',
+            'day_23' => 'string|max:5',
+            'day_24' => 'string|max:5',
+            'day_25' => 'string|max:5',
+            'day_26' => 'string|max:5',
+            'day_27' => 'string|max:5',
+            'day_28' => 'string|max:5',
+            'day_29' => 'string|max:5',
+            'day_30' => 'string|max:5',
+            'day_31' => 'string|max:5',
             'hours_balance_classifier_id' => 'required|integer|exists:hours_balance_classifiers,id',
             'department_id' => 'required|integer|exists:departments,id',
             'amount' => 'required|numeric',

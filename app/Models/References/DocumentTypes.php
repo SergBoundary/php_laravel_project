@@ -6,13 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Модель обслуживания списка видов кадровых документов
+ * Class DocumentTypes: Модель списка видов кадровых документов
+ *
+ * @author SeBo
  */
+class DocumentTypes extends Model {
 
-class DocumentTypes extends Model
-{
     use SoftDeletes;
-    
+
     protected $fillable = [
         'title',
         'abbr',

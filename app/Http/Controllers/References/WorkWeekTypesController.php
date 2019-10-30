@@ -4,92 +4,190 @@ namespace App\Http\Controllers\References;
 
 use Illuminate\Http\Request;
 use App\Models\References\WorkWeekTypes;
+use App\Repositories\References\WorkWeekTypesRepository;
+use App\Http\Requests\References\WorkWeekTypesCreateRequest;
+use App\Http\Requests\References\WorkWeekTypesUpdateRequest;
 
 /**
- * Контроллер списка видов рабочих недель
+ * Class WorkWeekTypesController: Контроллер списка видов рабочих недель
+ *
+ * @author SeBo
+ *
+ * @package App\Http\Controllers\References
  */
+class WorkWeekTypesController extends BaseReferencesController {
 
-class WorkWeekTypesController extends BaseReferencesController
-{
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @var WorkWeekTypesRepository
      */
-    public function index(Request $request)
-    {
-        $url = $request->path();
-        
-        $paths = $this->createMenu($url);
-        $title = $paths->where('url', $url)->first();
-        $items = WorkWeekTypes::all(); 
-        
-        return view('references.work-week-types.index', compact('paths', 'title', 'items'));
+    private $workWeekTypesRepository;
+
+    /**
+     * @var path
+     */
+    private $path = 'ref/work-week-types';
+
+    public function __construct() {
+
+        parent::__construct();
+
+        $this->workWeekTypesRepository = app(WorkWeekTypesRepository::class);
+
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Метод создания краткого табличного представления
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
+    public function index() {
+
+        // Формируем массив подменю выбранного пункта меню
+        $menu = $this->createMenu($this->path);
+        if(empty($menu)) {
+            return view('guest');
+        }
+        // Формируем массив данных о представлении
+        $title = $menu->where('path', $this->path)
+                ->first();
+
+        $workWeekTypesList = $this->workWeekTypesRepository->getTable();
+
+        return view('ref.work-week-types.index',  
+               compact('menu', 'title', 'workWeekTypesList'));
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Метод создания полного представления существющей записи
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        //
+    public function show($id) {
+
+        // Формируем массив подменю выбранного пункта меню
+        $menu = $this->createMenu($this->path);
+        if(empty($menu)) {
+            return view('guest');
+        }
+        // Формируем массив данных о представлении
+        $title = $menu->where('path', $this->path)
+                ->first();
+
+        // Формируем содержание списка заполняемых полей input
+        $workWeekTypesList = $this->workWeekTypesRepository->getShow($id);
+
+        return view('ref.work-week-types.show', 
+               compact('menu', 'title', 'workWeekTypesList'));
     }
 
     /**
-     * Display the specified resource.
+     * Метод создания представления новой записи
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-        //
+    public function create() {
+
+        // Формируем массив подменю выбранного пункта меню
+        $menu = $this->createMenu($this->path);
+        if(empty($menu)) {
+            return view('guest');
+        }
+        // Формируем массив данных о представлении
+        $title = $menu->where('path', $this->path)
+                ->first();
+
+        return view('ref.work-week-types.create', 
+               compact('menu', 'title'));
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Метод сохранения созданной новой записи
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
-        //
+    public function store(WorkWeekTypesCreateRequest $request) {
+
+        $data = $request->input();
+
+        $result = (new WorkWeekTypes($data))->create($data);
+
+        if($result) {
+            return redirect()
+                ->route('ref.work-week-types.edit', $result->id)
+                ->with(['success' => "Успешно сохранено"]);
+        } else {
+            return back()
+                ->withErrors(['msg' => "Ошибка сохранения.."])
+                ->withInput();
+        }
     }
 
     /**
-     * Update the specified resource in storage.
+     * Метод создания представления изменения
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
-        //
+    public function edit($id) {
+
+        // Формируем массив подменю выбранного пункта меню
+        $menu = $this->createMenu($this->path);
+        if(empty($menu)) {
+            return view('guest');
+        }
+        // Формируем массив данных о представлении
+        $title = $menu->where('path', $this->path)
+                ->first();
+
+        // Формируем содержание списка заполняемых полей input
+        $workWeekTypesList = $this->workWeekTypesRepository->getEdit($id);
+
+        return view('ref.work-week-types.edit', 
+               compact('menu', 'title', 'workWeekTypesList'));
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Обновление данных полей измененной записи
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
-        //
+    public function update(WorkWeekTypesUpdateRequest $request, $id) {
+
+        $item = $this->workWeekTypesRepository->getEdit($id);
+        if(empty($item)) {
+            return back()
+                ->withErrors(['msg' => "Запись #{$id} не найдена.."])
+                ->withInput();
+        }
+        $data = $request->all();
+        $result = $item->update($data);
+        if($result) {
+            return redirect()
+                ->route('ref.work-week-types.edit', $item->id)
+                ->with(['success' => "Успешно сохранено"]);
+        } else {
+            return back()
+                ->withErrors(['msg' => "Ошибка сохранения.."])
+                ->withInput();
+        }
+    }
+
+    /**
+     * Удаление выбранной записи
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id) {
+
+        $result = $this->workWeekTypesRepository->getEdit($id)->forceDelete();
+
+        if($result) {
+            return redirect()
+                ->route('ref.work-week-types.index')
+                ->with(['success' => "Успешно сохранено"]);
+        } else {
+            return back()
+                ->withErrors(['msg' => "Ошибка сохранения.."])
+                ->withInput();
+        }
     }
 }

@@ -6,16 +6,17 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Модель обслуживания списка сдельных работ
+ * Class Pieceworks: Модель списка сдельных работ
+ *
+ * @author SeBo
  */
+class Pieceworks extends Model {
 
-class Pieceworks extends Model
-{
     use SoftDeletes;
-    
+
     protected $fillable = [
         'title',
-        'piecework_unit_id',
+        'pieceworks_unit_id',
         'price',
         'accrual_id',
     ];

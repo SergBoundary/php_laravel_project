@@ -6,10 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Модель обслуживания расчетного листа по заработной плате
+ * Class Paychecks: Модель обслуживания расчетного листа по заработной плате
+ *
+ * @author SeBo
  */
+class Paychecks extends Model {
 
-class Paychecks extends Model
-{
     use SoftDeletes;
+
+    protected $fillable = [
+    ];
 }

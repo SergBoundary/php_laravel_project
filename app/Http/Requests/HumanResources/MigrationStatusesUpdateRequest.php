@@ -4,31 +4,36 @@ namespace App\Http\Requests\HumanResources;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class MigrationStatusesUpdateRequest extends FormRequest
-{
+/**
+ * Class MigrationStatusesUpdateRequest: Правила записи миграционного статуса работника в стране
+ *
+ * @author SeBo
+ *
+ * @package App\Http\Requests
+ */
+class MigrationStatusesUpdateRequest extends FormRequest {
+
     /**
-     * Determine if the user is authorized to make this request.
+     * Создает реквест, если пользователь авторизован.
      *
      * @return bool
      */
-    public function authorize()
-    {
+    public function authorize() {
         return auth()->check();
     }
 
     /**
-     * Get the validation rules that apply to the request.
+     * Получает правила проверки данных для реквеста.
      *
      * @return array
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             'personal_card_id' => 'required|integer|exists:personal_cards,id',
             'country_id' => 'required|integer|exists:countries,id',
             'status_old' => 'required|string|max:50',
             'status_new' => 'string|max:50',
-            'opening_reason ' => 'string|max:100',
+            'opening_reason' => 'string|max:100',
             'submitted' => 'date',
             'incomplete' => 'date',
             'decision_number' => 'string|max:50',

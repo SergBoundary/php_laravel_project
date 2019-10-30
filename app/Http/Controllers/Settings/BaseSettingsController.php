@@ -6,15 +6,18 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 /**
- * Базовый контроллер настроек системы
+ * Class BaseSettingsController: Базовый контроллер модуля Settings
+ *
+ * @author SeBo
+ *
+ * @package App\Http\Controllers\Settings
  */
+abstract class BaseSettingsController extends Controller {
 
-abstract class BaseSettingsController extends Controller
-{
     /**
      * BaseSettingsController constructor
      */
     public function __construct() {
-        
+
     }
 }

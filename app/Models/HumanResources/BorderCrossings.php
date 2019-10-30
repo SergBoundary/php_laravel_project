@@ -6,13 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Модель обслуживания учета пересечения границы страны пребывания работником
+ * Class BorderCrossings: Модель учета пересечения границы страны пребывания работником
+ *
+ * @author SeBo
  */
+class BorderCrossings extends Model {
 
-class BorderCrossings extends Model
-{
     use SoftDeletes;
-    
+
     protected $fillable = [
         'personal_card_id',
         'country_out_id',

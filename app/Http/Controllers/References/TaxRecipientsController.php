@@ -3,93 +3,216 @@
 namespace App\Http\Controllers\References;
 
 use Illuminate\Http\Request;
+use App\Models\References\Countries;
+use App\Models\References\Districts;
+use App\Models\References\Regions;
+use App\Models\References\Cities;
 use App\Models\References\TaxRecipients;
+use App\Repositories\References\TaxRecipientsRepository;
+use App\Http\Requests\References\TaxRecipientsCreateRequest;
+use App\Http\Requests\References\TaxRecipientsUpdateRequest;
 
 /**
- * Контроллер списка получателей подоходного налога
+ * Class TaxRecipientsController: Контроллер списка получателей подоходного налога
+ *
+ * @author SeBo
+ *
+ * @package App\Http\Controllers\References
  */
+class TaxRecipientsController extends BaseReferencesController {
 
-class TaxRecipientsController extends BaseReferencesController
-{
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @var TaxRecipientsRepository
      */
-    public function index(Request $request)
-    {
-        $url = $request->path();
-        
-        $paths = $this->createMenu($url);
-        $title = $paths->where('url', $url)->first();
-        $items = TaxRecipients::all(); 
-        
-        return view('references.tax-recipients.index', compact('paths', 'title', 'items'));
+    private $taxRecipientsRepository;
+
+    /**
+     * @var path
+     */
+    private $path = 'ref/tax-recipients';
+
+    public function __construct() {
+
+        parent::__construct();
+
+        $this->taxRecipientsRepository = app(TaxRecipientsRepository::class);
+
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Метод создания краткого табличного представления
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
+    public function index() {
+
+        // Формируем массив подменю выбранного пункта меню
+        $menu = $this->createMenu($this->path);
+        if(empty($menu)) {
+            return view('guest');
+        }
+        // Формируем массив данных о представлении
+        $title = $menu->where('path', $this->path)
+                ->first();
+
+        $taxRecipientsList = $this->taxRecipientsRepository->getTable();
+
+        return view('ref.tax-recipients.index',  
+               compact('menu', 'title', 'taxRecipientsList'));
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Метод создания полного представления существющей записи
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        //
+    public function show($id) {
+
+        // Формируем массив подменю выбранного пункта меню
+        $menu = $this->createMenu($this->path);
+        if(empty($menu)) {
+            return view('guest');
+        }
+        // Формируем массив данных о представлении
+        $title = $menu->where('path', $this->path)
+                ->first();
+
+        // Формируем содержание списка заполняемых полей input
+        $taxRecipientsList = $this->taxRecipientsRepository->getShow($id);
+
+        return view('ref.tax-recipients.show', 
+               compact('menu', 'title', 'taxRecipientsList'));
     }
 
     /**
-     * Display the specified resource.
+     * Метод создания представления новой записи
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-        //
+    public function create() {
+
+        // Формируем массив подменю выбранного пункта меню
+        $menu = $this->createMenu($this->path);
+        if(empty($menu)) {
+            return view('guest');
+        }
+        // Формируем массив данных о представлении
+        $title = $menu->where('path', $this->path)
+                ->first();
+
+        // Формируем содержание списка выбираемых полей полей select
+        $countriesList = $this->taxRecipientsRepository->getListSelect(0);
+        $districtsList = $this->taxRecipientsRepository->getListSelect(1);
+        $regionsList = $this->taxRecipientsRepository->getListSelect(2);
+        $citiesList = $this->taxRecipientsRepository->getListSelect(3);
+
+        return view('ref.tax-recipients.create', 
+               compact('menu', 'title', 
+                      'countriesList', 
+                      'districtsList', 
+                      'regionsList', 
+                      'citiesList'));
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Метод сохранения созданной новой записи
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
-        //
+    public function store(TaxRecipientsCreateRequest $request) {
+
+        $data = $request->input();
+
+        $result = (new TaxRecipients($data))->create($data);
+
+        if($result) {
+            return redirect()
+                ->route('ref.tax-recipients.edit', $result->id)
+                ->with(['success' => "Успешно сохранено"]);
+        } else {
+            return back()
+                ->withErrors(['msg' => "Ошибка сохранения.."])
+                ->withInput();
+        }
     }
 
     /**
-     * Update the specified resource in storage.
+     * Метод создания представления изменения
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
-        //
+    public function edit($id) {
+
+        // Формируем массив подменю выбранного пункта меню
+        $menu = $this->createMenu($this->path);
+        if(empty($menu)) {
+            return view('guest');
+        }
+        // Формируем массив данных о представлении
+        $title = $menu->where('path', $this->path)
+                ->first();
+
+        // Формируем содержание списка выбираемых полей полей select
+        $countriesList = $this->taxRecipientsRepository->getListSelect(0);
+        $districtsList = $this->taxRecipientsRepository->getListSelect(1);
+        $regionsList = $this->taxRecipientsRepository->getListSelect(2);
+        $citiesList = $this->taxRecipientsRepository->getListSelect(3);
+
+        // Формируем содержание списка заполняемых полей input
+        $taxRecipientsList = $this->taxRecipientsRepository->getEdit($id);
+
+        return view('ref.tax-recipients.edit', 
+               compact('menu', 'title', 
+                      'countriesList', 
+                      'districtsList', 
+                      'regionsList', 
+                      'citiesList', 
+                      'taxRecipientsList'));
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Обновление данных полей измененной записи
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
-        //
+    public function update(TaxRecipientsUpdateRequest $request, $id) {
+
+        $item = $this->taxRecipientsRepository->getEdit($id);
+        if(empty($item)) {
+            return back()
+                ->withErrors(['msg' => "Запись #{$id} не найдена.."])
+                ->withInput();
+        }
+        $data = $request->all();
+        $result = $item->update($data);
+        if($result) {
+            return redirect()
+                ->route('ref.tax-recipients.edit', $item->id)
+                ->with(['success' => "Успешно сохранено"]);
+        } else {
+            return back()
+                ->withErrors(['msg' => "Ошибка сохранения.."])
+                ->withInput();
+        }
+    }
+
+    /**
+     * Удаление выбранной записи
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id) {
+
+        $result = $this->taxRecipientsRepository->getEdit($id)->forceDelete();
+
+        if($result) {
+            return redirect()
+                ->route('ref.tax-recipients.index')
+                ->with(['success' => "Успешно сохранено"]);
+        } else {
+            return back()
+                ->withErrors(['msg' => "Ошибка сохранения.."])
+                ->withInput();
+        }
     }
 }

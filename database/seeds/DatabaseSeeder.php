@@ -27,5 +27,7 @@ class DatabaseSeeder extends Seeder
         
         $this->call(MonthsTableSeeder::class);
         $this->call(YearsTableSeeder::class);
+        
+        $this->call(CommunicationTypesTableSeeder::class);
     }
 }

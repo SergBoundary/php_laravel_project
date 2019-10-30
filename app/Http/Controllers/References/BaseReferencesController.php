@@ -6,15 +6,18 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 /**
- * Базовый контроллер справочной информации
+ * Class BaseReferencesController: Базовый контроллер модуля References
+ *
+ * @author SeBo
+ *
+ * @package App\Http\Controllers\References
  */
+abstract class BaseReferencesController extends Controller {
 
-abstract class BaseReferencesController extends Controller
-{
     /**
      * BaseReferencesController constructor
      */
     public function __construct() {
-        
+
     }
 }

@@ -6,16 +6,16 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Модель обслуживания списка валют
+ * Class Currencies: Модель списка валют
+ *
+ * @author SeBo
  */
+class Currencies extends Model {
 
-class Currencies extends Model
-{
     use SoftDeletes;
-    
+
     protected $fillable = [
         'title',
         'symbol',
-        'number',
     ];
 }

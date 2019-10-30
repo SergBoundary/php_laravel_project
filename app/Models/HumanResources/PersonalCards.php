@@ -6,13 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Модель обслуживания учета неизменяемых персональных данных
+ * Class PersonalCards: Модель учета неизменяемых персональных данных
+ *
+ * @author SeBo
  */
+class PersonalCards extends Model {
 
-class PersonalCards extends Model
-{
     use SoftDeletes;
-    
+
     protected $fillable = [
         'personal_account',
         'tax_number',

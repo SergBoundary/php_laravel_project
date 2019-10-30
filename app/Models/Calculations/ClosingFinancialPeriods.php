@@ -6,10 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Модель обслуживания закрытия финансового периода
+ * Class ClosingFinancialPeriods: Модель обслуживания закрытия финансового периода
+ *
+ * @author SeBo
  */
+class ClosingFinancialPeriods extends Model {
 
-class ClosingFinancialPeriods extends Model
-{
     use SoftDeletes;
+
+    protected $fillable = [
+    ];
 }

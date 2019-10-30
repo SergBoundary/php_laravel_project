@@ -4,92 +4,190 @@ namespace App\Http\Controllers\References;
 
 use Illuminate\Http\Request;
 use App\Models\References\Disabilities;
+use App\Repositories\References\DisabilitiesRepository;
+use App\Http\Requests\References\DisabilitiesCreateRequest;
+use App\Http\Requests\References\DisabilitiesUpdateRequest;
 
 /**
- * Контроллер списка групп инвалидности
+ * Class DisabilitiesController: Контроллер списка групп инвалидности
+ *
+ * @author SeBo
+ *
+ * @package App\Http\Controllers\References
  */
+class DisabilitiesController extends BaseReferencesController {
 
-class DisabilitiesController extends BaseReferencesController
-{
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @var DisabilitiesRepository
      */
-    public function index(Request $request)
-    {
-        $url = $request->path();
-        
-        $paths = $this->createMenu($url);
-        $title = $paths->where('url', $url)->first();
-        $items = Disabilities::all(); 
-        
-        return view('references.disabilities.index', compact('paths', 'title', 'items'));
+    private $disabilitiesRepository;
+
+    /**
+     * @var path
+     */
+    private $path = 'ref/disabilities';
+
+    public function __construct() {
+
+        parent::__construct();
+
+        $this->disabilitiesRepository = app(DisabilitiesRepository::class);
+
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Метод создания краткого табличного представления
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
+    public function index() {
+
+        // Формируем массив подменю выбранного пункта меню
+        $menu = $this->createMenu($this->path);
+        if(empty($menu)) {
+            return view('guest');
+        }
+        // Формируем массив данных о представлении
+        $title = $menu->where('path', $this->path)
+                ->first();
+
+        $disabilitiesList = $this->disabilitiesRepository->getTable();
+
+        return view('ref.disabilities.index',  
+               compact('menu', 'title', 'disabilitiesList'));
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Метод создания полного представления существющей записи
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        //
+    public function show($id) {
+
+        // Формируем массив подменю выбранного пункта меню
+        $menu = $this->createMenu($this->path);
+        if(empty($menu)) {
+            return view('guest');
+        }
+        // Формируем массив данных о представлении
+        $title = $menu->where('path', $this->path)
+                ->first();
+
+        // Формируем содержание списка заполняемых полей input
+        $disabilitiesList = $this->disabilitiesRepository->getShow($id);
+
+        return view('ref.disabilities.show', 
+               compact('menu', 'title', 'disabilitiesList'));
     }
 
     /**
-     * Display the specified resource.
+     * Метод создания представления новой записи
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-        //
+    public function create() {
+
+        // Формируем массив подменю выбранного пункта меню
+        $menu = $this->createMenu($this->path);
+        if(empty($menu)) {
+            return view('guest');
+        }
+        // Формируем массив данных о представлении
+        $title = $menu->where('path', $this->path)
+                ->first();
+
+        return view('ref.disabilities.create', 
+               compact('menu', 'title'));
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Метод сохранения созданной новой записи
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
-        //
+    public function store(DisabilitiesCreateRequest $request) {
+
+        $data = $request->input();
+
+        $result = (new Disabilities($data))->create($data);
+
+        if($result) {
+            return redirect()
+                ->route('ref.disabilities.edit', $result->id)
+                ->with(['success' => "Успешно сохранено"]);
+        } else {
+            return back()
+                ->withErrors(['msg' => "Ошибка сохранения.."])
+                ->withInput();
+        }
     }
 
     /**
-     * Update the specified resource in storage.
+     * Метод создания представления изменения
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
-        //
+    public function edit($id) {
+
+        // Формируем массив подменю выбранного пункта меню
+        $menu = $this->createMenu($this->path);
+        if(empty($menu)) {
+            return view('guest');
+        }
+        // Формируем массив данных о представлении
+        $title = $menu->where('path', $this->path)
+                ->first();
+
+        // Формируем содержание списка заполняемых полей input
+        $disabilitiesList = $this->disabilitiesRepository->getEdit($id);
+
+        return view('ref.disabilities.edit', 
+               compact('menu', 'title', 'disabilitiesList'));
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Обновление данных полей измененной записи
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
-        //
+    public function update(DisabilitiesUpdateRequest $request, $id) {
+
+        $item = $this->disabilitiesRepository->getEdit($id);
+        if(empty($item)) {
+            return back()
+                ->withErrors(['msg' => "Запись #{$id} не найдена.."])
+                ->withInput();
+        }
+        $data = $request->all();
+        $result = $item->update($data);
+        if($result) {
+            return redirect()
+                ->route('ref.disabilities.edit', $item->id)
+                ->with(['success' => "Успешно сохранено"]);
+        } else {
+            return back()
+                ->withErrors(['msg' => "Ошибка сохранения.."])
+                ->withInput();
+        }
+    }
+
+    /**
+     * Удаление выбранной записи
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id) {
+
+        $result = $this->disabilitiesRepository->getEdit($id)->forceDelete();
+
+        if($result) {
+            return redirect()
+                ->route('ref.disabilities.index')
+                ->with(['success' => "Успешно сохранено"]);
+        } else {
+            return back()
+                ->withErrors(['msg' => "Ошибка сохранения.."])
+                ->withInput();
+        }
     }
 }

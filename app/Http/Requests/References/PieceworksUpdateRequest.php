@@ -4,28 +4,33 @@ namespace App\Http\Requests\References;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class PieceworksUpdateRequest extends FormRequest
-{
+/**
+ * Class PieceworksUpdateRequest: Правила записи списка сдельных работ
+ *
+ * @author SeBo
+ *
+ * @package App\Http\Requests
+ */
+class PieceworksUpdateRequest extends FormRequest {
+
     /**
-     * Determine if the user is authorized to make this request.
+     * Создает реквест, если пользователь авторизован.
      *
      * @return bool
      */
-    public function authorize()
-    {
+    public function authorize() {
         return auth()->check();
     }
 
     /**
-     * Get the validation rules that apply to the request.
+     * Получает правила проверки данных для реквеста.
      *
      * @return array
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             'title' => 'required|string|max:50',
-            'piecework_unit_id' => 'required|integer|exists:piecework_units,id',
+            'pieceworks_unit_id' => 'required|integer|exists:pieceworks_units,id',
             'price' => 'required|numeric',
             'accrual_id' => 'required|integer|exists:accruals,id',
         ];

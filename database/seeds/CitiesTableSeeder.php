@@ -1077,7 +1077,7 @@ class CitiesTableSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
-                'country_id' => 26,
+                'country_id' => 28,
                 'district_id' => 23,
                 'region_id' => 119,
                 'title' => 'Бялобжеги',
@@ -1085,7 +1085,7 @@ class CitiesTableSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
-                'country_id' => 26,
+                'country_id' => 28,
                 'district_id' => 23,
                 'region_id' => 119,
                 'title' => 'Выщмежице',
@@ -1093,7 +1093,7 @@ class CitiesTableSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
-                'country_id' => 26,
+                'country_id' => 28,
                 'district_id' => 23,
                 'region_id' => 120,
                 'title' => 'Варшава',
@@ -1101,7 +1101,7 @@ class CitiesTableSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
-                'country_id' => 26,
+                'country_id' => 28,
                 'district_id' => 23,
                 'region_id' => 121,
                 'title' => 'Ломянки',
@@ -1109,7 +1109,7 @@ class CitiesTableSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
-                'country_id' => 26,
+                'country_id' => 28,
                 'district_id' => 23,
                 'region_id' => 121,
                 'title' => 'Блонье',
@@ -1117,7 +1117,7 @@ class CitiesTableSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
-                'country_id' => 26,
+                'country_id' => 28,
                 'district_id' => 23,
                 'region_id' => 121,
                 'title' => 'Ожарув-Мазовецкий',
@@ -1125,7 +1125,7 @@ class CitiesTableSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
-                'country_id' => 26,
+                'country_id' => 28,
                 'district_id' => 23,
                 'region_id' => 122,
                 'title' => 'Венгрув',
@@ -1133,7 +1133,7 @@ class CitiesTableSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
-                'country_id' => 26,
+                'country_id' => 28,
                 'district_id' => 23,
                 'region_id' => 122,
                 'title' => 'Лохув',
@@ -1141,7 +1141,7 @@ class CitiesTableSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
-                'country_id' => 26,
+                'country_id' => 28,
                 'district_id' => 23,
                 'region_id' => 123,
                 'title' => 'Воломин',
@@ -1149,7 +1149,7 @@ class CitiesTableSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
-                'country_id' => 26,
+                'country_id' => 28,
                 'district_id' => 23,
                 'region_id' => 123,
                 'title' => 'Зомбки',
@@ -1157,7 +1157,7 @@ class CitiesTableSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
-                'country_id' => 26,
+                'country_id' => 28,
                 'district_id' => 23,
                 'region_id' => 123,
                 'title' => 'Марки',
@@ -1165,7 +1165,7 @@ class CitiesTableSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
-                'country_id' => 26,
+                'country_id' => 28,
                 'district_id' => 23,
                 'region_id' => 123,
                 'title' => 'Кобылка',
@@ -1173,7 +1173,7 @@ class CitiesTableSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
-                'country_id' => 26,
+                'country_id' => 28,
                 'district_id' => 23,
                 'region_id' => 123,
                 'title' => 'Желёнка',
@@ -1181,7 +1181,7 @@ class CitiesTableSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
-                'country_id' => 26,
+                'country_id' => 28,
                 'district_id' => 23,
                 'region_id' => 123,
                 'title' => 'Радзымин',
@@ -1189,7 +1189,7 @@ class CitiesTableSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
-                'country_id' => 26,
+                'country_id' => 28,
                 'district_id' => 23,
                 'region_id' => 123,
                 'title' => 'Тлушч',
@@ -1197,7 +1197,7 @@ class CitiesTableSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
-                'country_id' => 26,
+                'country_id' => 28,
                 'district_id' => 23,
                 'region_id' => 124,
                 'title' => 'Вышкув',
@@ -1205,7 +1205,7 @@ class CitiesTableSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
-                'country_id' => 26,
+                'country_id' => 28,
                 'district_id' => 23,
                 'region_id' => 125,
                 'title' => 'Гарволин',
@@ -1213,7 +1213,7 @@ class CitiesTableSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
-                'country_id' => 26,
+                'country_id' => 28,
                 'district_id' => 23,
                 'region_id' => 125,
                 'title' => 'Ласкажев',
@@ -1221,7 +1221,7 @@ class CitiesTableSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
-                'country_id' => 26,
+                'country_id' => 28,
                 'district_id' => 23,
                 'region_id' => 125,
                 'title' => 'Пилава',
@@ -1229,7 +1229,7 @@ class CitiesTableSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
-                'country_id' => 26,
+                'country_id' => 28,
                 'district_id' => 23,
                 'region_id' => 125,
                 'title' => 'Желехув',
@@ -1237,7 +1237,7 @@ class CitiesTableSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
-                'country_id' => 26,
+                'country_id' => 28,
                 'district_id' => 23,
                 'region_id' => 126,
                 'title' => 'Гостынин',
@@ -1245,7 +1245,7 @@ class CitiesTableSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
-                'country_id' => 26,
+                'country_id' => 28,
                 'district_id' => 23,
                 'region_id' => 126,
                 'title' => 'Санники',
@@ -1253,7 +1253,7 @@ class CitiesTableSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
-                'country_id' => 26,
+                'country_id' => 28,
                 'district_id' => 23,
                 'region_id' => 127,
                 'title' => 'Гродзиск-Мазовецки',
@@ -1261,7 +1261,7 @@ class CitiesTableSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
-                'country_id' => 26,
+                'country_id' => 28,
                 'district_id' => 23,
                 'region_id' => 127,
                 'title' => 'Милановек',
@@ -1269,7 +1269,7 @@ class CitiesTableSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
-                'country_id' => 26,
+                'country_id' => 28,
                 'district_id' => 23,
                 'region_id' => 127,
                 'title' => 'Подкова Лещна',
@@ -1277,7 +1277,7 @@ class CitiesTableSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
-                'country_id' => 26,
+                'country_id' => 28,
                 'district_id' => 23,
                 'region_id' => 128,
                 'title' => 'Груец',
@@ -1285,7 +1285,7 @@ class CitiesTableSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
-                'country_id' => 26,
+                'country_id' => 28,
                 'district_id' => 23,
                 'region_id' => 128,
                 'title' => 'Варка',
@@ -1293,7 +1293,7 @@ class CitiesTableSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
-                'country_id' => 26,
+                'country_id' => 28,
                 'district_id' => 23,
                 'region_id' => 128,
                 'title' => 'Нове Място над Пилицо',
@@ -1301,7 +1301,7 @@ class CitiesTableSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
-                'country_id' => 26,
+                'country_id' => 28,
                 'district_id' => 23,
                 'region_id' => 128,
                 'title' => 'Могельница',
@@ -1309,7 +1309,7 @@ class CitiesTableSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
-                'country_id' => 26,
+                'country_id' => 28,
                 'district_id' => 23,
                 'region_id' => 129,
                 'title' => 'Жирардув',
@@ -1317,7 +1317,7 @@ class CitiesTableSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
-                'country_id' => 26,
+                'country_id' => 28,
                 'district_id' => 23,
                 'region_id' => 129,
                 'title' => 'Мшчонув',
@@ -1325,7 +1325,7 @@ class CitiesTableSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
-                'country_id' => 26,
+                'country_id' => 28,
                 'district_id' => 23,
                 'region_id' => 130,
                 'title' => 'Журомин',
@@ -1333,7 +1333,7 @@ class CitiesTableSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
-                'country_id' => 26,
+                'country_id' => 28,
                 'district_id' => 23,
                 'region_id' => 130,
                 'title' => 'Бежунь',
@@ -1341,7 +1341,7 @@ class CitiesTableSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
-                'country_id' => 26,
+                'country_id' => 28,
                 'district_id' => 23,
                 'region_id' => 130,
                 'title' => 'Любовидз',
@@ -1349,7 +1349,7 @@ class CitiesTableSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
-                'country_id' => 26,
+                'country_id' => 28,
                 'district_id' => 23,
                 'region_id' => 131,
                 'title' => 'Зволень',
@@ -1357,7 +1357,7 @@ class CitiesTableSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
-                'country_id' => 26,
+                'country_id' => 28,
                 'district_id' => 23,
                 'region_id' => 132,
                 'title' => 'Козенице',
@@ -1365,7 +1365,7 @@ class CitiesTableSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
-                'country_id' => 26,
+                'country_id' => 28,
                 'district_id' => 23,
                 'region_id' => 133,
                 'title' => 'Легьоново',
@@ -1373,7 +1373,7 @@ class CitiesTableSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
-                'country_id' => 26,
+                'country_id' => 28,
                 'district_id' => 23,
                 'region_id' => 133,
                 'title' => 'Сероцк',
@@ -1381,7 +1381,7 @@ class CitiesTableSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
-                'country_id' => 26,
+                'country_id' => 28,
                 'district_id' => 23,
                 'region_id' => 134,
                 'title' => 'Липско',
@@ -1389,7 +1389,7 @@ class CitiesTableSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
-                'country_id' => 26,
+                'country_id' => 28,
                 'district_id' => 23,
                 'region_id' => 135,
                 'title' => 'Лосице',
@@ -1397,7 +1397,7 @@ class CitiesTableSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
-                'country_id' => 26,
+                'country_id' => 28,
                 'district_id' => 23,
                 'region_id' => 136,
                 'title' => 'Макув-Мазовецки',
@@ -1405,7 +1405,7 @@ class CitiesTableSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
-                'country_id' => 26,
+                'country_id' => 28,
                 'district_id' => 23,
                 'region_id' => 136,
                 'title' => 'Ружань',
@@ -1413,7 +1413,7 @@ class CitiesTableSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
-                'country_id' => 26,
+                'country_id' => 28,
                 'district_id' => 23,
                 'region_id' => 137,
                 'title' => 'Миньск-Мазовецки',
@@ -1421,7 +1421,7 @@ class CitiesTableSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
-                'country_id' => 26,
+                'country_id' => 28,
                 'district_id' => 23,
                 'region_id' => 137,
                 'title' => 'Сулейувек',
@@ -1429,7 +1429,7 @@ class CitiesTableSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
-                'country_id' => 26,
+                'country_id' => 28,
                 'district_id' => 23,
                 'region_id' => 137,
                 'title' => 'Халинув',
@@ -1437,7 +1437,7 @@ class CitiesTableSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
-                'country_id' => 26,
+                'country_id' => 28,
                 'district_id' => 23,
                 'region_id' => 137,
                 'title' => 'Мрозы',
@@ -1445,7 +1445,7 @@ class CitiesTableSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
-                'country_id' => 26,
+                'country_id' => 28,
                 'district_id' => 23,
                 'region_id' => 137,
                 'title' => 'Калушин',
@@ -1453,7 +1453,7 @@ class CitiesTableSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
-                'country_id' => 26,
+                'country_id' => 28,
                 'district_id' => 23,
                 'region_id' => 138,
                 'title' => 'Млава',
@@ -1461,7 +1461,7 @@ class CitiesTableSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
-                'country_id' => 26,
+                'country_id' => 28,
                 'district_id' => 23,
                 'region_id' => 139,
                 'title' => 'Новы-Двур-Мазовецки',
@@ -1469,7 +1469,7 @@ class CitiesTableSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
-                'country_id' => 26,
+                'country_id' => 28,
                 'district_id' => 23,
                 'region_id' => 139,
                 'title' => 'Нащельск',
@@ -1477,7 +1477,7 @@ class CitiesTableSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
-                'country_id' => 26,
+                'country_id' => 28,
                 'district_id' => 23,
                 'region_id' => 139,
                 'title' => 'Закрочин',
@@ -1485,7 +1485,7 @@ class CitiesTableSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
-                'country_id' => 26,
+                'country_id' => 28,
                 'district_id' => 23,
                 'region_id' => 140,
                 'title' => 'Остроленка',
@@ -1493,7 +1493,7 @@ class CitiesTableSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
-                'country_id' => 26,
+                'country_id' => 28,
                 'district_id' => 23,
                 'region_id' => 140,
                 'title' => 'Мышинец',
@@ -1501,7 +1501,7 @@ class CitiesTableSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
-                'country_id' => 26,
+                'country_id' => 28,
                 'district_id' => 23,
                 'region_id' => 141,
                 'title' => 'Острув-Мазовецка',
@@ -1509,7 +1509,7 @@ class CitiesTableSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
-                'country_id' => 26,
+                'country_id' => 28,
                 'district_id' => 23,
                 'region_id' => 141,
                 'title' => 'Брок',
@@ -1517,7 +1517,7 @@ class CitiesTableSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
-                'country_id' => 26,
+                'country_id' => 28,
                 'district_id' => 23,
                 'region_id' => 142,
                 'title' => 'Отвоцк',
@@ -1525,7 +1525,7 @@ class CitiesTableSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
-                'country_id' => 26,
+                'country_id' => 28,
                 'district_id' => 23,
                 'region_id' => 142,
                 'title' => 'Юзефув',
@@ -1533,7 +1533,7 @@ class CitiesTableSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
-                'country_id' => 26,
+                'country_id' => 28,
                 'district_id' => 23,
                 'region_id' => 142,
                 'title' => 'Карчев',
@@ -1541,7 +1541,7 @@ class CitiesTableSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
-                'country_id' => 26,
+                'country_id' => 28,
                 'district_id' => 23,
                 'region_id' => 143,
                 'title' => 'Плоньск',
@@ -1549,7 +1549,7 @@ class CitiesTableSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
-                'country_id' => 26,
+                'country_id' => 28,
                 'district_id' => 23,
                 'region_id' => 143,
                 'title' => 'Рачонж',
@@ -1557,7 +1557,7 @@ class CitiesTableSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
-                'country_id' => 26,
+                'country_id' => 28,
                 'district_id' => 23,
                 'region_id' => 144,
                 'title' => 'Плоцк',
@@ -1565,7 +1565,7 @@ class CitiesTableSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
-                'country_id' => 26,
+                'country_id' => 28,
                 'district_id' => 23,
                 'region_id' => 144,
                 'title' => 'Гомбин',
@@ -1573,7 +1573,7 @@ class CitiesTableSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
-                'country_id' => 26,
+                'country_id' => 28,
                 'district_id' => 23,
                 'region_id' => 144,
                 'title' => 'Дробин',
@@ -1581,7 +1581,7 @@ class CitiesTableSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
-                'country_id' => 26,
+                'country_id' => 28,
                 'district_id' => 23,
                 'region_id' => 144,
                 'title' => 'Вышогруд',
@@ -1589,7 +1589,7 @@ class CitiesTableSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
-                'country_id' => 26,
+                'country_id' => 28,
                 'district_id' => 23,
                 'region_id' => 145,
                 'title' => 'Прушкув',
@@ -1597,7 +1597,7 @@ class CitiesTableSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
-                'country_id' => 26,
+                'country_id' => 28,
                 'district_id' => 23,
                 'region_id' => 145,
                 'title' => 'Пястув',
@@ -1605,7 +1605,7 @@ class CitiesTableSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
-                'country_id' => 26,
+                'country_id' => 28,
                 'district_id' => 23,
                 'region_id' => 145,
                 'title' => 'Брвинув',
@@ -1613,7 +1613,7 @@ class CitiesTableSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
-                'country_id' => 26,
+                'country_id' => 28,
                 'district_id' => 23,
                 'region_id' => 146,
                 'title' => 'Пултуск',
@@ -1621,7 +1621,7 @@ class CitiesTableSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
-                'country_id' => 26,
+                'country_id' => 28,
                 'district_id' => 23,
                 'region_id' => 147,
                 'title' => 'Пшасныш',
@@ -1629,7 +1629,7 @@ class CitiesTableSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
-                'country_id' => 26,
+                'country_id' => 28,
                 'district_id' => 23,
                 'region_id' => 147,
                 'title' => 'Хожеле',
@@ -1637,7 +1637,7 @@ class CitiesTableSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
-                'country_id' => 26,
+                'country_id' => 28,
                 'district_id' => 23,
                 'region_id' => 148,
                 'title' => 'Пшисуха',
@@ -1645,7 +1645,7 @@ class CitiesTableSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
-                'country_id' => 26,
+                'country_id' => 28,
                 'district_id' => 23,
                 'region_id' => 149,
                 'title' => 'Пясечно',
@@ -1653,7 +1653,7 @@ class CitiesTableSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
-                'country_id' => 26,
+                'country_id' => 28,
                 'district_id' => 23,
                 'region_id' => 149,
                 'title' => 'Констанцин-Езьорна',
@@ -1661,7 +1661,7 @@ class CitiesTableSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
-                'country_id' => 26,
+                'country_id' => 28,
                 'district_id' => 23,
                 'region_id' => 149,
                 'title' => 'Гура Калварья',
@@ -1669,7 +1669,7 @@ class CitiesTableSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
-                'country_id' => 26,
+                'country_id' => 28,
                 'district_id' => 23,
                 'region_id' => 149,
                 'title' => 'Тарчин',
@@ -1677,7 +1677,7 @@ class CitiesTableSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
-                'country_id' => 26,
+                'country_id' => 28,
                 'district_id' => 23,
                 'region_id' => 150,
                 'title' => 'Радом',
@@ -1685,7 +1685,7 @@ class CitiesTableSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
-                'country_id' => 26,
+                'country_id' => 28,
                 'district_id' => 23,
                 'region_id' => 150,
                 'title' => 'Пионки',
@@ -1693,7 +1693,7 @@ class CitiesTableSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
-                'country_id' => 26,
+                'country_id' => 28,
                 'district_id' => 23,
                 'region_id' => 150,
                 'title' => 'Илжа',
@@ -1701,7 +1701,7 @@ class CitiesTableSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
-                'country_id' => 26,
+                'country_id' => 28,
                 'district_id' => 23,
                 'region_id' => 150,
                 'title' => 'Скарышев',
@@ -1709,7 +1709,7 @@ class CitiesTableSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
-                'country_id' => 26,
+                'country_id' => 28,
                 'district_id' => 23,
                 'region_id' => 151,
                 'title' => 'Седльце',
@@ -1717,7 +1717,7 @@ class CitiesTableSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
-                'country_id' => 26,
+                'country_id' => 28,
                 'district_id' => 23,
                 'region_id' => 151,
                 'title' => 'Морды',
@@ -1725,7 +1725,7 @@ class CitiesTableSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
-                'country_id' => 26,
+                'country_id' => 28,
                 'district_id' => 23,
                 'region_id' => 152,
                 'title' => 'Серпц',
@@ -1733,7 +1733,7 @@ class CitiesTableSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
-                'country_id' => 26,
+                'country_id' => 28,
                 'district_id' => 23,
                 'region_id' => 153,
                 'title' => 'Соколув-Подляски',
@@ -1741,7 +1741,7 @@ class CitiesTableSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
-                'country_id' => 26,
+                'country_id' => 28,
                 'district_id' => 23,
                 'region_id' => 153,
                 'title' => 'Косув Ляцки',
@@ -1749,7 +1749,7 @@ class CitiesTableSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
-                'country_id' => 26,
+                'country_id' => 28,
                 'district_id' => 23,
                 'region_id' => 154,
                 'title' => 'Сохачев',
@@ -1757,7 +1757,7 @@ class CitiesTableSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
-                'country_id' => 26,
+                'country_id' => 28,
                 'district_id' => 23,
                 'region_id' => 155,
                 'title' => 'Цеханов',
@@ -1765,7 +1765,7 @@ class CitiesTableSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
-                'country_id' => 26,
+                'country_id' => 28,
                 'district_id' => 23,
                 'region_id' => 155,
                 'title' => 'Глиноецк',
@@ -1773,7 +1773,7 @@ class CitiesTableSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
-                'country_id' => 26,
+                'country_id' => 28,
                 'district_id' => 23,
                 'region_id' => 156,
                 'title' => 'Шидловец',

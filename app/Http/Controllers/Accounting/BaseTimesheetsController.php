@@ -3,93 +3,241 @@
 namespace App\Http\Controllers\Accounting;
 
 use Illuminate\Http\Request;
+use App\Models\HumanResources\PersonalCards;
+use App\Models\References\Years;
+use App\Models\References\Months;
+use App\Models\References\Accruals;
+use App\Models\References\HoursBalanceClassifiers;
+use App\Models\References\Departments;
+use App\Models\References\Accounts;
+use App\Models\References\Positions;
+use App\Models\References\Objects;
 use App\Models\Accounting\BaseTimesheets;
+use App\Repositories\Accounting\BaseTimesheetsRepository;
+use App\Http\Requests\Accounting\BaseTimesheetsCreateRequest;
+use App\Http\Requests\Accounting\BaseTimesheetsUpdateRequest;
 
 /**
- * Контроллер учета отработанного времени (табеля)
+ * Class BaseTimesheetsController: Контроллер учета отработанного времени (табель)
+ *
+ * @author SeBo
+ *
+ * @package App\Http\Controllers\Accounting
  */
+class BaseTimesheetsController extends BaseAccountingController {
 
-class BaseTimesheetsController extends BaseAccountingController
-{
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @var BaseTimesheetsRepository
      */
-    public function index(Request $request)
-    {
-        $url = $request->path();
-        
-        $paths = $this->createMenu($url);
-        $title = $paths->where('url', $url)->first();
-        $items = BaseTimesheets::all(); 
-        
-        return view('accounting.base-timesheets.index', compact('paths', 'title', 'items'));
+    private $baseTimesheetsRepository;
+
+    /**
+     * @var path
+     */
+    private $path = 'acc/base-timesheets';
+
+    public function __construct() {
+
+        parent::__construct();
+
+        $this->baseTimesheetsRepository = app(BaseTimesheetsRepository::class);
+
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Метод создания краткого табличного представления
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
+    public function index() {
+
+        // Формируем массив подменю выбранного пункта меню
+        $menu = $this->createMenu($this->path);
+        if(empty($menu)) {
+            return view('guest');
+        }
+        // Формируем массив данных о представлении
+        $title = $menu->where('path', $this->path)
+                ->first();
+
+        $baseTimesheetsList = $this->baseTimesheetsRepository->getTable();
+
+        return view('acc.base-timesheets.index',  
+               compact('menu', 'title', 'baseTimesheetsList'));
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Метод создания полного представления существющей записи
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        //
+    public function show($id) {
+
+        // Формируем массив подменю выбранного пункта меню
+        $menu = $this->createMenu($this->path);
+        if(empty($menu)) {
+            return view('guest');
+        }
+        // Формируем массив данных о представлении
+        $title = $menu->where('path', $this->path)
+                ->first();
+
+        // Формируем содержание списка заполняемых полей input
+        $baseTimesheetsList = $this->baseTimesheetsRepository->getShow($id);
+
+        return view('acc.base-timesheets.show', 
+               compact('menu', 'title', 'baseTimesheetsList'));
     }
 
     /**
-     * Display the specified resource.
+     * Метод создания представления новой записи
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-        //
+    public function create() {
+
+        // Формируем массив подменю выбранного пункта меню
+        $menu = $this->createMenu($this->path);
+        if(empty($menu)) {
+            return view('guest');
+        }
+        // Формируем массив данных о представлении
+        $title = $menu->where('path', $this->path)
+                ->first();
+
+        // Формируем содержание списка выбираемых полей полей select
+        $personalCardsList = $this->baseTimesheetsRepository->getListSelect(0);
+        $yearsList = $this->baseTimesheetsRepository->getListSelect(1);
+        $monthsList = $this->baseTimesheetsRepository->getListSelect(2);
+        $accrualsList = $this->baseTimesheetsRepository->getListSelect(3);
+        $hoursBalanceClassifiersList = $this->baseTimesheetsRepository->getListSelect(4);
+        $departmentsList = $this->baseTimesheetsRepository->getListSelect(5);
+        $accountsList = $this->baseTimesheetsRepository->getListSelect(6);
+        $positionsList = $this->baseTimesheetsRepository->getListSelect(7);
+        $objectsList = $this->baseTimesheetsRepository->getListSelect(8);
+
+        return view('acc.base-timesheets.create', 
+               compact('menu', 'title', 
+                      'personalCardsList', 
+                      'yearsList', 
+                      'monthsList', 
+                      'accrualsList', 
+                      'hoursBalanceClassifiersList', 
+                      'departmentsList', 
+                      'accountsList', 
+                      'positionsList', 
+                      'objectsList'));
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Метод сохранения созданной новой записи
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
-        //
+    public function store(BaseTimesheetsCreateRequest $request) {
+
+        $data = $request->input();
+
+        $result = (new BaseTimesheets($data))->create($data);
+
+        if($result) {
+            return redirect()
+                ->route('acc.base-timesheets.edit', $result->id)
+                ->with(['success' => "Успешно сохранено"]);
+        } else {
+            return back()
+                ->withErrors(['msg' => "Ошибка сохранения.."])
+                ->withInput();
+        }
     }
 
     /**
-     * Update the specified resource in storage.
+     * Метод создания представления изменения
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
-        //
+    public function edit($id) {
+
+        // Формируем массив подменю выбранного пункта меню
+        $menu = $this->createMenu($this->path);
+        if(empty($menu)) {
+            return view('guest');
+        }
+        // Формируем массив данных о представлении
+        $title = $menu->where('path', $this->path)
+                ->first();
+
+        // Формируем содержание списка выбираемых полей полей select
+        $personalCardsList = $this->baseTimesheetsRepository->getListSelect(0);
+        $yearsList = $this->baseTimesheetsRepository->getListSelect(1);
+        $monthsList = $this->baseTimesheetsRepository->getListSelect(2);
+        $accrualsList = $this->baseTimesheetsRepository->getListSelect(3);
+        $hoursBalanceClassifiersList = $this->baseTimesheetsRepository->getListSelect(4);
+        $departmentsList = $this->baseTimesheetsRepository->getListSelect(5);
+        $accountsList = $this->baseTimesheetsRepository->getListSelect(6);
+        $positionsList = $this->baseTimesheetsRepository->getListSelect(7);
+        $objectsList = $this->baseTimesheetsRepository->getListSelect(8);
+
+        // Формируем содержание списка заполняемых полей input
+        $baseTimesheetsList = $this->baseTimesheetsRepository->getEdit($id);
+
+        return view('acc.base-timesheets.edit', 
+               compact('menu', 'title', 
+                      'personalCardsList', 
+                      'yearsList', 
+                      'monthsList', 
+                      'accrualsList', 
+                      'hoursBalanceClassifiersList', 
+                      'departmentsList', 
+                      'accountsList', 
+                      'positionsList', 
+                      'objectsList', 
+                      'baseTimesheetsList'));
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Обновление данных полей измененной записи
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
-        //
+    public function update(BaseTimesheetsUpdateRequest $request, $id) {
+
+        $item = $this->baseTimesheetsRepository->getEdit($id);
+        if(empty($item)) {
+            return back()
+                ->withErrors(['msg' => "Запись #{$id} не найдена.."])
+                ->withInput();
+        }
+        $data = $request->all();
+        $result = $item->update($data);
+        if($result) {
+            return redirect()
+                ->route('acc.base-timesheets.edit', $item->id)
+                ->with(['success' => "Успешно сохранено"]);
+        } else {
+            return back()
+                ->withErrors(['msg' => "Ошибка сохранения.."])
+                ->withInput();
+        }
+    }
+
+    /**
+     * Удаление выбранной записи
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id) {
+
+        $result = $this->baseTimesheetsRepository->getEdit($id)->forceDelete();
+
+        if($result) {
+            return redirect()
+                ->route('acc.base-timesheets.index')
+                ->with(['success' => "Успешно сохранено"]);
+        } else {
+            return back()
+                ->withErrors(['msg' => "Ошибка сохранения.."])
+                ->withInput();
+        }
     }
 }

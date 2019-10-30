@@ -4,25 +4,30 @@ namespace App\Http\Requests\Accounting;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class VacationAmountsUpdateRequest extends FormRequest
-{
+/**
+ * Class VacationAmountsUpdateRequest: Таблица расчета сумм отпускных
+ *
+ * @author SeBo
+ *
+ * @package App\Http\Requests
+ */
+class VacationAmountsUpdateRequest extends FormRequest {
+
     /**
-     * Determine if the user is authorized to make this request.
+     * Создает реквест, если пользователь авторизован.
      *
      * @return bool
      */
-    public function authorize()
-    {
+    public function authorize() {
         return auth()->check();
     }
 
     /**
-     * Get the validation rules that apply to the request.
+     * Получает правила проверки данных для реквеста.
      *
      * @return array
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             'personal_card_id' => 'required|integer|exists:personal_cards,id',
             'vacation_id' => 'required|integer|exists:vacations,id',

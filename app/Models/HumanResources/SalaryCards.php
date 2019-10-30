@@ -6,16 +6,18 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Модель обслуживания учета зарплатных карт работника
+ * Class SalaryCards: Модель учета зарплатных карт работника
+ *
+ * @author SeBo
  */
+class SalaryCards extends Model {
 
-class SalaryCards extends Model
-{
     use SoftDeletes;
-    
+
     protected $fillable = [
         'personal_card_id',
-        'number',
+        'bank_id',
+        'payment_card',
         'expiry',
     ];
 }

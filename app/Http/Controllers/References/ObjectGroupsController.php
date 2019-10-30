@@ -4,92 +4,190 @@ namespace App\Http\Controllers\References;
 
 use Illuminate\Http\Request;
 use App\Models\References\ObjectGroups;
+use App\Repositories\References\ObjectGroupsRepository;
+use App\Http\Requests\References\ObjectGroupsCreateRequest;
+use App\Http\Requests\References\ObjectGroupsUpdateRequest;
 
 /**
- * Контроллер списка групп объектов
+ * Class ObjectGroupsController: Контроллер списка групп объектов
+ *
+ * @author SeBo
+ *
+ * @package App\Http\Controllers\References
  */
+class ObjectGroupsController extends BaseReferencesController {
 
-class ObjectGroupsController extends BaseReferencesController
-{
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @var ObjectGroupsRepository
      */
-    public function index(Request $request)
-    {
-        $url = $request->path();
-        
-        $paths = $this->createMenu($url);
-        $title = $paths->where('url', $url)->first();
-        $items = ObjectGroups::all(); 
-        
-        return view('references.object-groups.index', compact('paths', 'title', 'items'));
+    private $objectGroupsRepository;
+
+    /**
+     * @var path
+     */
+    private $path = 'ref/object-groups';
+
+    public function __construct() {
+
+        parent::__construct();
+
+        $this->objectGroupsRepository = app(ObjectGroupsRepository::class);
+
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Метод создания краткого табличного представления
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
+    public function index() {
+
+        // Формируем массив подменю выбранного пункта меню
+        $menu = $this->createMenu($this->path);
+        if(empty($menu)) {
+            return view('guest');
+        }
+        // Формируем массив данных о представлении
+        $title = $menu->where('path', $this->path)
+                ->first();
+
+        $objectGroupsList = $this->objectGroupsRepository->getTable();
+
+        return view('ref.object-groups.index',  
+               compact('menu', 'title', 'objectGroupsList'));
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Метод создания полного представления существющей записи
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        //
+    public function show($id) {
+
+        // Формируем массив подменю выбранного пункта меню
+        $menu = $this->createMenu($this->path);
+        if(empty($menu)) {
+            return view('guest');
+        }
+        // Формируем массив данных о представлении
+        $title = $menu->where('path', $this->path)
+                ->first();
+
+        // Формируем содержание списка заполняемых полей input
+        $objectGroupsList = $this->objectGroupsRepository->getShow($id);
+
+        return view('ref.object-groups.show', 
+               compact('menu', 'title', 'objectGroupsList'));
     }
 
     /**
-     * Display the specified resource.
+     * Метод создания представления новой записи
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-        //
+    public function create() {
+
+        // Формируем массив подменю выбранного пункта меню
+        $menu = $this->createMenu($this->path);
+        if(empty($menu)) {
+            return view('guest');
+        }
+        // Формируем массив данных о представлении
+        $title = $menu->where('path', $this->path)
+                ->first();
+
+        return view('ref.object-groups.create', 
+               compact('menu', 'title'));
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Метод сохранения созданной новой записи
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
-        //
+    public function store(ObjectGroupsCreateRequest $request) {
+
+        $data = $request->input();
+
+        $result = (new ObjectGroups($data))->create($data);
+
+        if($result) {
+            return redirect()
+                ->route('ref.object-groups.edit', $result->id)
+                ->with(['success' => "Успешно сохранено"]);
+        } else {
+            return back()
+                ->withErrors(['msg' => "Ошибка сохранения.."])
+                ->withInput();
+        }
     }
 
     /**
-     * Update the specified resource in storage.
+     * Метод создания представления изменения
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
-        //
+    public function edit($id) {
+
+        // Формируем массив подменю выбранного пункта меню
+        $menu = $this->createMenu($this->path);
+        if(empty($menu)) {
+            return view('guest');
+        }
+        // Формируем массив данных о представлении
+        $title = $menu->where('path', $this->path)
+                ->first();
+
+        // Формируем содержание списка заполняемых полей input
+        $objectGroupsList = $this->objectGroupsRepository->getEdit($id);
+
+        return view('ref.object-groups.edit', 
+               compact('menu', 'title', 'objectGroupsList'));
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Обновление данных полей измененной записи
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
-        //
+    public function update(ObjectGroupsUpdateRequest $request, $id) {
+
+        $item = $this->objectGroupsRepository->getEdit($id);
+        if(empty($item)) {
+            return back()
+                ->withErrors(['msg' => "Запись #{$id} не найдена.."])
+                ->withInput();
+        }
+        $data = $request->all();
+        $result = $item->update($data);
+        if($result) {
+            return redirect()
+                ->route('ref.object-groups.edit', $item->id)
+                ->with(['success' => "Успешно сохранено"]);
+        } else {
+            return back()
+                ->withErrors(['msg' => "Ошибка сохранения.."])
+                ->withInput();
+        }
+    }
+
+    /**
+     * Удаление выбранной записи
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id) {
+
+        $result = $this->objectGroupsRepository->getEdit($id)->forceDelete();
+
+        if($result) {
+            return redirect()
+                ->route('ref.object-groups.index')
+                ->with(['success' => "Успешно сохранено"]);
+        } else {
+            return back()
+                ->withErrors(['msg' => "Ошибка сохранения.."])
+                ->withInput();
+        }
     }
 }

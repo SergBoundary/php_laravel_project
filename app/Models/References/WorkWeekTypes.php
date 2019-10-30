@@ -6,13 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Модель обслуживания списка видов рабочих недель
+ * Class WorkWeekTypes: Модель списка видов рабочих недель
+ *
+ * @author SeBo
  */
+class WorkWeekTypes extends Model {
 
-class WorkWeekTypes extends Model
-{
     use SoftDeletes;
-    
+
     protected $fillable = [
         'title',
     ];

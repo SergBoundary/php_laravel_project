@@ -6,13 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Модель обслуживания государственного классификатора профессий
+ * Class PositionProfessions: Справочник. Государственный классификатор профессий
+ *
+ * @author SeBo
  */
+class PositionProfessions extends Model {
 
-class PositionProfessions extends Model
-{
     use SoftDeletes;
-    
+
     protected $fillable = [
         'code',
         'title',

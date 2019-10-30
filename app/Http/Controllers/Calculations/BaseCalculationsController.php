@@ -6,15 +6,18 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 /**
- * Базовый контроллер реализации расчетов
+ * Class BaseCalculationsController: Базовый контроллер модуля Calculations
+ *
+ * @author SeBo
+ *
+ * @package App\Http\Controllers\Calculations
  */
+abstract class BaseCalculationsController extends Controller {
 
-abstract class BaseCalculationsController extends Controller
-{
     /**
      * BaseCalculationsController constructor
      */
     public function __construct() {
-        
+
     }
 }

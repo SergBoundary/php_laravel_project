@@ -4,92 +4,190 @@ namespace App\Http\Controllers\References;
 
 use Illuminate\Http\Request;
 use App\Models\References\EmploymentTypes;
+use App\Repositories\References\EmploymentTypesRepository;
+use App\Http\Requests\References\EmploymentTypesCreateRequest;
+use App\Http\Requests\References\EmploymentTypesUpdateRequest;
 
 /**
- * Контроллер списка видов трудовых отношений
+ * Class EmploymentTypesController: Контроллер списка видов трудовых отношений
+ *
+ * @author SeBo
+ *
+ * @package App\Http\Controllers\References
  */
+class EmploymentTypesController extends BaseReferencesController {
 
-class EmploymentTypesController extends BaseReferencesController
-{
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @var EmploymentTypesRepository
      */
-    public function index(Request $request)
-    {
-        $url = $request->path();
-        
-        $paths = $this->createMenu($url);
-        $title = $paths->where('url', $url)->first();
-        $items = EmploymentTypes::all(); 
-        
-        return view('references.employment-types.index', compact('paths', 'title', 'items'));
+    private $employmentTypesRepository;
+
+    /**
+     * @var path
+     */
+    private $path = 'ref/employment-types';
+
+    public function __construct() {
+
+        parent::__construct();
+
+        $this->employmentTypesRepository = app(EmploymentTypesRepository::class);
+
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Метод создания краткого табличного представления
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
+    public function index() {
+
+        // Формируем массив подменю выбранного пункта меню
+        $menu = $this->createMenu($this->path);
+        if(empty($menu)) {
+            return view('guest');
+        }
+        // Формируем массив данных о представлении
+        $title = $menu->where('path', $this->path)
+                ->first();
+
+        $employmentTypesList = $this->employmentTypesRepository->getTable();
+
+        return view('ref.employment-types.index',  
+               compact('menu', 'title', 'employmentTypesList'));
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Метод создания полного представления существющей записи
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        //
+    public function show($id) {
+
+        // Формируем массив подменю выбранного пункта меню
+        $menu = $this->createMenu($this->path);
+        if(empty($menu)) {
+            return view('guest');
+        }
+        // Формируем массив данных о представлении
+        $title = $menu->where('path', $this->path)
+                ->first();
+
+        // Формируем содержание списка заполняемых полей input
+        $employmentTypesList = $this->employmentTypesRepository->getShow($id);
+
+        return view('ref.employment-types.show', 
+               compact('menu', 'title', 'employmentTypesList'));
     }
 
     /**
-     * Display the specified resource.
+     * Метод создания представления новой записи
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-        //
+    public function create() {
+
+        // Формируем массив подменю выбранного пункта меню
+        $menu = $this->createMenu($this->path);
+        if(empty($menu)) {
+            return view('guest');
+        }
+        // Формируем массив данных о представлении
+        $title = $menu->where('path', $this->path)
+                ->first();
+
+        return view('ref.employment-types.create', 
+               compact('menu', 'title'));
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Метод сохранения созданной новой записи
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
-        //
+    public function store(EmploymentTypesCreateRequest $request) {
+
+        $data = $request->input();
+
+        $result = (new EmploymentTypes($data))->create($data);
+
+        if($result) {
+            return redirect()
+                ->route('ref.employment-types.edit', $result->id)
+                ->with(['success' => "Успешно сохранено"]);
+        } else {
+            return back()
+                ->withErrors(['msg' => "Ошибка сохранения.."])
+                ->withInput();
+        }
     }
 
     /**
-     * Update the specified resource in storage.
+     * Метод создания представления изменения
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
-        //
+    public function edit($id) {
+
+        // Формируем массив подменю выбранного пункта меню
+        $menu = $this->createMenu($this->path);
+        if(empty($menu)) {
+            return view('guest');
+        }
+        // Формируем массив данных о представлении
+        $title = $menu->where('path', $this->path)
+                ->first();
+
+        // Формируем содержание списка заполняемых полей input
+        $employmentTypesList = $this->employmentTypesRepository->getEdit($id);
+
+        return view('ref.employment-types.edit', 
+               compact('menu', 'title', 'employmentTypesList'));
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Обновление данных полей измененной записи
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
-        //
+    public function update(EmploymentTypesUpdateRequest $request, $id) {
+
+        $item = $this->employmentTypesRepository->getEdit($id);
+        if(empty($item)) {
+            return back()
+                ->withErrors(['msg' => "Запись #{$id} не найдена.."])
+                ->withInput();
+        }
+        $data = $request->all();
+        $result = $item->update($data);
+        if($result) {
+            return redirect()
+                ->route('ref.employment-types.edit', $item->id)
+                ->with(['success' => "Успешно сохранено"]);
+        } else {
+            return back()
+                ->withErrors(['msg' => "Ошибка сохранения.."])
+                ->withInput();
+        }
+    }
+
+    /**
+     * Удаление выбранной записи
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id) {
+
+        $result = $this->employmentTypesRepository->getEdit($id)->forceDelete();
+
+        if($result) {
+            return redirect()
+                ->route('ref.employment-types.index')
+                ->with(['success' => "Успешно сохранено"]);
+        } else {
+            return back()
+                ->withErrors(['msg' => "Ошибка сохранения.."])
+                ->withInput();
+        }
     }
 }

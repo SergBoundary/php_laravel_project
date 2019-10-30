@@ -6,13 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Модель обслуживания списка размеров одежды
+ * Class ClothingSizes: Модель списка размеров одежды
+ *
+ * @author SeBo
  */
+class ClothingSizes extends Model {
 
-class ClothingSizes extends Model
-{
     use SoftDeletes;
-    
+
     protected $fillable = [
         'title',
     ];

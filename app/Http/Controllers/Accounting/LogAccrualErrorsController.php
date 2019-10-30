@@ -3,89 +3,201 @@
 namespace App\Http\Controllers\Accounting;
 
 use Illuminate\Http\Request;
+use App\Models\HumanResources\PersonalCards;
 use App\Models\Accounting\LogAccrualErrors;
+use App\Repositories\Accounting\LogAccrualErrorsRepository;
+use App\Http\Requests\Accounting\LogAccrualErrorsCreateRequest;
+use App\Http\Requests\Accounting\LogAccrualErrorsUpdateRequest;
 
 /**
- * Модель обработки ошибок в расчете начислений работникам
+ * Class LogAccrualErrorsController: Контроллер ошибок в расчете начислений работникам
+ *
+ * @author SeBo
+ *
+ * @package App\Http\Controllers\Accounting
  */
+class LogAccrualErrorsController extends BaseAccountingController {
 
-class LogAccrualErrorsController extends BaseAccountingController
-{
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @var LogAccrualErrorsRepository
      */
-    public function index()
-    {
-        $title = 'Ошибки в расчете начислений работникам'; 
-        $items = LogAccrualErrors::all(); 
-        return view('accounting.log-accrual-errors.index', compact('title', 'items'));
+    private $logAccrualErrorsRepository;
+
+    /**
+     * @var path
+     */
+    private $path = 'acc/log-accrual-errors';
+
+    public function __construct() {
+
+        parent::__construct();
+
+        $this->logAccrualErrorsRepository = app(LogAccrualErrorsRepository::class);
+
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Метод создания краткого табличного представления
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
+    public function index() {
+
+        // Формируем массив подменю выбранного пункта меню
+        $menu = $this->createMenu($this->path);
+        if(empty($menu)) {
+            return view('guest');
+        }
+        // Формируем массив данных о представлении
+        $title = $menu->where('path', $this->path)
+                ->first();
+
+        $logAccrualErrorsList = $this->logAccrualErrorsRepository->getTable();
+
+        return view('acc.log-accrual-errors.index',  
+               compact('menu', 'title', 'logAccrualErrorsList'));
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Метод создания полного представления существющей записи
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        //
+    public function show($id) {
+
+        // Формируем массив подменю выбранного пункта меню
+        $menu = $this->createMenu($this->path);
+        if(empty($menu)) {
+            return view('guest');
+        }
+        // Формируем массив данных о представлении
+        $title = $menu->where('path', $this->path)
+                ->first();
+
+        // Формируем содержание списка заполняемых полей input
+        $logAccrualErrorsList = $this->logAccrualErrorsRepository->getShow($id);
+
+        return view('acc.log-accrual-errors.show', 
+               compact('menu', 'title', 'logAccrualErrorsList'));
     }
 
     /**
-     * Display the specified resource.
+     * Метод создания представления новой записи
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-        //
+    public function create() {
+
+        // Формируем массив подменю выбранного пункта меню
+        $menu = $this->createMenu($this->path);
+        if(empty($menu)) {
+            return view('guest');
+        }
+        // Формируем массив данных о представлении
+        $title = $menu->where('path', $this->path)
+                ->first();
+
+        // Формируем содержание списка выбираемых полей полей select
+        $personalCardsList = $this->logAccrualErrorsRepository->getListSelect(0);
+
+        return view('acc.log-accrual-errors.create', 
+               compact('menu', 'title', 
+                      'personalCardsList'));
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Метод сохранения созданной новой записи
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
-        //
+    public function store(LogAccrualErrorsCreateRequest $request) {
+
+        $data = $request->input();
+
+        $result = (new LogAccrualErrors($data))->create($data);
+
+        if($result) {
+            return redirect()
+                ->route('acc.log-accrual-errors.edit', $result->id)
+                ->with(['success' => "Успешно сохранено"]);
+        } else {
+            return back()
+                ->withErrors(['msg' => "Ошибка сохранения.."])
+                ->withInput();
+        }
     }
 
     /**
-     * Update the specified resource in storage.
+     * Метод создания представления изменения
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
-        //
+    public function edit($id) {
+
+        // Формируем массив подменю выбранного пункта меню
+        $menu = $this->createMenu($this->path);
+        if(empty($menu)) {
+            return view('guest');
+        }
+        // Формируем массив данных о представлении
+        $title = $menu->where('path', $this->path)
+                ->first();
+
+        // Формируем содержание списка выбираемых полей полей select
+        $personalCardsList = $this->logAccrualErrorsRepository->getListSelect(0);
+
+        // Формируем содержание списка заполняемых полей input
+        $logAccrualErrorsList = $this->logAccrualErrorsRepository->getEdit($id);
+
+        return view('acc.log-accrual-errors.edit', 
+               compact('menu', 'title', 
+                      'personalCardsList', 
+                      'logAccrualErrorsList'));
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Обновление данных полей измененной записи
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
-        //
+    public function update(LogAccrualErrorsUpdateRequest $request, $id) {
+
+        $item = $this->logAccrualErrorsRepository->getEdit($id);
+        if(empty($item)) {
+            return back()
+                ->withErrors(['msg' => "Запись #{$id} не найдена.."])
+                ->withInput();
+        }
+        $data = $request->all();
+        $result = $item->update($data);
+        if($result) {
+            return redirect()
+                ->route('acc.log-accrual-errors.edit', $item->id)
+                ->with(['success' => "Успешно сохранено"]);
+        } else {
+            return back()
+                ->withErrors(['msg' => "Ошибка сохранения.."])
+                ->withInput();
+        }
+    }
+
+    /**
+     * Удаление выбранной записи
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id) {
+
+        $result = $this->logAccrualErrorsRepository->getEdit($id)->forceDelete();
+
+        if($result) {
+            return redirect()
+                ->route('acc.log-accrual-errors.index')
+                ->with(['success' => "Успешно сохранено"]);
+        } else {
+            return back()
+                ->withErrors(['msg' => "Ошибка сохранения.."])
+                ->withInput();
+        }
     }
 }

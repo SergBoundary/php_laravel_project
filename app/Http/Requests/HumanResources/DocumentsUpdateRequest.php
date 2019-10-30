@@ -4,29 +4,34 @@ namespace App\Http\Requests\HumanResources;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class DocumentsUpdateRequest extends FormRequest
-{
+/**
+ * Class DocumentsUpdateRequest: Правила записи кадровых документов
+ *
+ * @author SeBo
+ *
+ * @package App\Http\Requests
+ */
+class DocumentsUpdateRequest extends FormRequest {
+
     /**
-     * Determine if the user is authorized to make this request.
+     * Создает реквест, если пользователь авторизован.
      *
      * @return bool
      */
-    public function authorize()
-    {
+    public function authorize() {
         return auth()->check();
     }
 
     /**
-     * Get the validation rules that apply to the request.
+     * Получает правила проверки данных для реквеста.
      *
      * @return array
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             'document_id' => 'required|integer|exists:documents,id',
-            'date' => 'required|date',
             'number' => 'required|string|max:10',
+            'date' => 'required|date',
             'annotation' => 'required|string|max:100',
             'description' => 'required|string',
             'print' => 'required|boolean',

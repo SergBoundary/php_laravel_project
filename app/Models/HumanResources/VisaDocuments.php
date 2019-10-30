@@ -6,13 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Модель обслуживания учета документов работника для получения визы и въезда в страну
+ * Class VisaDocuments: Модель учета документов работника для получения визы и въезда в страну
+ *
+ * @author SeBo
  */
+class VisaDocuments extends Model {
 
-class VisaDocuments extends Model
-{
     use SoftDeletes;
-    
+
     protected $fillable = [
         'personal_card_id',
         'visa_status_id',

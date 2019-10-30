@@ -3,93 +3,201 @@
 namespace App\Http\Controllers\References;
 
 use Illuminate\Http\Request;
+use App\Models\References\DepartmentGroups;
 use App\Models\References\Departments;
+use App\Repositories\References\DepartmentsRepository;
+use App\Http\Requests\References\DepartmentsCreateRequest;
+use App\Http\Requests\References\DepartmentsUpdateRequest;
 
 /**
- * Контроллер списка подразделений компании
+ * Class DepartmentsController: Контроллер списка подразделений компании
+ *
+ * @author SeBo
+ *
+ * @package App\Http\Controllers\References
  */
+class DepartmentsController extends BaseReferencesController {
 
-class DepartmentsController extends BaseReferencesController
-{
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @var DepartmentsRepository
      */
-    public function index(Request $request)
-    {
-        $url = $request->path();
-        
-        $paths = $this->createMenu($url);
-        $title = $paths->where('url', $url)->first();
-        $items = Departments::all(); 
-        
-        return view('references.departments.index', compact('paths', 'title', 'items'));
+    private $departmentsRepository;
+
+    /**
+     * @var path
+     */
+    private $path = 'ref/departments';
+
+    public function __construct() {
+
+        parent::__construct();
+
+        $this->departmentsRepository = app(DepartmentsRepository::class);
+
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Метод создания краткого табличного представления
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
+    public function index() {
+
+        // Формируем массив подменю выбранного пункта меню
+        $menu = $this->createMenu($this->path);
+        if(empty($menu)) {
+            return view('guest');
+        }
+        // Формируем массив данных о представлении
+        $title = $menu->where('path', $this->path)
+                ->first();
+
+        $departmentsList = $this->departmentsRepository->getTable();
+
+        return view('ref.departments.index',  
+               compact('menu', 'title', 'departmentsList'));
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Метод создания полного представления существющей записи
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        //
+    public function show($id) {
+
+        // Формируем массив подменю выбранного пункта меню
+        $menu = $this->createMenu($this->path);
+        if(empty($menu)) {
+            return view('guest');
+        }
+        // Формируем массив данных о представлении
+        $title = $menu->where('path', $this->path)
+                ->first();
+
+        // Формируем содержание списка заполняемых полей input
+        $departmentsList = $this->departmentsRepository->getShow($id);
+
+        return view('ref.departments.show', 
+               compact('menu', 'title', 'departmentsList'));
     }
 
     /**
-     * Display the specified resource.
+     * Метод создания представления новой записи
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-        //
+    public function create() {
+
+        // Формируем массив подменю выбранного пункта меню
+        $menu = $this->createMenu($this->path);
+        if(empty($menu)) {
+            return view('guest');
+        }
+        // Формируем массив данных о представлении
+        $title = $menu->where('path', $this->path)
+                ->first();
+
+        // Формируем содержание списка выбираемых полей полей select
+        $departmentGroupsList = $this->departmentsRepository->getListSelect(0);
+
+        return view('ref.departments.create', 
+               compact('menu', 'title', 
+                      'departmentGroupsList'));
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Метод сохранения созданной новой записи
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
-        //
+    public function store(DepartmentsCreateRequest $request) {
+
+        $data = $request->input();
+
+        $result = (new Departments($data))->create($data);
+
+        if($result) {
+            return redirect()
+                ->route('ref.departments.edit', $result->id)
+                ->with(['success' => "Успешно сохранено"]);
+        } else {
+            return back()
+                ->withErrors(['msg' => "Ошибка сохранения.."])
+                ->withInput();
+        }
     }
 
     /**
-     * Update the specified resource in storage.
+     * Метод создания представления изменения
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
-        //
+    public function edit($id) {
+
+        // Формируем массив подменю выбранного пункта меню
+        $menu = $this->createMenu($this->path);
+        if(empty($menu)) {
+            return view('guest');
+        }
+        // Формируем массив данных о представлении
+        $title = $menu->where('path', $this->path)
+                ->first();
+
+        // Формируем содержание списка выбираемых полей полей select
+        $departmentGroupsList = $this->departmentsRepository->getListSelect(0);
+
+        // Формируем содержание списка заполняемых полей input
+        $departmentsList = $this->departmentsRepository->getEdit($id);
+
+        return view('ref.departments.edit', 
+               compact('menu', 'title', 
+                      'departmentGroupsList', 
+                      'departmentsList'));
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Обновление данных полей измененной записи
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
-        //
+    public function update(DepartmentsUpdateRequest $request, $id) {
+
+        $item = $this->departmentsRepository->getEdit($id);
+        if(empty($item)) {
+            return back()
+                ->withErrors(['msg' => "Запись #{$id} не найдена.."])
+                ->withInput();
+        }
+        $data = $request->all();
+        $result = $item->update($data);
+        if($result) {
+            return redirect()
+                ->route('ref.departments.edit', $item->id)
+                ->with(['success' => "Успешно сохранено"]);
+        } else {
+            return back()
+                ->withErrors(['msg' => "Ошибка сохранения.."])
+                ->withInput();
+        }
+    }
+
+    /**
+     * Удаление выбранной записи
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id) {
+
+        $result = $this->departmentsRepository->getEdit($id)->forceDelete();
+
+        if($result) {
+            return redirect()
+                ->route('ref.departments.index')
+                ->with(['success' => "Успешно сохранено"]);
+        } else {
+            return back()
+                ->withErrors(['msg' => "Ошибка сохранения.."])
+                ->withInput();
+        }
     }
 }

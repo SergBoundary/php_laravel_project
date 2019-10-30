@@ -9,84 +9,108 @@ use App\Http\Requests\References\CountriesCreateRequest;
 use App\Http\Requests\References\CountriesUpdateRequest;
 
 /**
- * Контроллер списка стран
- * 
+ * Class CountriesController: Контроллер списка стран
+ *
+ * @author SeBo
+ *
  * @package App\Http\Controllers\References
  */
+class CountriesController extends BaseReferencesController {
 
-class CountriesController extends BaseReferencesController
-{
-    
     /**
-     * @var CountriesRepository 
+     * @var CountriesRepository
      */
     private $countriesRepository;
-    
-    protected $path = 'ref/countries';
+
+    /**
+     * @var path
+     */
+    private $path = 'ref/countries';
 
     public function __construct() {
-        
+
         parent::__construct();
-        
+
         $this->countriesRepository = app(CountriesRepository::class);
+
     }
-    
+
     /**
-     * Display a listing of the resource.
+     * Метод создания краткого табличного представления
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
+    public function index() {
+
+        // Формируем массив подменю выбранного пункта меню
         $menu = $this->createMenu($this->path);
         if(empty($menu)) {
             return view('guest');
         }
+        // Формируем массив данных о представлении
         $title = $menu->where('path', $this->path)
-                ->toBase()
                 ->first();
-        $countryList = $this->countriesRepository->getListTable();
-//        $countryList = $this->countriesRepository->getAllPaginate(5);
-//        $countryList = Countries::where('visible', 1)
-//                ->orderBy('title')
-//                ->toBase()
-//                ->get();
-        
-        return view('references.countries.index', 
-                compact('menu', 'title', 'countryList'));
+
+        $countriesList = $this->countriesRepository->getTable();
+
+        return view('ref.countries.index',  
+               compact('menu', 'title', 'countriesList'));
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Метод создания полного представления существющей записи
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
+    public function show($id) {
+
+        // Формируем массив подменю выбранного пункта меню
         $menu = $this->createMenu($this->path);
         if(empty($menu)) {
             return view('guest');
         }
+        // Формируем массив данных о представлении
         $title = $menu->where('path', $this->path)
-                ->toBase()
                 ->first();
-        
-        return view('references.countries.create', 
-                compact('menu', 'title'));
+
+        // Формируем содержание списка заполняемых полей input
+        $countriesList = $this->countriesRepository->getShow($id);
+
+        return view('ref.countries.show', 
+               compact('menu', 'title', 'countriesList'));
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Метод создания представления новой записи
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CountriesCreateRequest $request)
-    {
+    public function create() {
+
+        // Формируем массив подменю выбранного пункта меню
+        $menu = $this->createMenu($this->path);
+        if(empty($menu)) {
+            return view('guest');
+        }
+        // Формируем массив данных о представлении
+        $title = $menu->where('path', $this->path)
+                ->first();
+
+        return view('ref.countries.create', 
+               compact('menu', 'title'));
+    }
+
+    /**
+     * Метод сохранения созданной новой записи
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function store(CountriesCreateRequest $request) {
+
         $data = $request->input();
-        
+
         $result = (new Countries($data))->create($data);
-        
+
         if($result) {
             return redirect()
                 ->route('ref.countries.edit', $result->id)
@@ -99,63 +123,36 @@ class CountriesController extends BaseReferencesController
     }
 
     /**
-     * Display the specified resource.
+     * Метод создания представления изменения
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id) {
+    public function edit($id) {
 
         // Формируем массив подменю выбранного пункта меню
         $menu = $this->createMenu($this->path);
         if(empty($menu)) {
             return view('guest');
         }
-        // Формируем массив подменю выбранного пункта меню
+        // Формируем массив данных о представлении
         $title = $menu->where('path', $this->path)
                 ->first();
 
         // Формируем содержание списка заполняемых полей input
-        $countriesList = Countries::find($id);
+        $countriesList = $this->countriesRepository->getEdit($id);
 
-        return view('references.countries.show', 
+        return view('ref.countries.edit', 
                compact('menu', 'title', 'countriesList'));
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Обновление данных полей измененной записи
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id, CountriesRepository $countries)
-    {
-        $menu = $this->createMenu($this->path);
-        if(empty($menu)) {
-            return view('guest');
-        }
-        $title = $menu->where('path', $this->path)
-                ->toBase()
-                ->first();
-        $item = $countries->getEdit($id);
-        if(empty($item)) {
-            abort(404);
-        }
-//        dd($item);
-        return view('references.countries.edit', 
-                compact('menu', 'title', 'item'));
-    }
+    public function update(CountriesUpdateRequest $request, $id) {
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(CountriesUpdateRequest $request, $id)
-    {
-        $item = Countries::find($id);
+        $item = $this->countriesRepository->getEdit($id);
         if(empty($item)) {
             return back()
                 ->withErrors(['msg' => "Запись #{$id} не найдена.."])
@@ -175,17 +172,14 @@ class CountriesController extends BaseReferencesController
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Удаление выбранной записи
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
-        //$result = Countries::destroy($id);
-        
-        $result = Countries::find($id)->forceDelete();
-        
+    public function destroy($id) {
+
+        $result = $this->countriesRepository->getEdit($id)->forceDelete();
+
         if($result) {
             return redirect()
                 ->route('ref.countries.index')

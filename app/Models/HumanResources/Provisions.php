@@ -6,13 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Модель обслуживания учета материального обеспечения работника
+ * Class Provisions: Модель учета материального обеспечения работника
+ *
+ * @author SeBo
  */
+class Provisions extends Model {
 
-class Provisions extends Model
-{
     use SoftDeletes;
-    
+
     protected $fillable = [
         'document_id',
         'manning_orders_id',

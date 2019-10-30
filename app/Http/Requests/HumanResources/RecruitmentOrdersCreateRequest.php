@@ -4,34 +4,39 @@ namespace App\Http\Requests\HumanResources;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class RecruitmentOrdersCreateRequest extends FormRequest
-{
+/**
+ * Class RecruitmentOrdersCreateRequest: Правила записи найма и увольнений работника
+ *
+ * @author SeBo
+ *
+ * @package App\Http\Requests
+ */
+class RecruitmentOrdersCreateRequest extends FormRequest {
+
     /**
-     * Determine if the user is authorized to make this request.
+     * Создает реквест, если пользователь авторизован.
      *
      * @return bool
      */
-    public function authorize()
-    {
+    public function authorize() {
         return auth()->check();
     }
 
     /**
-     * Get the validation rules that apply to the request.
+     * Получает правила проверки данных для реквеста.
      *
      * @return array
      */
-    public function rules()
-    {
+    public function rules() {
         return [
-            'document_id' => 'required|integer|exists:personal_cards,id',
-            'personal_card_id' => 'required|integer|exists:dismissal_reasons,id',
+            'document_id' => 'required|integer|exists:documents,id',
+            'personal_card_id' => 'required|integer|exists:personal_cards,id',
             'employment_date' => 'required|date',
             'employment_order' => 'required|string|max:10',
             'probation' => 'required|integer',
             'dismissal_date' => 'required|date',
             'dismissal_order' => 'required|string|max:10',
-            'dismissal_reason_id' => 'required|integer|exists:documents,id',
+            'dismissal_reason_id' => 'required|integer|exists:dismissal_reasons,id',
         ];
     }
 }

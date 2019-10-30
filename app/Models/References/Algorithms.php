@@ -6,13 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Модель обслуживания списка алгоритмов начислений
+ * Class Algorithms: Модель списка алгоритмов начислений
+ *
+ * @author SeBo
  */
+class Algorithms extends Model {
 
-class Algorithms extends Model
-{
     use SoftDeletes;
-    
+
     protected $fillable = [
         'title',
     ];

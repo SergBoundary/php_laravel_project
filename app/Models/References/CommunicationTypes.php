@@ -6,13 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Модель обслуживания списка способов коммуникации с работником
+ * Class CommunicationTypes: Модель списка способов коммуникации с работником
+ *
+ * @author SeBo
  */
+class CommunicationTypes extends Model {
 
-class CommunicationTypes extends Model
-{
     use SoftDeletes;
-    
+
     protected $fillable = [
         'title',
     ];

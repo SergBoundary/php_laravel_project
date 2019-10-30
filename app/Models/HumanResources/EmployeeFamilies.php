@@ -6,13 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Модель обслуживания учета близкого окружения работника
+ * Class EmployeeFamilies: Модель учета влияния близкого окружения
+ *
+ * @author SeBo
  */
+class EmployeeFamilies extends Model {
 
-class EmployeeFamilies extends Model
-{
     use SoftDeletes;
-    
+
     protected $fillable = [
         'personal_card_id',
         'family_relation_type_id',

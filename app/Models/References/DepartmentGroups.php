@@ -6,13 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Модель обслуживания списка групп подразделений компании
+ * Class DepartmentGroups: Модель списка групп подразделений компании
+ *
+ * @author SeBo
  */
+class DepartmentGroups extends Model {
 
-class DepartmentGroups extends Model
-{
     use SoftDeletes;
-    
+
     protected $fillable = [
         'title',
     ];

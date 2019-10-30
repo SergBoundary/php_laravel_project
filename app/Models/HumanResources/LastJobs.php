@@ -6,13 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Модель обслуживания учета предыдущих мест работы
+ * Class LastJobs: Модель учета предыдущих мест работы
+ *
+ * @author SeBo
  */
+class LastJobs extends Model {
 
-class LastJobs extends Model
-{
     use SoftDeletes;
-    
+
     protected $fillable = [
         'personal_card_id',
         'last_job',

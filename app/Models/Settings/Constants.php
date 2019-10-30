@@ -6,13 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Модель обслуживания констант системы
+ * Class Constants: Модель констант системы
+ *
+ * @author SeBo
  */
+class Constants extends Model {
 
-class Constants extends Model
-{
     use SoftDeletes;
-    
+
     protected $fillable = [
         'title',
         'description',

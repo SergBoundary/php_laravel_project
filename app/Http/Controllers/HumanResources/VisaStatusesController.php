@@ -3,93 +3,211 @@
 namespace App\Http\Controllers\HumanResources;
 
 use Illuminate\Http\Request;
+use App\Models\HumanResources\PersonalCards;
+use App\Models\References\Countries;
+use App\Models\References\Countries;
 use App\Models\HumanResources\VisaStatuses;
+use App\Repositories\HumanResources\VisaStatusesRepository;
+use App\Http\Requests\HumanResources\VisaStatusesCreateRequest;
+use App\Http\Requests\HumanResources\VisaStatusesUpdateRequest;
 
 /**
- * Контроллер учета виз работника на пребывание в стране
+ * Class VisaStatusesController: Контроллер учета виз работника на пребывание в стране
+ *
+ * @author SeBo
+ *
+ * @package App\Http\Controllers\HumanResources
  */
+class VisaStatusesController extends BaseHumanResourcesController {
 
-class VisaStatusesController extends BaseHumanResourcesController
-{
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @var VisaStatusesRepository
      */
-    public function index(Request $request)
-    {
-        $url = $request->path();
-        
-        $paths = $this->createMenu($url);
-        $title = $paths->where('url', $url)->first();
-        $items = VisaStatuses::all(); 
-        
-        return view('humanresources.visa-statuses.index', compact('paths', 'title', 'items'));
+    private $visaStatusesRepository;
+
+    /**
+     * @var path
+     */
+    private $path = 'hr/visa-statuses';
+
+    public function __construct() {
+
+        parent::__construct();
+
+        $this->visaStatusesRepository = app(VisaStatusesRepository::class);
+
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Метод создания краткого табличного представления
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
+    public function index() {
+
+        // Формируем массив подменю выбранного пункта меню
+        $menu = $this->createMenu($this->path);
+        if(empty($menu)) {
+            return view('guest');
+        }
+        // Формируем массив данных о представлении
+        $title = $menu->where('path', $this->path)
+                ->first();
+
+        $visaStatusesList = $this->visaStatusesRepository->getTable();
+
+        return view('hr.visa-statuses.index',  
+               compact('menu', 'title', 'visaStatusesList'));
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Метод создания полного представления существющей записи
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        //
+    public function show($id) {
+
+        // Формируем массив подменю выбранного пункта меню
+        $menu = $this->createMenu($this->path);
+        if(empty($menu)) {
+            return view('guest');
+        }
+        // Формируем массив данных о представлении
+        $title = $menu->where('path', $this->path)
+                ->first();
+
+        // Формируем содержание списка заполняемых полей input
+        $visaStatusesList = $this->visaStatusesRepository->getShow($id);
+
+        return view('hr.visa-statuses.show', 
+               compact('menu', 'title', 'visaStatusesList'));
     }
 
     /**
-     * Display the specified resource.
+     * Метод создания представления новой записи
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-        //
+    public function create() {
+
+        // Формируем массив подменю выбранного пункта меню
+        $menu = $this->createMenu($this->path);
+        if(empty($menu)) {
+            return view('guest');
+        }
+        // Формируем массив данных о представлении
+        $title = $menu->where('path', $this->path)
+                ->first();
+
+        // Формируем содержание списка выбираемых полей полей select
+        $personalCardsList = $this->visaStatusesRepository->getListSelect(0);
+        $countriesList = $this->visaStatusesRepository->getListSelect(1);
+        $countriesList = $this->visaStatusesRepository->getListSelect(2);
+
+        return view('hr.visa-statuses.create', 
+               compact('menu', 'title', 
+                      'personalCardsList', 
+                      'countriesList', 
+                      'countriesList'));
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Метод сохранения созданной новой записи
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
-        //
+    public function store(VisaStatusesCreateRequest $request) {
+
+        $data = $request->input();
+
+        $result = (new VisaStatuses($data))->create($data);
+
+        if($result) {
+            return redirect()
+                ->route('hr.visa-statuses.edit', $result->id)
+                ->with(['success' => "Успешно сохранено"]);
+        } else {
+            return back()
+                ->withErrors(['msg' => "Ошибка сохранения.."])
+                ->withInput();
+        }
     }
 
     /**
-     * Update the specified resource in storage.
+     * Метод создания представления изменения
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
-        //
+    public function edit($id) {
+
+        // Формируем массив подменю выбранного пункта меню
+        $menu = $this->createMenu($this->path);
+        if(empty($menu)) {
+            return view('guest');
+        }
+        // Формируем массив данных о представлении
+        $title = $menu->where('path', $this->path)
+                ->first();
+
+        // Формируем содержание списка выбираемых полей полей select
+        $personalCardsList = $this->visaStatusesRepository->getListSelect(0);
+        $countriesList = $this->visaStatusesRepository->getListSelect(1);
+        $countriesList = $this->visaStatusesRepository->getListSelect(2);
+
+        // Формируем содержание списка заполняемых полей input
+        $visaStatusesList = $this->visaStatusesRepository->getEdit($id);
+
+        return view('hr.visa-statuses.edit', 
+               compact('menu', 'title', 
+                      'personalCardsList', 
+                      'countriesList', 
+                      'countriesList', 
+                      'visaStatusesList'));
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Обновление данных полей измененной записи
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
-        //
+    public function update(VisaStatusesUpdateRequest $request, $id) {
+
+        $item = $this->visaStatusesRepository->getEdit($id);
+        if(empty($item)) {
+            return back()
+                ->withErrors(['msg' => "Запись #{$id} не найдена.."])
+                ->withInput();
+        }
+        $data = $request->all();
+        $result = $item->update($data);
+        if($result) {
+            return redirect()
+                ->route('hr.visa-statuses.edit', $item->id)
+                ->with(['success' => "Успешно сохранено"]);
+        } else {
+            return back()
+                ->withErrors(['msg' => "Ошибка сохранения.."])
+                ->withInput();
+        }
+    }
+
+    /**
+     * Удаление выбранной записи
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id) {
+
+        $result = $this->visaStatusesRepository->getEdit($id)->forceDelete();
+
+        if($result) {
+            return redirect()
+                ->route('hr.visa-statuses.index')
+                ->with(['success' => "Успешно сохранено"]);
+        } else {
+            return back()
+                ->withErrors(['msg' => "Ошибка сохранения.."])
+                ->withInput();
+        }
     }
 }

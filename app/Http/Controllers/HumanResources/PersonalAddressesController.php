@@ -3,93 +3,206 @@
 namespace App\Http\Controllers\HumanResources;
 
 use Illuminate\Http\Request;
+use App\Models\HumanResources\PersonalCards;
+use App\Models\References\Cities;
 use App\Models\HumanResources\PersonalAddresses;
+use App\Repositories\HumanResources\PersonalAddressesRepository;
+use App\Http\Requests\HumanResources\PersonalAddressesCreateRequest;
+use App\Http\Requests\HumanResources\PersonalAddressesUpdateRequest;
 
 /**
- * Контроллер учета адресов работника
+ * Class PersonalAddressesController: Контроллер учета адресов работника
+ *
+ * @author SeBo
+ *
+ * @package App\Http\Controllers\HumanResources
  */
+class PersonalAddressesController extends BaseHumanResourcesController {
 
-class PersonalAddressesController extends BaseHumanResourcesController
-{
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @var PersonalAddressesRepository
      */
-    public function index(Request $request)
-    {
-        $url = $request->path();
-        
-        $paths = $this->createMenu($url);
-        $title = $paths->where('url', $url)->first();
-        $items = PersonalAddresses::all(); 
-        
-        return view('humanresources.personal-addresses.index', compact('paths', 'title', 'items'));
+    private $personalAddressesRepository;
+
+    /**
+     * @var path
+     */
+    private $path = 'hr/personal-addresses';
+
+    public function __construct() {
+
+        parent::__construct();
+
+        $this->personalAddressesRepository = app(PersonalAddressesRepository::class);
+
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Метод создания краткого табличного представления
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
+    public function index() {
+
+        // Формируем массив подменю выбранного пункта меню
+        $menu = $this->createMenu($this->path);
+        if(empty($menu)) {
+            return view('guest');
+        }
+        // Формируем массив данных о представлении
+        $title = $menu->where('path', $this->path)
+                ->first();
+
+        $personalAddressesList = $this->personalAddressesRepository->getTable();
+
+        return view('hr.personal-addresses.index',  
+               compact('menu', 'title', 'personalAddressesList'));
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Метод создания полного представления существющей записи
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        //
+    public function show($id) {
+
+        // Формируем массив подменю выбранного пункта меню
+        $menu = $this->createMenu($this->path);
+        if(empty($menu)) {
+            return view('guest');
+        }
+        // Формируем массив данных о представлении
+        $title = $menu->where('path', $this->path)
+                ->first();
+
+        // Формируем содержание списка заполняемых полей input
+        $personalAddressesList = $this->personalAddressesRepository->getShow($id);
+
+        return view('hr.personal-addresses.show', 
+               compact('menu', 'title', 'personalAddressesList'));
     }
 
     /**
-     * Display the specified resource.
+     * Метод создания представления новой записи
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-        //
+    public function create() {
+
+        // Формируем массив подменю выбранного пункта меню
+        $menu = $this->createMenu($this->path);
+        if(empty($menu)) {
+            return view('guest');
+        }
+        // Формируем массив данных о представлении
+        $title = $menu->where('path', $this->path)
+                ->first();
+
+        // Формируем содержание списка выбираемых полей полей select
+        $personalCardsList = $this->personalAddressesRepository->getListSelect(0);
+        $citiesList = $this->personalAddressesRepository->getListSelect(1);
+
+        return view('hr.personal-addresses.create', 
+               compact('menu', 'title', 
+                      'personalCardsList', 
+                      'citiesList'));
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Метод сохранения созданной новой записи
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
-        //
+    public function store(PersonalAddressesCreateRequest $request) {
+
+        $data = $request->input();
+
+        $result = (new PersonalAddresses($data))->create($data);
+
+        if($result) {
+            return redirect()
+                ->route('hr.personal-addresses.edit', $result->id)
+                ->with(['success' => "Успешно сохранено"]);
+        } else {
+            return back()
+                ->withErrors(['msg' => "Ошибка сохранения.."])
+                ->withInput();
+        }
     }
 
     /**
-     * Update the specified resource in storage.
+     * Метод создания представления изменения
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
-        //
+    public function edit($id) {
+
+        // Формируем массив подменю выбранного пункта меню
+        $menu = $this->createMenu($this->path);
+        if(empty($menu)) {
+            return view('guest');
+        }
+        // Формируем массив данных о представлении
+        $title = $menu->where('path', $this->path)
+                ->first();
+
+        // Формируем содержание списка выбираемых полей полей select
+        $personalCardsList = $this->personalAddressesRepository->getListSelect(0);
+        $citiesList = $this->personalAddressesRepository->getListSelect(1);
+
+        // Формируем содержание списка заполняемых полей input
+        $personalAddressesList = $this->personalAddressesRepository->getEdit($id);
+
+        return view('hr.personal-addresses.edit', 
+               compact('menu', 'title', 
+                      'personalCardsList', 
+                      'citiesList', 
+                      'personalAddressesList'));
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Обновление данных полей измененной записи
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
-        //
+    public function update(PersonalAddressesUpdateRequest $request, $id) {
+
+        $item = $this->personalAddressesRepository->getEdit($id);
+        if(empty($item)) {
+            return back()
+                ->withErrors(['msg' => "Запись #{$id} не найдена.."])
+                ->withInput();
+        }
+        $data = $request->all();
+        $result = $item->update($data);
+        if($result) {
+            return redirect()
+                ->route('hr.personal-addresses.edit', $item->id)
+                ->with(['success' => "Успешно сохранено"]);
+        } else {
+            return back()
+                ->withErrors(['msg' => "Ошибка сохранения.."])
+                ->withInput();
+        }
+    }
+
+    /**
+     * Удаление выбранной записи
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id) {
+
+        $result = $this->personalAddressesRepository->getEdit($id)->forceDelete();
+
+        if($result) {
+            return redirect()
+                ->route('hr.personal-addresses.index')
+                ->with(['success' => "Успешно сохранено"]);
+        } else {
+            return back()
+                ->withErrors(['msg' => "Ошибка сохранения.."])
+                ->withInput();
+        }
     }
 }

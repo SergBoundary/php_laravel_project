@@ -4,25 +4,30 @@ namespace App\Http\Requests\References;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class AccountsUpdateRequest extends FormRequest
-{
+/**
+ * Class AccountsUpdateRequest: Правила записи списка бухгалтерских счетов
+ *
+ * @author SeBo
+ *
+ * @package App\Http\Requests
+ */
+class AccountsUpdateRequest extends FormRequest {
+
     /**
-     * Determine if the user is authorized to make this request.
+     * Создает реквест, если пользователь авторизован.
      *
      * @return bool
      */
-    public function authorize()
-    {
+    public function authorize() {
         return auth()->check();
     }
 
     /**
-     * Get the validation rules that apply to the request.
+     * Получает правила проверки данных для реквеста.
      *
      * @return array
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             'title' => 'required|string|max:10',
             'description' => 'required|string|max:50',
@@ -35,7 +40,7 @@ class AccountsUpdateRequest extends FormRequest
             'inventory' => 'required|string|max:10',
             'inventory_write_off' => 'required|integer',
             'clients' => 'required|integer',
-            'account_objects' => 'required|integer',
+            'objects' => 'required|integer',
             'fixed_assets' => 'required|string|max:10',
             'main_warehouse' => 'required|integer',
             'amount_type' => 'required|integer',

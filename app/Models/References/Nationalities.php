@@ -6,13 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Модель обслуживания списка национальностей
+ * Class Nationalities: Модель списка национальностей
+ *
+ * @author SeBo
  */
+class Nationalities extends Model {
 
-class Nationalities extends Model
-{
     use SoftDeletes;
-    
+
     protected $fillable = [
         'title',
     ];

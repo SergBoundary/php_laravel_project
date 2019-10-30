@@ -4,30 +4,35 @@ namespace App\Http\Requests\Settings;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class MenuUpdateRequest extends FormRequest
-{
+/**
+ * Class MenusUpdateRequest: Таблица настроек пользовательского меню системы
+ *
+ * @author SeBo
+ *
+ * @package App\Http\Requests
+ */
+class MenuUpdateRequest extends FormRequest {
+
     /**
-     * Determine if the user is authorized to make this request.
+     * Создает реквест, если пользователь авторизован.
      *
      * @return bool
      */
-    public function authorize()
-    {
+    public function authorize() {
         return auth()->check();
     }
 
     /**
-     * Get the validation rules that apply to the request.
+     * Получает правила проверки данных для реквеста.
      *
      * @return array
      */
-    public function rules()
-    {
+    public function rules() {
         return [
-            'parent_id' => 'required|integer|exists:menus,id',
+            'parent_id' => 'required|integer',
             'sort' => 'required|integer',
-            'name' => 'required|string|max:30',
-            'url' => 'required|string|max:20',
+            'name' => 'required|string|max:100',
+            'path' => 'string|max:50',
             'access_0' => 'required|boolean',
             'access_1' => 'required|boolean',
             'access_2' => 'required|boolean',

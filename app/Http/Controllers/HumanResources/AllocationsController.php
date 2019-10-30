@@ -3,93 +3,216 @@
 namespace App\Http\Controllers\HumanResources;
 
 use Illuminate\Http\Request;
+use App\Models\HumanResources\PersonalCards;
+use App\Models\References\Objects;
+use App\Models\References\Teams;
+use App\Models\HumanResources\Documents;
 use App\Models\HumanResources\Allocations;
+use App\Repositories\HumanResources\AllocationsRepository;
+use App\Http\Requests\HumanResources\AllocationsCreateRequest;
+use App\Http\Requests\HumanResources\AllocationsUpdateRequest;
 
 /**
- * Контроллер учета должностных перемещений работника
+ * Class AllocationsController: Контроллер учета должностных назначений работника
+ *
+ * @author SeBo
+ *
+ * @package App\Http\Controllers\HumanResources
  */
+class AllocationsController extends BaseHumanResourcesController {
 
-class AllocationsController extends BaseHumanResourcesController
-{
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @var AllocationsRepository
      */
-    public function index(Request $request)
-    {
-        $url = $request->path();
-        
-        $paths = $this->createMenu($url);
-        $title = $paths->where('url', $url)->first();
-        $items = Allocations::all(); 
-        
-        return view('humanresources.allocations.index', compact('paths', 'title', 'items'));
+    private $allocationsRepository;
+
+    /**
+     * @var path
+     */
+    private $path = 'hr/allocations';
+
+    public function __construct() {
+
+        parent::__construct();
+
+        $this->allocationsRepository = app(AllocationsRepository::class);
+
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Метод создания краткого табличного представления
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        dd(__METHOD__);
+    public function index() {
+
+        // Формируем массив подменю выбранного пункта меню
+        $menu = $this->createMenu($this->path);
+        if(empty($menu)) {
+            return view('guest');
+        }
+        // Формируем массив данных о представлении
+        $title = $menu->where('path', $this->path)
+                ->first();
+
+        $allocationsList = $this->allocationsRepository->getTable();
+
+        return view('hr.allocations.index',  
+               compact('menu', 'title', 'allocationsList'));
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Метод создания полного представления существющей записи
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        dd(__METHOD__);
+    public function show($id) {
+
+        // Формируем массив подменю выбранного пункта меню
+        $menu = $this->createMenu($this->path);
+        if(empty($menu)) {
+            return view('guest');
+        }
+        // Формируем массив данных о представлении
+        $title = $menu->where('path', $this->path)
+                ->first();
+
+        // Формируем содержание списка заполняемых полей input
+        $allocationsList = $this->allocationsRepository->getShow($id);
+
+        return view('hr.allocations.show', 
+               compact('menu', 'title', 'allocationsList'));
     }
 
     /**
-     * Display the specified resource.
+     * Метод создания представления новой записи
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-        dd(__METHOD__);
+    public function create() {
+
+        // Формируем массив подменю выбранного пункта меню
+        $menu = $this->createMenu($this->path);
+        if(empty($menu)) {
+            return view('guest');
+        }
+        // Формируем массив данных о представлении
+        $title = $menu->where('path', $this->path)
+                ->first();
+
+        // Формируем содержание списка выбираемых полей полей select
+        $personalCardsList = $this->allocationsRepository->getListSelect(0);
+        $objectsList = $this->allocationsRepository->getListSelect(1);
+        $teamsList = $this->allocationsRepository->getListSelect(2);
+        $documentsList = $this->allocationsRepository->getListSelect(3);
+
+        return view('hr.allocations.create', 
+               compact('menu', 'title', 
+                      'personalCardsList', 
+                      'objectsList', 
+                      'teamsList', 
+                      'documentsList'));
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Метод сохранения созданной новой записи
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
-        dd(__METHOD__);
+    public function store(AllocationsCreateRequest $request) {
+
+        $data = $request->input();
+
+        $result = (new Allocations($data))->create($data);
+
+        if($result) {
+            return redirect()
+                ->route('hr.allocations.edit', $result->id)
+                ->with(['success' => "Успешно сохранено"]);
+        } else {
+            return back()
+                ->withErrors(['msg' => "Ошибка сохранения.."])
+                ->withInput();
+        }
     }
 
     /**
-     * Update the specified resource in storage.
+     * Метод создания представления изменения
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
-        dd(__METHOD__);
+    public function edit($id) {
+
+        // Формируем массив подменю выбранного пункта меню
+        $menu = $this->createMenu($this->path);
+        if(empty($menu)) {
+            return view('guest');
+        }
+        // Формируем массив данных о представлении
+        $title = $menu->where('path', $this->path)
+                ->first();
+
+        // Формируем содержание списка выбираемых полей полей select
+        $personalCardsList = $this->allocationsRepository->getListSelect(0);
+        $objectsList = $this->allocationsRepository->getListSelect(1);
+        $teamsList = $this->allocationsRepository->getListSelect(2);
+        $documentsList = $this->allocationsRepository->getListSelect(3);
+
+        // Формируем содержание списка заполняемых полей input
+        $allocationsList = $this->allocationsRepository->getEdit($id);
+
+        return view('hr.allocations.edit', 
+               compact('menu', 'title', 
+                      'personalCardsList', 
+                      'objectsList', 
+                      'teamsList', 
+                      'documentsList', 
+                      'allocationsList'));
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Обновление данных полей измененной записи
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
-        dd(__METHOD__);
+    public function update(AllocationsUpdateRequest $request, $id) {
+
+        $item = $this->allocationsRepository->getEdit($id);
+        if(empty($item)) {
+            return back()
+                ->withErrors(['msg' => "Запись #{$id} не найдена.."])
+                ->withInput();
+        }
+        $data = $request->all();
+        $result = $item->update($data);
+        if($result) {
+            return redirect()
+                ->route('hr.allocations.edit', $item->id)
+                ->with(['success' => "Успешно сохранено"]);
+        } else {
+            return back()
+                ->withErrors(['msg' => "Ошибка сохранения.."])
+                ->withInput();
+        }
+    }
+
+    /**
+     * Удаление выбранной записи
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id) {
+
+        $result = $this->allocationsRepository->getEdit($id)->forceDelete();
+
+        if($result) {
+            return redirect()
+                ->route('hr.allocations.index')
+                ->with(['success' => "Успешно сохранено"]);
+        } else {
+            return back()
+                ->withErrors(['msg' => "Ошибка сохранения.."])
+                ->withInput();
+        }
     }
 }

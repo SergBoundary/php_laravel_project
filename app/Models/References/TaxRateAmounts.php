@@ -6,13 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Модель обслуживания классификатора сумм оплаты налогов
+ * Class TaxRateAmounts: Справочник. Классификатор сумм оплаты налогов
+ *
+ * @author SeBo
  */
+class TaxRateAmounts extends Model {
 
-class TaxRateAmounts extends Model
-{
     use SoftDeletes;
-    
+
     protected $fillable = [
         'tax_rate_id',
         'date_from',

@@ -6,13 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Модель обслуживания штатного расписания - списка количеств, окладов и квалификации работников
+ * Class ManningTables: Справочник. Штатное расписание - список количеств, окладов и квалификации работников
+ *
+ * @author SeBo
  */
+class ManningTables extends Model {
 
-class ManningTables extends Model
-{
     use SoftDeletes;
-    
+
     protected $fillable = [
         'department_id',
         'position_id',

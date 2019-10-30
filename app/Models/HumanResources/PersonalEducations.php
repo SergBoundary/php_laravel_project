@@ -6,13 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Модель обслуживания учета образования и квалификации работника
+ * Class PersonalEducations: Модель учета образования и квалификации работника
+ *
+ * @author SeBo
  */
+class PersonalEducations extends Model {
 
-class PersonalEducations extends Model
-{
     use SoftDeletes;
-    
+
     protected $fillable = [
         'personal_card_id',
         'education_type_id',
@@ -20,6 +21,7 @@ class PersonalEducations extends Model
         'institution',
         'specialty',
         'degree',
+        'degree_abbr',
         'diploma',
     ];
 }

@@ -6,17 +6,18 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Модель обслуживания классификатора отсутствия на работе
+ * Class AbsenceClassifiers: Справочник. Классификатор отсутствия на работе
+ *
+ * @author SeBo
  */
+class AbsenceClassifiers extends Model {
 
-class AbsenceClassifiers extends Model
-{
     use SoftDeletes;
-    
+
     protected $fillable = [
         'accrual_id',
         'absences_grouping_id',
         'title',
-        'abbr_absence',
+        'abbr',
     ];
 }

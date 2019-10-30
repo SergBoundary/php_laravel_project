@@ -6,13 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Модель обслуживания учета сумм начислений работникам за год
+ * Class EmployeeAccrualYears: Модель учета сумм начислений работникам за год
+ *
+ * @author SeBo
  */
+class EmployeeAccrualYears extends Model {
 
-class EmployeeAccrualYears extends Model
-{
     use SoftDeletes;
-    
+
     protected $fillable = [
         'calculation_year_id',
         'calculation_month_id',

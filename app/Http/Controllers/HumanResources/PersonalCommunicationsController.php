@@ -3,94 +3,206 @@
 namespace App\Http\Controllers\HumanResources;
 
 use Illuminate\Http\Request;
+use App\Models\HumanResources\PersonalCards;
+use App\Models\References\CommunicationTypes;
 use App\Models\HumanResources\PersonalCommunications;
+use App\Repositories\HumanResources\PersonalCommunicationsRepository;
+use App\Http\Requests\HumanResources\PersonalCommunicationsCreateRequest;
+use App\Http\Requests\HumanResources\PersonalCommunicationsUpdateRequest;
 
 /**
- * Контроллер учета способов коммуникации с работником
- * 
+ * Class PersonalCommunicationsController: Контроллер учета способов коммуникации с работником
+ *
+ * @author SeBo
+ *
+ * @package App\Http\Controllers\HumanResources
  */
+class PersonalCommunicationsController extends BaseHumanResourcesController {
 
-class PersonalCommunicationsController extends BaseHumanResourcesController
-{
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @var PersonalCommunicationsRepository
      */
-    public function index(Request $request)
-    {
-        $url = $request->path();
-        
-        $paths = $this->createMenu($url);
-        $title = $paths->where('url', $url)->first();
-        $items = PersonalCommunications::all(); 
-        
-        return view('humanresources.personal-communications.index', compact('paths', 'title', 'items'));
+    private $personalCommunicationsRepository;
+
+    /**
+     * @var path
+     */
+    private $path = 'hr/personal-communications';
+
+    public function __construct() {
+
+        parent::__construct();
+
+        $this->personalCommunicationsRepository = app(PersonalCommunicationsRepository::class);
+
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Метод создания краткого табличного представления
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
+    public function index() {
+
+        // Формируем массив подменю выбранного пункта меню
+        $menu = $this->createMenu($this->path);
+        if(empty($menu)) {
+            return view('guest');
+        }
+        // Формируем массив данных о представлении
+        $title = $menu->where('path', $this->path)
+                ->first();
+
+        $personalCommunicationsList = $this->personalCommunicationsRepository->getTable();
+
+        return view('hr.personal-communications.index',  
+               compact('menu', 'title', 'personalCommunicationsList'));
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Метод создания полного представления существющей записи
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        //
+    public function show($id) {
+
+        // Формируем массив подменю выбранного пункта меню
+        $menu = $this->createMenu($this->path);
+        if(empty($menu)) {
+            return view('guest');
+        }
+        // Формируем массив данных о представлении
+        $title = $menu->where('path', $this->path)
+                ->first();
+
+        // Формируем содержание списка заполняемых полей input
+        $personalCommunicationsList = $this->personalCommunicationsRepository->getShow($id);
+
+        return view('hr.personal-communications.show', 
+               compact('menu', 'title', 'personalCommunicationsList'));
     }
 
     /**
-     * Display the specified resource.
+     * Метод создания представления новой записи
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-        //
+    public function create() {
+
+        // Формируем массив подменю выбранного пункта меню
+        $menu = $this->createMenu($this->path);
+        if(empty($menu)) {
+            return view('guest');
+        }
+        // Формируем массив данных о представлении
+        $title = $menu->where('path', $this->path)
+                ->first();
+
+        // Формируем содержание списка выбираемых полей полей select
+        $personalCardsList = $this->personalCommunicationsRepository->getListSelect(0);
+        $communicationTypesList = $this->personalCommunicationsRepository->getListSelect(1);
+
+        return view('hr.personal-communications.create', 
+               compact('menu', 'title', 
+                      'personalCardsList', 
+                      'communicationTypesList'));
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Метод сохранения созданной новой записи
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
-        //
+    public function store(PersonalCommunicationsCreateRequest $request) {
+
+        $data = $request->input();
+
+        $result = (new PersonalCommunications($data))->create($data);
+
+        if($result) {
+            return redirect()
+                ->route('hr.personal-communications.edit', $result->id)
+                ->with(['success' => "Успешно сохранено"]);
+        } else {
+            return back()
+                ->withErrors(['msg' => "Ошибка сохранения.."])
+                ->withInput();
+        }
     }
 
     /**
-     * Update the specified resource in storage.
+     * Метод создания представления изменения
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
-        //
+    public function edit($id) {
+
+        // Формируем массив подменю выбранного пункта меню
+        $menu = $this->createMenu($this->path);
+        if(empty($menu)) {
+            return view('guest');
+        }
+        // Формируем массив данных о представлении
+        $title = $menu->where('path', $this->path)
+                ->first();
+
+        // Формируем содержание списка выбираемых полей полей select
+        $personalCardsList = $this->personalCommunicationsRepository->getListSelect(0);
+        $communicationTypesList = $this->personalCommunicationsRepository->getListSelect(1);
+
+        // Формируем содержание списка заполняемых полей input
+        $personalCommunicationsList = $this->personalCommunicationsRepository->getEdit($id);
+
+        return view('hr.personal-communications.edit', 
+               compact('menu', 'title', 
+                      'personalCardsList', 
+                      'communicationTypesList', 
+                      'personalCommunicationsList'));
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Обновление данных полей измененной записи
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
-        //
+    public function update(PersonalCommunicationsUpdateRequest $request, $id) {
+
+        $item = $this->personalCommunicationsRepository->getEdit($id);
+        if(empty($item)) {
+            return back()
+                ->withErrors(['msg' => "Запись #{$id} не найдена.."])
+                ->withInput();
+        }
+        $data = $request->all();
+        $result = $item->update($data);
+        if($result) {
+            return redirect()
+                ->route('hr.personal-communications.edit', $item->id)
+                ->with(['success' => "Успешно сохранено"]);
+        } else {
+            return back()
+                ->withErrors(['msg' => "Ошибка сохранения.."])
+                ->withInput();
+        }
+    }
+
+    /**
+     * Удаление выбранной записи
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id) {
+
+        $result = $this->personalCommunicationsRepository->getEdit($id)->forceDelete();
+
+        if($result) {
+            return redirect()
+                ->route('hr.personal-communications.index')
+                ->with(['success' => "Успешно сохранено"]);
+        } else {
+            return back()
+                ->withErrors(['msg' => "Ошибка сохранения.."])
+                ->withInput();
+        }
     }
 }

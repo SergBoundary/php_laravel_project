@@ -3,93 +3,206 @@
 namespace App\Http\Controllers\HumanResources;
 
 use Illuminate\Http\Request;
+use App\Models\HumanResources\PersonalCards;
+use App\Models\References\PositionProfessions;
 use App\Models\HumanResources\LastJobs;
+use App\Repositories\HumanResources\LastJobsRepository;
+use App\Http\Requests\HumanResources\LastJobsCreateRequest;
+use App\Http\Requests\HumanResources\LastJobsUpdateRequest;
 
 /**
- * Контроллер учета предыдущих мест работы
+ * Class LastJobsController: Контроллер учета предыдущих мест работы
+ *
+ * @author SeBo
+ *
+ * @package App\Http\Controllers\HumanResources
  */
+class LastJobsController extends BaseHumanResourcesController {
 
-class LastJobsController extends BaseHumanResourcesController
-{
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @var LastJobsRepository
      */
-    public function index(Request $request)
-    {
-        $url = $request->path();
-        
-        $paths = $this->createMenu($url);
-        $title = $paths->where('url', $url)->first(); 
-        $items = LastJobs::all(); 
-        
-        return view('humanresources.last-jobs.index', compact('paths', 'title', 'items'));
+    private $lastJobsRepository;
+
+    /**
+     * @var path
+     */
+    private $path = 'hr/last-jobs';
+
+    public function __construct() {
+
+        parent::__construct();
+
+        $this->lastJobsRepository = app(LastJobsRepository::class);
+
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Метод создания краткого табличного представления
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
+    public function index() {
+
+        // Формируем массив подменю выбранного пункта меню
+        $menu = $this->createMenu($this->path);
+        if(empty($menu)) {
+            return view('guest');
+        }
+        // Формируем массив данных о представлении
+        $title = $menu->where('path', $this->path)
+                ->first();
+
+        $lastJobsList = $this->lastJobsRepository->getTable();
+
+        return view('hr.last-jobs.index',  
+               compact('menu', 'title', 'lastJobsList'));
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Метод создания полного представления существющей записи
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        //
+    public function show($id) {
+
+        // Формируем массив подменю выбранного пункта меню
+        $menu = $this->createMenu($this->path);
+        if(empty($menu)) {
+            return view('guest');
+        }
+        // Формируем массив данных о представлении
+        $title = $menu->where('path', $this->path)
+                ->first();
+
+        // Формируем содержание списка заполняемых полей input
+        $lastJobsList = $this->lastJobsRepository->getShow($id);
+
+        return view('hr.last-jobs.show', 
+               compact('menu', 'title', 'lastJobsList'));
     }
 
     /**
-     * Display the specified resource.
+     * Метод создания представления новой записи
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-        //
+    public function create() {
+
+        // Формируем массив подменю выбранного пункта меню
+        $menu = $this->createMenu($this->path);
+        if(empty($menu)) {
+            return view('guest');
+        }
+        // Формируем массив данных о представлении
+        $title = $menu->where('path', $this->path)
+                ->first();
+
+        // Формируем содержание списка выбираемых полей полей select
+        $personalCardsList = $this->lastJobsRepository->getListSelect(0);
+        $positionProfessionsList = $this->lastJobsRepository->getListSelect(1);
+
+        return view('hr.last-jobs.create', 
+               compact('menu', 'title', 
+                      'personalCardsList', 
+                      'positionProfessionsList'));
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Метод сохранения созданной новой записи
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
-        //
+    public function store(LastJobsCreateRequest $request) {
+
+        $data = $request->input();
+
+        $result = (new LastJobs($data))->create($data);
+
+        if($result) {
+            return redirect()
+                ->route('hr.last-jobs.edit', $result->id)
+                ->with(['success' => "Успешно сохранено"]);
+        } else {
+            return back()
+                ->withErrors(['msg' => "Ошибка сохранения.."])
+                ->withInput();
+        }
     }
 
     /**
-     * Update the specified resource in storage.
+     * Метод создания представления изменения
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
-        //
+    public function edit($id) {
+
+        // Формируем массив подменю выбранного пункта меню
+        $menu = $this->createMenu($this->path);
+        if(empty($menu)) {
+            return view('guest');
+        }
+        // Формируем массив данных о представлении
+        $title = $menu->where('path', $this->path)
+                ->first();
+
+        // Формируем содержание списка выбираемых полей полей select
+        $personalCardsList = $this->lastJobsRepository->getListSelect(0);
+        $positionProfessionsList = $this->lastJobsRepository->getListSelect(1);
+
+        // Формируем содержание списка заполняемых полей input
+        $lastJobsList = $this->lastJobsRepository->getEdit($id);
+
+        return view('hr.last-jobs.edit', 
+               compact('menu', 'title', 
+                      'personalCardsList', 
+                      'positionProfessionsList', 
+                      'lastJobsList'));
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Обновление данных полей измененной записи
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
-        //
+    public function update(LastJobsUpdateRequest $request, $id) {
+
+        $item = $this->lastJobsRepository->getEdit($id);
+        if(empty($item)) {
+            return back()
+                ->withErrors(['msg' => "Запись #{$id} не найдена.."])
+                ->withInput();
+        }
+        $data = $request->all();
+        $result = $item->update($data);
+        if($result) {
+            return redirect()
+                ->route('hr.last-jobs.edit', $item->id)
+                ->with(['success' => "Успешно сохранено"]);
+        } else {
+            return back()
+                ->withErrors(['msg' => "Ошибка сохранения.."])
+                ->withInput();
+        }
+    }
+
+    /**
+     * Удаление выбранной записи
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id) {
+
+        $result = $this->lastJobsRepository->getEdit($id)->forceDelete();
+
+        if($result) {
+            return redirect()
+                ->route('hr.last-jobs.index')
+                ->with(['success' => "Успешно сохранено"]);
+        } else {
+            return back()
+                ->withErrors(['msg' => "Ошибка сохранения.."])
+                ->withInput();
+        }
     }
 }

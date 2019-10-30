@@ -4,25 +4,30 @@ namespace App\Http\Requests\References;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CalculationGroupsUpdateRequest extends FormRequest
-{
+/**
+ * Class CalculationGroupsUpdateRequest: Правила записи списка видов расчетов
+ *
+ * @author SeBo
+ *
+ * @package App\Http\Requests
+ */
+class CalculationGroupsUpdateRequest extends FormRequest {
+
     /**
-     * Determine if the user is authorized to make this request.
+     * Создает реквест, если пользователь авторизован.
      *
      * @return bool
      */
-    public function authorize()
-    {
+    public function authorize() {
         return auth()->check();
     }
 
     /**
-     * Get the validation rules that apply to the request.
+     * Получает правила проверки данных для реквеста.
      *
      * @return array
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             'accrual_groups_id' => 'required|integer|exists:accrual_groups,id',
             'accrual_id' => 'required|integer|exists:accruals,id',

@@ -6,13 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Модель обслуживания списка месяцев
+ * Class Months: Модель списка месяцев
+ *
+ * @author SeBo
  */
+class Months extends Model {
 
-class Months extends Model
-{
     use SoftDeletes;
-    
+
     protected $fillable = [
         'number',
         'title',

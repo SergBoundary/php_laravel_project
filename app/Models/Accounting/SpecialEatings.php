@@ -6,13 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Модель обслуживания учета специального питания
+ * Class SpecialEatings: Модель учета специального питания
+ *
+ * @author SeBo
  */
+class SpecialEatings extends Model {
 
-class SpecialEatings extends Model
-{
     use SoftDeletes;
-    
+
     protected $fillable = [
         'personal_card_id',
         'year_id',

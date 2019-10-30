@@ -6,13 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Модель обслуживания учета страховых свидетельств работника
+ * Class InsuranceCertificates: Модель учета страховых свидетельств работника
+ *
+ * @author SeBo
  */
+class InsuranceCertificates extends Model {
 
-class InsuranceCertificates extends Model
-{
     use SoftDeletes;
-    
+
     protected $fillable = [
         'personal_card_id',
         'certificate_series',

@@ -52,9 +52,9 @@ class DistrictsController extends BaseReferencesController {
         $title = $menu->where('path', $this->path)
                 ->first();
 
-        $districtsList = $this->districtsRepository->getListTable();
+        $districtsList = $this->districtsRepository->getTable();
 
-        return view('references.districts.index',  
+        return view('ref.districts.index',  
                compact('menu', 'title', 'districtsList'));
     }
 
@@ -77,7 +77,7 @@ class DistrictsController extends BaseReferencesController {
         // Формируем содержание списка заполняемых полей input
         $districtsList = $this->districtsRepository->getShow($id);
 
-        return view('references.districts.show', 
+        return view('ref.districts.show', 
                compact('menu', 'title', 'districtsList'));
     }
 
@@ -100,7 +100,7 @@ class DistrictsController extends BaseReferencesController {
         // Формируем содержание списка выбираемых полей полей select
         $countriesList = $this->districtsRepository->getListSelect(0);
 
-        return view('references.districts.create', 
+        return view('ref.districts.create', 
                compact('menu', 'title', 
                       'countriesList'));
     }
@@ -149,7 +149,7 @@ class DistrictsController extends BaseReferencesController {
         // Формируем содержание списка заполняемых полей input
         $districtsList = $this->districtsRepository->getEdit($id);
 
-        return view('references.districts.edit', 
+        return view('ref.districts.edit', 
                compact('menu', 'title', 
                       'countriesList', 
                       'districtsList'));

@@ -6,13 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Модель обслуживания списка бухгалтерских счетов
+ * Class Accounts: Модель списка бухгалтерских счетов
+ *
+ * @author SeBo
  */
+class Accounts extends Model {
 
-class Accounts extends Model
-{
     use SoftDeletes;
-    
+
     protected $fillable = [
         'title',
         'description',
@@ -25,7 +26,7 @@ class Accounts extends Model
         'inventory',
         'inventory_write_off',
         'clients',
-        'account_objects',
+        'objects',
         'fixed_assets',
         'main_warehouse',
         'amount_type',

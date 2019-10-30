@@ -6,13 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Модель обслуживания учета должностных назначений
+ * Class ManningOrders: Модель учета должностных назначений
+ *
+ * @author SeBo
  */
+class ManningOrders extends Model {
 
-class ManningOrders extends Model
-{
     use SoftDeletes;
-    
+
     protected $fillable = [
         'personal_card_id',
         'manning_table_id',

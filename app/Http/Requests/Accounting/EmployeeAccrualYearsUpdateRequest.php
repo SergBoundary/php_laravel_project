@@ -4,25 +4,30 @@ namespace App\Http\Requests\Accounting;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class EmployeeAccrualYearsUpdateRequest extends FormRequest
-{
+/**
+ * Class EmployeeAccrualYearsUpdateRequest: Правила записи сумм начислений работникам за год
+ *
+ * @author SeBo
+ *
+ * @package App\Http\Requests
+ */
+class EmployeeAccrualYearsUpdateRequest extends FormRequest {
+
     /**
-     * Determine if the user is authorized to make this request.
+     * Создает реквест, если пользователь авторизован.
      *
      * @return bool
      */
-    public function authorize()
-    {
+    public function authorize() {
         return auth()->check();
     }
 
     /**
-     * Get the validation rules that apply to the request.
+     * Получает правила проверки данных для реквеста.
      *
      * @return array
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             'calculation_year_id' => 'required|integer|exists:years,id',
             'calculation_month_id' => 'required|integer|exists:months,id',
@@ -43,7 +48,7 @@ class EmployeeAccrualYearsUpdateRequest extends FormRequest
             'analytics' => 'required|string|max:10',
             'currency_id' => 'required|integer|exists:currencies,id',
             'currency_amount' => 'required|numeric',
-            'currency_kurs_id' => 'required|numeric|exists:currency_kurses,id',
+            'currency_kurs_id' => 'required|integer|exists:currency_kurses,id',
             'tariff' => 'required|numeric',
             'ssc_amount' => 'required|numeric',
             'ssc_amount_disability' => 'required|numeric',

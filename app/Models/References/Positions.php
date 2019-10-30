@@ -6,13 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Модель обслуживания списка должностей
+ * Class Positions: Модель списка должностей
+ *
+ * @author SeBo
  */
+class Positions extends Model {
 
-class Positions extends Model
-{
     use SoftDeletes;
-    
+
     protected $fillable = [
         'subordination_id',
         'position_profession_id',

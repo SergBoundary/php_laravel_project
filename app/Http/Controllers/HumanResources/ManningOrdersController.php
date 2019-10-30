@@ -3,94 +3,206 @@
 namespace App\Http\Controllers\HumanResources;
 
 use Illuminate\Http\Request;
+use App\Models\HumanResources\PersonalCards;
+use App\Models\References\ManningTables;
 use App\Models\HumanResources\ManningOrders;
+use App\Repositories\HumanResources\ManningOrdersRepository;
+use App\Http\Requests\HumanResources\ManningOrdersCreateRequest;
+use App\Http\Requests\HumanResources\ManningOrdersUpdateRequest;
 
 /**
- * Контроллер учета должностных назначений
+ * Class ManningOrdersController: Контроллер учета должностных назначений
+ *
+ * @author SeBo
+ *
+ * @package App\Http\Controllers\HumanResources
  */
+class ManningOrdersController extends BaseHumanResourcesController {
 
-class ManningOrdersController extends BaseHumanResourcesController
-{
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @var ManningOrdersRepository
      */
-    public function index(Request $request)
-    {
-        $url = $request->path();
-        
-        $paths = $this->createMenu($url);
-        $title = $paths->where('url', $url)->first();
-        $items = ManningOrders::all(); 
-        
-        return view('humanresources.manning-orders.index', compact('paths', 'title', 'items'));
+    private $manningOrdersRepository;
+
+    /**
+     * @var path
+     */
+    private $path = 'hr/manning-orders';
+
+    public function __construct() {
+
+        parent::__construct();
+
+        $this->manningOrdersRepository = app(ManningOrdersRepository::class);
 
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Метод создания краткого табличного представления
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
+    public function index() {
+
+        // Формируем массив подменю выбранного пункта меню
+        $menu = $this->createMenu($this->path);
+        if(empty($menu)) {
+            return view('guest');
+        }
+        // Формируем массив данных о представлении
+        $title = $menu->where('path', $this->path)
+                ->first();
+
+        $manningOrdersList = $this->manningOrdersRepository->getTable();
+
+        return view('hr.manning-orders.index',  
+               compact('menu', 'title', 'manningOrdersList'));
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Метод создания полного представления существющей записи
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        //
+    public function show($id) {
+
+        // Формируем массив подменю выбранного пункта меню
+        $menu = $this->createMenu($this->path);
+        if(empty($menu)) {
+            return view('guest');
+        }
+        // Формируем массив данных о представлении
+        $title = $menu->where('path', $this->path)
+                ->first();
+
+        // Формируем содержание списка заполняемых полей input
+        $manningOrdersList = $this->manningOrdersRepository->getShow($id);
+
+        return view('hr.manning-orders.show', 
+               compact('menu', 'title', 'manningOrdersList'));
     }
 
     /**
-     * Display the specified resource.
+     * Метод создания представления новой записи
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-        //
+    public function create() {
+
+        // Формируем массив подменю выбранного пункта меню
+        $menu = $this->createMenu($this->path);
+        if(empty($menu)) {
+            return view('guest');
+        }
+        // Формируем массив данных о представлении
+        $title = $menu->where('path', $this->path)
+                ->first();
+
+        // Формируем содержание списка выбираемых полей полей select
+        $personalCardsList = $this->manningOrdersRepository->getListSelect(0);
+        $manningTablesList = $this->manningOrdersRepository->getListSelect(1);
+
+        return view('hr.manning-orders.create', 
+               compact('menu', 'title', 
+                      'personalCardsList', 
+                      'manningTablesList'));
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Метод сохранения созданной новой записи
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
-        //
+    public function store(ManningOrdersCreateRequest $request) {
+
+        $data = $request->input();
+
+        $result = (new ManningOrders($data))->create($data);
+
+        if($result) {
+            return redirect()
+                ->route('hr.manning-orders.edit', $result->id)
+                ->with(['success' => "Успешно сохранено"]);
+        } else {
+            return back()
+                ->withErrors(['msg' => "Ошибка сохранения.."])
+                ->withInput();
+        }
     }
 
     /**
-     * Update the specified resource in storage.
+     * Метод создания представления изменения
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
-        //
+    public function edit($id) {
+
+        // Формируем массив подменю выбранного пункта меню
+        $menu = $this->createMenu($this->path);
+        if(empty($menu)) {
+            return view('guest');
+        }
+        // Формируем массив данных о представлении
+        $title = $menu->where('path', $this->path)
+                ->first();
+
+        // Формируем содержание списка выбираемых полей полей select
+        $personalCardsList = $this->manningOrdersRepository->getListSelect(0);
+        $manningTablesList = $this->manningOrdersRepository->getListSelect(1);
+
+        // Формируем содержание списка заполняемых полей input
+        $manningOrdersList = $this->manningOrdersRepository->getEdit($id);
+
+        return view('hr.manning-orders.edit', 
+               compact('menu', 'title', 
+                      'personalCardsList', 
+                      'manningTablesList', 
+                      'manningOrdersList'));
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Обновление данных полей измененной записи
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
-        //
+    public function update(ManningOrdersUpdateRequest $request, $id) {
+
+        $item = $this->manningOrdersRepository->getEdit($id);
+        if(empty($item)) {
+            return back()
+                ->withErrors(['msg' => "Запись #{$id} не найдена.."])
+                ->withInput();
+        }
+        $data = $request->all();
+        $result = $item->update($data);
+        if($result) {
+            return redirect()
+                ->route('hr.manning-orders.edit', $item->id)
+                ->with(['success' => "Успешно сохранено"]);
+        } else {
+            return back()
+                ->withErrors(['msg' => "Ошибка сохранения.."])
+                ->withInput();
+        }
+    }
+
+    /**
+     * Удаление выбранной записи
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id) {
+
+        $result = $this->manningOrdersRepository->getEdit($id)->forceDelete();
+
+        if($result) {
+            return redirect()
+                ->route('hr.manning-orders.index')
+                ->with(['success' => "Успешно сохранено"]);
+        } else {
+            return back()
+                ->withErrors(['msg' => "Ошибка сохранения.."])
+                ->withInput();
+        }
     }
 }

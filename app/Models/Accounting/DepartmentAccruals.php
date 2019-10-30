@@ -6,13 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Модель обслуживания учета сумм начисления по подразделению
+ * Class DepartmentAccruals: Модель учета сумм начисления по подразделению
+ *
+ * @author SeBo
  */
+class DepartmentAccruals extends Model {
 
-class DepartmentAccruals extends Model
-{
     use SoftDeletes;
-    
+
     protected $fillable = [
         'accrual_id',
         'department_id',
@@ -20,8 +21,8 @@ class DepartmentAccruals extends Model
         'object_id',
         'accrual_amount',
         'accrual_date',
-        'year',
-        'month',
+        'year_id',
+        'month_id',
         'loaded',
     ];
 }

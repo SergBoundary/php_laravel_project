@@ -6,13 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Модель обслуживания списка получателей подоходного налога
+ * Class TaxRecipients: Модель списка получателей подоходного налога
+ *
+ * @author SeBo
  */
+class TaxRecipients extends Model {
 
-class TaxRecipients extends Model
-{
     use SoftDeletes;
-    
+
     protected $fillable = [
         'country_id',
         'district_id',

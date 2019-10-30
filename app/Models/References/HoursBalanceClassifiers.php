@@ -6,13 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Модель обслуживания классификатора графиков распределения рабочих часов в периоде
+ * Class HoursBalanceClassifiers: Справочник. Классификатор графиков распределения рабочих часов в периоде
+ *
+ * @author SeBo
  */
+class HoursBalanceClassifiers extends Model {
 
-class HoursBalanceClassifiers extends Model
-{
     use SoftDeletes;
-    
+
     protected $fillable = [
         'title',
         'monday_day',

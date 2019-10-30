@@ -6,13 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Модель обслуживания шкалы расчета подоходного налога
+ * Class TaxScales: Справочник. Шкала расчета подоходного налога
+ *
+ * @author SeBo
  */
+class TaxScales extends Model {
 
-class TaxScales extends Model
-{
     use SoftDeletes;
-    
+
     protected $fillable = [
         'title',
         'lower amount',

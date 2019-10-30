@@ -6,17 +6,18 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Модель обслуживания учета адресов работника
+ * Class PersonalAddresses: Модель учета адресов работника
+ *
+ * @author SeBo
  */
+class PersonalAddresses extends Model {
 
-class PersonalAddresses extends Model
-{
     use SoftDeletes;
-    
+
     protected $fillable = [
         'personal_card_id',
         'postcode',
-        'city',
+        'city_id',
         'street',
         'house',
         'apartment',

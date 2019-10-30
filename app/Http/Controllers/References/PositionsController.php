@@ -3,93 +3,211 @@
 namespace App\Http\Controllers\References;
 
 use Illuminate\Http\Request;
+use App\Models\References\Subordinations;
+use App\Models\References\PositionProfessions;
+use App\Models\References\PositionCategories;
 use App\Models\References\Positions;
+use App\Repositories\References\PositionsRepository;
+use App\Http\Requests\References\PositionsCreateRequest;
+use App\Http\Requests\References\PositionsUpdateRequest;
 
 /**
- * Контроллер списка должностей
+ * Class PositionsController: Контроллер списка должностей
+ *
+ * @author SeBo
+ *
+ * @package App\Http\Controllers\References
  */
+class PositionsController extends BaseReferencesController {
 
-class PositionsController extends BaseReferencesController
-{
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @var PositionsRepository
      */
-    public function index(Request $request)
-    {
-        $url = $request->path();
-        
-        $paths = $this->createMenu($url);
-        $title = $paths->where('url', $url)->first();
-        $items = Positions::all(); 
-        
-        return view('references.positions.index', compact('paths', 'title', 'items'));
+    private $positionsRepository;
+
+    /**
+     * @var path
+     */
+    private $path = 'ref/positions';
+
+    public function __construct() {
+
+        parent::__construct();
+
+        $this->positionsRepository = app(PositionsRepository::class);
+
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Метод создания краткого табличного представления
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
+    public function index() {
+
+        // Формируем массив подменю выбранного пункта меню
+        $menu = $this->createMenu($this->path);
+        if(empty($menu)) {
+            return view('guest');
+        }
+        // Формируем массив данных о представлении
+        $title = $menu->where('path', $this->path)
+                ->first();
+
+        $positionsList = $this->positionsRepository->getTable();
+
+        return view('ref.positions.index',  
+               compact('menu', 'title', 'positionsList'));
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Метод создания полного представления существющей записи
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        //
+    public function show($id) {
+
+        // Формируем массив подменю выбранного пункта меню
+        $menu = $this->createMenu($this->path);
+        if(empty($menu)) {
+            return view('guest');
+        }
+        // Формируем массив данных о представлении
+        $title = $menu->where('path', $this->path)
+                ->first();
+
+        // Формируем содержание списка заполняемых полей input
+        $positionsList = $this->positionsRepository->getShow($id);
+
+        return view('ref.positions.show', 
+               compact('menu', 'title', 'positionsList'));
     }
 
     /**
-     * Display the specified resource.
+     * Метод создания представления новой записи
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-        //
+    public function create() {
+
+        // Формируем массив подменю выбранного пункта меню
+        $menu = $this->createMenu($this->path);
+        if(empty($menu)) {
+            return view('guest');
+        }
+        // Формируем массив данных о представлении
+        $title = $menu->where('path', $this->path)
+                ->first();
+
+        // Формируем содержание списка выбираемых полей полей select
+        $subordinationsList = $this->positionsRepository->getListSelect(0);
+        $positionProfessionsList = $this->positionsRepository->getListSelect(1);
+        $positionCategoriesList = $this->positionsRepository->getListSelect(2);
+
+        return view('ref.positions.create', 
+               compact('menu', 'title', 
+                      'subordinationsList', 
+                      'positionProfessionsList', 
+                      'positionCategoriesList'));
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Метод сохранения созданной новой записи
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
-        //
+    public function store(PositionsCreateRequest $request) {
+
+        $data = $request->input();
+
+        $result = (new Positions($data))->create($data);
+
+        if($result) {
+            return redirect()
+                ->route('ref.positions.edit', $result->id)
+                ->with(['success' => "Успешно сохранено"]);
+        } else {
+            return back()
+                ->withErrors(['msg' => "Ошибка сохранения.."])
+                ->withInput();
+        }
     }
 
     /**
-     * Update the specified resource in storage.
+     * Метод создания представления изменения
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
-        //
+    public function edit($id) {
+
+        // Формируем массив подменю выбранного пункта меню
+        $menu = $this->createMenu($this->path);
+        if(empty($menu)) {
+            return view('guest');
+        }
+        // Формируем массив данных о представлении
+        $title = $menu->where('path', $this->path)
+                ->first();
+
+        // Формируем содержание списка выбираемых полей полей select
+        $subordinationsList = $this->positionsRepository->getListSelect(0);
+        $positionProfessionsList = $this->positionsRepository->getListSelect(1);
+        $positionCategoriesList = $this->positionsRepository->getListSelect(2);
+
+        // Формируем содержание списка заполняемых полей input
+        $positionsList = $this->positionsRepository->getEdit($id);
+
+        return view('ref.positions.edit', 
+               compact('menu', 'title', 
+                      'subordinationsList', 
+                      'positionProfessionsList', 
+                      'positionCategoriesList', 
+                      'positionsList'));
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Обновление данных полей измененной записи
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
-        //
+    public function update(PositionsUpdateRequest $request, $id) {
+
+        $item = $this->positionsRepository->getEdit($id);
+        if(empty($item)) {
+            return back()
+                ->withErrors(['msg' => "Запись #{$id} не найдена.."])
+                ->withInput();
+        }
+        $data = $request->all();
+        $result = $item->update($data);
+        if($result) {
+            return redirect()
+                ->route('ref.positions.edit', $item->id)
+                ->with(['success' => "Успешно сохранено"]);
+        } else {
+            return back()
+                ->withErrors(['msg' => "Ошибка сохранения.."])
+                ->withInput();
+        }
+    }
+
+    /**
+     * Удаление выбранной записи
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id) {
+
+        $result = $this->positionsRepository->getEdit($id)->forceDelete();
+
+        if($result) {
+            return redirect()
+                ->route('ref.positions.index')
+                ->with(['success' => "Успешно сохранено"]);
+        } else {
+            return back()
+                ->withErrors(['msg' => "Ошибка сохранения.."])
+                ->withInput();
+        }
     }
 }

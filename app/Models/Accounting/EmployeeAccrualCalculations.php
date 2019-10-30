@@ -6,19 +6,20 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Модель обслуживания расчета сумм начислений работникам
+ * Class EmployeeAccrualCalculations: Модель расчета сумм начислений работникам
+ *
+ * @author SeBo
  */
+class EmployeeAccrualCalculations extends Model {
 
-class EmployeeAccrualCalculations extends Model
-{
     use SoftDeletes;
-    
+
     protected $fillable = [
+        'object_id',
         'personal_card_id',
         'accrual_id',
         'algorithm_id',
-        'tax_rate_id',
-        'object_id',
+        'tax_id',
         'accrual_amount',
         'start',
         'expiry',

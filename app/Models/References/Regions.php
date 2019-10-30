@@ -6,13 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Модель обслуживания списка районов
+ * Class Regions: Модель списка районов
+ *
+ * @author SeBo
  */
+class Regions extends Model {
 
-class Regions extends Model
-{
     use SoftDeletes;
-    
+
     protected $fillable = [
         'country_id',
         'district_id',

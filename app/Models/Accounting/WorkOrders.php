@@ -6,13 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Модель обслуживания учета нарядов
+ * Class WorkOrders: Модель учета нарядов
+ *
+ * @author SeBo
  */
+class WorkOrders extends Model {
 
-class WorkOrders extends Model
-{
     use SoftDeletes;
-    
+
     protected $fillable = [
         'department_id',
         'object_id',
@@ -22,7 +23,7 @@ class WorkOrders extends Model
         'date',
         'number',
         'amount',
-        'year',
-        'month',
+        'year_id',
+        'month_id',
     ];
 }

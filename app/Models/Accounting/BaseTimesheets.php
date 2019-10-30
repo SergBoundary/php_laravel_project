@@ -6,49 +6,50 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Модель обслуживания учета отработанного времени (табеля)
+ * Class BaseTimesheets: Модель учета отработанного времени (табель)
+ *
+ * @author SeBo
  */
+class BaseTimesheets extends Model {
 
-class BaseTimesheets extends Model
-{
     use SoftDeletes;
-    
+
     protected $fillable = [
         'personal_card_id',
         'year_id',
         'month_id',
         'accrual_id',
-        'day-1',
-        'day-2',
-        'day-3',
-        'day-4',
-        'day-5',
-        'day-6',
-        'day-7',
-        'day-8',
-        'day-9',
-        'day-10',
-        'day-11',
-        'day-12',
-        'day-13',
-        'day-14',
-        'day-15',
-        'day-16',
-        'day-17',
-        'day-18',
-        'day-19',
-        'day-20',
-        'day-21',
-        'day-22',
-        'day-23',
-        'day-24',
-        'day-25',
-        'day-26',
-        'day-27',
-        'day-28',
-        'day-29',
-        'day-30',
-        'day-31',
+        'day_1',
+        'day_2',
+        'day_3',
+        'day_4',
+        'day_5',
+        'day_6',
+        'day_7',
+        'day_8',
+        'day_9',
+        'day_10',
+        'day_11',
+        'day_12',
+        'day_13',
+        'day_14',
+        'day_15',
+        'day_16',
+        'day_17',
+        'day_18',
+        'day_19',
+        'day_20',
+        'day_21',
+        'day_22',
+        'day_23',
+        'day_24',
+        'day_25',
+        'day_26',
+        'day_27',
+        'day_28',
+        'day_29',
+        'day_30',
+        'day_31',
         'hours_balance_classifier_id',
         'department_id',
         'amount',

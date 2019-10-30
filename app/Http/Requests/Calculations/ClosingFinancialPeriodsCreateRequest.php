@@ -4,27 +4,31 @@ namespace App\Http\Requests\Calculations;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ClosingFinancialPeriodsCreateRequest extends FormRequest
-{
+/**
+ * Class ClosingFinancialPeriodsCreateRequest: Таблица обслуживания закрытия финансового периода
+ *
+ * @author SeBo
+ *
+ * @package App\Http\Requests
+ */
+class ClosingFinancialPeriodsCreateRequest extends FormRequest {
+
     /**
-     * Determine if the user is authorized to make this request.
+     * Создает реквест, если пользователь авторизован.
      *
      * @return bool
      */
-    public function authorize()
-    {
+    public function authorize() {
         return auth()->check();
     }
 
     /**
-     * Get the validation rules that apply to the request.
+     * Получает правила проверки данных для реквеста.
      *
      * @return array
      */
-    public function rules()
-    {
+    public function rules() {
         return [
-            //
         ];
     }
 }

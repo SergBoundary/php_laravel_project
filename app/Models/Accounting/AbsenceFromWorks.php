@@ -6,13 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Модель обслуживания учета отсутствия на работе
+ * Class AbsenceFromWorks: Модель учета отсутствия на работе
+ *
+ * @author SeBo
  */
+class AbsenceFromWorks extends Model {
 
-class AbsenceFromWorks extends Model
-{
     use SoftDeletes;
-    
+
     protected $fillable = [
         'personal_card_id',
         'absence_classifier_id',
