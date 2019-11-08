@@ -19,7 +19,7 @@ class CreatePersonalCommunicationsTable extends Migration {
             $table->increments('id'); // ID записи
             $table->integer('personal_card_id')->unsigned(); // Код личной карточки работника
             $table->integer('communication_type_id')->unsigned(); // Код способа коммуникации с работником: телефон рабочий, домашний, другой; пейджер; емейл
-            $table->char('content', 20); // Номер телефона, пейджера, текст емейла
+            $table->char('content', 20); // Номер телефона, пейджера, адрес е-мейла
             $table->char('comment', 50); // Комментарий
             $table->timestamps(); // Поля с датой создания и датой изменения записи
             $table->softDeletes(); // Поле с датой удаления (исключения) записи из обслуживания

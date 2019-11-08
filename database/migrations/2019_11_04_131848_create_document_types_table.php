@@ -21,9 +21,8 @@ class CreateDocumentTypesTable extends Migration {
             $table->string('abbr', 10)->unique(); // Абривиатура документа
             $table->boolean('standart_status'); // Стандартный документ: 0 - нет; 1 - да
             $table->string('standart_number', 10)->unique(); // Неизменная часть номера документа (??? >0 для внутренних документов)
-            $table->string('template_form', 50); // Наименование и размещение формы ввода данных
-            $table->string('template_view', 100); // Наименование и размещение view-шаблона документа
-            $table->string('template_print', 100); // Наименование и размещение pdf-шаблона документа
+            $table->string('template_view', 100)->nullable(); // Наименование и размещение view-шаблона документа
+            $table->string('template_print', 100)->nullable(); // Наименование и размещение pdf-шаблона документа
             $table->timestamps(); // Поля с датой создания и датой изменения записи
             $table->softDeletes(); // Поле с датой удаления (исключения) записи из обслуживания
 

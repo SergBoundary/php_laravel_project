@@ -19,9 +19,7 @@ class CreateDepartmentsTable extends Migration {
             $table->increments('id'); // ID записи
             $table->integer('department_group_id')->unsigned(); // Код группы подразделения
             $table->string('title', 50)->unique(); // Наименование подразделения
-            $table->char('abbr', 10)->unique(); // Аббривиатура подразделения
-            $table->tinyInteger('department_attribute'); // Признак ???
-            $table->tinyInteger('print_order')->default(0); // Номер по порядку для печати
+            $table->char('abbr', 15)->unique(); // Аббривиатура подразделения
             $table->timestamps(); // Поля с датой создания и датой изменения записи
             $table->softDeletes(); // Поле с датой удаления (исключения) записи из обслуживания
 

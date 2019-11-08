@@ -4,10 +4,10 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePersonalPasportsTable extends Migration {
+class CreateAccidentPreventionTable extends Migration {
 
     /**
-     * Run the migrations: Таблица учета паспортов работника
+     * Run the migrations: Таблица учета сертификатов по техники безопастности работника
      *
      * @author SeBo
      *
@@ -15,14 +15,13 @@ class CreatePersonalPasportsTable extends Migration {
      */
     public function up() {
 
-        Schema::create('personal_pasports', function (Blueprint $table) {
+        Schema::create('accident_prevention', function (Blueprint $table) {
             $table->increments('id'); // ID записи
             $table->integer('personal_card_id')->unsigned(); // Код личной карточки работника
-            $table->char('series', 10); // Серия паспорта
-            $table->char('number', 10); // Номер паспорта
-            $table->timestamp('issuing_date'); // Дата выдачи паспорта
-            $table->string('issuing_authority', 30); // Орган выдачи паспорта
-            $table->timestamp('expiration date'); // Дата окончания срока действия
+            $table->char('certificate_series', 10); // Серия сертификата по техники безопастности
+            $table->string('certificate_number', 50); // Номер сертификата по техники безопастности
+            $table->date('certificate_start'); // Начало срока действия сертификата
+            $table->date('certificate_expiry'); // Истечение срока действия сертификата
             $table->timestamps(); // Поля с датой создания и датой изменения записи
             $table->softDeletes(); // Поле с датой удаления (исключения) записи из обслуживания
 
@@ -37,6 +36,6 @@ class CreatePersonalPasportsTable extends Migration {
      */
     public function down() {
 
-        Schema::dropIfExists('personal_pasports');
+        Schema::dropIfExists('accident_prevention');
     }
 }

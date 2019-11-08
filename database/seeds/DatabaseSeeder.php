@@ -28,6 +28,25 @@ class DatabaseSeeder extends Seeder
         $this->call(MonthsTableSeeder::class);
         $this->call(YearsTableSeeder::class);
         
+        $this->call(CompaniesTableSeeder::class);
+        $this->call(NationalitiesTableSeeder::class);
         $this->call(CommunicationTypesTableSeeder::class);
+        $this->call(SubordinationsTableSeeder::class);
+        $this->call(DepartmentGroupsTableSeeder::class);
+        $this->call(DepartmentsTableSeeder::class);
+		
+        $this->call(PositionCategoriesTableSeeder::class);
+        $this->call(PositionProfessionsTableSeeder::class);
+        $this->call(PositionsTableSeeder::class);
+        $this->call(DismissalReasonsTableSeeder::class);
+		
+        $this->call(MaritalStatusesTableSeeder::class);
+        $this->call(ShoeSizesTableSeeder::class);
+        $this->call(ClothingSizesTableSeeder::class);
+		
+        $this->call(HotelsTableSeeder::class);
+        $this->call(HotelConditionsTableSeeder::class);
+		
+        //$this->call(TeamsTableSeeder::class);
     }
 }

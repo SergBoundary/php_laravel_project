@@ -4,10 +4,10 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateObjectsTable extends Migration {
+class CreatePositionProfessionsTable extends Migration {
 
     /**
-     * Run the migrations: Справочник. Список объектов
+     * Run the migrations: Справочник. Государственный классификатор профессий
      *
      * @author SeBo
      *
@@ -15,15 +15,13 @@ class CreateObjectsTable extends Migration {
      */
     public function up() {
 
-        Schema::create('objects', function (Blueprint $table) {
+        Schema::create('position_professions', function (Blueprint $table) {
             $table->increments('id'); // ID записи
-            $table->integer('object_group_id')->unsigned(); // Группа объекта
-            $table->string('title', 255)->unique(); // Наименование объекта выполнения работ
-            $table->char('abbr', 10)->unique(); // Аббривиатура объекта выполнения работ
+            $table->char('code', 20); // Код профессии в классификаторе
+            $table->string('title', 255); // Наименование профессии в классификаторе
             $table->timestamps(); // Поля с датой создания и датой изменения записи
             $table->softDeletes(); // Поле с датой удаления (исключения) записи из обслуживания
 
-            $table->foreign('object_group_id')->references('id')->on('object_groups');
         });
     }
 
@@ -34,6 +32,6 @@ class CreateObjectsTable extends Migration {
      */
     public function down() {
 
-        Schema::dropIfExists('objects');
+        Schema::dropIfExists('position_professions');
     }
 }

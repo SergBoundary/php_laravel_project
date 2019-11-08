@@ -20,7 +20,7 @@ class CommunicationTypesTableSeeder extends Seeder
                 'title' => 'Е-мейл',
                 'created_at' => now(),
             ],
-        ];
+		];
         
         DB::table('communication_types')->insert($data);
     }

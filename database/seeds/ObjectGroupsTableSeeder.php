@@ -13,27 +13,11 @@ class ObjectGroupsTableSeeder extends Seeder
     {
         $data = [
             [
-                'title' => 'Важные',
+                'title' => 'Польша',
                 'created_at' => now(),
             ],
             [
-                'title' => 'Крупные',
-                'created_at' => now(),
-            ],
-            [
-                'title' => 'Средние',
-                'created_at' => now(),
-            ],
-            [
-                'title' => 'Малые',
-                'created_at' => now(),
-            ],
-            [
-                'title' => 'Проблемные',
-                'created_at' => now(),
-            ],
-            [
-                'title' => 'Собственные',
+                'title' => 'Германия',
                 'created_at' => now(),
             ],
         ];

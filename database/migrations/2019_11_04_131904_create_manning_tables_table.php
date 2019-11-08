@@ -7,7 +7,7 @@ use Illuminate\Database\Migrations\Migration;
 class CreateManningTablesTable extends Migration {
 
     /**
-     * Run the migrations: Справочник. Штатное расписание - список количеств, окладов и квалификации работников
+     * Run the migrations: Справочник. Штатное расписание - список численности, окладов и квалификации работников
      *
      * @author SeBo
      *

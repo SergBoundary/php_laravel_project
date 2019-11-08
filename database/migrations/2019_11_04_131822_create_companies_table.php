@@ -4,10 +4,10 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateShoeSizesTable extends Migration {
+class CreateCompaniesTable extends Migration {
 
     /**
-     * Run the migrations: Справочник. Список размеров обуви
+     * Run the migrations: Справочник. Список компаний
      *
      * @author SeBo
      *
@@ -15,9 +15,10 @@ class CreateShoeSizesTable extends Migration {
      */
     public function up() {
 
-        Schema::create('shoe_sizes', function (Blueprint $table) {
+        Schema::create('companies', function (Blueprint $table) {
             $table->increments('id'); // ID записи
-            $table->char('title', 10)->unique(); // Номер размера обуви
+            $table->string('title', 255)->unique(); // Наименование компании
+            $table->char('abbr', 50)->unique(); // Аббривиатура компании
             $table->timestamps(); // Поля с датой создания и датой изменения записи
             $table->softDeletes(); // Поле с датой удаления (исключения) записи из обслуживания
 
@@ -31,6 +32,6 @@ class CreateShoeSizesTable extends Migration {
      */
     public function down() {
 
-        Schema::dropIfExists('shoe_sizes');
+        Schema::dropIfExists('companies');
     }
 }

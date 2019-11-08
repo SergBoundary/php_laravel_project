@@ -19,10 +19,10 @@ class CreateDocumentsTable extends Migration {
             $table->increments('id'); // ID записи
             $table->integer('document_id')->unsigned()->default(0); // Номер связанного документа в общем учете кадровых документов
             $table->char('number', 10); // Номер документа
-            $table->timestamp('date'); // Дата выписки документа
+            $table->date('date'); // Дата выписки документа
             $table->string('annotation', 100); // Аннотация к документу
-            $table->text('description'); // Описание документа
-            $table->boolean('print'); // Статус печати документа: 0 - не распечатан; 1 - распечатан
+            $table->text('description')->nullable(); // Описание документа
+            $table->boolean('print')->nullable(); // Статус печати документа: 0 - не распечатан; 1 - распечатан
             $table->integer('document_type_id')->unsigned(); // Код типа документа
             $table->integer('personal_card_id')->unsigned()->default(0); // Код личной карточки работника
             $table->integer('create_user_id')->unsigned(); // Пользователь, создавший документ

@@ -13,23 +13,23 @@ class NationalitiesTableSeeder extends Seeder
     {
         $data = [
             [
-                'title' => 'Белорус',
+                'title' => 'Белорусская',
                 'created_at' => now(),
             ],
             [
-                'title' => 'Немец',
+                'title' => 'Немецкая',
                 'created_at' => now(),
             ],
             [
-                'title' => 'Поляк',
+                'title' => 'Польская',
                 'created_at' => now(),
             ],
             [
-                'title' => 'Русский',
+                'title' => 'Русская',
                 'created_at' => now(),
             ],
             [
-                'title' => 'Украинец',
+                'title' => 'Украинская',
                 'created_at' => now(),
             ],
         ];

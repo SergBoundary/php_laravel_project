@@ -4,10 +4,10 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateInsuranceCertificatesTable extends Migration {
+class CreateBilletedsTable extends Migration {
 
     /**
-     * Run the migrations: Таблица учета страховых свидетельств работника
+     * Run the migrations: Таблица учета расселения работников
      *
      * @author SeBo
      *
@@ -15,17 +15,20 @@ class CreateInsuranceCertificatesTable extends Migration {
      */
     public function up() {
 
-        Schema::create('insurance_certificates', function (Blueprint $table) {
+        Schema::create('billeteds', function (Blueprint $table) {
             $table->increments('id'); // ID записи
             $table->integer('personal_card_id')->unsigned(); // Код личной карточки работника
-            $table->char('certificate_series', 10); // Серия страхового свидетельства
-            $table->string('certificate_number', 50); // Номер страхового свидетельства
-            $table->float('insurance_fee', 8,2); // Сумма страхового взноса
-            $table->timestamp('certificate_expiry'); // Истечение срока действия страхового свидетельства
+            $table->integer('hotel_id')->unsigned(); // Код отеля
+            $table->date('start'); // Дата заселения
+            $table->smallInteger('days')->nullable(); // Оплачено дней
+            $table->date('expiry')->nullable(); // Дата выселения
+            $table->float('balance', 8,2)->nullable(); // Остаток
+            $table->float('fine', 8,2)->nullable(); // Штрафы
             $table->timestamps(); // Поля с датой создания и датой изменения записи
             $table->softDeletes(); // Поле с датой удаления (исключения) записи из обслуживания
 
             $table->foreign('personal_card_id')->references('id')->on('personal_cards');
+            $table->foreign('hotel_id')->references('id')->on('countries');
         });
     }
 
@@ -36,6 +39,6 @@ class CreateInsuranceCertificatesTable extends Migration {
      */
     public function down() {
 
-        Schema::dropIfExists('insurance_certificates');
+        Schema::dropIfExists('billeteds');
     }
 }
