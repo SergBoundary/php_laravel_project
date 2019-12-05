@@ -2,7 +2,6 @@
 
 namespace App\Repositories\References;
 
-use App\Models\References\DepartmentGroups;
 use App\Models\References\Departments as Model;
 use Illuminate\Database\Eloquent\Collection;
 use App\Repositories\CoreRepository;
@@ -34,10 +33,9 @@ class DepartmentsRepository extends CoreRepository {
     public function getTable() {
 
         $result = $this->startConditions()
-            ->join('department_groups', 'departments.department_group_id', '=', 'department_groups.id')
-            ->select('department_groups.title AS department_group', 'departments.title', 'departments.abbr', 'departments.id')
-            ->orderBy('department_groups.title')
+            ->select('departments.title', 'departments.abbr', 'departments.id')
             ->orderBy('departments.title')
+            ->orderBy('departments.abbr')
             ->get();
         return $result;
     }
@@ -52,8 +50,7 @@ class DepartmentsRepository extends CoreRepository {
     public function getShow($id) {
 
         $result = $this->startConditions()
-            ->join('department_groups', 'departments.department_group_id', '=', 'department_groups.id')
-            ->select('department_groups.title AS department_group', 'departments.title', 'departments.abbr', 'departments.department_attribute', 'departments.print_order', 'departments.id')
+            ->select('departments.title', 'departments.abbr', 'departments.id')
             ->where('departments.id', $id)
             ->toBase()
             ->first();
@@ -70,33 +67,11 @@ class DepartmentsRepository extends CoreRepository {
      */
     public function getEdit($id) {
 
-        $columns = ['id', 'department_group_id', 'title', 'abbr', 'department_attribute', 'print_order', ];
+        $columns = ['id', 'title', 'abbr', ];
 
         $result = $this->startConditions()
             ->select($columns)
             ->find($id);
-
-        return $result;
-    }
-
-    /**
-     * Получить модель для раскрывающегося списка данных
-     *
-     * @param int $i
-     *
-     * @return Model
-     */
-    public function getListSelect($i) {
-
-        switch ($i) {
-            case 0:
-                $columns = implode(", ", ['id', 'title AS department_group']);
-                $result = DepartmentGroups::selectRaw($columns)
-                    ->toBase()
-                    ->get();
-
-                break;
-        }
 
         return $result;
     }

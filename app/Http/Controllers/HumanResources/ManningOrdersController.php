@@ -4,11 +4,15 @@ namespace App\Http\Controllers\HumanResources;
 
 use Illuminate\Http\Request;
 use App\Models\HumanResources\PersonalCards;
-use App\Models\References\ManningTables;
+use App\Models\References\Departments;
+use App\Models\References\Positions;
+use App\Models\References\PositionProfessions;
 use App\Models\HumanResources\ManningOrders;
 use App\Repositories\HumanResources\ManningOrdersRepository;
 use App\Http\Requests\HumanResources\ManningOrdersCreateRequest;
 use App\Http\Requests\HumanResources\ManningOrdersUpdateRequest;
+use App\Models\Settings\Menu;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Class ManningOrdersController: Контроллер учета должностных назначений
@@ -43,6 +47,12 @@ class ManningOrdersController extends BaseHumanResourcesController {
      * @return \Illuminate\Http\Response
      */
     public function index() {
+		
+		$auth = Auth::user();
+        $auth_access = Menu::select('access_'.$auth['access'])
+                    ->where('path', $this->path)
+                    ->first();
+		$access = $auth_access['access_'.$auth['access']];
 
         // Формируем массив подменю выбранного пункта меню
         $menu = $this->createMenu($this->path);
@@ -56,7 +66,7 @@ class ManningOrdersController extends BaseHumanResourcesController {
         $manningOrdersList = $this->manningOrdersRepository->getTable();
 
         return view('hr.manning-orders.index',  
-               compact('menu', 'title', 'manningOrdersList'));
+               compact('menu', 'title', 'access', 'manningOrdersList'));
     }
 
     /**
@@ -65,6 +75,12 @@ class ManningOrdersController extends BaseHumanResourcesController {
      * @return \Illuminate\Http\Response
      */
     public function show($id) {
+		
+		$auth = Auth::user();
+        $auth_access = Menu::select('access_'.$auth['access'])
+                    ->where('path', $this->path)
+                    ->first();
+		$access = $auth_access['access_'.$auth['access']];
 
         // Формируем массив подменю выбранного пункта меню
         $menu = $this->createMenu($this->path);
@@ -79,7 +95,7 @@ class ManningOrdersController extends BaseHumanResourcesController {
         $manningOrdersList = $this->manningOrdersRepository->getShow($id);
 
         return view('hr.manning-orders.show', 
-               compact('menu', 'title', 'manningOrdersList'));
+               compact('menu', 'title', 'access', 'manningOrdersList'));
     }
 
     /**
@@ -100,12 +116,16 @@ class ManningOrdersController extends BaseHumanResourcesController {
 
         // Формируем содержание списка выбираемых полей полей select
         $personalCardsList = $this->manningOrdersRepository->getListSelect(0);
-        $manningTablesList = $this->manningOrdersRepository->getListSelect(1);
+        $departmentsList = $this->manningOrdersRepository->getListSelect(1);
+        $positionsList = $this->manningOrdersRepository->getListSelect(2);
+        $positionProfessionsList = $this->manningOrdersRepository->getListSelect(3);
 
         return view('hr.manning-orders.create', 
                compact('menu', 'title', 
                       'personalCardsList', 
-                      'manningTablesList'));
+                      'departmentsList', 
+                      'positionsList', 
+                      'positionProfessionsList'));
     }
 
     /**
@@ -148,7 +168,9 @@ class ManningOrdersController extends BaseHumanResourcesController {
 
         // Формируем содержание списка выбираемых полей полей select
         $personalCardsList = $this->manningOrdersRepository->getListSelect(0);
-        $manningTablesList = $this->manningOrdersRepository->getListSelect(1);
+        $departmentsList = $this->manningOrdersRepository->getListSelect(1);
+        $positionsList = $this->manningOrdersRepository->getListSelect(2);
+        $positionProfessionsList = $this->manningOrdersRepository->getListSelect(3);
 
         // Формируем содержание списка заполняемых полей input
         $manningOrdersList = $this->manningOrdersRepository->getEdit($id);
@@ -156,7 +178,9 @@ class ManningOrdersController extends BaseHumanResourcesController {
         return view('hr.manning-orders.edit', 
                compact('menu', 'title', 
                       'personalCardsList', 
-                      'manningTablesList', 
+                      'departmentsList', 
+                      'positionsList', 
+                      'positionProfessionsList', 
                       'manningOrdersList'));
     }
 

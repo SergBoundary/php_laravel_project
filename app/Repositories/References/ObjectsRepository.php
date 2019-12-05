@@ -2,7 +2,6 @@
 
 namespace App\Repositories\References;
 
-use App\Models\References\ObjectGroups;
 use App\Models\References\Objects as Model;
 use Illuminate\Database\Eloquent\Collection;
 use App\Repositories\CoreRepository;
@@ -34,9 +33,9 @@ class ObjectsRepository extends CoreRepository {
     public function getTable() {
 
         $result = $this->startConditions()
-            ->join('object_groups', 'objects.object_group_id', '=', 'object_groups.id')
-            ->select('object_groups.title AS object_group', 'objects.abbr', 'objects.id')
-            ->orderBy('object_groups.title')
+            ->select('objects.code', 'objects.title', 'objects.abbr', 'objects.id')
+            ->orderBy('objects.code')
+            ->orderBy('objects.title')
             ->orderBy('objects.abbr')
             ->get();
         return $result;
@@ -52,8 +51,7 @@ class ObjectsRepository extends CoreRepository {
     public function getShow($id) {
 
         $result = $this->startConditions()
-            ->join('object_groups', 'objects.object_group_id', '=', 'object_groups.id')
-            ->select('object_groups.title AS object_group', 'objects.title', 'objects.abbr', 'objects.id')
+            ->select('objects.code', 'objects.title', 'objects.abbr', 'objects.id')
             ->where('objects.id', $id)
             ->toBase()
             ->first();
@@ -70,33 +68,11 @@ class ObjectsRepository extends CoreRepository {
      */
     public function getEdit($id) {
 
-        $columns = ['id', 'object_group_id', 'title', 'abbr', ];
+        $columns = ['id', 'code', 'title', 'abbr', ];
 
         $result = $this->startConditions()
             ->select($columns)
             ->find($id);
-
-        return $result;
-    }
-
-    /**
-     * Получить модель для раскрывающегося списка данных
-     *
-     * @param int $i
-     *
-     * @return Model
-     */
-    public function getListSelect($i) {
-
-        switch ($i) {
-            case 0:
-                $columns = implode(", ", ['id', 'title AS object_group']);
-                $result = ObjectGroups::selectRaw($columns)
-                    ->toBase()
-                    ->get();
-
-                break;
-        }
 
         return $result;
     }

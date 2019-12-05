@@ -25,7 +25,9 @@
                         <th class="align-middle" scope="col">Имя (первое имя)</th>
                         <th class="align-middle" scope="col">Дата рождения</th>
                         <th scope="col">
+						    @if ($access == 2)
                             <a class="btn btn-outline-secondary btn-sm" href="{{ route('hr.personal-cards.create') }}">{{ __('Добавить') }}</a>
+						    @endif
                         </th>
                     </thead>
                     <tbody>
@@ -37,6 +39,7 @@
                             <td>{{ $personalCardsRow->born_date }}</td>
                             <td>
                                 <div class="btn-group" role="group" aria-label="Record editing">
+                                    @if ($access == 2)
                                     <form method="POST" action="{{ route('hr.personal-cards.destroy', $personalCardsRow->id) }}">
                                         @method('DELETE')
                                         @csrf
@@ -44,6 +47,10 @@
                                         <a class="btn btn-outline-primary btn-sm" href="{{ route('hr.personal-cards.edit', $personalCardsRow->id) }}">{{ __('Изменить') }}</a>
                                         <button type="submit" class="btn btn-outline-danger btn-sm" href="#">{{ __('Удалить') }}</button>
                                     </form>
+                                    @endif
+                                    @if ($access == 1)
+                                    <a class="btn btn-outline-primary btn-sm" href="{{ route('hr.personal-cards.show', $personalCardsRow->id) }}">{{ __('Открыть') }}</a>
+                                    @endif
                                 </div>
                             </td>
                         </tr>

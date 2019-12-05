@@ -15,5 +15,16 @@ class Paychecks extends Model {
     use SoftDeletes;
 
     protected $fillable = [
+        'personal_card_id',
+        'year_id',
+        'month_id',
+        'balance_start',
+        'hourly',
+        'piecework',
+        'accrual',
+        'retention',
+        'issued_by',
+        'give_out',
+        'debt',
     ];
 }

@@ -3,10 +3,15 @@
 namespace App\Http\Controllers\Calculations;
 
 use Illuminate\Http\Request;
+use App\Models\HumanResources\PersonalCards;
+use App\Models\References\Years;
+use App\Models\References\Months;
 use App\Models\Calculations\Paychecks;
 use App\Repositories\Calculations\PaychecksRepository;
 use App\Http\Requests\Calculations\PaychecksCreateRequest;
 use App\Http\Requests\Calculations\PaychecksUpdateRequest;
+use App\Models\Settings\Menu;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Class PaychecksController: Контроллер обслуживания расчетного листа по заработной плате
@@ -41,6 +46,12 @@ class PaychecksController extends BaseCalculationsController {
      * @return \Illuminate\Http\Response
      */
     public function index() {
+		
+		$auth = Auth::user();
+        $auth_access = Menu::select('access_'.$auth['access'])
+                    ->where('path', $this->path)
+                    ->first();
+		$access = $auth_access['access_'.$auth['access']];
 
         // Формируем массив подменю выбранного пункта меню
         $menu = $this->createMenu($this->path);
@@ -54,7 +65,7 @@ class PaychecksController extends BaseCalculationsController {
         $paychecksList = $this->paychecksRepository->getTable();
 
         return view('calc.paychecks.index',  
-               compact('menu', 'title', 'paychecksList'));
+               compact('menu', 'title', 'access', 'paychecksList'));
     }
 
     /**
@@ -63,6 +74,12 @@ class PaychecksController extends BaseCalculationsController {
      * @return \Illuminate\Http\Response
      */
     public function show($id) {
+		
+		$auth = Auth::user();
+        $auth_access = Menu::select('access_'.$auth['access'])
+                    ->where('path', $this->path)
+                    ->first();
+		$access = $auth_access['access_'.$auth['access']];
 
         // Формируем массив подменю выбранного пункта меню
         $menu = $this->createMenu($this->path);
@@ -77,7 +94,7 @@ class PaychecksController extends BaseCalculationsController {
         $paychecksList = $this->paychecksRepository->getShow($id);
 
         return view('calc.paychecks.show', 
-               compact('menu', 'title', 'paychecksList'));
+               compact('menu', 'title', 'access', 'paychecksList'));
     }
 
     /**
@@ -96,8 +113,16 @@ class PaychecksController extends BaseCalculationsController {
         $title = $menu->where('path', $this->path)
                 ->first();
 
+        // Формируем содержание списка выбираемых полей полей select
+        $personalCardsList = $this->paychecksRepository->getListSelect(0);
+        $yearsList = $this->paychecksRepository->getListSelect(1);
+        $monthsList = $this->paychecksRepository->getListSelect(2);
+
         return view('calc.paychecks.create', 
-               compact('menu', 'title'));
+               compact('menu', 'title', 
+                      'personalCardsList', 
+                      'yearsList', 
+                      'monthsList'));
     }
 
     /**
@@ -138,11 +163,20 @@ class PaychecksController extends BaseCalculationsController {
         $title = $menu->where('path', $this->path)
                 ->first();
 
+        // Формируем содержание списка выбираемых полей полей select
+        $personalCardsList = $this->paychecksRepository->getListSelect(0);
+        $yearsList = $this->paychecksRepository->getListSelect(1);
+        $monthsList = $this->paychecksRepository->getListSelect(2);
+
         // Формируем содержание списка заполняемых полей input
         $paychecksList = $this->paychecksRepository->getEdit($id);
 
         return view('calc.paychecks.edit', 
-               compact('menu', 'title', 'paychecksList'));
+               compact('menu', 'title', 
+                      'personalCardsList', 
+                      'yearsList', 
+                      'monthsList', 
+                      'paychecksList'));
     }
 
     /**

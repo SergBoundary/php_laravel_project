@@ -29,7 +29,7 @@ class ObjectsCreateRequest extends FormRequest {
      */
     public function rules() {
         return [
-            'object_group_id' => 'required|integer|exists:object_groups,id',
+            'code' => 'required|string|max:10',
             'title' => 'required|string|max:255',
             'abbr' => 'required|string|max:10',
         ];

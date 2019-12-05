@@ -99,16 +99,8 @@ class PositionsController extends BaseReferencesController {
         $title = $menu->where('path', $this->path)
                 ->first();
 
-        // Формируем содержание списка выбираемых полей полей select
-        $subordinationsList = $this->positionsRepository->getListSelect(0);
-        $positionProfessionsList = $this->positionsRepository->getListSelect(1);
-        $positionCategoriesList = $this->positionsRepository->getListSelect(2);
-
         return view('ref.positions.create', 
-               compact('menu', 'title', 
-                      'subordinationsList', 
-                      'positionProfessionsList', 
-                      'positionCategoriesList'));
+               compact('menu', 'title'));
     }
 
     /**
@@ -149,19 +141,11 @@ class PositionsController extends BaseReferencesController {
         $title = $menu->where('path', $this->path)
                 ->first();
 
-        // Формируем содержание списка выбираемых полей полей select
-        $subordinationsList = $this->positionsRepository->getListSelect(0);
-        $positionProfessionsList = $this->positionsRepository->getListSelect(1);
-        $positionCategoriesList = $this->positionsRepository->getListSelect(2);
-
         // Формируем содержание списка заполняемых полей input
         $positionsList = $this->positionsRepository->getEdit($id);
 
         return view('ref.positions.edit', 
                compact('menu', 'title', 
-                      'subordinationsList', 
-                      'positionProfessionsList', 
-                      'positionCategoriesList', 
                       'positionsList'));
     }
 

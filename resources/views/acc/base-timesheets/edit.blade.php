@@ -3,7 +3,7 @@
 @section('content')
     @php 
         /** @var \App\Models\Accounting\BaseTimesheets $menu, $title, $baseTimesheetsList
-         * @var \Illuminate\Database\Eloquent $personalCardsList, $yearsList, $monthsList, $accrualsList, $hoursBalanceClassifiersList, $departmentsList, $accountsList, $positionsList, $objectsList
+         * @var \Illuminate\Database\Eloquent $personalCardsList, $yearsList, $monthsList, $objectsList
          */
     @endphp
     <div class="container">
@@ -27,7 +27,7 @@
                                     <div class="input-group mb-3"
 >                                        <select name='personal_card_id' value='{{ $baseTimesheetsList->personal_cards_id }}' id='personal_card_id' type='text' placeholder="Работник" class="form-control" title='Работник' required>
                                             @foreach($personalCardsList as $personalCardsOption)
-                                            <option value="{{ $personal_cardsOption->id }}" 
+                                            <option value="{{ $personalCardsOption->id }}" 
                                                 @if($personalCardsOption->id == $baseTimesheetsList->personal_card_id) selected @endif>
                                                 {{ $personalCardsOption->personal_card }}
                                             </option>
@@ -67,86 +67,6 @@
                                         </select>
                                         <div class="input-group-append">
                                             <a class="btn btn-outline-secondary" href="{{ route('ref.months.create') }}">Добавить</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class='form-group col-md-10'>
-                                    <label for='accrual_id'>Вид оплаты</label>
-                                    <div class="input-group mb-3"
->                                        <select name='accrual_id' value='{{ $baseTimesheetsList->accruals_id }}' id='accrual_id' type='text' placeholder="Вид оплаты" class="form-control" title='Вид оплаты' required>
-                                            @foreach($accrualsList as $accrualsOption)
-                                            <option value="{{ $accrualsOption->id }}" 
-                                                @if($accrualsOption->id == $baseTimesheetsList->accrual_id) selected @endif>
-                                                {{ $accrualsOption->accrual }}
-                                            </option>
-                                            @endforeach
-                                        </select>
-                                        <div class="input-group-append">
-                                            <a class="btn btn-outline-secondary" href="{{ route('ref.accruals.create') }}">Добавить</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class='form-group col-md-10'>
-                                    <label for='hours_balance_classifier_id'>Графиков распределения рабочих часов</label>
-                                    <div class="input-group mb-3"
->                                        <select name='hours_balance_classifier_id' value='{{ $baseTimesheetsList->hours_balance_classifiers_id }}' id='hours_balance_classifier_id' type='text' placeholder="Графиков распределения рабочих часов" class="form-control" title='Графиков распределения рабочих часов' required>
-                                            @foreach($hoursBalanceClassifiersList as $hoursBalanceClassifiersOption)
-                                            <option value="{{ $hours_balance_classifiersOption->id }}" 
-                                                @if($hoursBalanceClassifiersOption->id == $baseTimesheetsList->hours_balance_classifier_id) selected @endif>
-                                                {{ $hoursBalanceClassifiersOption->hours_balance_classifier }}
-                                            </option>
-                                            @endforeach
-                                        </select>
-                                        <div class="input-group-append">
-                                            <a class="btn btn-outline-secondary" href="{{ route('ref.hours-balance-classifiers.create') }}">Добавить</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class='form-group col-md-10'>
-                                    <label for='department_id'>Подразделение</label>
-                                    <div class="input-group mb-3"
->                                        <select name='department_id' value='{{ $baseTimesheetsList->departments_id }}' id='department_id' type='text' placeholder="Подразделение" class="form-control" title='Подразделение' required>
-                                            @foreach($departmentsList as $departmentsOption)
-                                            <option value="{{ $departmentsOption->id }}" 
-                                                @if($departmentsOption->id == $baseTimesheetsList->department_id) selected @endif>
-                                                {{ $departmentsOption->department }}
-                                            </option>
-                                            @endforeach
-                                        </select>
-                                        <div class="input-group-append">
-                                            <a class="btn btn-outline-secondary" href="{{ route('ref.departments.create') }}">Добавить</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class='form-group col-md-10'>
-                                    <label for='account_id'>Номер счета для отнесения затрат</label>
-                                    <div class="input-group mb-3"
->                                        <select name='account_id' value='{{ $baseTimesheetsList->accounts_id }}' id='account_id' type='text' placeholder="Номер счета для отнесения затрат" class="form-control" title='Номер счета для отнесения затрат' required>
-                                            @foreach($accountsList as $accountsOption)
-                                            <option value="{{ $accountsOption->id }}" 
-                                                @if($accountsOption->id == $baseTimesheetsList->account_id) selected @endif>
-                                                {{ $accountsOption->account }}
-                                            </option>
-                                            @endforeach
-                                        </select>
-                                        <div class="input-group-append">
-                                            <a class="btn btn-outline-secondary" href="{{ route('ref.accounts.create') }}">Добавить</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class='form-group col-md-10'>
-                                    <label for='position_id'>Занимаемая должность</label>
-                                    <div class="input-group mb-3"
->                                        <select name='position_id' value='{{ $baseTimesheetsList->positions_id }}' id='position_id' type='text' placeholder="Занимаемая должность" class="form-control" title='Занимаемая должность' required>
-                                            @foreach($positionsList as $positionsOption)
-                                            <option value="{{ $positionsOption->id }}" 
-                                                @if($positionsOption->id == $baseTimesheetsList->position_id) selected @endif>
-                                                {{ $positionsOption->position }}
-                                            </option>
-                                            @endforeach
-                                        </select>
-                                        <div class="input-group-append">
-                                            <a class="btn btn-outline-secondary" href="{{ route('ref.positions.create') }}">Добавить</a>
                                         </div>
                                     </div>
                                 </div>
@@ -291,56 +211,48 @@
                                     <input name='day_31' value='{{ $baseTimesheetsList->day_31 }}' id='day_31' type='text' maxlength="50" class="form-control" title='31'>
                                 </div>
                                 <div class='form-group col-md-10'>
-                                    <label for='amount'>Размер оклада/тарифа работника</label>
-                                    <input name='amount' value='{{ $baseTimesheetsList->amount }}' id='amount' type='text' maxlength="50" class="form-control" title='Размер оклада/тарифа работника'>
-                                </div>
-                                <div class='form-group col-md-10'>
-                                    <label for='actual_days'>Отработано фактических дней</label>
-                                    <input name='actual_days' value='{{ $baseTimesheetsList->actual_days }}' id='actual_days' type='text' maxlength="50" class="form-control" title='Отработано фактических дней'>
-                                </div>
-                                <div class='form-group col-md-10'>
-                                    <label for='vacation_days'>Отпускные дни</label>
-                                    <input name='vacation_days' value='{{ $baseTimesheetsList->vacation_days }}' id='vacation_days' type='text' maxlength="50" class="form-control" title='Отпускные дни'>
-                                </div>
-                                <div class='form-group col-md-10'>
-                                    <label for='childbirth_leave'>Отпуск в связи с родами</label>
-                                    <input name='childbirth_leave' value='{{ $baseTimesheetsList->childbirth_leave }}' id='childbirth_leave' type='text' maxlength="50" class="form-control" title='Отпуск в связи с родами'>
-                                </div>
-                                <div class='form-group col-md-10'>
-                                    <label for='sick_days'>Больничные дни</label>
-                                    <input name='sick_days' value='{{ $baseTimesheetsList->sick_days }}' id='sick_days' type='text' maxlength="50" class="form-control" title='Больничные дни'>
-                                </div>
-                                <div class='form-group col-md-10'>
-                                    <label for='other_days'>Прочие дни разрешеные законом (оплачиваемые)</label>
-                                    <input name='other_days' value='{{ $baseTimesheetsList->other_days }}' id='other_days' type='text' maxlength="50" class="form-control" title='Прочие дни разрешеные законом (оплачиваемые)'>
-                                </div>
-                                <div class='form-group col-md-10'>
-                                    <label for='unpaid_leave'>Не оплачиваемый отпуск с разрешения администрации</label>
-                                    <input name='unpaid_leave' value='{{ $baseTimesheetsList->unpaid_leave }}' id='unpaid_leave' type='text' maxlength="50" class="form-control" title='Не оплачиваемый отпуск с разрешения администрации'>
-                                </div>
-                                <div class='form-group col-md-10'>
-                                    <label for='absense from work'>Дни прогулов</label>
-                                    <input name='absense from work' value='{{ $baseTimesheetsList->absense from work }}' id='absense from work' type='text' maxlength="50" class="form-control" title='Дни прогулов'>
-                                </div>
-                                <div class='form-group col-md-10'>
-                                    <label for='weekend'>Выходные/праздничные дни</label>
-                                    <input name='weekend' value='{{ $baseTimesheetsList->weekend }}' id='weekend' type='text' maxlength="50" class="form-control" title='Выходные/праздничные дни'>
-                                </div>
-                                <div class='form-group col-md-10'>
-                                    <label for='holidays'>Отработано праздничных дней</label>
-                                    <input name='holidays' value='{{ $baseTimesheetsList->holidays }}' id='holidays' type='text' maxlength="50" class="form-control" title='Отработано праздничных дней'>
-                                </div>
-                                <div class='form-group col-md-10'>
                                     <label for='hours'>Отработано часов</label>
                                     <input name='hours' value='{{ $baseTimesheetsList->hours }}' id='hours' type='text' maxlength="50" class="form-control" title='Отработано часов'>
                                 </div>
                                 <div class='form-group col-md-10'>
-                                    <label for='night_hours'>Отработано часов в ночное время</label>
-                                    <input name='night_hours' value='{{ $baseTimesheetsList->night_hours }}' id='night_hours' type='text' maxlength="50" class="form-control" title='Отработано часов в ночное время'>
+                                    <label for='rate'>Ставка</label>
+                                    <input name='rate' value='{{ $baseTimesheetsList->rate }}' id='rate' type='text' maxlength="50" class="form-control" title='Ставка'>
                                 </div>
                                 <div class='form-group col-md-10'>
-                                    <label for='overtime'>Отработано сверхурочно</label>
-                                    <input name='overtime' value='{{ $baseTimesheetsList->overtime }}' id='overtime' type='text' maxlength="50" class="form-control" title='Отработано сверхурочно'>
+                                    <label for='hourly'>Почасово</label>
+                                    <input name='hourly' value='{{ $baseTimesheetsList->hourly }}' id='hourly' type='text' maxlength="50" class="form-control" title='Почасово'>
+                                </div>
+                                <div class='form-group col-md-10'>
+                                    <label for='piecework'>Сдельно</label>
+                                    <input name='piecework' value='{{ $baseTimesheetsList->piecework }}' id='piecework' type='text' maxlength="50" class="form-control" title='Сдельно'>
+                                </div>
+                                <div class='form-group col-md-10'>
+                                    <label for='return_fix'>Возврат поправки</label>
+                                    <input name='return_fix' value='{{ $baseTimesheetsList->return_fix }}' id='return_fix' type='text' maxlength="50" class="form-control" title='Возврат поправки'>
+                                </div>
+                                <div class='form-group col-md-10'>
+                                    <label for='retention_fix'>Удержано поправки</label>
+                                    <input name='retention_fix' value='{{ $baseTimesheetsList->retention_fix }}' id='retention_fix' type='text' maxlength="50" class="form-control" title='Удержано поправки'>
+                                </div>
+                                <div class='form-group col-md-10'>
+                                    <label for='penalty'>Штраф</label>
+                                    <input name='penalty' value='{{ $baseTimesheetsList->penalty }}' id='penalty' type='text' maxlength="50" class="form-control" title='Штраф'>
+                                </div>
+                                <div class='form-group col-md-10'>
+                                    <label for='prepaid_expense'>Аванс</label>
+                                    <input name='prepaid_expense' value='{{ $baseTimesheetsList->prepaid_expense }}' id='prepaid_expense' type='text' maxlength="50" class="form-control" title='Аванс'>
+                                </div>
+                                <div class='form-group col-md-10'>
+                                    <label for='food'>Питание</label>
+                                    <input name='food' value='{{ $baseTimesheetsList->food }}' id='food' type='text' maxlength="50" class="form-control" title='Питание'>
+                                </div>
+                                <div class='form-group col-md-10'>
+                                    <label for='work_clothes'>Спецодежда</label>
+                                    <input name='work_clothes' value='{{ $baseTimesheetsList->work_clothes }}' id='work_clothes' type='text' maxlength="50" class="form-control" title='Спецодежда'>
+                                </div>
+                                <div class='form-group col-md-10'>
+                                    <label for='total'>Итоговая сумма</label>
+                                    <input name='total' value='{{ $baseTimesheetsList->total }}' id='total' type='text' maxlength="50" class="form-control" title='Итоговая сумма'>
                                 </div>
                                 <div class='form-group col-md-10'>
                                     <button type="submit" class="btn btn-secondary float-left">

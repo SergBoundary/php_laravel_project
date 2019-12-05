@@ -15,18 +15,6 @@
                         <form name="show">
                             <div class="row justify-content-center">
                                 <div class='form-group col-md-10'>
-                                    <label for='subordination'>Уровень управления</label>
-                                    <input name='subordination' value='{{ $positionsList->subordination }}' id='subordination' type='text' maxlength="50" readonly class="form-control" title='Уровень управления'>
-                                </div>
-                                <div class='form-group col-md-10'>
-                                    <label for='position_profession'>Профессия в классификаторе</label>
-                                    <input name='position_profession' value='{{ $positionsList->position_profession }}' id='position_profession' type='text' maxlength="50" readonly class="form-control" title='Профессия в классификаторе'>
-                                </div>
-                                <div class='form-group col-md-10'>
-                                    <label for='position_category'>Категория профессии</label>
-                                    <input name='position_category' value='{{ $positionsList->position_category }}' id='position_category' type='text' maxlength="50" readonly class="form-control" title='Категория профессии'>
-                                </div>
-                                <div class='form-group col-md-10'>
                                     <label for='title'>Название должности</label>
                                     <input name='title' value='{{ $positionsList->title }}' id='title' type='text' maxlength="50" readonly class="form-control" title='Название должности'>
                                 </div>

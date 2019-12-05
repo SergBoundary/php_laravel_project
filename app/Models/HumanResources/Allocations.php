@@ -18,7 +18,7 @@ class Allocations extends Model {
         'personal_card_id',
         'object_id',
         'team_id',
-        'document_id',
-        'date',
+        'start',
+        'expiry',
     ];
 }

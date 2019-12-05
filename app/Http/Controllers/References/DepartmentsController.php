@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\References;
 
 use Illuminate\Http\Request;
-use App\Models\References\DepartmentGroups;
 use App\Models\References\Departments;
 use App\Repositories\References\DepartmentsRepository;
 use App\Http\Requests\References\DepartmentsCreateRequest;
@@ -97,12 +96,8 @@ class DepartmentsController extends BaseReferencesController {
         $title = $menu->where('path', $this->path)
                 ->first();
 
-        // Формируем содержание списка выбираемых полей полей select
-        $departmentGroupsList = $this->departmentsRepository->getListSelect(0);
-
         return view('ref.departments.create', 
-               compact('menu', 'title', 
-                      'departmentGroupsList'));
+               compact('menu', 'title'));
     }
 
     /**
@@ -143,15 +138,11 @@ class DepartmentsController extends BaseReferencesController {
         $title = $menu->where('path', $this->path)
                 ->first();
 
-        // Формируем содержание списка выбираемых полей полей select
-        $departmentGroupsList = $this->departmentsRepository->getListSelect(0);
-
         // Формируем содержание списка заполняемых полей input
         $departmentsList = $this->departmentsRepository->getEdit($id);
 
         return view('ref.departments.edit', 
                compact('menu', 'title', 
-                      'departmentGroupsList', 
                       'departmentsList'));
     }
 

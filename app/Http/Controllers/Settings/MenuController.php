@@ -29,6 +29,7 @@ class MenuController extends BaseSettingsController
         if(empty($menu)) {
             return view('guest');
         }
+
         $title = $menu->where('path', $this->path)
                 ->first();
         $parent = $menu->last();

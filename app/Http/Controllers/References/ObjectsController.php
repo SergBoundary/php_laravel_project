@@ -97,12 +97,8 @@ class ObjectsController extends BaseReferencesController {
         $title = $menu->where('path', $this->path)
                 ->first();
 
-        // Формируем содержание списка выбираемых полей полей select
-        $objectGroupsList = $this->objectsRepository->getListSelect(0);
-
         return view('ref.objects.create', 
-               compact('menu', 'title', 
-                      'objectGroupsList'));
+               compact('menu', 'title'));
     }
 
     /**
@@ -143,15 +139,11 @@ class ObjectsController extends BaseReferencesController {
         $title = $menu->where('path', $this->path)
                 ->first();
 
-        // Формируем содержание списка выбираемых полей полей select
-        $objectGroupsList = $this->objectsRepository->getListSelect(0);
-
         // Формируем содержание списка заполняемых полей input
         $objectsList = $this->objectsRepository->getEdit($id);
 
         return view('ref.objects.edit', 
-               compact('menu', 'title', 
-                      'objectGroupsList', 
+               compact('menu', 'title',  
                       'objectsList'));
     }
 

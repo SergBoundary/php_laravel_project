@@ -15,7 +15,6 @@ class Objects extends Model {
     use SoftDeletes;
 
     protected $fillable = [
-        'object_group_id',
         'title',
         'abbr',
     ];

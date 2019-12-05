@@ -29,6 +29,17 @@ class PaychecksUpdateRequest extends FormRequest {
      */
     public function rules() {
         return [
+            'personal_card_id' => 'required|integer|exists:personal_cards,id',
+            'year_id' => 'required|integer|exists:years,id',
+            'month_id' => 'required|integer|exists:months,id',
+            'balance_start' => 'required|numeric',
+            'hourly' => 'required|numeric',
+            'piecework' => 'required|numeric',
+            'accrual' => 'required|numeric',
+            'retention' => 'required|numeric',
+            'issued_by' => 'required|numeric',
+            'give_out' => 'required|numeric',
+            'debt' => 'required|numeric',
         ];
     }
 }

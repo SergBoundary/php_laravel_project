@@ -5,12 +5,13 @@ namespace App\Http\Controllers\HumanResources;
 use Illuminate\Http\Request;
 use App\Models\HumanResources\PersonalCards;
 use App\Models\References\Objects;
-use App\Models\References\Teams;
-use App\Models\HumanResources\Documents;
+use App\Models\HumanResources\Teams;
 use App\Models\HumanResources\Allocations;
 use App\Repositories\HumanResources\AllocationsRepository;
 use App\Http\Requests\HumanResources\AllocationsCreateRequest;
 use App\Http\Requests\HumanResources\AllocationsUpdateRequest;
+use App\Models\Settings\Menu;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Class AllocationsController: Контроллер учета должностных назначений работника
@@ -45,6 +46,12 @@ class AllocationsController extends BaseHumanResourcesController {
      * @return \Illuminate\Http\Response
      */
     public function index() {
+		
+	$auth = Auth::user();
+        $auth_access = Menu::select('access_'.$auth['access'])
+                    ->where('path', $this->path)
+                    ->first();
+        $access = $auth_access['access_'.$auth['access']];
 
         // Формируем массив подменю выбранного пункта меню
         $menu = $this->createMenu($this->path);
@@ -58,7 +65,7 @@ class AllocationsController extends BaseHumanResourcesController {
         $allocationsList = $this->allocationsRepository->getTable();
 
         return view('hr.allocations.index',  
-               compact('menu', 'title', 'allocationsList'));
+               compact('menu', 'title', 'access', 'allocationsList'));
     }
 
     /**
@@ -67,6 +74,12 @@ class AllocationsController extends BaseHumanResourcesController {
      * @return \Illuminate\Http\Response
      */
     public function show($id) {
+		
+        $auth = Auth::user();
+        $auth_access = Menu::select('access_'.$auth['access'])
+                    ->where('path', $this->path)
+                    ->first();
+		$access = $auth_access['access_'.$auth['access']];
 
         // Формируем массив подменю выбранного пункта меню
         $menu = $this->createMenu($this->path);
@@ -81,7 +94,7 @@ class AllocationsController extends BaseHumanResourcesController {
         $allocationsList = $this->allocationsRepository->getShow($id);
 
         return view('hr.allocations.show', 
-               compact('menu', 'title', 'allocationsList'));
+               compact('menu', 'title', 'access', 'allocationsList'));
     }
 
     /**
@@ -104,14 +117,12 @@ class AllocationsController extends BaseHumanResourcesController {
         $personalCardsList = $this->allocationsRepository->getListSelect(0);
         $objectsList = $this->allocationsRepository->getListSelect(1);
         $teamsList = $this->allocationsRepository->getListSelect(2);
-        $documentsList = $this->allocationsRepository->getListSelect(3);
 
         return view('hr.allocations.create', 
                compact('menu', 'title', 
                       'personalCardsList', 
                       'objectsList', 
-                      'teamsList', 
-                      'documentsList'));
+                      'teamsList'));
     }
 
     /**
@@ -122,9 +133,17 @@ class AllocationsController extends BaseHumanResourcesController {
     public function store(AllocationsCreateRequest $request) {
 
         $data = $request->input();
-
+//        dd($data['personal_card_id'], $data['start']);
+        $item = $this->allocationsRepository->getEditExpiry($data['personal_card_id'], $data['start']);
+        if(!empty($item)) {
+            $item->save();
+//            $data = $request->all();
+//            $result = $item->update($data);
+//            $result = $item->update($item);
+        }
+//        dd($item);
         $result = (new Allocations($data))->create($data);
-
+//        dd($result);
         if($result) {
             return redirect()
                 ->route('hr.allocations.edit', $result->id)
@@ -156,7 +175,6 @@ class AllocationsController extends BaseHumanResourcesController {
         $personalCardsList = $this->allocationsRepository->getListSelect(0);
         $objectsList = $this->allocationsRepository->getListSelect(1);
         $teamsList = $this->allocationsRepository->getListSelect(2);
-        $documentsList = $this->allocationsRepository->getListSelect(3);
 
         // Формируем содержание списка заполняемых полей input
         $allocationsList = $this->allocationsRepository->getEdit($id);
@@ -166,7 +184,6 @@ class AllocationsController extends BaseHumanResourcesController {
                       'personalCardsList', 
                       'objectsList', 
                       'teamsList', 
-                      'documentsList', 
                       'allocationsList'));
     }
 
@@ -184,6 +201,7 @@ class AllocationsController extends BaseHumanResourcesController {
                 ->withInput();
         }
         $data = $request->all();
+        dd($data);
         $result = $item->update($data);
         if($result) {
             return redirect()

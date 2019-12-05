@@ -12,7 +12,7 @@
                 @if(count($departmentsList) > 0)
                 <table class="table table-hover">
                     <thead>
-                        <th class="align-middle" scope="col" colspan="2">Подразделение</th>
+                        <th class="align-middle" scope="col">Подразделение</th>
                         <th class="align-middle" scope="col">Аббривиатура</th>
                         <th scope="col">
                             <a class="btn btn-outline-secondary btn-sm" href="{{ route('ref.departments.create') }}">{{ __('Добавить') }}</a>
@@ -20,13 +20,7 @@
                     </thead>
                     <tbody>
                         @foreach($departmentsList as $departmentsRow)
-                        @if ($departmentGroups != $departmentsRow->department_group)
                         <tr>
-                            <td colspan="4" class="text-muted text-uppercase"><em> {{ $departmentsRow->country }}</em></td>
-                        </tr>
-                        @endif
-                        <tr>
-                            <td> </td>
                             <td>{{ $departmentsRow->title }}</td>
                             <td>{{ $departmentsRow->abbr }}</td>
                             <td>
@@ -41,9 +35,6 @@
                                 </div>
                             </td>
                         </tr>
-                        @php
-                            $departmentGroups = $departmentsRow->department_group;
-                        @endphp
                         @endforeach
                     </tbody>
                 </table>

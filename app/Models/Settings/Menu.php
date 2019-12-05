@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Class Menus: Модель настроек пользовательского меню системы
+ * Class Menu: Модель настроек пользовательского меню системы
  *
  * @author SeBo
  */
@@ -23,5 +23,6 @@ class Menu extends Model {
         'access_1',
         'access_2',
         'access_3',
+        'access_4',
     ];
 }

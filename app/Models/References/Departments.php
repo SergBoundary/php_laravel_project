@@ -15,10 +15,7 @@ class Departments extends Model {
     use SoftDeletes;
 
     protected $fillable = [
-        'department_group_id',
         'title',
         'abbr',
-        'department_attribute',
-        'print_order',
     ];
 }

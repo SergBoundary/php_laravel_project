@@ -29,6 +29,13 @@ class PayrollsUpdateRequest extends FormRequest {
      */
     public function rules() {
         return [
+            'personal_card_id' => 'required|integer|exists:personal_cards,id',
+            'year_id' => 'required|integer|exists:years,id',
+            'month_id' => 'required|integer|exists:months,id',
+            'accrual' => 'required|numeric',
+            'retention' => 'required|numeric',
+            'give_out' => 'required|numeric',
+            'debt' => 'required|numeric',
         ];
     }
 }

@@ -29,7 +29,7 @@ class PositionProfessionsUpdateRequest extends FormRequest {
      */
     public function rules() {
         return [
-            'code' => 'required|string|max:10',
+            'code' => 'required|string|max:20',
             'title' => 'required|string|max:255',
         ];
     }

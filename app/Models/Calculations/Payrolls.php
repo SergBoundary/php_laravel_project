@@ -15,5 +15,12 @@ class Payrolls extends Model {
     use SoftDeletes;
 
     protected $fillable = [
+        'personal_card_id',
+        'year_id',
+        'month_id',
+        'accrual',
+        'retention',
+        'give_out',
+        'debt',
     ];
 }

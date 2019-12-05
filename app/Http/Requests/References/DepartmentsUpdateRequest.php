@@ -29,11 +29,8 @@ class DepartmentsUpdateRequest extends FormRequest {
      */
     public function rules() {
         return [
-            'department_group_id' => 'required|integer|exists:department_groups,id',
             'title' => 'required|string|max:50',
-            'abbr' => 'required|string|max:10',
-            'department_attribute' => 'required|integer',
-            'print_order' => 'required|integer',
+            'abbr' => 'required|string|max:15',
         ];
     }
 }

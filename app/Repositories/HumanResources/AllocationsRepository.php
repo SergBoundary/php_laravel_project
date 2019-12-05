@@ -4,11 +4,11 @@ namespace App\Repositories\HumanResources;
 
 use App\Models\HumanResources\PersonalCards;
 use App\Models\References\Objects;
-use App\Models\References\Teams;
-use App\Models\HumanResources\Documents;
+use App\Models\HumanResources\Teams;
 use App\Models\HumanResources\Allocations as Model;
 use Illuminate\Database\Eloquent\Collection;
 use App\Repositories\CoreRepository;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Class AllocationsRepository: Репозиторий учета должностных назначений работника
@@ -35,20 +35,41 @@ class AllocationsRepository extends CoreRepository {
      * @return Collection
      */
     public function getTable() {
+		
+        $user = Auth::user();
 
-        $result = $this->startConditions()
-            ->join('personal_cards', 'allocations.personal_card_id', '=', 'personal_cards.id')
-            ->join('objects', 'allocations.object_id', '=', 'objects.id')
-            ->join('teams', 'allocations.team_id', '=', 'teams.id')
-            ->join('documents', 'allocations.document_id', '=', 'documents.id')
-            ->select('personal_cards.personal_account AS personal_card', 'objects.abbr AS object', 'teams.abbr AS team', 'documents.number AS document', 'allocations.date', 'allocations.id')
-            ->orderBy('personal_cards.personal_account')
-            ->orderBy('objects.abbr')
-            ->orderBy('teams.abbr')
-            ->orderBy('documents.number')
-            ->orderBy('allocations.date')
-            ->get();
-        return $result;
+        if($user['access'] == 4) {
+            $result = $this->startConditions()
+                ->join('personal_cards', 'allocations.personal_card_id', '=', 'personal_cards.id')
+                ->join('objects', 'allocations.object_id', '=', 'objects.id')
+                ->join('teams', 'allocations.team_id', '=', 'teams.id')
+                ->select('personal_cards.personal_account AS personal_card', 'personal_cards.surname AS surname', 'personal_cards.first_name AS first_name', 'objects.abbr AS object', 'teams.abbr AS team', 'allocations.start', 'allocations.expiry', 'allocations.id')
+                ->where('personal_cards.id', $user['id'])
+                ->orderBy('personal_cards.surname')
+                ->orderBy('allocations.start')
+                ->get();
+        } elseif($user['access'] == 3) {
+            $result = $this->startConditions()
+                ->join('personal_cards', 'allocations.personal_card_id', '=', 'personal_cards.id')
+                ->join('objects', 'allocations.object_id', '=', 'objects.id')
+                ->join('teams', 'allocations.team_id', '=', 'teams.id')
+                ->select('personal_cards.personal_account AS personal_card', 'personal_cards.surname AS surname', 'personal_cards.first_name AS first_name', 'objects.abbr AS object', 'teams.abbr AS team', 'allocations.start', 'allocations.expiry', 'allocations.id')
+                ->where('teams.personal_card_id', $user['id'])
+                ->orderBy('personal_cards.surname')
+                ->orderBy('allocations.start')
+                ->get();
+        } else {
+            $result = $this->startConditions()
+                ->join('personal_cards', 'allocations.personal_card_id', '=', 'personal_cards.id')
+                ->join('objects', 'allocations.object_id', '=', 'objects.id')
+                ->join('teams', 'allocations.team_id', '=', 'teams.id')
+                ->select('personal_cards.personal_account AS personal_card', 'personal_cards.surname AS surname', 'personal_cards.first_name AS first_name', 'objects.abbr AS object', 'teams.abbr AS team', 'allocations.start', 'allocations.expiry', 'allocations.id')
+                ->orderBy('personal_cards.surname')
+                ->orderBy('allocations.start')
+                ->get();
+        }
+
+       return $result;
     }
 
     /**
@@ -64,8 +85,7 @@ class AllocationsRepository extends CoreRepository {
             ->join('personal_cards', 'allocations.personal_card_id', '=', 'personal_cards.id')
             ->join('objects', 'allocations.object_id', '=', 'objects.id')
             ->join('teams', 'allocations.team_id', '=', 'teams.id')
-            ->join('documents', 'allocations.document_id', '=', 'documents.id')
-            ->select('personal_cards.personal_account AS personal_card', 'objects.abbr AS object', 'teams.abbr AS team', 'documents.number AS document', 'allocations.date', 'allocations.id')
+            ->select('personal_cards.personal_account AS personal_card', 'personal_cards.surname AS surname', 'personal_cards.first_name AS first_name', 'personal_cards.surname AS surname', 'personal_cards.first_name AS first_name', 'objects.title AS object', 'teams.title AS team', 'allocations.start', 'allocations.expiry', 'allocations.id')
             ->where('allocations.id', $id)
             ->toBase()
             ->first();
@@ -82,11 +102,38 @@ class AllocationsRepository extends CoreRepository {
      */
     public function getEdit($id) {
 
-        $columns = ['id', 'personal_card_id', 'object_id', 'team_id', 'document_id', 'date', ];
+        $columns = ['id', 'personal_card_id', 'object_id', 'team_id', 'start', 'expiry', ];
 
         $result = $this->startConditions()
             ->select($columns)
             ->find($id);
+
+        return $result;
+    }
+
+    /**
+     * Получить модель для редактирования даты снятия работника с объекта или бригады
+     *
+     * @param int $id
+     *
+     * @return Model
+     */
+    public function getEditExpiry($id, $expiry) {
+
+        $columns = ['id', 'start', 'expiry', ];
+
+        $result = $this->startConditions()
+            ->select($columns)
+            ->where('personal_card_id', $id)
+            ->whereNull('expiry')
+            ->orderBy('start', 'desc')
+            ->first();
+        
+        $result->expiry = $expiry;
+//        $result->save();
+        
+//        $result['expiry'] = $expiry;
+//        dd($result);
 
         return $result;
     }
@@ -102,29 +149,22 @@ class AllocationsRepository extends CoreRepository {
 
         switch ($i) {
             case 0:
-                $columns = implode(", ", ['id', 'CONCAT(personal_account, ", ", surname, ", ", first_name) AS personal_card']);
+                $columns = implode(", ", ['id', 'CONCAT(personal_account, ", ", surname, " ", first_name) AS personal_card']);
                 $result = PersonalCards::selectRaw($columns)
                     ->toBase()
                     ->get();
 
                 break;
             case 1:
-                $columns = implode(", ", ['id', 'abbr AS object']);
+                $columns = implode(", ", ['id', 'title AS object']);
                 $result = Objects::selectRaw($columns)
                     ->toBase()
                     ->get();
 
                 break;
             case 2:
-                $columns = implode(", ", ['id', 'abbr AS team']);
+                $columns = implode(", ", ['id', 'title AS team']);
                 $result = Teams::selectRaw($columns)
-                    ->toBase()
-                    ->get();
-
-                break;
-            case 3:
-                $columns = implode(", ", ['id', 'CONCAT(number, ", ", date) AS document']);
-                $result = Documents::selectRaw($columns)
                     ->toBase()
                     ->get();
 

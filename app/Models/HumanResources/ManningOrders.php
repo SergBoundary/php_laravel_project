@@ -16,12 +16,10 @@ class ManningOrders extends Model {
 
     protected $fillable = [
         'personal_card_id',
-        'manning_table_id',
+        'department_id',
+        'position_id',
+        'position_profession_id',
         'assignment_date',
-        'assignment_order',
         'resignation_date',
-        'resignation_order',
-        'salary',
-        'tariff',
     ];
 }

@@ -30,13 +30,10 @@ class ManningOrdersCreateRequest extends FormRequest {
     public function rules() {
         return [
             'personal_card_id' => 'required|integer|exists:personal_cards,id',
-            'manning_table_id' => 'required|integer|exists:manning_tables,id',
-            'assignment_date' => 'required|date',
-            'assignment_order' => 'required|string|max:10',
-            'resignation_date' => 'required|date',
-            'resignation_order' => 'required|string|max:10',
-            'salary' => 'required|numeric',
-            'tariff' => 'required|numeric',
+            'department_id' => 'required|integer|exists:departments,id',
+            'position_id' => 'required|integer|exists:positions,id',
+            'position_profession_id' => 'required|integer|exists:position_professions,id',
+            'assignment_date' => 'required',
         ];
     }
 }

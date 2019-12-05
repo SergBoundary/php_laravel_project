@@ -6,16 +6,13 @@ use Illuminate\Http\Request;
 use App\Models\HumanResources\PersonalCards;
 use App\Models\References\Years;
 use App\Models\References\Months;
-use App\Models\References\Accruals;
-use App\Models\References\HoursBalanceClassifiers;
-use App\Models\References\Departments;
-use App\Models\References\Accounts;
-use App\Models\References\Positions;
 use App\Models\References\Objects;
 use App\Models\Accounting\BaseTimesheets;
 use App\Repositories\Accounting\BaseTimesheetsRepository;
 use App\Http\Requests\Accounting\BaseTimesheetsCreateRequest;
 use App\Http\Requests\Accounting\BaseTimesheetsUpdateRequest;
+use App\Models\Settings\Menu;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Class BaseTimesheetsController: Контроллер учета отработанного времени (табель)
@@ -50,6 +47,12 @@ class BaseTimesheetsController extends BaseAccountingController {
      * @return \Illuminate\Http\Response
      */
     public function index() {
+		
+        $auth = Auth::user();
+        $auth_access = Menu::select('access_'.$auth['access'])
+                    ->where('path', $this->path)
+                    ->first();
+        $access = $auth_access['access_'.$auth['access']];
 
         // Формируем массив подменю выбранного пункта меню
         $menu = $this->createMenu($this->path);
@@ -63,7 +66,7 @@ class BaseTimesheetsController extends BaseAccountingController {
         $baseTimesheetsList = $this->baseTimesheetsRepository->getTable();
 
         return view('acc.base-timesheets.index',  
-               compact('menu', 'title', 'baseTimesheetsList'));
+               compact('menu', 'title', 'access', 'baseTimesheetsList'));
     }
 
     /**
@@ -72,6 +75,12 @@ class BaseTimesheetsController extends BaseAccountingController {
      * @return \Illuminate\Http\Response
      */
     public function show($id) {
+		
+        $auth = Auth::user();
+        $auth_access = Menu::select('access_'.$auth['access'])
+                    ->where('path', $this->path)
+                    ->first();
+        $access = $auth_access['access_'.$auth['access']];
 
         // Формируем массив подменю выбранного пункта меню
         $menu = $this->createMenu($this->path);
@@ -86,7 +95,7 @@ class BaseTimesheetsController extends BaseAccountingController {
         $baseTimesheetsList = $this->baseTimesheetsRepository->getShow($id);
 
         return view('acc.base-timesheets.show', 
-               compact('menu', 'title', 'baseTimesheetsList'));
+               compact('menu', 'title', 'access', 'baseTimesheetsList'));
     }
 
     /**
@@ -109,23 +118,13 @@ class BaseTimesheetsController extends BaseAccountingController {
         $personalCardsList = $this->baseTimesheetsRepository->getListSelect(0);
         $yearsList = $this->baseTimesheetsRepository->getListSelect(1);
         $monthsList = $this->baseTimesheetsRepository->getListSelect(2);
-        $accrualsList = $this->baseTimesheetsRepository->getListSelect(3);
-        $hoursBalanceClassifiersList = $this->baseTimesheetsRepository->getListSelect(4);
-        $departmentsList = $this->baseTimesheetsRepository->getListSelect(5);
-        $accountsList = $this->baseTimesheetsRepository->getListSelect(6);
-        $positionsList = $this->baseTimesheetsRepository->getListSelect(7);
-        $objectsList = $this->baseTimesheetsRepository->getListSelect(8);
+        $objectsList = $this->baseTimesheetsRepository->getListSelect(3);
 
         return view('acc.base-timesheets.create', 
                compact('menu', 'title', 
                       'personalCardsList', 
                       'yearsList', 
                       'monthsList', 
-                      'accrualsList', 
-                      'hoursBalanceClassifiersList', 
-                      'departmentsList', 
-                      'accountsList', 
-                      'positionsList', 
                       'objectsList'));
     }
 
@@ -171,12 +170,7 @@ class BaseTimesheetsController extends BaseAccountingController {
         $personalCardsList = $this->baseTimesheetsRepository->getListSelect(0);
         $yearsList = $this->baseTimesheetsRepository->getListSelect(1);
         $monthsList = $this->baseTimesheetsRepository->getListSelect(2);
-        $accrualsList = $this->baseTimesheetsRepository->getListSelect(3);
-        $hoursBalanceClassifiersList = $this->baseTimesheetsRepository->getListSelect(4);
-        $departmentsList = $this->baseTimesheetsRepository->getListSelect(5);
-        $accountsList = $this->baseTimesheetsRepository->getListSelect(6);
-        $positionsList = $this->baseTimesheetsRepository->getListSelect(7);
-        $objectsList = $this->baseTimesheetsRepository->getListSelect(8);
+        $objectsList = $this->baseTimesheetsRepository->getListSelect(3);
 
         // Формируем содержание списка заполняемых полей input
         $baseTimesheetsList = $this->baseTimesheetsRepository->getEdit($id);
@@ -186,11 +180,6 @@ class BaseTimesheetsController extends BaseAccountingController {
                       'personalCardsList', 
                       'yearsList', 
                       'monthsList', 
-                      'accrualsList', 
-                      'hoursBalanceClassifiersList', 
-                      'departmentsList', 
-                      'accountsList', 
-                      'positionsList', 
                       'objectsList', 
                       'baseTimesheetsList'));
     }

@@ -3,10 +3,13 @@
 namespace App\Repositories\HumanResources;
 
 use App\Models\HumanResources\PersonalCards;
-use App\Models\References\ManningTables;
+use App\Models\References\Departments;
+use App\Models\References\Positions;
+use App\Models\References\PositionProfessions;
 use App\Models\HumanResources\ManningOrders as Model;
 use Illuminate\Database\Eloquent\Collection;
 use App\Repositories\CoreRepository;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Class ManningOrdersRepository: Репозиторий учета должностных назначений
@@ -33,15 +36,54 @@ class ManningOrdersRepository extends CoreRepository {
      * @return Collection
      */
     public function getTable() {
+		
+        $user = Auth::user();
+		
+        if($user['access'] == 4) {
+            $result = $this->startConditions()
+                ->join('personal_cards', 'manning_orders.personal_card_id', '=', 'personal_cards.id')
+                ->join('departments', 'manning_orders.department_id', '=', 'departments.id')
+                ->join('positions', 'manning_orders.position_id', '=', 'positions.id')
+                ->join('position_professions', 'manning_orders.position_profession_id', '=', 'position_professions.id')
+                ->select('personal_cards.personal_account AS personal_card', 'personal_cards.surname AS surname', 'personal_cards.first_name AS first_name', 'departments.abbr AS department', 'positions.title AS position', 'position_professions.code AS position_profession', 'manning_orders.assignment_date', 'manning_orders.resignation_date', 'manning_orders.id')
+                ->where('personal_cards.id', $user['id'])
+                ->orderBy('personal_cards.personal_account')
+                ->orderBy('departments.abbr')
+                ->orderBy('positions.title')
+                ->orderBy('position_professions.code')
+                ->orderBy('manning_orders.assignment_date')
+                ->get();
+        } elseif($user['access'] == 3) {
+            $result = $this->startConditions()
+                ->join('personal_cards', 'manning_orders.personal_card_id', '=', 'personal_cards.id')
+                ->join('departments', 'manning_orders.department_id', '=', 'departments.id')
+                ->join('positions', 'manning_orders.position_id', '=', 'positions.id')
+                ->join('position_professions', 'manning_orders.position_profession_id', '=', 'position_professions.id')
+                ->join('allocations', 'personal_cards.id', '=', 'allocations.personal_card_id')
+                ->join('teams', 'allocations.team_id', '=', 'teams.id')
+                ->select('personal_cards.personal_account AS personal_card', 'personal_cards.surname AS surname', 'personal_cards.first_name AS first_name', 'departments.abbr AS department', 'positions.title AS position', 'position_professions.code AS position_profession', 'manning_orders.assignment_date', 'manning_orders.resignation_date', 'manning_orders.id')
+                ->where('teams.personal_card_id', $user['id'])
+                ->orderBy('personal_cards.personal_account')
+                ->orderBy('departments.abbr')
+                ->orderBy('positions.title')
+                ->orderBy('position_professions.code')
+                ->orderBy('manning_orders.assignment_date')
+                ->get();
+        } else {
+            $result = $this->startConditions()
+                ->join('personal_cards', 'manning_orders.personal_card_id', '=', 'personal_cards.id')
+                ->join('departments', 'manning_orders.department_id', '=', 'departments.id')
+                ->join('positions', 'manning_orders.position_id', '=', 'positions.id')
+                ->join('position_professions', 'manning_orders.position_profession_id', '=', 'position_professions.id')
+                ->select('personal_cards.personal_account AS personal_card', 'personal_cards.surname AS surname', 'personal_cards.first_name AS first_name', 'departments.abbr AS department', 'positions.title AS position', 'position_professions.code AS position_profession', 'manning_orders.assignment_date', 'manning_orders.resignation_date', 'manning_orders.id')
+                ->orderBy('personal_cards.personal_account')
+                ->orderBy('departments.abbr')
+                ->orderBy('positions.title')
+                ->orderBy('position_professions.code')
+                ->orderBy('manning_orders.assignment_date')
+                ->get();
+        }
 
-        $result = $this->startConditions()
-            ->join('personal_cards', 'manning_orders.personal_card_id', '=', 'personal_cards.id')
-            ->join('manning_tables', 'manning_orders.manning_table_id', '=', 'manning_tables.id')
-            ->select('personal_cards.personal_account AS personal_card', 'manning_tables.department_id AS manning_table', 'manning_orders.assignment_date', 'manning_orders.assignment_order', 'manning_orders.resignation_date', 'manning_orders.id')
-            ->orderBy('personal_cards.personal_account')
-            ->orderBy('manning_tables.department_id')
-            ->orderBy('manning_orders.assignment_date')
-            ->get();
         return $result;
     }
 
@@ -56,8 +98,10 @@ class ManningOrdersRepository extends CoreRepository {
 
         $result = $this->startConditions()
             ->join('personal_cards', 'manning_orders.personal_card_id', '=', 'personal_cards.id')
-            ->join('manning_tables', 'manning_orders.manning_table_id', '=', 'manning_tables.id')
-            ->select('personal_cards.personal_account AS personal_card', 'manning_tables.department_id AS manning_table', 'manning_orders.assignment_date', 'manning_orders.assignment_order', 'manning_orders.resignation_date', 'manning_orders.resignation_order', 'manning_orders.salary', 'manning_orders.tariff', 'manning_orders.id')
+            ->join('departments', 'manning_orders.department_id', '=', 'departments.id')
+            ->join('positions', 'manning_orders.position_id', '=', 'positions.id')
+            ->join('position_professions', 'manning_orders.position_profession_id', '=', 'position_professions.id')
+            ->select('personal_cards.personal_account AS personal_card', 'personal_cards.surname AS surname', 'personal_cards.first_name AS first_name', 'departments.abbr AS department', 'positions.title AS position', 'position_professions.code AS position_profession', 'position_professions.title AS position_profession_title', 'manning_orders.assignment_date', 'manning_orders.resignation_date', 'manning_orders.id')
             ->where('manning_orders.id', $id)
             ->toBase()
             ->first();
@@ -74,7 +118,7 @@ class ManningOrdersRepository extends CoreRepository {
      */
     public function getEdit($id) {
 
-        $columns = ['id', 'personal_card_id', 'manning_table_id', 'assignment_date', 'assignment_order', 'resignation_date', 'resignation_order', 'salary', 'tariff', ];
+        $columns = ['id', 'personal_card_id', 'department_id', 'position_id', 'position_profession_id', 'assignment_date', 'resignation_date', ];
 
         $result = $this->startConditions()
             ->select($columns)
@@ -101,8 +145,22 @@ class ManningOrdersRepository extends CoreRepository {
 
                 break;
             case 1:
-                $columns = implode(", ", ['id', 'CONCAT(department, ", ", position, ", ", rank) AS manning_table']);
-                $result = ManningTables::selectRaw($columns)
+                $columns = implode(", ", ['id', 'abbr AS department']);
+                $result = Departments::selectRaw($columns)
+                    ->toBase()
+                    ->get();
+
+                break;
+            case 2:
+                $columns = implode(", ", ['id', 'title AS position']);
+                $result = Positions::selectRaw($columns)
+                    ->toBase()
+                    ->get();
+
+                break;
+            case 3:
+                $columns = implode(", ", ['id', 'CONCAT(code, ", ", title) AS position_profession']);
+                $result = PositionProfessions::selectRaw($columns)
                     ->toBase()
                     ->get();
 

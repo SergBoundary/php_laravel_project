@@ -3,10 +3,15 @@
 namespace App\Http\Controllers\Calculations;
 
 use Illuminate\Http\Request;
+use App\Models\HumanResources\PersonalCards;
+use App\Models\References\Years;
+use App\Models\References\Months;
 use App\Models\Calculations\Payrolls;
 use App\Repositories\Calculations\PayrollsRepository;
 use App\Http\Requests\Calculations\PayrollsCreateRequest;
 use App\Http\Requests\Calculations\PayrollsUpdateRequest;
+use App\Models\Settings\Menu;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Class PayrollsController: Контроллер обслуживания расчета заработной платы
@@ -41,6 +46,12 @@ class PayrollsController extends BaseCalculationsController {
      * @return \Illuminate\Http\Response
      */
     public function index() {
+		
+		$auth = Auth::user();
+        $auth_access = Menu::select('access_'.$auth['access'])
+                    ->where('path', $this->path)
+                    ->first();
+		$access = $auth_access['access_'.$auth['access']];
 
         // Формируем массив подменю выбранного пункта меню
         $menu = $this->createMenu($this->path);
@@ -54,7 +65,7 @@ class PayrollsController extends BaseCalculationsController {
         $payrollsList = $this->payrollsRepository->getTable();
 
         return view('calc.payrolls.index',  
-               compact('menu', 'title', 'payrollsList'));
+               compact('menu', 'title', 'access', 'payrollsList'));
     }
 
     /**
@@ -63,6 +74,12 @@ class PayrollsController extends BaseCalculationsController {
      * @return \Illuminate\Http\Response
      */
     public function show($id) {
+		
+		$auth = Auth::user();
+        $auth_access = Menu::select('access_'.$auth['access'])
+                    ->where('path', $this->path)
+                    ->first();
+		$access = $auth_access['access_'.$auth['access']];
 
         // Формируем массив подменю выбранного пункта меню
         $menu = $this->createMenu($this->path);
@@ -77,7 +94,7 @@ class PayrollsController extends BaseCalculationsController {
         $payrollsList = $this->payrollsRepository->getShow($id);
 
         return view('calc.payrolls.show', 
-               compact('menu', 'title', 'payrollsList'));
+               compact('menu', 'title', 'access', 'payrollsList'));
     }
 
     /**
@@ -96,8 +113,16 @@ class PayrollsController extends BaseCalculationsController {
         $title = $menu->where('path', $this->path)
                 ->first();
 
+        // Формируем содержание списка выбираемых полей полей select
+        $personalCardsList = $this->payrollsRepository->getListSelect(0);
+        $yearsList = $this->payrollsRepository->getListSelect(1);
+        $monthsList = $this->payrollsRepository->getListSelect(2);
+
         return view('calc.payrolls.create', 
-               compact('menu', 'title'));
+               compact('menu', 'title', 
+                      'personalCardsList', 
+                      'yearsList', 
+                      'monthsList'));
     }
 
     /**
@@ -138,11 +163,20 @@ class PayrollsController extends BaseCalculationsController {
         $title = $menu->where('path', $this->path)
                 ->first();
 
+        // Формируем содержание списка выбираемых полей полей select
+        $personalCardsList = $this->payrollsRepository->getListSelect(0);
+        $yearsList = $this->payrollsRepository->getListSelect(1);
+        $monthsList = $this->payrollsRepository->getListSelect(2);
+
         // Формируем содержание списка заполняемых полей input
         $payrollsList = $this->payrollsRepository->getEdit($id);
 
         return view('calc.payrolls.edit', 
-               compact('menu', 'title', 'payrollsList'));
+               compact('menu', 'title', 
+                      'personalCardsList', 
+                      'yearsList', 
+                      'monthsList', 
+                      'payrollsList'));
     }
 
     /**

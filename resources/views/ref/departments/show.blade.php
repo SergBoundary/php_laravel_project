@@ -15,24 +15,12 @@
                         <form name="show">
                             <div class="row justify-content-center">
                                 <div class='form-group col-md-10'>
-                                    <label for='department_group'>Группа подразделений</label>
-                                    <input name='department_group' value='{{ $departmentsList->department_group }}' id='department_group' type='text' maxlength="50" readonly class="form-control" title='Группа подразделений'>
-                                </div>
-                                <div class='form-group col-md-10'>
                                     <label for='title'>Подразделение</label>
                                     <input name='title' value='{{ $departmentsList->title }}' id='title' type='text' maxlength="50" readonly class="form-control" title='Подразделение'>
                                 </div>
                                 <div class='form-group col-md-10'>
                                     <label for='abbr'>Аббривиатура</label>
                                     <input name='abbr' value='{{ $departmentsList->abbr }}' id='abbr' type='text' maxlength="50" readonly class="form-control" title='Аббривиатура'>
-                                </div>
-                                <div class='form-group col-md-10'>
-                                    <label for='department_attribute'>Признак</label>
-                                    <input name='department_attribute' value='{{ $departmentsList->department_attribute }}' id='department_attribute' type='text' maxlength="50" readonly class="form-control" title='Признак'>
-                                </div>
-                                <div class='form-group col-md-10'>
-                                    <label for='print_order'>Номер очереди печати</label>
-                                    <input name='print_order' value='{{ $departmentsList->print_order }}' id='print_order' type='text' maxlength="50" readonly class="form-control" title='Номер очереди печати'>
                                 </div>
                                 <div class='form-group col-md-10'> </div>
                             </div>

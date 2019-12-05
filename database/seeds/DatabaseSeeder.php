@@ -11,42 +11,29 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call(UsersTableSeeder::class);
-        $this->call(MenusTableSeeder::class);
-        
-        $this->call(AlgorithmsTableSeeder::class);
-        $this->call(ObjectGroupsTableSeeder::class);
-        $this->call(ObjectsTableSeeder::class);
-        
-        $this->call(CountriesTableSeeder::class);
-        $this->call(DistrictsTableSeeder::class);
-        $this->call(RegionsTableSeeder::class);
-        $this->call(CitiesTableSeeder::class);
-        
-        $this->call(CurrenciesTableSeeder::class);
-        
         $this->call(MonthsTableSeeder::class);
         $this->call(YearsTableSeeder::class);
-        
-        $this->call(CompaniesTableSeeder::class);
-        $this->call(NationalitiesTableSeeder::class);
-        $this->call(CommunicationTypesTableSeeder::class);
-        $this->call(SubordinationsTableSeeder::class);
-        $this->call(DepartmentGroupsTableSeeder::class);
-        $this->call(DepartmentsTableSeeder::class);
 		
-        $this->call(PositionCategoriesTableSeeder::class);
+        $this->call(ObjectsTableSeeder::class);
+        $this->call(DepartmentsTableSeeder::class);
         $this->call(PositionProfessionsTableSeeder::class);
         $this->call(PositionsTableSeeder::class);
-        $this->call(DismissalReasonsTableSeeder::class);
 		
-        $this->call(MaritalStatusesTableSeeder::class);
-        $this->call(ShoeSizesTableSeeder::class);
-        $this->call(ClothingSizesTableSeeder::class);
+        $this->call(AccrualTypesTableSeeder::class);
+        $this->call(RetentionTypesTableSeeder::class);
 		
-        $this->call(HotelsTableSeeder::class);
-        $this->call(HotelConditionsTableSeeder::class);
+        $this->call(MenusTableSeeder::class);
+        $this->call(UsersTableSeeder::class);
+        $this->call(PersonalCardsTableSeeder::class);
+        $this->call(TeamsTableSeeder::class);
 		
-        //$this->call(TeamsTableSeeder::class);
+        $this->call(AllocationsTableSeeder::class);
+        $this->call(ManningOrdersTableSeeder::class);
+        $this->call(PieceworksTableSeeder::class);
+        $this->call(BaseTimesheetsTableSeeder::class);
+        $this->call(AccrualsTableSeeder::class);
+        $this->call(RetentionsTableSeeder::class);
+        $this->call(PayrollsTableSeeder::class);
+        $this->call(PaychecksTableSeeder::class);
     }
 }

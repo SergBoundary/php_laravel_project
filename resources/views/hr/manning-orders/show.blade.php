@@ -16,40 +16,33 @@
                             <div class="row justify-content-center">
                                 <div class='form-group col-md-10'>
                                     <label for='personal_card'>Работник</label>
-                                    <input name='personal_card' value='{{ $manningOrdersList->personal_card }}' id='personal_card' type='text' maxlength="50" readonly class="form-control" title='Работник'>
+                                    <input name='personal_card' value='{{ $manningOrdersList->personal_card }}, {{ $manningOrdersList->surname }} {{ $manningOrdersList->first_name }}' id='personal_card' type='text' maxlength="50" readonly class="form-control" title='Работник'>
                                 </div>
                                 <div class='form-group col-md-10'>
-                                    <label for='manning_table'>Штатная должность</label>
-                                    <input name='manning_table' value='{{ $manningOrdersList->manning_table }}' id='manning_table' type='text' maxlength="50" readonly class="form-control" title='Штатная должность'>
+                                    <label for='department'>Подразделение</label>
+                                    <input name='department' value='{{ $manningOrdersList->department }}' id='department' type='text' maxlength="50" readonly class="form-control" title='Подразделение'>
+                                </div>
+                                <div class='form-group col-md-10'>
+                                    <label for='position'>Должность</label>
+                                    <input name='position' value='{{ $manningOrdersList->position }}' id='position' type='text' maxlength="50" readonly class="form-control" title='Должность'>
+                                </div>
+                                <div class='form-group col-md-10'>
+                                    <label for='position_profession'>Формальная должность</label>
+                                    <input name='position_profession' value='{{ $manningOrdersList->position_profession }}, {{ $manningOrdersList->position_profession_title }}' id='position_profession' type='text' maxlength="50" readonly class="form-control" title='Формальная должность'>
                                 </div>
                                 <div class='form-group col-md-10'>
                                     <label for='assignment_date'>Дата назначения</label>
-                                    <input name='assignment_date' value='{{ $manningOrdersList->assignment_date }}' id='assignment_date' type='text' maxlength="50" readonly class="form-control" title='Дата назначения'>
+                                    <input name='assignment_date' value='{{ $manningOrdersList->assignment_date }}' id='assignment_date' type='date' maxlength="50" readonly class="form-control" title='Дата назначения'>
                                 </div>
                                 <div class='form-group col-md-10'>
-                                    <label for='assignment_order'>Приказ о назначении</label>
-                                    <input name='assignment_order' value='{{ $manningOrdersList->assignment_order }}' id='assignment_order' type='text' maxlength="50" readonly class="form-control" title='Приказ о назначении'>
-                                </div>
-                                <div class='form-group col-md-10'>
-                                    <label for='resignation_date'>Дата снятия</label>
-                                    <input name='resignation_date' value='{{ $manningOrdersList->resignation_date }}' id='resignation_date' type='text' maxlength="50" readonly class="form-control" title='Дата снятия'>
-                                </div>
-                                <div class='form-group col-md-10'>
-                                    <label for='resignation_order'>Приказ о снятии</label>
-                                    <input name='resignation_order' value='{{ $manningOrdersList->resignation_order }}' id='resignation_order' type='text' maxlength="50" readonly class="form-control" title='Приказ о снятии'>
-                                </div>
-                                <div class='form-group col-md-10'>
-                                    <label for='salary'>Тариф</label>
-                                    <input name='salary' value='{{ $manningOrdersList->salary }}' id='salary' type='text' maxlength="50" readonly class="form-control" title='Тариф'>
-                                </div>
-                                <div class='form-group col-md-10'>
-                                    <label for='tariff'>Оклад</label>
-                                    <input name='tariff' value='{{ $manningOrdersList->tariff }}' id='tariff' type='text' maxlength="50" readonly class="form-control" title='Оклад'>
+                                    <label for='resignation_date'>Дата назначения</label>
+                                    <input name='resignation_date' value='{{ $manningOrdersList->resignation_date }}' id='resignation_date' type='date' maxlength="50" readonly class="form-control" title='Дата снятия'>
                                 </div>
                                 <div class='form-group col-md-10'> </div>
                             </div>
                         </form>
 
+                        @if ($access == 2)
                         <form name="delete" method="POST" action="{{ route('hr.manning-orders.destroy', $manningOrdersList->id) }}">
                             <div class="row justify-content-center">
                                 <div class='form-group col-md-10'>
@@ -61,6 +54,14 @@
                                 </div>
                             </div>
                         </form>
+						@endif
+                        @if ($access == 1)
+                        <div class="row justify-content-center">
+                            <div class='form-group col-md-10'>
+								<a class="btn btn-outline-secondary" href="{{ route('hr.manning-orders.index') }}">{{ __('Закрыть') }}</a><span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                            </div>
+                        </div>
+						@endif
 
                     </div>
                 </div>

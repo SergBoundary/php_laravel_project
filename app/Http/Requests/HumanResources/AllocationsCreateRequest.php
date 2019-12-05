@@ -32,8 +32,7 @@ class AllocationsCreateRequest extends FormRequest {
             'personal_card_id' => 'required|integer|exists:personal_cards,id',
             'object_id' => 'required|integer|exists:objects,id',
             'team_id' => 'required|integer|exists:teams,id',
-            'document_id' => 'required|integer|exists:documents,id',
-            'date' => 'required|date',
+            'start' => 'required',
         ];
     }
 }
