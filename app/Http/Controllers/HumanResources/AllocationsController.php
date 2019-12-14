@@ -48,6 +48,9 @@ class AllocationsController extends BaseHumanResourcesController {
     public function index() {
 		
 	$auth = Auth::user();
+        if(empty($auth)) {
+            return view('guest');
+        }
         $auth_access = Menu::select('access_'.$auth['access'])
                     ->where('path', $this->path)
                     ->first();
@@ -59,8 +62,7 @@ class AllocationsController extends BaseHumanResourcesController {
             return view('guest');
         }
         // Формируем массив данных о представлении
-        $title = $menu->where('path', $this->path)
-                ->first();
+        $title = "Перемещения по предприятию";
 
         $allocationsList = $this->allocationsRepository->getTable();
 
@@ -76,10 +78,13 @@ class AllocationsController extends BaseHumanResourcesController {
     public function show($id) {
 		
         $auth = Auth::user();
+        if(empty($auth)) {
+            return view('guest');
+        }
         $auth_access = Menu::select('access_'.$auth['access'])
                     ->where('path', $this->path)
                     ->first();
-		$access = $auth_access['access_'.$auth['access']];
+        $access = $auth_access['access_'.$auth['access']];
 
         // Формируем массив подменю выбранного пункта меню
         $menu = $this->createMenu($this->path);
@@ -87,8 +92,7 @@ class AllocationsController extends BaseHumanResourcesController {
             return view('guest');
         }
         // Формируем массив данных о представлении
-        $title = $menu->where('path', $this->path)
-                ->first();
+        $title = "Карточка перемещения";
 
         // Формируем содержание списка заполняемых полей input
         $allocationsList = $this->allocationsRepository->getShow($id);
@@ -110,8 +114,7 @@ class AllocationsController extends BaseHumanResourcesController {
             return view('guest');
         }
         // Формируем массив данных о представлении
-        $title = $menu->where('path', $this->path)
-                ->first();
+        $title = "Новое перемещение";
 
         // Формируем содержание списка выбираемых полей полей select
         $personalCardsList = $this->allocationsRepository->getListSelect(0);
@@ -168,8 +171,7 @@ class AllocationsController extends BaseHumanResourcesController {
             return view('guest');
         }
         // Формируем массив данных о представлении
-        $title = $menu->where('path', $this->path)
-                ->first();
+        $title = "Карточка перемещения";
 
         // Формируем содержание списка выбираемых полей полей select
         $personalCardsList = $this->allocationsRepository->getListSelect(0);
@@ -201,7 +203,7 @@ class AllocationsController extends BaseHumanResourcesController {
                 ->withInput();
         }
         $data = $request->all();
-        dd($data);
+        
         $result = $item->update($data);
         if($result) {
             return redirect()

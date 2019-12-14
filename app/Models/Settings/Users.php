@@ -18,8 +18,8 @@ class Users extends Model {
         'name',
         'personal_account',
         'email',
-        'email_verified_at',
         'password',
         'access',
+        'photo_url',
     ];
 }

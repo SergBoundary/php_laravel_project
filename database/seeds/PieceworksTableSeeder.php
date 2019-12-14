@@ -13,6 +13,7 @@ class PieceworksTableSeeder extends Seeder
     {
         $data = [
             [
+                'user_id' => 14,
                 'personal_card_id' => 7,
                 'year_id' => 4,
                 'month_id' => 10,
@@ -24,6 +25,7 @@ class PieceworksTableSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
+                'user_id' => 14,
                 'personal_card_id' => 8,
                 'year_id' => 4,
                 'month_id' => 11,
@@ -35,6 +37,7 @@ class PieceworksTableSeeder extends Seeder
                 'created_at' => now(),
             ],
             [
+                'user_id' => 14,
                 'personal_card_id' => 7,
                 'year_id' => 4,
                 'month_id' => 11,

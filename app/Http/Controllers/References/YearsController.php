@@ -7,6 +7,8 @@ use App\Models\References\Years;
 use App\Repositories\References\YearsRepository;
 use App\Http\Requests\References\YearsCreateRequest;
 use App\Http\Requests\References\YearsUpdateRequest;
+use App\Models\Settings\Menu;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Class YearsController: Контроллер списка годов
@@ -41,6 +43,15 @@ class YearsController extends BaseReferencesController {
      * @return \Illuminate\Http\Response
      */
     public function index() {
+		
+	$auth = Auth::user();
+        if(empty($auth)) {
+            return view('guest');
+        }
+        $auth_access = Menu::select('access_'.$auth['access'])
+                    ->where('path', $this->path)
+                    ->first();
+        $access = $auth_access['access_'.$auth['access']];
 
         // Формируем массив подменю выбранного пункта меню
         $menu = $this->createMenu($this->path);
@@ -48,13 +59,12 @@ class YearsController extends BaseReferencesController {
             return view('guest');
         }
         // Формируем массив данных о представлении
-        $title = $menu->where('path', $this->path)
-                ->first();
+        $title = "Список лет отчетности";
 
         $yearsList = $this->yearsRepository->getTable();
 
         return view('ref.years.index',  
-               compact('menu', 'title', 'yearsList'));
+               compact('menu', 'title', 'access', 'yearsList'));
     }
 
     /**
@@ -63,6 +73,15 @@ class YearsController extends BaseReferencesController {
      * @return \Illuminate\Http\Response
      */
     public function show($id) {
+		
+	$auth = Auth::user();
+        if(empty($auth)) {
+            return view('guest');
+        }
+        $auth_access = Menu::select('access_'.$auth['access'])
+                    ->where('path', $this->path)
+                    ->first();
+        $access = $auth_access['access_'.$auth['access']];
 
         // Формируем массив подменю выбранного пункта меню
         $menu = $this->createMenu($this->path);
@@ -70,14 +89,13 @@ class YearsController extends BaseReferencesController {
             return view('guest');
         }
         // Формируем массив данных о представлении
-        $title = $menu->where('path', $this->path)
-                ->first();
+        $title = "Карточка года";
 
         // Формируем содержание списка заполняемых полей input
         $yearsList = $this->yearsRepository->getShow($id);
 
         return view('ref.years.show', 
-               compact('menu', 'title', 'yearsList'));
+               compact('menu', 'title', 'access', 'yearsList'));
     }
 
     /**
@@ -93,8 +111,7 @@ class YearsController extends BaseReferencesController {
             return view('guest');
         }
         // Формируем массив данных о представлении
-        $title = $menu->where('path', $this->path)
-                ->first();
+        $title = "Дополнительный год";
 
         return view('ref.years.create', 
                compact('menu', 'title'));
@@ -135,8 +152,7 @@ class YearsController extends BaseReferencesController {
             return view('guest');
         }
         // Формируем массив данных о представлении
-        $title = $menu->where('path', $this->path)
-                ->first();
+        $title = "Карточка года";
 
         // Формируем содержание списка заполняемых полей input
         $yearsList = $this->yearsRepository->getEdit($id);

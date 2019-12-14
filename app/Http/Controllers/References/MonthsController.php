@@ -7,6 +7,8 @@ use App\Models\References\Months;
 use App\Repositories\References\MonthsRepository;
 use App\Http\Requests\References\MonthsCreateRequest;
 use App\Http\Requests\References\MonthsUpdateRequest;
+use App\Models\Settings\Menu;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Class MonthsController: Контроллер списка месяцев
@@ -41,6 +43,15 @@ class MonthsController extends BaseReferencesController {
      * @return \Illuminate\Http\Response
      */
     public function index() {
+		
+	$auth = Auth::user();
+        if(empty($auth)) {
+            return view('guest');
+        }
+        $auth_access = Menu::select('access_'.$auth['access'])
+                    ->where('path', $this->path)
+                    ->first();
+        $access = $auth_access['access_'.$auth['access']];
 
         // Формируем массив подменю выбранного пункта меню
         $menu = $this->createMenu($this->path);
@@ -48,13 +59,12 @@ class MonthsController extends BaseReferencesController {
             return view('guest');
         }
         // Формируем массив данных о представлении
-        $title = $menu->where('path', $this->path)
-                ->first();
+        $title = "Список месяцев";
 
         $monthsList = $this->monthsRepository->getTable();
 
         return view('ref.months.index',  
-               compact('menu', 'title', 'monthsList'));
+               compact('menu', 'title', 'access', 'monthsList'));
     }
 
     /**
@@ -63,6 +73,15 @@ class MonthsController extends BaseReferencesController {
      * @return \Illuminate\Http\Response
      */
     public function show($id) {
+		
+	$auth = Auth::user();
+        if(empty($auth)) {
+            return view('guest');
+        }
+        $auth_access = Menu::select('access_'.$auth['access'])
+                    ->where('path', $this->path)
+                    ->first();
+        $access = $auth_access['access_'.$auth['access']];
 
         // Формируем массив подменю выбранного пункта меню
         $menu = $this->createMenu($this->path);
@@ -70,14 +89,13 @@ class MonthsController extends BaseReferencesController {
             return view('guest');
         }
         // Формируем массив данных о представлении
-        $title = $menu->where('path', $this->path)
-                ->first();
+        $title = "Карточка месяца";
 
         // Формируем содержание списка заполняемых полей input
         $monthsList = $this->monthsRepository->getShow($id);
 
         return view('ref.months.show', 
-               compact('menu', 'title', 'monthsList'));
+               compact('menu', 'title', 'access', 'monthsList'));
     }
 
     /**
@@ -93,8 +111,7 @@ class MonthsController extends BaseReferencesController {
             return view('guest');
         }
         // Формируем массив данных о представлении
-        $title = $menu->where('path', $this->path)
-                ->first();
+        $title = "Новый месяц";
 
         return view('ref.months.create', 
                compact('menu', 'title'));
@@ -135,8 +152,7 @@ class MonthsController extends BaseReferencesController {
             return view('guest');
         }
         // Формируем массив данных о представлении
-        $title = $menu->where('path', $this->path)
-                ->first();
+        $title = "Карточка месяца";
 
         // Формируем содержание списка заполняемых полей input
         $monthsList = $this->monthsRepository->getEdit($id);

@@ -17,6 +17,7 @@ class CreateTeamsTable extends Migration {
 
         Schema::create('teams', function (Blueprint $table) {
             $table->increments('id'); // ID записи
+            $table->integer('user_id')->unsigned(); // Код пользователя - автора записи
             $table->integer('personal_card_id')->default(0); // Код личной карточки работника
             $table->string('title', 255)->unique(); // Наименование бригады
             $table->char('abbr', 10)->unique(); // Аббривиатура бригады
@@ -25,7 +26,8 @@ class CreateTeamsTable extends Migration {
             $table->timestamps(); // Поля с датой создания и датой изменения записи
             $table->softDeletes(); // Поле с датой удаления (исключения) записи из обслуживания
 
-            //$table->foreign('personal_card_id')->references('id')->on('personal_cards');
+            $table->foreign('user_id')->references('id')->on('users');
+            // $table->foreign('personal_card_id')->references('id')->on('personal_cards');
         });
     }
 

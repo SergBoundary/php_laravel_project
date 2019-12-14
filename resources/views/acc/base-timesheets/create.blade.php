@@ -17,38 +17,44 @@
                     @endphp
                     @include('acc.base-timesheets.includes.result_messages')
                     <div class="row justify-content-center">
-						<div class='form-row col-md-12'>
+                        <div class='form-row col-md-12'>
                         <div class='form-row' style="margin-top: 1px;">
                             <div>
                                 <input name='personal_card_id' id='personal_card_id' value='Котыло Андрей Иванович' readonly style="width: 200px; height: 47px; font-size: 11px" type='text' title='Работник'>
                             </div>
                             <div>
-                                <input name='year_id' id='year_id' value='2019' type='text' readonly style="width: 50px; height: 47px; font-size: 11px" title='Год'>
+                                <input name='year_id' id='year_id' value='2019' type='text' readonly style="width: 50px; height: 47px; font-size: 11px" title='2019 год'>
                             </div>
                             <div>
-                                <input name='month_id' id='month_id' value='10' type='text' readonly style="width: 20px; height: 47px; font-size: 11px" title='Месяц'>
+                                <input name='month_id' id='month_id' value='10' type='text' readonly style="width: 30px; height: 47px; font-size: 11px" title='Октябрь'>
                             </div>
                             <div>
-                                <input name='object_id' id='object_id' value='B-86 Polbet Warszawa' type='text' readonly style="height: 47px; font-size: 11px" title='Объект'>
+                                <input name='object_id' id='object_id' value='B-86' type='text' readonly style="height: 47px; width: 40px; font-size: 11px" title='B-86 Polbet Warszawa'>
                             </div>
-						</div>
-						<div style="margin-left: 10px;">
-						<div class='form-row'>
-							@for ($i = 1; $i < 32; $i++)
+                            </div>
+                            <div style="margin-left: 10px;">
+                            <div class='form-row'>
+                                <div>
+                                    <input type='text' value="Часы:" autocomplete="off" style="width: 45px; font-size: 11px" title='Отработанные часы'>
+                                </div>
+                                @for ($i = 1; $i < 32; $i++)
                                 <div>
                                     <input name='hours_day_{{ $i }}' id='hours_day_{{ $i }}' type='text' autocomplete="off" style="width: 20px; font-size: 11px" title='Часы {{ $i }} дня'>
                                 </div>
-							@endfor
+                                @endfor
                             <div>
                                 <input name='hours' id='hours' value='120' type='text' readonly style="width: 50px; font-size: 11px" title='Отработано часов'>
                             </div>
-						</div>
-						<div class='form-row'>
-							@for ($i = 1; $i < 32; $i++)
-                                <div>
-                                    <input name='rate_day_{{ $i }}' id='rate_day_{{ $i }}' type='text' autocomplete="off" style="width: 20px; font-size: 11px" title='Ставка {{ $i }} дня'>
                                 </div>
-							@endfor
+                                <div class='form-row'>
+                                <div>
+                                    <input type='text' value="Ставка:" autocomplete="off" style="width: 45px; font-size: 11px" title='Цена часа'>
+                                </div>
+                                @for ($i = 1; $i < 32; $i++)
+                                <div>
+                                    <input name='rate_day_{{ $i }}' id='rate_day_{{ $i }}' type='text' autocomplete="off" style="width: 20px; font-size: 11px" title='Цена часа {{ $i }} дня'>
+                                </div>
+                                @endfor
                             <div>
                                 <input name='rate' id='rate' value='13.5' type='text' readonly style="width: 50px; font-size: 11px" title='Средневзвешенная ставка'>
                             </div>
@@ -64,10 +70,10 @@
                             <div>
                                 <input name='total' id='total' value='2170' type='text' readonly style="width: 50px; height: 47px; font-size: 11px" title='Итоговая сумма'>
                             </div>
-						</div>
+                        </div>
                         </div>
 						
-						<div class='form-row col-md-12'>
+                        <div class='form-row col-md-12'>
                         <div class='form-row' style="margin-top: 1px;">
                             <div>
                                 <input name='personal_card_id' id='personal_card_id' value='Скробот Александр Васильевич' readonly style="width: 200px; height: 47px; font-size: 11px" type='text' title='Работник'>
@@ -81,29 +87,35 @@
                             <div>
                                 <input name='object_id' id='object_id' value='B-20 BUDIMEX Gdańsk' type='text' readonly style="height: 47px; font-size: 11px" title='Объект'>
                             </div>
-						</div>
-						<div style="margin-left: 10px;">
-						<div class='form-row'>
-							@for ($i = 1; $i < 32; $i++)
+                            </div>
+                            <div style="margin-left: 10px;">
+                            <div class='form-row'>
+                                <div>
+                                    <input type='text' value="Часы:" autocomplete="off" style="width: 45px; font-size: 11px" title='Отработанные часы'>
+                                </div>
+                                @for ($i = 1; $i < 32; $i++)
                                 <div>
                                     <input name='hours_day_{{ $i }}' id='hours_day_{{ $i }}' type='text' autocomplete="off" style="width: 20px; font-size: 11px" title='Часы {{ $i }} дня'>
                                 </div>
-							@endfor
+                                @endfor
                             <div>
                                 <input name='hours' id='hours' value='120' type='text' readonly style="width: 50px; font-size: 11px" title='Отработано часов'>
                             </div>
-						</div>
-						<div class='form-row'>
-							@for ($i = 1; $i < 32; $i++)
+                            </div>
+                            <div class='form-row'>
                                 <div>
-                                    <input name='rate_day_{{ $i }}' id='rate_day_{{ $i }}' type='text' autocomplete="off" style="width: 20px; font-size: 11px" title='Ставка {{ $i }} дня'>
+                                    <input type='text' value="Ставка:" autocomplete="off" style="width: 45px; font-size: 11px" title='Цена часа {{ $i }} дня'>
                                 </div>
-							@endfor
+                                @for ($i = 1; $i < 32; $i++)
+                                <div>
+                                    <input name='rate_day_{{ $i }}' id='rate_day_{{ $i }}' type='text' autocomplete="off" style="width: 20px; font-size: 11px" title='Цена часа {{ $i }} дня'>
+                                </div>
+                                @endfor
                             <div>
                                 <input name='rate' id='rate' value='13.5' type='text' readonly style="width: 50px; font-size: 11px" title='Средневзвешенная ставка'>
                             </div>
-						</div>
-						</div>
+                        </div>
+                        </div>
                         <div class='form-row' style="margin-top: 1px; margin-left: 5px;">
                             <div>
                                 <input name='hourly' id='hourly' value='1620' type='text' readonly style="width: 50px; height: 47px; font-size: 11px" title='Почасово'>

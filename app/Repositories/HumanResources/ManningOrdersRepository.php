@@ -47,10 +47,9 @@ class ManningOrdersRepository extends CoreRepository {
                 ->join('position_professions', 'manning_orders.position_profession_id', '=', 'position_professions.id')
                 ->select('personal_cards.personal_account AS personal_card', 'personal_cards.surname AS surname', 'personal_cards.first_name AS first_name', 'departments.abbr AS department', 'positions.title AS position', 'position_professions.code AS position_profession', 'manning_orders.assignment_date', 'manning_orders.resignation_date', 'manning_orders.id')
                 ->where('personal_cards.id', $user['id'])
-                ->orderBy('personal_cards.personal_account')
                 ->orderBy('departments.abbr')
-                ->orderBy('positions.title')
-                ->orderBy('position_professions.code')
+                ->orderBy('personal_cards.surname')
+                ->orderBy('personal_cards.first_name')
                 ->orderBy('manning_orders.assignment_date')
                 ->get();
         } elseif($user['access'] == 3) {
@@ -63,10 +62,9 @@ class ManningOrdersRepository extends CoreRepository {
                 ->join('teams', 'allocations.team_id', '=', 'teams.id')
                 ->select('personal_cards.personal_account AS personal_card', 'personal_cards.surname AS surname', 'personal_cards.first_name AS first_name', 'departments.abbr AS department', 'positions.title AS position', 'position_professions.code AS position_profession', 'manning_orders.assignment_date', 'manning_orders.resignation_date', 'manning_orders.id')
                 ->where('teams.personal_card_id', $user['id'])
-                ->orderBy('personal_cards.personal_account')
                 ->orderBy('departments.abbr')
-                ->orderBy('positions.title')
-                ->orderBy('position_professions.code')
+                ->orderBy('personal_cards.surname')
+                ->orderBy('personal_cards.first_name')
                 ->orderBy('manning_orders.assignment_date')
                 ->get();
         } else {
@@ -76,10 +74,9 @@ class ManningOrdersRepository extends CoreRepository {
                 ->join('positions', 'manning_orders.position_id', '=', 'positions.id')
                 ->join('position_professions', 'manning_orders.position_profession_id', '=', 'position_professions.id')
                 ->select('personal_cards.personal_account AS personal_card', 'personal_cards.surname AS surname', 'personal_cards.first_name AS first_name', 'departments.abbr AS department', 'positions.title AS position', 'position_professions.code AS position_profession', 'manning_orders.assignment_date', 'manning_orders.resignation_date', 'manning_orders.id')
-                ->orderBy('personal_cards.personal_account')
                 ->orderBy('departments.abbr')
-                ->orderBy('positions.title')
-                ->orderBy('position_professions.code')
+                ->orderBy('personal_cards.surname')
+                ->orderBy('personal_cards.first_name')
                 ->orderBy('manning_orders.assignment_date')
                 ->get();
         }

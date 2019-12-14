@@ -10,30 +10,36 @@
     @endphp
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-10">
-                <h3><small class="text-muted text-uppercase">{{$title['name']}}</small></h3><br />
+            <div class="col-md-12">
+                <h3><small class="text-muted text-uppercase">{{ $title }}</small></h3><br />
                 @if(count($accrualsList) > 0)
                 <table class="table table-hover">
                     <thead>
-                        <th class="align-middle" scope="col" colspan="2">Год</th>
+                        <th class="align-middle" scope="col">Сотрудник</th>
+                        <th class="align-middle" scope="col">Т/н</th>
+                        <th class="align-middle" scope="col">Год</th>
                         <th class="align-middle" scope="col">Месяц</th>
                         <th class="align-middle" scope="col">Счет</th>
                         <th class="align-middle" scope="col">Начислено</th>
                         <th scope="col">
-						    @if ($access == 2)
+                            @if ($access == 2)
                             <a class="btn btn-outline-secondary btn-sm" href="{{ route('acc.accruals.create') }}"><img src="/img/add_black_18dp.png" alt="Добавить" title="Добавить"></a>
-						    @endif
+                            @endif
                         </th>
                     </thead>
                     <tbody>
                         @foreach($accrualsList as $accrualsRow)
-                        @if ($personalCards != $accrualsRow->personal_card)
                         <tr>
-                            <td colspan="6" class="text-muted text-uppercase"><em>{{ $accrualsRow->personal_card }}, {{ $accrualsRow->surname }} {{ $accrualsRow->first_name }}</em></td>
-                        </tr>
-                        @endif
-                        <tr>
-                            <td> </td>
+                            @if ($personalCards != $accrualsRow->personal_card)
+                            <td>
+                                {{ $accrualsRow->surname }} {{ $accrualsRow->first_name }}
+                            </td>
+                            <td>
+                                {{ $accrualsRow->personal_card }}
+                            </td>
+                            @else
+                            <td colspan="2"> </td>
+                            @endif
                             <td>{{ $accrualsRow->year }}</td>
                             <td>{{ $accrualsRow->month }}</td>
                             <td>{{ $accrualsRow->accrual_type }}</td>

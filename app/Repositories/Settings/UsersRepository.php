@@ -54,7 +54,7 @@ class UsersRepository extends CoreRepository {
     public function getShow($id) {
 
         $result = $this->startConditions()
-            ->select('users.name', 'users.personal_account', 'users.email', 'users.email_verified_at', 'users.password', 'users.access', 'users.id')
+            ->select('users.name', 'users.personal_account', 'users.email', 'users.email_verified_at', 'users.access', 'users.photo_url', 'users.created_at', 'users.id')
             ->where('users.id', $id)
             ->toBase()
             ->first();

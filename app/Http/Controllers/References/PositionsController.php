@@ -10,6 +10,8 @@ use App\Models\References\Positions;
 use App\Repositories\References\PositionsRepository;
 use App\Http\Requests\References\PositionsCreateRequest;
 use App\Http\Requests\References\PositionsUpdateRequest;
+use App\Models\Settings\Menu;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Class PositionsController: Контроллер списка должностей
@@ -44,6 +46,15 @@ class PositionsController extends BaseReferencesController {
      * @return \Illuminate\Http\Response
      */
     public function index() {
+		
+	$auth = Auth::user();
+        if(empty($auth)) {
+            return view('guest');
+        }
+        $auth_access = Menu::select('access_'.$auth['access'])
+                    ->where('path', $this->path)
+                    ->first();
+        $access = $auth_access['access_'.$auth['access']];
 
         // Формируем массив подменю выбранного пункта меню
         $menu = $this->createMenu($this->path);
@@ -51,13 +62,12 @@ class PositionsController extends BaseReferencesController {
             return view('guest');
         }
         // Формируем массив данных о представлении
-        $title = $menu->where('path', $this->path)
-                ->first();
+        $title = "Список должностей";
 
         $positionsList = $this->positionsRepository->getTable();
 
         return view('ref.positions.index',  
-               compact('menu', 'title', 'positionsList'));
+               compact('menu', 'title', 'access', 'positionsList'));
     }
 
     /**
@@ -66,6 +76,15 @@ class PositionsController extends BaseReferencesController {
      * @return \Illuminate\Http\Response
      */
     public function show($id) {
+		
+	$auth = Auth::user();
+        if(empty($auth)) {
+            return view('guest');
+        }
+        $auth_access = Menu::select('access_'.$auth['access'])
+                    ->where('path', $this->path)
+                    ->first();
+        $access = $auth_access['access_'.$auth['access']];
 
         // Формируем массив подменю выбранного пункта меню
         $menu = $this->createMenu($this->path);
@@ -73,14 +92,13 @@ class PositionsController extends BaseReferencesController {
             return view('guest');
         }
         // Формируем массив данных о представлении
-        $title = $menu->where('path', $this->path)
-                ->first();
+        $title = "Карточка должности";
 
         // Формируем содержание списка заполняемых полей input
         $positionsList = $this->positionsRepository->getShow($id);
 
         return view('ref.positions.show', 
-               compact('menu', 'title', 'positionsList'));
+               compact('menu', 'title', 'access', 'positionsList'));
     }
 
     /**
@@ -96,8 +114,7 @@ class PositionsController extends BaseReferencesController {
             return view('guest');
         }
         // Формируем массив данных о представлении
-        $title = $menu->where('path', $this->path)
-                ->first();
+        $title = "Новая должность";
 
         return view('ref.positions.create', 
                compact('menu', 'title'));
@@ -138,8 +155,7 @@ class PositionsController extends BaseReferencesController {
             return view('guest');
         }
         // Формируем массив данных о представлении
-        $title = $menu->where('path', $this->path)
-                ->first();
+        $title = "Карточка должности";
 
         // Формируем содержание списка заполняемых полей input
         $positionsList = $this->positionsRepository->getEdit($id);

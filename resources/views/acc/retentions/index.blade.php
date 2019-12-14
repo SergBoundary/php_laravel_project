@@ -10,30 +10,36 @@
     @endphp
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-10">
-                <h3><small class="text-muted text-uppercase">{{$title['name']}}</small></h3><br />
+            <div class="col-md-12">
+                <h3><small class="text-muted text-uppercase">{{ $title }}</small></h3><br />
                 @if(count($retentionsList) > 0)
                 <table class="table table-hover">
                     <thead>
-                        <th class="align-middle" scope="col" colspan="2">Год</th>
+                        <th class="align-middle" scope="col">Сотрудник</th>
+                        <th class="align-middle" scope="col">Т/н</th>
+                        <th class="align-middle" scope="col">Год</th>
                         <th class="align-middle" scope="col">Месяц</th>
                         <th class="align-middle" scope="col">Счет</th>
                         <th class="align-middle" scope="col">Удержано</th>
                         <th scope="col">
-						    @if ($access == 2)
+                            @if ($access == 2)
                             <a class="btn btn-outline-secondary btn-sm" href="{{ route('acc.retentions.create') }}"><img src="/img/add_black_18dp.png" alt="Добавить" title="Добавить"></a>
-						    @endif
+                            @endif
                         </th>
                     </thead>
                     <tbody>
                         @foreach($retentionsList as $retentionsRow)
-                        @if ($personalCards != $retentionsRow->personal_card)
                         <tr>
-                            <td colspan="6" class="text-muted text-uppercase"><em>{{ $retentionsRow->personal_card }}, {{ $retentionsRow->surname }} {{ $retentionsRow->first_name }}</em></td>
-                        </tr>
-                        @endif
-                        <tr>
-                            <td> </td>
+                            @if ($personalCards != $retentionsRow->personal_card)
+                            <td>
+                                {{ $retentionsRow->surname }} {{ $retentionsRow->first_name }}
+                            </td>
+                            <td>
+                                {{ $retentionsRow->personal_card }}
+                            </td>
+                            @else
+                            <td colspan="2"> </td>
+                            @endif
                             <td>{{ $retentionsRow->year }}</td>
                             <td>{{ $retentionsRow->month }}</td>
                             <td>{{ $retentionsRow->retention_type }}</td>
@@ -57,9 +63,6 @@
                         </tr>
                         @php
                             $personalCards = $retentionsRow->personal_card;
-                            $years = $retentionsRow->year;
-                            $months = $retentionsRow->month;
-                            $retentionTypes = $retentionsRow->retention_type;
                         @endphp
                         @endforeach
                     </tbody>

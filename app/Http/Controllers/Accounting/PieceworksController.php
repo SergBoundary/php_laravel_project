@@ -49,6 +49,9 @@ class PieceworksController extends BaseAccountingController {
     public function index() {
 		
         $auth = Auth::user();
+        if(empty($auth)) {
+            return view('guest');
+        }
         $auth_access = Menu::select('access_'.$auth['access'])
                     ->where('path', $this->path)
                     ->first();
@@ -60,8 +63,7 @@ class PieceworksController extends BaseAccountingController {
             return view('guest');
         }
         // Формируем массив данных о представлении
-        $title = $menu->where('path', $this->path)
-                ->first();
+        $title = "Сдельные работы";
 
         $pieceworksList = $this->pieceworksRepository->getTable();
 
@@ -77,6 +79,9 @@ class PieceworksController extends BaseAccountingController {
     public function show($id) {
 		
         $auth = Auth::user();
+        if(empty($auth)) {
+            return view('guest');
+        }
         $auth_access = Menu::select('access_'.$auth['access'])
                     ->where('path', $this->path)
                     ->first();
@@ -88,8 +93,7 @@ class PieceworksController extends BaseAccountingController {
             return view('guest');
         }
         // Формируем массив данных о представлении
-        $title = $menu->where('path', $this->path)
-                ->first();
+        $title = "Сдельная работа";
 
         // Формируем содержание списка заполняемых полей input
         $pieceworksList = $this->pieceworksRepository->getShow($id);
@@ -111,8 +115,7 @@ class PieceworksController extends BaseAccountingController {
             return view('guest');
         }
         // Формируем массив данных о представлении
-        $title = $menu->where('path', $this->path)
-                ->first();
+        $title = "Новая сдельная работа";
 
         // Формируем содержание списка выбираемых полей полей select
         $personalCardsList = $this->pieceworksRepository->getListSelect(0);
@@ -163,8 +166,7 @@ class PieceworksController extends BaseAccountingController {
             return view('guest');
         }
         // Формируем массив данных о представлении
-        $title = $menu->where('path', $this->path)
-                ->first();
+        $title = "Сдельная работа";
 
         // Формируем содержание списка выбираемых полей полей select
         $personalCardsList = $this->pieceworksRepository->getListSelect(0);

@@ -12,13 +12,14 @@ use Illuminate\Foundation\Http\FormRequest;
  * @package App\Http\Requests
  */
 class PersonalCardsUpdateRequest extends FormRequest {
-
+	
     /**
      * Создает реквест, если пользователь авторизован.
      *
      * @return bool
      */
     public function authorize() {
+		
         return auth()->check();
     }
 
@@ -28,15 +29,16 @@ class PersonalCardsUpdateRequest extends FormRequest {
      * @return array
      */
     public function rules() {
+		
         return [
-            //'personal_account' => 'string|max:10',
-            //'tax_number' => 'string|max:15',
-            //'surname' => 'string|max:100',
-            //'first_name' => 'string|max:100',
-            //'second_name' => 'string|max:100',
-            //'full_name_latina' => 'string|max:100',
-            //'sex' => 'string|max:3',
-            //'photo_url' => 'string|max:255',
+//            'personal_account' => 'string|max:10',
+//            'surname' => 'string|max:100',
+//            'first_name' => 'string|max:100',
+//            'second_name' => 'string|max:100',
+//            'full_name_latina' => 'string|max:100',
+//            'sex' => 'string|max:3',
+//            'phone' => 'string|max:255',
+//            'photo_url' => 'string|max:255',
         ];
     }
 }

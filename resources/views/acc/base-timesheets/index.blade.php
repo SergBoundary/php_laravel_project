@@ -11,31 +11,32 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-12">
-                <h3><small class="text-muted text-uppercase">{{$title['name']}}</small></h3><br />
+                <h3><small class="text-muted text-uppercase">{{ $title }}</small></h3><br />
                 @if(count($baseTimesheetsList) > 0)
                 <table class="table table-hover">
                     <thead>
-                        <th class="align-middle" scope="col" colspan="2">Год</th>
+                        <th class="align-middle" scope="col">Сотрудник</th>
+                        <th class="align-middle" scope="col">Год</th>
                         <th class="align-middle" scope="col">Месяц</th>
                         <th class="align-middle" scope="col">Объект</th>
                         <th class="align-middle" scope="col">Почасово</th>
                         <th class="align-middle" scope="col">Сдельно</th>
                         <th class="align-middle" scope="col">Итоговая сумма</th>
                         <th scope="col">
-						    @if ($access == 2)
+                            @if ($access == 2)
                             <a class="btn btn-outline-secondary btn-sm" href="{{ route('acc.base-timesheets.create') }}"><img src="/img/add_black_18dp.png" alt="Добавить" title="Добавить"></a>
-						    @endif
+                            @endif
                         </th>
                     </thead>
                     <tbody>
                         @foreach($baseTimesheetsList as $baseTimesheetsRow)
                         @if ($personalCards != $baseTimesheetsRow->personal_card)
                         <tr>
-                            <td colspan="8" class="text-muted text-uppercase"><em>{{ $baseTimesheetsRow->personal_card }}, {{ $baseTimesheetsRow->surname }} {{ $baseTimesheetsRow->first_name }}</em></td>
+                            <td colspan="8" class="text-muted text-uppercase"><em>{{ $baseTimesheetsRow->personal_card }}, </em></td>
                         </tr>
                         @endif
                         <tr>
-                            <td> </td>
+                            <td>{{ $baseTimesheetsRow->surname }} {{ $baseTimesheetsRow->first_name }}</td>
                             <td>{{ $baseTimesheetsRow->year }}</td>
                             <td>{{ $baseTimesheetsRow->month }}</td>
                             <td>{{ $baseTimesheetsRow->object }}</td>

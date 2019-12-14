@@ -18,7 +18,7 @@
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/user', 'HomeController@index')->name('user');
 
 Route::group(['namespace' => 'HumanResources', 'prefix' => 'hr'], function(){
     Route::resource('personal-cards', 'PersonalCardsController')->names('hr.personal-cards');

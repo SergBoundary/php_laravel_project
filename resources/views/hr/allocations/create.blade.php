@@ -10,7 +10,7 @@
         <div class="row justify-content-center">
             <div class="col-md-10">
                 <div class="card">
-                    <div class="card-header"><h3>{{$title['name']}}</h3></div>
+                    <div class="card-header"><h3>{{ $title }}</h3></div>
 
                     <div class="card-body">
 
@@ -53,8 +53,8 @@
                                 </div>
                                 <div class='form-group col-md-10'>
                                     <label for='team_id' class="col-form-label col-form-label-sm">Определен в бригаду</label>
-                                    <div class="input-group mb-3"
->                                        <select name='team_id' value='team_id' id='team_id' type='text' placeholder="Определен в бригаду" class="form-control form-control-sm" title='Определен в бригаду' required>
+                                    <div class="input-group mb-3">
+                                        <select name='team_id' value='team_id' id='team_id' type='text' placeholder="Определен в бригаду" class="form-control form-control-sm" title='Определен в бригаду' required>
                                             @foreach($teamsList as $teamsOption)
                                             <option value="{{ $teamsOption->id }}" >
                                                 {{ $teamsOption->team }}

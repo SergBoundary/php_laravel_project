@@ -7,6 +7,8 @@ use App\Models\References\RetentionTypes;
 use App\Repositories\References\RetentionTypesRepository;
 use App\Http\Requests\References\RetentionTypesCreateRequest;
 use App\Http\Requests\References\RetentionTypesUpdateRequest;
+use App\Models\Settings\Menu;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Class RetentionTypesController: Контроллер списка видов удержаний
@@ -41,6 +43,15 @@ class RetentionTypesController extends BaseReferencesController {
      * @return \Illuminate\Http\Response
      */
     public function index() {
+		
+	$auth = Auth::user();
+        if(empty($auth)) {
+            return view('guest');
+        }
+        $auth_access = Menu::select('access_'.$auth['access'])
+                    ->where('path', $this->path)
+                    ->first();
+        $access = $auth_access['access_'.$auth['access']];
 
         // Формируем массив подменю выбранного пункта меню
         $menu = $this->createMenu($this->path);
@@ -48,13 +59,12 @@ class RetentionTypesController extends BaseReferencesController {
             return view('guest');
         }
         // Формируем массив данных о представлении
-        $title = $menu->where('path', $this->path)
-                ->first();
+        $title = "Список удержаний";
 
         $retentionTypesList = $this->retentionTypesRepository->getTable();
 
         return view('ref.retention-types.index',  
-               compact('menu', 'title', 'retentionTypesList'));
+               compact('menu', 'title', 'access', 'retentionTypesList'));
     }
 
     /**
@@ -63,6 +73,15 @@ class RetentionTypesController extends BaseReferencesController {
      * @return \Illuminate\Http\Response
      */
     public function show($id) {
+		
+	$auth = Auth::user();
+        if(empty($auth)) {
+            return view('guest');
+        }
+        $auth_access = Menu::select('access_'.$auth['access'])
+                    ->where('path', $this->path)
+                    ->first();
+        $access = $auth_access['access_'.$auth['access']];
 
         // Формируем массив подменю выбранного пункта меню
         $menu = $this->createMenu($this->path);
@@ -70,14 +89,13 @@ class RetentionTypesController extends BaseReferencesController {
             return view('guest');
         }
         // Формируем массив данных о представлении
-        $title = $menu->where('path', $this->path)
-                ->first();
+        $title = "Карточка удержания";
 
         // Формируем содержание списка заполняемых полей input
         $retentionTypesList = $this->retentionTypesRepository->getShow($id);
 
         return view('ref.retention-types.show', 
-               compact('menu', 'title', 'retentionTypesList'));
+               compact('menu', 'title', 'access', 'retentionTypesList'));
     }
 
     /**
@@ -93,8 +111,7 @@ class RetentionTypesController extends BaseReferencesController {
             return view('guest');
         }
         // Формируем массив данных о представлении
-        $title = $menu->where('path', $this->path)
-                ->first();
+        $title = "Новое удержание";
 
         return view('ref.retention-types.create', 
                compact('menu', 'title'));
@@ -135,8 +152,7 @@ class RetentionTypesController extends BaseReferencesController {
             return view('guest');
         }
         // Формируем массив данных о представлении
-        $title = $menu->where('path', $this->path)
-                ->first();
+        $title = "Карточка удержания";
 
         // Формируем содержание списка заполняемых полей input
         $retentionTypesList = $this->retentionTypesRepository->getEdit($id);

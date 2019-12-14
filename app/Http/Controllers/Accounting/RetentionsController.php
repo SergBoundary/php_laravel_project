@@ -49,6 +49,9 @@ class RetentionsController extends BaseAccountingController {
     public function index() {
 		
         $auth = Auth::user();
+        if(empty($auth)) {
+            return view('guest');
+        }
         $auth_access = Menu::select('access_'.$auth['access'])
                     ->where('path', $this->path)
                     ->first();
@@ -60,8 +63,7 @@ class RetentionsController extends BaseAccountingController {
             return view('guest');
         }
         // Формируем массив данных о представлении
-        $title = $menu->where('path', $this->path)
-                ->first();
+        $title = "Удержания с сотрудников";
 
         $retentionsList = $this->retentionsRepository->getTable();
 
@@ -77,6 +79,9 @@ class RetentionsController extends BaseAccountingController {
     public function show($id) {
 		
         $auth = Auth::user();
+        if(empty($auth)) {
+            return view('guest');
+        }
         $auth_access = Menu::select('access_'.$auth['access'])
                     ->where('path', $this->path)
                     ->first();
@@ -88,8 +93,7 @@ class RetentionsController extends BaseAccountingController {
             return view('guest');
         }
         // Формируем массив данных о представлении
-        $title = $menu->where('path', $this->path)
-                ->first();
+        $title = "Карточка удержания";
 
         // Формируем содержание списка заполняемых полей input
         $retentionsList = $this->retentionsRepository->getShow($id);
@@ -111,8 +115,7 @@ class RetentionsController extends BaseAccountingController {
             return view('guest');
         }
         // Формируем массив данных о представлении
-        $title = $menu->where('path', $this->path)
-                ->first();
+        $title = "Новое удержание";
 
         // Формируем содержание списка выбираемых полей полей select
         $personalCardsList = $this->retentionsRepository->getListSelect(0);
@@ -163,8 +166,7 @@ class RetentionsController extends BaseAccountingController {
             return view('guest');
         }
         // Формируем массив данных о представлении
-        $title = $menu->where('path', $this->path)
-                ->first();
+        $title = "Карточка удержания";
 
         // Формируем содержание списка выбираемых полей полей select
         $personalCardsList = $this->retentionsRepository->getListSelect(0);

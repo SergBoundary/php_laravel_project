@@ -45,13 +45,12 @@ class AccrualsRepository extends CoreRepository {
                 ->join('years', 'accruals.year_id', '=', 'years.id')
                 ->join('months', 'accruals.month_id', '=', 'months.id')
                 ->join('accrual_types', 'accruals.accrual_type_id', '=', 'accrual_types.id')
-                ->select('personal_cards.personal_account AS personal_card', 'personal_cards.surname AS surname', 'personal_cards.first_name AS first_name', 'years.number AS year', 'months.title AS month', 'accrual_types.title AS accrual_type', 'accruals.amount', 'accruals.id')
+                ->select('personal_cards.personal_account AS personal_card', 'personal_cards.surname AS surname', 'personal_cards.first_name AS first_name', 'years.number AS year', 'months.title AS month', 'accrual_types.description AS accrual_type', 'accruals.amount', 'accruals.id')
                 ->where('personal_cards.id', $user['id'])
                 ->orderBy('personal_cards.surname')
                 ->orderBy('years.number')
-                ->orderBy('months.title')
-                ->orderBy('accrual_types.title')
-                ->orderBy('accruals.amount')
+                ->orderBy('months.number')
+                ->orderBy('accruals.created_at')
                 ->get();
         } elseif($user['access'] == 3) {
             $result = $this->startConditions()
@@ -61,13 +60,12 @@ class AccrualsRepository extends CoreRepository {
                 ->join('accrual_types', 'accruals.accrual_type_id', '=', 'accrual_types.id')
                 ->join('allocations', 'personal_cards.id', '=', 'allocations.personal_card_id')
                 ->join('teams', 'allocations.team_id', '=', 'teams.id')
-                ->select('personal_cards.personal_account AS personal_card', 'personal_cards.surname AS surname', 'personal_cards.first_name AS first_name', 'years.number AS year', 'months.title AS month', 'accrual_types.title AS accrual_type', 'accruals.amount', 'accruals.id')
+                ->select('personal_cards.personal_account AS personal_card', 'personal_cards.surname AS surname', 'personal_cards.first_name AS first_name', 'years.number AS year', 'months.title AS month', 'accrual_types.description AS accrual_type', 'accruals.amount', 'accruals.id')
                 ->where('teams.personal_card_id', $user['id'])
                 ->orderBy('personal_cards.surname')
                 ->orderBy('years.number')
-                ->orderBy('months.title')
-                ->orderBy('accrual_types.title')
-                ->orderBy('accruals.amount')
+                ->orderBy('months.number')
+                ->orderBy('accruals.created_at')
                 ->get();
         } else {
             $result = $this->startConditions()
@@ -75,12 +73,11 @@ class AccrualsRepository extends CoreRepository {
                 ->join('years', 'accruals.year_id', '=', 'years.id')
                 ->join('months', 'accruals.month_id', '=', 'months.id')
                 ->join('accrual_types', 'accruals.accrual_type_id', '=', 'accrual_types.id')
-                ->select('personal_cards.personal_account AS personal_card', 'personal_cards.surname AS surname', 'personal_cards.first_name AS first_name', 'years.number AS year', 'months.title AS month', 'accrual_types.title AS accrual_type', 'accruals.amount', 'accruals.id')
+                ->select('personal_cards.personal_account AS personal_card', 'personal_cards.surname AS surname', 'personal_cards.first_name AS first_name', 'years.number AS year', 'months.title AS month', 'accrual_types.description AS accrual_type', 'accruals.amount', 'accruals.id')
                 ->orderBy('personal_cards.surname')
                 ->orderBy('years.number')
-                ->orderBy('months.title')
-                ->orderBy('accrual_types.title')
-                ->orderBy('accruals.amount')
+                ->orderBy('months.number')
+                ->orderBy('accruals.created_at')
                 ->get();
         }
 

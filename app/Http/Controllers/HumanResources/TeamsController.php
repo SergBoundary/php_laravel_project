@@ -45,11 +45,14 @@ class TeamsController extends BaseHumanResourcesController {
      */
     public function index() {
 		
-		$auth = Auth::user();
+        $auth = Auth::user();
+        if(empty($auth)) {
+            return view('guest');
+        }
         $auth_access = Menu::select('access_'.$auth['access'])
                     ->where('path', $this->path)
                     ->first();
-		$access = $auth_access['access_'.$auth['access']];
+        $access = $auth_access['access_'.$auth['access']];
 
         // Формируем массив подменю выбранного пункта меню
         $menu = $this->createMenu($this->path);
@@ -57,8 +60,7 @@ class TeamsController extends BaseHumanResourcesController {
             return view('guest');
         }
         // Формируем массив данных о представлении
-        $title = $menu->where('path', $this->path)
-                ->first();
+        $title = "Список бригад";
 
         $teamsList = $this->teamsRepository->getTable();
 
@@ -73,11 +75,14 @@ class TeamsController extends BaseHumanResourcesController {
      */
     public function show($id) {
 		
-		$auth = Auth::user();
-        $auth_access = Menu::select('access_'.$auth['access'])
+        $user = Auth::user();
+        if(empty($auth)) {
+            return view('guest');
+        }
+        $auth_access = Menu::select('access_'.$user['access'])
                     ->where('path', $this->path)
                     ->first();
-		$access = $auth_access['access_'.$auth['access']];
+        $access = $auth_access['access_'.$auth['access']];
 
         // Формируем массив подменю выбранного пункта меню
         $menu = $this->createMenu($this->path);
@@ -85,14 +90,37 @@ class TeamsController extends BaseHumanResourcesController {
             return view('guest');
         }
         // Формируем массив данных о представлении
-        $title = $menu->where('path', $this->path)
-                ->first();
+        $title = "Карточка бригады";
 
-        // Формируем содержание списка заполняемых полей input
-        $teamsList = $this->teamsRepository->getShow($id);
+        // Данные о группе
+        $teamData = $this->teamsRepository->getTeam($id);
+        // Данные о руководителе группы
+        $leaderData = $this->teamsRepository->getLeader($teamData['personal_card_id']);
+        $userData = Users::find($teamData['user_id']);
+        // Данные об авторе записи о группе
+        $autorData = $this->teamsRepository->getAutor($teamData['user_id']);
+        // Данные о текущем составе группы
+        $peopleActualityList = $this->teamsRepository->getPeopleActuality($id);
+        $peopleActualityCount = $this->teamsRepository->getPeopleActualityCount($id);
+        // Данные об истории ротации состава группы
+        $peopleHistoryList = $this->teamsRepository->getPeopleHistory($id);
+        $peopleHistoryCount = $this->teamsRepository->getPeopleHistoryCount($id);
 
-        return view('hr.teams.show', 
-               compact('menu', 'title', 'access', 'teamsList'));
+        return view('hr.personal-cards.show', 
+               compact('user', 'menu', 'title', 'access', 
+                       'teamData', 
+                       'leaderData', 
+                       'userData',
+                       '$autorData', 
+                       'peopleActualityList', 
+                       'peopleActualityCount',
+                       'peopleHistoryList',  
+                       'peopleHistoryCount'
+                       ));
+//        $teamsList = $this->teamsRepository->getShow($id);
+//
+//        return view('hr.teams.show', 
+//               compact('menu', 'title', 'access', 'teamsList'));
     }
 
     /**
@@ -108,8 +136,7 @@ class TeamsController extends BaseHumanResourcesController {
             return view('guest');
         }
         // Формируем массив данных о представлении
-        $title = $menu->where('path', $this->path)
-                ->first();
+        $title = "Новая бригада";
 
         // Формируем содержание списка выбираемых полей полей select
         $personalCardsList = $this->teamsRepository->getListSelect(0);
@@ -154,8 +181,7 @@ class TeamsController extends BaseHumanResourcesController {
             return view('guest');
         }
         // Формируем массив данных о представлении
-        $title = $menu->where('path', $this->path)
-                ->first();
+        $title = "Карточка бригады";
 
         // Формируем содержание списка выбираемых полей полей select
         $personalCardsList = $this->teamsRepository->getListSelect(0);

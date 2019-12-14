@@ -8,6 +8,8 @@ use App\Models\References\Objects;
 use App\Repositories\References\ObjectsRepository;
 use App\Http\Requests\References\ObjectsCreateRequest;
 use App\Http\Requests\References\ObjectsUpdateRequest;
+use App\Models\Settings\Menu;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Class ObjectsController: Контроллер списка объектов
@@ -42,6 +44,15 @@ class ObjectsController extends BaseReferencesController {
      * @return \Illuminate\Http\Response
      */
     public function index() {
+		
+	$auth = Auth::user();
+        if(empty($auth)) {
+            return view('guest');
+        }
+        $auth_access = Menu::select('access_'.$auth['access'])
+                    ->where('path', $this->path)
+                    ->first();
+        $access = $auth_access['access_'.$auth['access']];
 
         // Формируем массив подменю выбранного пункта меню
         $menu = $this->createMenu($this->path);
@@ -49,13 +60,12 @@ class ObjectsController extends BaseReferencesController {
             return view('guest');
         }
         // Формируем массив данных о представлении
-        $title = $menu->where('path', $this->path)
-                ->first();
+        $title = "Список объекта";
 
         $objectsList = $this->objectsRepository->getTable();
 
         return view('ref.objects.index',  
-               compact('menu', 'title', 'objectsList'));
+               compact('menu', 'title', 'access', 'objectsList'));
     }
 
     /**
@@ -64,6 +74,15 @@ class ObjectsController extends BaseReferencesController {
      * @return \Illuminate\Http\Response
      */
     public function show($id) {
+		
+	$auth = Auth::user();
+        if(empty($auth)) {
+            return view('guest');
+        }
+        $auth_access = Menu::select('access_'.$auth['access'])
+                    ->where('path', $this->path)
+                    ->first();
+        $access = $auth_access['access_'.$auth['access']];
 
         // Формируем массив подменю выбранного пункта меню
         $menu = $this->createMenu($this->path);
@@ -71,14 +90,13 @@ class ObjectsController extends BaseReferencesController {
             return view('guest');
         }
         // Формируем массив данных о представлении
-        $title = $menu->where('path', $this->path)
-                ->first();
+        $title = "Карточка объекта";
 
         // Формируем содержание списка заполняемых полей input
         $objectsList = $this->objectsRepository->getShow($id);
 
         return view('ref.objects.show', 
-               compact('menu', 'title', 'objectsList'));
+               compact('menu', 'title', 'access', 'objectsList'));
     }
 
     /**
@@ -94,8 +112,7 @@ class ObjectsController extends BaseReferencesController {
             return view('guest');
         }
         // Формируем массив данных о представлении
-        $title = $menu->where('path', $this->path)
-                ->first();
+        $title = "Новый объект";
 
         return view('ref.objects.create', 
                compact('menu', 'title'));
@@ -136,8 +153,7 @@ class ObjectsController extends BaseReferencesController {
             return view('guest');
         }
         // Формируем массив данных о представлении
-        $title = $menu->where('path', $this->path)
-                ->first();
+        $title = "Карточка объекта";
 
         // Формируем содержание списка заполняемых полей input
         $objectsList = $this->objectsRepository->getEdit($id);

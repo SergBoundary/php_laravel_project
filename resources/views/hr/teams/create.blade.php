@@ -10,7 +10,7 @@
         <div class="row justify-content-center">
             <div class="col-md-10">
                 <div class="card">
-                    <div class="card-header"><h3>{{$title['name']}}</h3></div>
+                    <div class="card-header"><h3>{{ $title }}</h3></div>
 
                     <div class="card-body">
 
@@ -22,7 +22,7 @@
                             @include('hr.teams.includes.result_messages')
                             <div class="row justify-content-center">
                                 <div class='form-group col-md-10'>
-                                    <label for='personal_card_id'>Р Р°Р±РѕС‚РЅРёРє</label>
+                                    <label for='personal_card_id'>Сотрудник</label>
                                     <div class="input-group mb-3"
 >                                        <select name='personal_card_id' value='personal_card_id' id='personal_card_id' type='text' placeholder="Р Р°Р±РѕС‚РЅРёРє" class="form-control" title='Р Р°Р±РѕС‚РЅРёРє' required>
                                             @foreach($personalCardsList as $personalCardsOption)

@@ -49,6 +49,9 @@ class BaseTimesheetsController extends BaseAccountingController {
     public function index() {
 		
         $auth = Auth::user();
+        if(empty($auth)) {
+            return view('guest');
+        }
         $auth_access = Menu::select('access_'.$auth['access'])
                     ->where('path', $this->path)
                     ->first();
@@ -60,8 +63,7 @@ class BaseTimesheetsController extends BaseAccountingController {
             return view('guest');
         }
         // Формируем массив данных о представлении
-        $title = $menu->where('path', $this->path)
-                ->first();
+        $title = "Табеля выполненных работ";
 
         $baseTimesheetsList = $this->baseTimesheetsRepository->getTable();
 
@@ -77,6 +79,9 @@ class BaseTimesheetsController extends BaseAccountingController {
     public function show($id) {
 		
         $auth = Auth::user();
+        if(empty($auth)) {
+            return view('guest');
+        }
         $auth_access = Menu::select('access_'.$auth['access'])
                     ->where('path', $this->path)
                     ->first();
@@ -88,8 +93,7 @@ class BaseTimesheetsController extends BaseAccountingController {
             return view('guest');
         }
         // Формируем массив данных о представлении
-        $title = $menu->where('path', $this->path)
-                ->first();
+        $title = "Табель выполненных работ";
 
         // Формируем содержание списка заполняемых полей input
         $baseTimesheetsList = $this->baseTimesheetsRepository->getShow($id);
@@ -111,8 +115,7 @@ class BaseTimesheetsController extends BaseAccountingController {
             return view('guest');
         }
         // Формируем массив данных о представлении
-        $title = $menu->where('path', $this->path)
-                ->first();
+        $title = "Новый табель";
 
         // Формируем содержание списка выбираемых полей полей select
         $personalCardsList = $this->baseTimesheetsRepository->getListSelect(0);
@@ -163,8 +166,7 @@ class BaseTimesheetsController extends BaseAccountingController {
             return view('guest');
         }
         // Формируем массив данных о представлении
-        $title = $menu->where('path', $this->path)
-                ->first();
+        $title = "Табель выполненных работ";
 
         // Формируем содержание списка выбираемых полей полей select
         $personalCardsList = $this->baseTimesheetsRepository->getListSelect(0);

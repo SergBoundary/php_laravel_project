@@ -17,6 +17,7 @@ class CreateDistributedTeamsTable extends Migration {
 
         Schema::create('distributed_teams', function (Blueprint $table) {
             $table->increments('id'); // ID записи
+            $table->integer('user_id')->unsigned(); // Код пользователя - автора записи
             $table->integer('object_id')->unsigned(); // Код объекта
             $table->integer('team_id')->unsigned(); // Код бригады
             $table->date('start')->nullable(); // Дата начала работ
@@ -30,6 +31,7 @@ class CreateDistributedTeamsTable extends Migration {
             $table->timestamps(); // Поля с датой создания и датой изменения записи
             $table->softDeletes(); // Поле с датой удаления (исключения) записи из обслуживания
 
+            $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('object_id')->references('id')->on('objects');
             $table->foreign('team_id')->references('id')->on('teams');
         });

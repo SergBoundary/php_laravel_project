@@ -7,6 +7,8 @@ use App\Models\References\Departments;
 use App\Repositories\References\DepartmentsRepository;
 use App\Http\Requests\References\DepartmentsCreateRequest;
 use App\Http\Requests\References\DepartmentsUpdateRequest;
+use App\Models\Settings\Menu;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Class DepartmentsController: Контроллер списка подразделений компании
@@ -41,6 +43,15 @@ class DepartmentsController extends BaseReferencesController {
      * @return \Illuminate\Http\Response
      */
     public function index() {
+		
+	$auth = Auth::user();
+        if(empty($auth)) {
+            return view('guest');
+        }
+        $auth_access = Menu::select('access_'.$auth['access'])
+                    ->where('path', $this->path)
+                    ->first();
+        $access = $auth_access['access_'.$auth['access']];
 
         // Формируем массив подменю выбранного пункта меню
         $menu = $this->createMenu($this->path);
@@ -48,13 +59,12 @@ class DepartmentsController extends BaseReferencesController {
             return view('guest');
         }
         // Формируем массив данных о представлении
-        $title = $menu->where('path', $this->path)
-                ->first();
+        $title = "Список подразделений";
 
         $departmentsList = $this->departmentsRepository->getTable();
 
         return view('ref.departments.index',  
-               compact('menu', 'title', 'departmentsList'));
+               compact('menu', 'title', 'access', 'departmentsList'));
     }
 
     /**
@@ -63,6 +73,15 @@ class DepartmentsController extends BaseReferencesController {
      * @return \Illuminate\Http\Response
      */
     public function show($id) {
+		
+	$auth = Auth::user();
+        if(empty($auth)) {
+            return view('guest');
+        }
+        $auth_access = Menu::select('access_'.$auth['access'])
+                    ->where('path', $this->path)
+                    ->first();
+        $access = $auth_access['access_'.$auth['access']];
 
         // Формируем массив подменю выбранного пункта меню
         $menu = $this->createMenu($this->path);
@@ -70,14 +89,13 @@ class DepartmentsController extends BaseReferencesController {
             return view('guest');
         }
         // Формируем массив данных о представлении
-        $title = $menu->where('path', $this->path)
-                ->first();
+        $title = "Карточка подразделения";
 
         // Формируем содержание списка заполняемых полей input
         $departmentsList = $this->departmentsRepository->getShow($id);
 
         return view('ref.departments.show', 
-               compact('menu', 'title', 'departmentsList'));
+               compact('menu', 'title', 'access', 'departmentsList'));
     }
 
     /**
@@ -93,8 +111,7 @@ class DepartmentsController extends BaseReferencesController {
             return view('guest');
         }
         // Формируем массив данных о представлении
-        $title = $menu->where('path', $this->path)
-                ->first();
+        $title = "Новое подразделение";
 
         return view('ref.departments.create', 
                compact('menu', 'title'));
@@ -135,8 +152,7 @@ class DepartmentsController extends BaseReferencesController {
             return view('guest');
         }
         // Формируем массив данных о представлении
-        $title = $menu->where('path', $this->path)
-                ->first();
+        $title = "Карточка подразделения";
 
         // Формируем содержание списка заполняемых полей input
         $departmentsList = $this->departmentsRepository->getEdit($id);

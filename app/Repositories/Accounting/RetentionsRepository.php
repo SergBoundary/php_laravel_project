@@ -39,19 +39,19 @@ class RetentionsRepository extends CoreRepository {
 		
         $user = Auth::user();
 
-        if($user['access'] == 3) {
+        if($user['access'] == 4) {
             $result = $this->startConditions()
                 ->join('personal_cards', 'retentions.personal_card_id', '=', 'personal_cards.id')
                 ->join('years', 'retentions.year_id', '=', 'years.id')
                 ->join('months', 'retentions.month_id', '=', 'months.id')
                 ->join('retention_types', 'retentions.retention_type_id', '=', 'retention_types.id')
-                ->select('personal_cards.personal_account AS personal_card', 'personal_cards.surname AS surname', 'personal_cards.first_name AS first_name', 'years.number AS year', 'months.title AS month', 'retention_types.title AS retention_type', 'retentions.amount', 'retentions.id')
+                ->select('personal_cards.personal_account AS personal_card', 'personal_cards.surname AS surname', 'personal_cards.first_name AS first_name', 'years.number AS year', 'months.title AS month', 'retention_types.description AS retention_type', 'retentions.amount', 'retentions.id')
                 ->where('personal_cards.id', $user['id'])
                 ->orderBy('personal_cards.surname')
                 ->orderBy('years.number')
-                ->orderBy('months.title')
+                ->orderBy('months.number')
                 ->orderBy('retention_types.title')
-                ->orderBy('retentions.amount')
+                ->orderBy('retentions.created_at')
                 ->get();
         } elseif($user['access'] == 3) {
             $result = $this->startConditions()
@@ -61,13 +61,13 @@ class RetentionsRepository extends CoreRepository {
                 ->join('retention_types', 'retentions.retention_type_id', '=', 'retention_types.id')
                 ->join('allocations', 'personal_cards.id', '=', 'allocations.personal_card_id')
                 ->join('teams', 'allocations.team_id', '=', 'teams.id')
-                ->select('personal_cards.personal_account AS personal_card', 'personal_cards.surname AS surname', 'personal_cards.first_name AS first_name', 'years.number AS year', 'months.title AS month', 'retention_types.title AS retention_type', 'retentions.amount', 'retentions.id')
+                ->select('personal_cards.personal_account AS personal_card', 'personal_cards.surname AS surname', 'personal_cards.first_name AS first_name', 'years.number AS year', 'months.title AS month', 'retention_types.description AS retention_type', 'retentions.amount', 'retentions.id')
                 ->where('teams.personal_card_id', $user['id'])
                 ->orderBy('personal_cards.surname')
                 ->orderBy('years.number')
-                ->orderBy('months.title')
+                ->orderBy('months.number')
                 ->orderBy('retention_types.title')
-                ->orderBy('retentions.amount')
+                ->orderBy('retentions.created_at')
                 ->get();
         } else {
             $result = $this->startConditions()
@@ -75,12 +75,12 @@ class RetentionsRepository extends CoreRepository {
                 ->join('years', 'retentions.year_id', '=', 'years.id')
                 ->join('months', 'retentions.month_id', '=', 'months.id')
                 ->join('retention_types', 'retentions.retention_type_id', '=', 'retention_types.id')
-                ->select('personal_cards.personal_account AS personal_card', 'personal_cards.surname AS surname', 'personal_cards.first_name AS first_name', 'years.number AS year', 'months.title AS month', 'retention_types.title AS retention_type', 'retentions.amount', 'retentions.id')
+                ->select('personal_cards.personal_account AS personal_card', 'personal_cards.surname AS surname', 'personal_cards.first_name AS first_name', 'years.number AS year', 'months.title AS month', 'retention_types.description AS retention_type', 'retentions.amount', 'retentions.id')
                 ->orderBy('personal_cards.surname')
                 ->orderBy('years.number')
-                ->orderBy('months.title')
+                ->orderBy('months.number')
                 ->orderBy('retention_types.title')
-                ->orderBy('retentions.amount')
+                ->orderBy('retentions.created_at')
                 ->get();
         }
 

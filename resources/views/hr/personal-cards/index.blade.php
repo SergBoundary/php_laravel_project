@@ -2,21 +2,16 @@
 
 @section('content')
     @php
-        /** @var \App\Models\HumanResources\PersonalCards $menu, $title, $personalCardsList */
-        $nationalities = "";
-        $cities = "";
-        $regions = "";
-        $districts = "";
-        $countries = "";
-        $maritalStatuses = "";
-        $clothingSizes = "";
-        $shoeSizes = "";
-        $disabilities = "";
+        /** @var \App\Models\HumanResources\PersonalCards 
+         $user, $personalCardsData, $manningOrderData, $allocationData, 
+         $manningOrderList, $allocationList, 
+         $manningOrderCount, $allocationCount
+         */
     @endphp
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-10">
-                <h3><small class="text-muted text-uppercase">{{$title['name']}}</small></h3><br />
+                <h3><small class="text-muted text-uppercase">{{ $title }}</small></h3><br />
                 @if(count($personalCardsList) > 0)
                 <table class="table table-hover">
                     <thead>
@@ -25,9 +20,9 @@
                         <th class="align-middle" scope="col">Имя (первое имя)</th>
                         <th class="align-middle" scope="col">Дата рождения</th>
                         <th scope="col">
-						    @if ($access == 2)
-                            <a class="btn btn-outline-secondary btn-sm" href="{{ route('hr.personal-cards.create') }}">{{ __('Добавить') }}</a>
-						    @endif
+                            @if ($access == 2)
+                            <a class="btn btn-outline-secondary btn-sm" href="{{ route('hr.personal-cards.create') }}"><img src="/img/add_black_18dp.png" alt="Добавить" title="Добавить"></a>
+                            @endif
                         </th>
                     </thead>
                     <tbody>
@@ -43,13 +38,13 @@
                                     <form method="POST" action="{{ route('hr.personal-cards.destroy', $personalCardsRow->id) }}">
                                         @method('DELETE')
                                         @csrf
-                                        <a class="btn btn-outline-primary btn-sm" href="{{ route('hr.personal-cards.show', $personalCardsRow->id) }}">{{ __('Открыть') }}</a>
-                                        <a class="btn btn-outline-primary btn-sm" href="{{ route('hr.personal-cards.edit', $personalCardsRow->id) }}">{{ __('Изменить') }}</a>
-                                        <button type="submit" class="btn btn-outline-danger btn-sm" href="#">{{ __('Удалить') }}</button>
+                                        <a class="btn btn-outline-primary btn-sm" href="{{ route('hr.personal-cards.show', $personalCardsRow->id) }}"><img src="/img/visibility_black_18dp.png" alt="Открыть" title="Открыть"></a>
+                                        <a class="btn btn-outline-primary btn-sm" href="{{ route('hr.personal-cards.edit', $personalCardsRow->id) }}"><img src="/img/edit_black_18dp.png" alt="Изменить" title="Изменить"></a>
+                                        <button type="submit" class="btn btn-outline-danger btn-sm" href="#"><img src="/img/delete_black_18dp.png" alt="Удалить" title="Удалить"></button>
                                     </form>
                                     @endif
                                     @if ($access == 1)
-                                    <a class="btn btn-outline-primary btn-sm" href="{{ route('hr.personal-cards.show', $personalCardsRow->id) }}">{{ __('Открыть') }}</a>
+                                    <a class="btn btn-outline-primary btn-sm" href="{{ route('hr.personal-cards.show', $personalCardsRow->id) }}"><img src="/img/visibility_black_18dp.png" alt="Открыть" title="Открыть"></a>
                                     @endif
                                 </div>
                             </td>

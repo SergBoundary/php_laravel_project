@@ -7,6 +7,8 @@ use App\Models\References\AccrualTypes;
 use App\Repositories\References\AccrualTypesRepository;
 use App\Http\Requests\References\AccrualTypesCreateRequest;
 use App\Http\Requests\References\AccrualTypesUpdateRequest;
+use App\Models\Settings\Menu;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Class AccrualTypesController: Контроллер списка видов начислений
@@ -41,6 +43,15 @@ class AccrualTypesController extends BaseReferencesController {
      * @return \Illuminate\Http\Response
      */
     public function index() {
+		
+	$auth = Auth::user();
+        if(empty($auth)) {
+            return view('guest');
+        }
+        $auth_access = Menu::select('access_'.$auth['access'])
+                    ->where('path', $this->path)
+                    ->first();
+        $access = $auth_access['access_'.$auth['access']];
 
         // Формируем массив подменю выбранного пункта меню
         $menu = $this->createMenu($this->path);
@@ -48,13 +59,12 @@ class AccrualTypesController extends BaseReferencesController {
             return view('guest');
         }
         // Формируем массив данных о представлении
-        $title = $menu->where('path', $this->path)
-                ->first();
+        $title = "Список начислений";
 
         $accrualTypesList = $this->accrualTypesRepository->getTable();
 
         return view('ref.accrual-types.index',  
-               compact('menu', 'title', 'accrualTypesList'));
+               compact('menu', 'title', 'access', 'accrualTypesList'));
     }
 
     /**
@@ -63,6 +73,15 @@ class AccrualTypesController extends BaseReferencesController {
      * @return \Illuminate\Http\Response
      */
     public function show($id) {
+		
+	$auth = Auth::user();
+        if(empty($auth)) {
+            return view('guest');
+        }
+        $auth_access = Menu::select('access_'.$auth['access'])
+                    ->where('path', $this->path)
+                    ->first();
+        $access = $auth_access['access_'.$auth['access']];
 
         // Формируем массив подменю выбранного пункта меню
         $menu = $this->createMenu($this->path);
@@ -70,14 +89,13 @@ class AccrualTypesController extends BaseReferencesController {
             return view('guest');
         }
         // Формируем массив данных о представлении
-        $title = $menu->where('path', $this->path)
-                ->first();
+        $title = "Карточка начисления";
 
         // Формируем содержание списка заполняемых полей input
         $accrualTypesList = $this->accrualTypesRepository->getShow($id);
 
         return view('ref.accrual-types.show', 
-               compact('menu', 'title', 'accrualTypesList'));
+               compact('menu', 'title', 'access', 'accrualTypesList'));
     }
 
     /**
@@ -93,8 +111,7 @@ class AccrualTypesController extends BaseReferencesController {
             return view('guest');
         }
         // Формируем массив данных о представлении
-        $title = $menu->where('path', $this->path)
-                ->first();
+        $title = "Новое начисление";
 
         return view('ref.accrual-types.create', 
                compact('menu', 'title'));
@@ -135,8 +152,7 @@ class AccrualTypesController extends BaseReferencesController {
             return view('guest');
         }
         // Формируем массив данных о представлении
-        $title = $menu->where('path', $this->path)
-                ->first();
+        $title = "Карточка начисления";
 
         // Формируем содержание списка заполняемых полей input
         $accrualTypesList = $this->accrualTypesRepository->getEdit($id);

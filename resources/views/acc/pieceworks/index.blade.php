@@ -11,7 +11,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-12">
-                <h3><small class="text-muted text-uppercase">{{$title['name']}}</small></h3><br />
+                <h3><small class="text-muted text-uppercase">{{ $title }}</small></h3><br />
                 @if(count($pieceworksList) > 0)
                 <table class="table table-hover">
                     <thead>
@@ -24,9 +24,9 @@
                         <th class="align-middle" scope="col">Цена</th>
                         <th class="align-middle" scope="col">Сумма</th>
                         <th scope="col">
-						    @if ($access == 2)
+                            @if ($access == 2)
                             <a class="btn btn-outline-secondary btn-sm" href="{{ route('acc.pieceworks.create') }}"><img src="/img/add_black_18dp.png" alt="Добавить" title="Добавить"></a>
-						    @endif
+                            @endif
                         </th>
                     </thead>
                     <tbody>

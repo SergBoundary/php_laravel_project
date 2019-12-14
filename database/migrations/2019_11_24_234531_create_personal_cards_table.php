@@ -17,18 +17,20 @@ class CreatePersonalCardsTable extends Migration {
 
         Schema::create('personal_cards', function (Blueprint $table) {
             $table->increments('id'); // ID записи
+            $table->integer('user_id')->unsigned(); // Код пользователя - автора записи
             $table->char('personal_account', 10)->unique(); // Табельный номер
-            $table->char('tax_number', 15)->nullable(); // Индивидуальный налоговый номер
             $table->string('surname', 100); // Фамилия
             $table->string('first_name', 100); // Имя (первое имя)
-            $table->string('second_name', 100); // Отчество (второе имя)
+            $table->string('second_name', 100)->nullable(); // Отчество (второе имя)
             $table->string('full_name_latina', 100)->nullable(); // Фамилия на национальном языке работника
             $table->char('sex', 3)->nullable(); // Пол
             $table->date('born_date')->nullable(); // Дата рождения
+            $table->string('phone', 255)->nullable()->default('/img/0.jpg'); // Фотография
             $table->string('photo_url', 255)->nullable(); // Фотография
             $table->timestamps(); // Поля с датой создания и датой изменения записи
             $table->softDeletes(); // Поле с датой удаления (исключения) записи из обслуживания
 
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 

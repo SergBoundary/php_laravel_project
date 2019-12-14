@@ -16,13 +16,13 @@ class PersonalCards extends Model {
 
     protected $fillable = [
         'personal_account',
-        'tax_number',
         'surname',
         'first_name',
         'second_name',
         'full_name_latina',
         'sex',
         'born_date',
+        'phone',
         'photo_url',
     ];
 }

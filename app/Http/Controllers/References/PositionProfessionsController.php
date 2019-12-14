@@ -7,6 +7,8 @@ use App\Models\References\PositionProfessions;
 use App\Repositories\References\PositionProfessionsRepository;
 use App\Http\Requests\References\PositionProfessionsCreateRequest;
 use App\Http\Requests\References\PositionProfessionsUpdateRequest;
+use App\Models\Settings\Menu;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Class PositionProfessionsController: Справочник. Государственный классификатор профессий
@@ -41,6 +43,15 @@ class PositionProfessionsController extends BaseReferencesController {
      * @return \Illuminate\Http\Response
      */
     public function index() {
+		
+	$auth = Auth::user();
+        if(empty($auth)) {
+            return view('guest');
+        }
+        $auth_access = Menu::select('access_'.$auth['access'])
+                    ->where('path', $this->path)
+                    ->first();
+        $access = $auth_access['access_'.$auth['access']];
 
         // Формируем массив подменю выбранного пункта меню
         $menu = $this->createMenu($this->path);
@@ -48,13 +59,12 @@ class PositionProfessionsController extends BaseReferencesController {
             return view('guest');
         }
         // Формируем массив данных о представлении
-        $title = $menu->where('path', $this->path)
-                ->first();
+        $title = "Классификатор профессий";
 
         $positionProfessionsList = $this->positionProfessionsRepository->getTable();
 
         return view('ref.position-professions.index',  
-               compact('menu', 'title', 'positionProfessionsList'));
+               compact('menu', 'title', 'access', 'positionProfessionsList'));
     }
 
     /**
@@ -63,6 +73,15 @@ class PositionProfessionsController extends BaseReferencesController {
      * @return \Illuminate\Http\Response
      */
     public function show($id) {
+		
+	$auth = Auth::user();
+        if(empty($auth)) {
+            return view('guest');
+        }
+        $auth_access = Menu::select('access_'.$auth['access'])
+                    ->where('path', $this->path)
+                    ->first();
+        $access = $auth_access['access_'.$auth['access']];
 
         // Формируем массив подменю выбранного пункта меню
         $menu = $this->createMenu($this->path);
@@ -70,14 +89,13 @@ class PositionProfessionsController extends BaseReferencesController {
             return view('guest');
         }
         // Формируем массив данных о представлении
-        $title = $menu->where('path', $this->path)
-                ->first();
+        $title = "Карточка профессии";
 
         // Формируем содержание списка заполняемых полей input
         $positionProfessionsList = $this->positionProfessionsRepository->getShow($id);
 
         return view('ref.position-professions.show', 
-               compact('menu', 'title', 'positionProfessionsList'));
+               compact('menu', 'title', 'access', 'positionProfessionsList'));
     }
 
     /**
@@ -93,8 +111,7 @@ class PositionProfessionsController extends BaseReferencesController {
             return view('guest');
         }
         // Формируем массив данных о представлении
-        $title = $menu->where('path', $this->path)
-                ->first();
+        $title = "Новая профессия";
 
         return view('ref.position-professions.create', 
                compact('menu', 'title'));
@@ -135,8 +152,7 @@ class PositionProfessionsController extends BaseReferencesController {
             return view('guest');
         }
         // Формируем массив данных о представлении
-        $title = $menu->where('path', $this->path)
-                ->first();
+        $title = "Карточка профессии";
 
         // Формируем содержание списка заполняемых полей input
         $positionProfessionsList = $this->positionProfessionsRepository->getEdit($id);

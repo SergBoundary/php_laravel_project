@@ -48,11 +48,14 @@ class ManningOrdersController extends BaseHumanResourcesController {
      */
     public function index() {
 		
-		$auth = Auth::user();
+        $auth = Auth::user();
+        if(empty($auth)) {
+            return view('guest');
+        }
         $auth_access = Menu::select('access_'.$auth['access'])
                     ->where('path', $this->path)
                     ->first();
-		$access = $auth_access['access_'.$auth['access']];
+        $access = $auth_access['access_'.$auth['access']];
 
         // Формируем массив подменю выбранного пункта меню
         $menu = $this->createMenu($this->path);
@@ -60,8 +63,7 @@ class ManningOrdersController extends BaseHumanResourcesController {
             return view('guest');
         }
         // Формируем массив данных о представлении
-        $title = $menu->where('path', $this->path)
-                ->first();
+        $title = "Должностные назначения";
 
         $manningOrdersList = $this->manningOrdersRepository->getTable();
 
@@ -76,11 +78,14 @@ class ManningOrdersController extends BaseHumanResourcesController {
      */
     public function show($id) {
 		
-		$auth = Auth::user();
+        $auth = Auth::user();
+        if(empty($auth)) {
+            return view('guest');
+        }
         $auth_access = Menu::select('access_'.$auth['access'])
                     ->where('path', $this->path)
                     ->first();
-		$access = $auth_access['access_'.$auth['access']];
+        $access = $auth_access['access_'.$auth['access']];
 
         // Формируем массив подменю выбранного пункта меню
         $menu = $this->createMenu($this->path);
@@ -88,8 +93,7 @@ class ManningOrdersController extends BaseHumanResourcesController {
             return view('guest');
         }
         // Формируем массив данных о представлении
-        $title = $menu->where('path', $this->path)
-                ->first();
+        $title = "Карточка назначения";
 
         // Формируем содержание списка заполняемых полей input
         $manningOrdersList = $this->manningOrdersRepository->getShow($id);
@@ -111,8 +115,7 @@ class ManningOrdersController extends BaseHumanResourcesController {
             return view('guest');
         }
         // Формируем массив данных о представлении
-        $title = $menu->where('path', $this->path)
-                ->first();
+        $title = "Новое назначение";
 
         // Формируем содержание списка выбираемых полей полей select
         $personalCardsList = $this->manningOrdersRepository->getListSelect(0);
@@ -163,8 +166,7 @@ class ManningOrdersController extends BaseHumanResourcesController {
             return view('guest');
         }
         // Формируем массив данных о представлении
-        $title = $menu->where('path', $this->path)
-                ->first();
+        $title = "Карточка назначения";
 
         // Формируем содержание списка выбираемых полей полей select
         $personalCardsList = $this->manningOrdersRepository->getListSelect(0);

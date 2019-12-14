@@ -47,11 +47,14 @@ class PaychecksController extends BaseCalculationsController {
      */
     public function index() {
 		
-		$auth = Auth::user();
+        $auth = Auth::user();
+        if(empty($auth)) {
+            return view('guest');
+        }
         $auth_access = Menu::select('access_'.$auth['access'])
                     ->where('path', $this->path)
                     ->first();
-		$access = $auth_access['access_'.$auth['access']];
+        $access = $auth_access['access_'.$auth['access']];
 
         // Формируем массив подменю выбранного пункта меню
         $menu = $this->createMenu($this->path);
@@ -75,11 +78,14 @@ class PaychecksController extends BaseCalculationsController {
      */
     public function show($id) {
 		
-		$auth = Auth::user();
+        $auth = Auth::user();
+        if(empty($auth)) {
+            return view('guest');
+        }
         $auth_access = Menu::select('access_'.$auth['access'])
                     ->where('path', $this->path)
                     ->first();
-		$access = $auth_access['access_'.$auth['access']];
+        $access = $auth_access['access_'.$auth['access']];
 
         // Формируем массив подменю выбранного пункта меню
         $menu = $this->createMenu($this->path);

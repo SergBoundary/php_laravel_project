@@ -30,8 +30,7 @@ class MenuController extends BaseSettingsController
             return view('guest');
         }
 
-        $title = $menu->where('path', $this->path)
-                ->first();
+        $title = "SK-BUD";
         $parent = $menu->last();
         $items = Menu::where('parent_id', $parent['id'])
                 ->where('access_'.$user->access, '>', 0)
