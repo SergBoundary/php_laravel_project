@@ -17,6 +17,7 @@ class CreatePositionProfessionsTable extends Migration {
 
         Schema::create('position_professions', function (Blueprint $table) {
             $table->increments('id'); // ID записи
+            $table->string('structura'); // Код организационной структуры
             $table->char('code', 20); // Код профессии в классификаторе
             $table->string('title', 255); // Наименование профессии в классификаторе
             $table->timestamps(); // Поля с датой создания и датой изменения записи

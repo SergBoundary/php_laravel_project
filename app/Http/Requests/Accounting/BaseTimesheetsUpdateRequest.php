@@ -30,6 +30,7 @@ class BaseTimesheetsUpdateRequest extends FormRequest {
     public function rules() {
         return [
             //'personal_card_id' => 'required|integer|exists:personal_cards,id',
+            //'team_id' => 'required|integer|exists:teams,id',
             //'year_id' => 'required|integer|exists:years,id',
             //'month_id' => 'required|integer|exists:months,id',
             //'object_id' => 'required|integer|exists:objects,id',

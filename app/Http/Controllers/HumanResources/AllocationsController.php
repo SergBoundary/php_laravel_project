@@ -7,10 +7,11 @@ use App\Models\HumanResources\PersonalCards;
 use App\Models\References\Objects;
 use App\Models\HumanResources\Teams;
 use App\Models\HumanResources\Allocations;
+use App\Models\Settings\Users;
 use App\Repositories\HumanResources\AllocationsRepository;
 use App\Http\Requests\HumanResources\AllocationsCreateRequest;
 use App\Http\Requests\HumanResources\AllocationsUpdateRequest;
-use App\Models\Settings\Menu;
+use App\Models\Settings\Menus;
 use Illuminate\Support\Facades\Auth;
 
 /**
@@ -45,29 +46,38 @@ class AllocationsController extends BaseHumanResourcesController {
      *
      * @return \Illuminate\Http\Response
      */
-    public function index() {
+    public function index(Request $request) {
 		
-	$auth = Auth::user();
-        if(empty($auth)) {
-            return view('guest');
+        $auth = Auth::user();
+        
+        if($request->session()->has('interface')) {
+            $interface = session('interface');
+        } else {
+            $this->setInterface();
+            $interface = session('interface');
         }
-        $auth_access = Menu::select('access_'.$auth['access'])
+        
+        if($request->session()->has('title')) {
+            $title = session('title');
+        } else {
+            $this->setInterface();
+            $title = session('title');
+        }
+        
+        if(empty($auth)) {
+            return view('guest', compact('interface', 'title'));
+        }
+        
+        $auth_access = Menus::select('access_'.$auth['access'])
                     ->where('path', $this->path)
                     ->first();
         $access = $auth_access['access_'.$auth['access']];
 
-        // Формируем массив подменю выбранного пункта меню
-        $menu = $this->createMenu($this->path);
-        if(empty($menu)) {
-            return view('guest');
-        }
-        // Формируем массив данных о представлении
-        $title = "Перемещения по предприятию";
-
         $allocationsList = $this->allocationsRepository->getTable();
 
         return view('hr.allocations.index',  
-               compact('menu', 'title', 'access', 'allocationsList'));
+               compact('interface', 'title', 'access', 
+                       'allocationsList'));
     }
 
     /**
@@ -75,30 +85,47 @@ class AllocationsController extends BaseHumanResourcesController {
      *
      * @return \Illuminate\Http\Response
      */
-    public function show($id) {
+    public function show(Request $request, $id) {
 		
         $auth = Auth::user();
-        if(empty($auth)) {
-            return view('guest');
+        
+        if($request->session()->has('interface')) {
+            $interface = session('interface');
+        } else {
+            $this->setInterface();
+            $interface = session('interface');
         }
-        $auth_access = Menu::select('access_'.$auth['access'])
+        
+        if($request->session()->has('title')) {
+            $title = session('title');
+        } else {
+            $this->setInterface();
+            $title = session('title');
+        }
+        
+        if(empty($auth)) {
+            return view('guest', compact('interface', 'title'));
+        }
+        
+        $auth_access = Menus::select('access_'.$auth['access'])
                     ->where('path', $this->path)
                     ->first();
         $access = $auth_access['access_'.$auth['access']];
 
-        // Формируем массив подменю выбранного пункта меню
-        $menu = $this->createMenu($this->path);
-        if(empty($menu)) {
-            return view('guest');
-        }
-        // Формируем массив данных о представлении
-        $title = "Карточка перемещения";
-
-        // Формируем содержание списка заполняемых полей input
-        $allocationsList = $this->allocationsRepository->getShow($id);
+        // Данные о перемещении
+        $allocationData = $this->allocationsRepository->getAllocation($id);
+        // Данные об авторе записи
+        $autorData = $this->allocationsRepository->getAutor($allocationData['user_id']);
+        // Данные о сотруднике
+        $personalCardData = $this->allocationsRepository->getPersonalCard($allocationData['personal_card_id']);
+        $userData = Users::find($allocationData['personal_card_id']);
 
         return view('hr.allocations.show', 
-               compact('menu', 'title', 'access', 'allocationsList'));
+               compact('interface', 'title', 'access', 
+                       'personalCardData',
+                       'autorData',
+                       'userData', 
+                       'allocationData'));
     }
 
     /**
@@ -106,15 +133,32 @@ class AllocationsController extends BaseHumanResourcesController {
      *
      * @return \Illuminate\Http\Response
      */
-    public function create() {
-
-        // Формируем массив подменю выбранного пункта меню
-        $menu = $this->createMenu($this->path);
-        if(empty($menu)) {
-            return view('guest');
+    public function create(Request $request) {
+		
+        $auth = Auth::user();
+        
+        if($request->session()->has('interface')) {
+            $interface = session('interface');
+        } else {
+            $this->setInterface();
+            $interface = session('interface');
         }
-        // Формируем массив данных о представлении
-        $title = "Новое перемещение";
+        
+        if($request->session()->has('title')) {
+            $title = session('title');
+        } else {
+            $this->setInterface();
+            $title = session('title');
+        }
+        
+        if(empty($auth)) {
+            return view('guest', compact('interface', 'title'));
+        }
+        
+        $auth_access = Menus::select('access_'.$auth['access'])
+                    ->where('path', $this->path)
+                    ->first();
+        $access = $auth_access['access_'.$auth['access']];
 
         // Формируем содержание списка выбираемых полей полей select
         $personalCardsList = $this->allocationsRepository->getListSelect(0);
@@ -122,7 +166,7 @@ class AllocationsController extends BaseHumanResourcesController {
         $teamsList = $this->allocationsRepository->getListSelect(2);
 
         return view('hr.allocations.create', 
-               compact('menu', 'title', 
+               compact('interface', 'title', 'access', 
                       'personalCardsList', 
                       'objectsList', 
                       'teamsList'));
@@ -136,17 +180,16 @@ class AllocationsController extends BaseHumanResourcesController {
     public function store(AllocationsCreateRequest $request) {
 
         $data = $request->input();
-//        dd($data['personal_card_id'], $data['start']);
-        $item = $this->allocationsRepository->getEditExpiry($data['personal_card_id'], $data['start']);
-        if(!empty($item)) {
-            $item->save();
-//            $data = $request->all();
-//            $result = $item->update($data);
-//            $result = $item->update($item);
-        }
-//        dd($item);
-        $result = (new Allocations($data))->create($data);
-//        dd($result);
+        
+        // Формируем изменения назначения на должность
+        $newData['user_id'] = Auth::user()->id;
+        $newData['personal_card_id'] = $data['personal_card_id'];
+        $newData['object_id'] = $data['object_id'];
+        $newData['team_id'] = $data['team_id'];
+        $newData['start'] = $data['start'];
+        $newData['expiry'] = null;
+        
+        $result = (new Allocations($newData))->create($newData);
         if($result) {
             return redirect()
                 ->route('hr.allocations.edit', $result->id)
@@ -163,30 +206,53 @@ class AllocationsController extends BaseHumanResourcesController {
      *
      * @return \Illuminate\Http\Response
      */
-    public function edit($id) {
-
-        // Формируем массив подменю выбранного пункта меню
-        $menu = $this->createMenu($this->path);
-        if(empty($menu)) {
-            return view('guest');
+    public function edit(Request $request, $id) {
+		
+        $auth = Auth::user();
+        
+        if($request->session()->has('interface')) {
+            $interface = session('interface');
+        } else {
+            $this->setInterface();
+            $interface = session('interface');
         }
-        // Формируем массив данных о представлении
-        $title = "Карточка перемещения";
+        
+        if($request->session()->has('title')) {
+            $title = session('title');
+        } else {
+            $this->setInterface();
+            $title = session('title');
+        }
+        
+        if(empty($auth)) {
+            return view('guest', compact('interface', 'title'));
+        }
+        
+        $auth_access = Menus::select('access_'.$auth['access'])
+                    ->where('path', $this->path)
+                    ->first();
+        $access = $auth_access['access_'.$auth['access']];
+
+        // Данные о назначении
+        $allocationData = $this->allocationsRepository->getEdit($id);
+        // Данные об авторе записи
+        $autorData = $this->allocationsRepository->getAutor($allocationData['user_id']);
+        // Данные о сотруднике
+        $personalCardData = $this->allocationsRepository->getPersonalCard($allocationData['personal_card_id']);
+        $userData = Users::find($allocationData['personal_card_id']);
 
         // Формируем содержание списка выбираемых полей полей select
-        $personalCardsList = $this->allocationsRepository->getListSelect(0);
         $objectsList = $this->allocationsRepository->getListSelect(1);
         $teamsList = $this->allocationsRepository->getListSelect(2);
 
-        // Формируем содержание списка заполняемых полей input
-        $allocationsList = $this->allocationsRepository->getEdit($id);
-
         return view('hr.allocations.edit', 
-               compact('menu', 'title', 
-                      'personalCardsList', 
-                      'objectsList', 
-                      'teamsList', 
-                      'allocationsList'));
+               compact('interface', 'title', 'access', 
+                       'personalCardData',
+                       'autorData',
+                       'userData', 
+                       'allocationData',
+                       'objectsList', 
+                       'teamsList'));
     }
 
     /**
@@ -204,10 +270,18 @@ class AllocationsController extends BaseHumanResourcesController {
         }
         $data = $request->all();
         
-        $result = $item->update($data);
+        // Формируем изменения назначения на должность
+        $newData['user_id'] = Auth::user()->id;
+        $newData['personal_card_id'] = $data['personal_card_id'];
+        $newData['object_id'] = $data['object_id'];
+        $newData['team_id'] = $data['team_id'];
+        $newData['start'] = $data['start'];
+        $newData['expiry'] = $data['expiry'];
+        
+        $result = $item->update($newData);
         if($result) {
             return redirect()
-                ->route('hr.allocations.edit', $item->id)
+                ->route('hr.allocations.show', $item->id)
                 ->with(['success' => "Успешно сохранено"]);
         } else {
             return back()

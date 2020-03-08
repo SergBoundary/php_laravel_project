@@ -17,6 +17,7 @@ class CreateRetentionTypesTable extends Migration {
 
         Schema::create('retention_types', function (Blueprint $table) {
             $table->increments('id'); // ID записи
+            $table->string('structura'); // Код организационной структуры
             $table->char('title', 5)->unique(); // Код удержаний (для>500)
             $table->string('description', 100)->unique(); // Наименование удержания
             $table->char('abbr', 20); // Сокращенное наименование удержания

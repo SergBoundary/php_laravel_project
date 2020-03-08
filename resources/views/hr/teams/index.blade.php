@@ -5,12 +5,13 @@
         /** @var \App\Models\HumanResources\Teams $menu, $title, $teamsList */
         $personalCards = "";
     @endphp
+    <div id="interface-modul" modul="teams-index"></div>
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-10">
-                <h3><small class="text-muted text-uppercase">{{ $title }}</small></h3><br />
+            <div class="col-md-12">
+                <h3><small class="text-muted text-uppercase">{{ $interface['title'] }}</small></h3><br />
                 @if(count($teamsList) > 0)
-                <table class="table table-hover">
+                <table class="table table-hover table-bordered">
                     <thead>
                         <th class="align-middle" scope="col">Бригадир</th>
                         <th class="align-middle" scope="col">Название бригады</th>
@@ -26,9 +27,13 @@
                     <tbody>
                         @foreach($teamsList as $teamsRow)
                         <tr>
-                            <td>{{ $teamsRow->personal_card }}</td>
-                            <td>{{ $teamsRow->title }}</td>
-                            <td>{{ $teamsRow->abbr }}</td>
+                            @if ($personalCards != $teamsRow->personal_card)
+                                <td>{{ $teamsRow->personal_card }}</td>
+                                <td>{{ $teamsRow->title }}</td>
+                                <td>{{ $teamsRow->abbr }}</td>
+                            @else
+                                <td colspan="3"> </td>
+                            @endif
                             <td>{{ $teamsRow->start }}</td>
                             <td>{{ $teamsRow->expiry }}</td>
                             <td>
@@ -48,6 +53,9 @@
                                 </div>
                             </td>
                         </tr>
+                        @php
+                            $personalCards = $teamsRow->personal_card;
+                        @endphp
                         @endforeach
                     </tbody>
                 </table>

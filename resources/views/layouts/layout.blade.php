@@ -7,13 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>
-        @guest
-            SK-BUD
-        @else
-            {{ $title }}
-        @endguest
-    </title>
+    <title>{{ $interface['title'] }}</title>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>

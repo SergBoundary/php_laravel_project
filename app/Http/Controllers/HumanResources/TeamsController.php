@@ -5,10 +5,12 @@ namespace App\Http\Controllers\HumanResources;
 use Illuminate\Http\Request;
 use App\Models\HumanResources\PersonalCards;
 use App\Models\HumanResources\Teams;
+use App\Models\HumanResources\Allocations;
+use App\Models\Settings\Users;
 use App\Repositories\HumanResources\TeamsRepository;
 use App\Http\Requests\HumanResources\TeamsCreateRequest;
 use App\Http\Requests\HumanResources\TeamsUpdateRequest;
-use App\Models\Settings\Menu;
+use App\Models\Settings\Menus;
 use Illuminate\Support\Facades\Auth;
 
 /**
@@ -43,29 +45,38 @@ class TeamsController extends BaseHumanResourcesController {
      *
      * @return \Illuminate\Http\Response
      */
-    public function index() {
+    public function index(Request $request) {
 		
         $auth = Auth::user();
-        if(empty($auth)) {
-            return view('guest');
+        
+        if($request->session()->has('interface')) {
+            $interface = session('interface');
+        } else {
+            $this->setInterface();
+            $interface = session('interface');
         }
-        $auth_access = Menu::select('access_'.$auth['access'])
+        
+        if($request->session()->has('title')) {
+            $title = session('title');
+        } else {
+            $this->setInterface();
+            $title = session('title');
+        }
+        
+        if(empty($auth)) {
+            return view('guest', compact('interface', 'title'));
+        }
+        
+        $auth_access = Menus::select('access_'.$auth['access'])
                     ->where('path', $this->path)
                     ->first();
         $access = $auth_access['access_'.$auth['access']];
-
-        // Формируем массив подменю выбранного пункта меню
-        $menu = $this->createMenu($this->path);
-        if(empty($menu)) {
-            return view('guest');
-        }
-        // Формируем массив данных о представлении
-        $title = "Список бригад";
-
+        
         $teamsList = $this->teamsRepository->getTable();
 
         return view('hr.teams.index',  
-               compact('menu', 'title', 'access', 'teamsList'));
+               compact('interface', 'title', 'access', 
+                       'teamsList'));
     }
 
     /**
@@ -73,54 +84,61 @@ class TeamsController extends BaseHumanResourcesController {
      *
      * @return \Illuminate\Http\Response
      */
-    public function show($id) {
+    public function show(Request $request, $id) {
 		
-        $user = Auth::user();
-        if(empty($auth)) {
-            return view('guest');
+        $auth = Auth::user();
+        
+        if($request->session()->has('interface')) {
+            $interface = session('interface');
+        } else {
+            $this->setInterface();
+            $interface = session('interface');
         }
-        $auth_access = Menu::select('access_'.$user['access'])
+        
+        if($request->session()->has('title')) {
+            $title = session('title');
+        } else {
+            $this->setInterface();
+            $title = session('title');
+        }
+        
+        if(empty($auth)) {
+            return view('guest', compact('interface', 'title'));
+        }
+        
+        $auth_access = Menus::select('access_'.$auth['access'])
                     ->where('path', $this->path)
                     ->first();
         $access = $auth_access['access_'.$auth['access']];
-
-        // Формируем массив подменю выбранного пункта меню
-        $menu = $this->createMenu($this->path);
-        if(empty($menu)) {
-            return view('guest');
-        }
-        // Формируем массив данных о представлении
-        $title = "Карточка бригады";
-
+        
         // Данные о группе
         $teamData = $this->teamsRepository->getTeam($id);
-        // Данные о руководителе группы
-        $leaderData = $this->teamsRepository->getLeader($teamData['personal_card_id']);
-        $userData = Users::find($teamData['user_id']);
         // Данные об авторе записи о группе
         $autorData = $this->teamsRepository->getAutor($teamData['user_id']);
+        // Данные о руководителе группы как сотруднике и пользователе
+        $leaderData = $this->teamsRepository->getLeader($teamData['personal_card_id']);
+        $userData = Users::find($teamData['personal_card_id']);
+        $leaderManningOrderData = $this->teamsRepository->getLeaderManningOrderActuality($teamData['personal_card_id']);
+        // Данные о текущих объектах группы
+        $objectsList = $this->teamsRepository->getObject($id, $teamData['personal_card_id']);
+        $objectsCount = $this->teamsRepository->getObjectCount($id, $teamData['personal_card_id']);
         // Данные о текущем составе группы
-        $peopleActualityList = $this->teamsRepository->getPeopleActuality($id);
-        $peopleActualityCount = $this->teamsRepository->getPeopleActualityCount($id);
-        // Данные об истории ротации состава группы
-        $peopleHistoryList = $this->teamsRepository->getPeopleHistory($id);
-        $peopleHistoryCount = $this->teamsRepository->getPeopleHistoryCount($id);
+        $peopleList = $this->teamsRepository->getPeople($id, $teamData['personal_card_id']);
+        $peopleCount = $this->teamsRepository->getPeopleCount($id, $teamData['personal_card_id']);
 
-        return view('hr.personal-cards.show', 
-               compact('user', 'menu', 'title', 'access', 
+        return view('hr.teams.show', 
+               compact('interface', 'title', 'access', 
+                       'autorData',
                        'teamData', 
+                       'objectsList',
+                       'objectsCount',
+                       
                        'leaderData', 
-                       'userData',
-                       '$autorData', 
-                       'peopleActualityList', 
-                       'peopleActualityCount',
-                       'peopleHistoryList',  
-                       'peopleHistoryCount'
-                       ));
-//        $teamsList = $this->teamsRepository->getShow($id);
-//
-//        return view('hr.teams.show', 
-//               compact('menu', 'title', 'access', 'teamsList'));
+                       'userData', 
+                       'leaderManningOrderData',
+                       
+                       'peopleList', 
+                       'peopleCount'));
     }
 
     /**
@@ -128,22 +146,39 @@ class TeamsController extends BaseHumanResourcesController {
      *
      * @return \Illuminate\Http\Response
      */
-    public function create() {
-
-        // Формируем массив подменю выбранного пункта меню
-        $menu = $this->createMenu($this->path);
-        if(empty($menu)) {
-            return view('guest');
+    public function create(Request $request) {
+		
+        $auth = Auth::user();
+        
+        if($request->session()->has('interface')) {
+            $interface = session('interface');
+        } else {
+            $this->setInterface();
+            $interface = session('interface');
         }
-        // Формируем массив данных о представлении
-        $title = "Новая бригада";
-
-        // Формируем содержание списка выбираемых полей полей select
-        $personalCardsList = $this->teamsRepository->getListSelect(0);
+        
+        if($request->session()->has('title')) {
+            $title = session('title');
+        } else {
+            $this->setInterface();
+            $title = session('title');
+        }
+        
+        if(empty($auth)) {
+            return view('guest', compact('interface', 'title'));
+        }
+        
+        $auth_access = Menus::select('access_'.$auth['access'])
+                    ->where('path', $this->path)
+                    ->first();
+        $access = $auth_access['access_'.$auth['access']];
+        
+        // Списки данных
+        $peopleList = $this->teamsRepository->getListSelect(0);
 
         return view('hr.teams.create', 
-               compact('menu', 'title', 
-                      'personalCardsList'));
+               compact('interface', 'title', 'access', 
+                       'peopleList'));
     }
 
     /**
@@ -154,8 +189,15 @@ class TeamsController extends BaseHumanResourcesController {
     public function store(TeamsCreateRequest $request) {
 
         $data = $request->input();
-
-        $result = (new Teams($data))->create($data);
+        // Формируем новую бригаду
+        $newData['user_id'] = Auth::user()->id;
+        $newData['personal_card_id'] = $data['personal_card_id'];
+        $newData['title'] = $data['title'];
+        $newData['abbr'] = $data['abbr'];
+        $newData['start'] = $data['start'];
+        $newData['expiry'] = null;
+//        dd($newData);
+        $result = (new Teams($newData))->create($newData);
 
         if($result) {
             return redirect()
@@ -173,26 +215,70 @@ class TeamsController extends BaseHumanResourcesController {
      *
      * @return \Illuminate\Http\Response
      */
-    public function edit($id) {
-
-        // Формируем массив подменю выбранного пункта меню
-        $menu = $this->createMenu($this->path);
-        if(empty($menu)) {
-            return view('guest');
+    public function edit(Request $request, $id) {
+		
+        $auth = Auth::user();
+        
+        if($request->session()->has('interface')) {
+            $interface = session('interface');
+        } else {
+            $this->setInterface();
+            $interface = session('interface');
         }
-        // Формируем массив данных о представлении
-        $title = "Карточка бригады";
-
-        // Формируем содержание списка выбираемых полей полей select
-        $personalCardsList = $this->teamsRepository->getListSelect(0);
-
-        // Формируем содержание списка заполняемых полей input
-        $teamsList = $this->teamsRepository->getEdit($id);
+        
+        if($request->session()->has('title')) {
+            $title = session('title');
+        } else {
+            $this->setInterface();
+            $title = session('title');
+        }
+        
+        if(empty($auth)) {
+            return view('guest', compact('interface', 'title'));
+        }
+        
+        $auth_access = Menus::select('access_'.$auth['access'])
+                    ->where('path', $this->path)
+                    ->first();
+        $access = $auth_access['access_'.$auth['access']];
+        
+        // Данные о группе
+        $teamData = $this->teamsRepository->getTeam($id);
+        // Данные об авторе записи о группе
+        $autorData = $this->teamsRepository->getAutor($teamData['user_id']);
+        // Данные о руководителе группы как сотруднике и пользователе
+        $leaderData = $this->teamsRepository->getLeader($teamData['personal_card_id']);
+        $userData = Users::find($teamData['personal_card_id']);
+        $leaderManningOrderData = $this->teamsRepository->getLeaderManningOrderActuality($teamData['personal_card_id']);
+        // Списки данных
+        $leadersList = $this->teamsRepository->getListSelect(0);
+        $departmentsList = $this->teamsRepository->getListSelect(1);
+        $positionsList = $this->teamsRepository->getListSelect(2);
+        $positionProfessionsList = $this->teamsRepository->getListSelect(3);
+        // Данные о текущих объектах группы
+        $objectsList = $this->teamsRepository->getObject($id, $teamData['personal_card_id']);
+        $objectsCount = $this->teamsRepository->getObjectCount($id, $teamData['personal_card_id']);
+        // Данные о текущем составе группы
+        $peopleList = $this->teamsRepository->getPeople($id, $teamData['personal_card_id']);
+        $peopleCount = $this->teamsRepository->getPeopleCount($id, $teamData['personal_card_id']);
 
         return view('hr.teams.edit', 
-               compact('menu', 'title', 
-                      'personalCardsList', 
-                      'teamsList'));
+               compact('interface', 'title', 'access', 
+                       'autorData',
+                       'teamData', 
+                       'leaderData', 
+                       'userData', 
+                       'leaderManningOrderData',
+                       
+                       'leadersList', 
+                       'departmentsList', 
+                       'positionsList', 
+                       'positionProfessionsList', 
+                       
+                       'objectsList',
+                       'objectsCount',
+                       'peopleList', 
+                       'peopleCount'));
     }
 
     /**
@@ -209,15 +295,74 @@ class TeamsController extends BaseHumanResourcesController {
                 ->withInput();
         }
         $data = $request->all();
-        $result = $item->update($data);
-        if($result) {
-            return redirect()
-                ->route('hr.teams.edit', $item->id)
-                ->with(['success' => "Успешно сохранено"]);
+        if($item['personal_card_id'] == $data['personal_card_id']) {
+            // Проверка на расформирование активной бригады
+            if(!empty($data['expiry'])) {
+                // Открепляем сотрудников от расформировываемой бригады
+                $peopleItem = $this->teamsRepository->getAllPeople($id);
+                foreach ($peopleItem as $value) {
+                    $peopleResult = $this->teamsRepository->getCloseTeam($value['id'], $data['expiry']);
+                }
+                $result = $item->update($data);
+                if($peopleResult && $result) {
+                    return redirect()
+                        ->route('hr.teams.edit', $item->id)
+                        ->with(['success' => "Успешно сохранено"]);
+                } else {
+                    return back()
+                        ->withErrors(['msg' => "Ошибка сохранения.."])
+                        ->withInput();
+                }
+            }
+            $result = $item->update($data);
+            if($result) {
+                return redirect()
+                    ->route('hr.teams.show', $item->id)
+                    ->with(['success' => "Успешно сохранено"]);
+            } else {
+                return back()
+                    ->withErrors(['msg' => "Ошибка сохранения.."])
+                    ->withInput();
+            }
         } else {
-            return back()
-                ->withErrors(['msg' => "Ошибка сохранения.."])
-                ->withInput();
+            // Расформировываем текущую бригаду
+            $oldData['user_id'] = $item['user_id'];
+            $oldData['personal_card_id'] = $item['personal_card_id'];
+            $oldData['title'] = $item['title'];
+            $oldData['abbr'] = $item['abbr'];
+            $oldData['start'] = $item['start'];
+            $oldData['expiry'] = $data['start'];
+            // Формируем новую бригаду
+            $newData['user_id'] = Auth::user()->id;
+            $newData['personal_card_id'] = $data['personal_card_id'];
+            $newData['title'] = $data['title'];
+            $newData['abbr'] = $data['abbr'];
+            $newData['start'] = $data['start'];
+            $newData['expiry'] = null;
+            $newResult = (new Teams($newData))->create($newData);
+            $newID = $newResult->id;
+            // Перемещаем персонал из старой бригады в новую бригаду
+            $peopleItem = $this->teamsRepository->getAllPeople($id);
+            foreach ($peopleItem as $value) {
+                // 1) закрепляем сотрудников за новой бригадой
+                if($oldData['personal_card_id'] != $value['personal_card_id']) {
+                    $createResult = $this->teamsRepository->getMovingPeople($newID, $value['personal_card_id'], $value['object_id'], $data['start'], $newData['user_id']);
+                } elseif($oldData['personal_card_id'] == $value['personal_card_id']) {
+                    $createResult = $this->teamsRepository->getMovingPeople($newID, $data['personal_card_id'], $value['object_id'], $data['start'], $newData['user_id']);
+                }
+                // 2) открепляем сотрудников от расформировываемой бригады
+                $updateResult = $this->teamsRepository->getCloseTeam($value['id'], $data['start']);
+            }
+            $oldResult = $item->update($oldData);
+            if($oldResult && $newResult) {
+                return redirect()
+                    ->route('hr.teams.show', $item->id)
+                    ->with(['success' => "Успешно сохранено"]);
+            } else {
+                return back()
+                    ->withErrors(['msg' => "Ошибка сохранения.."])
+                    ->withInput();
+            }
         }
     }
 

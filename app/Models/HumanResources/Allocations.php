@@ -15,6 +15,7 @@ class Allocations extends Model {
     use SoftDeletes;
 
     protected $fillable = [
+        'user_id',
         'personal_card_id',
         'object_id',
         'team_id',

@@ -10,7 +10,7 @@ use App\Models\Calculations\Paychecks;
 use App\Repositories\Calculations\PaychecksRepository;
 use App\Http\Requests\Calculations\PaychecksCreateRequest;
 use App\Http\Requests\Calculations\PaychecksUpdateRequest;
-use App\Models\Settings\Menu;
+use App\Models\Settings\Menus;
 use Illuminate\Support\Facades\Auth;
 
 /**
@@ -45,13 +45,26 @@ class PaychecksController extends BaseCalculationsController {
      *
      * @return \Illuminate\Http\Response
      */
-    public function index() {
+    public function index(Request $request) {
+        
+        $data = $request->input();
+        if(!empty($data['language'])) {
+            $this->setInterface($data['language']);
+            $interface = session('interface');
+        } else {
+            if($request->session()->has('interface')) {
+                $interface = session('interface');
+            } else {
+                $this->setInterface();
+                $interface = session('interface');
+            }
+        }
 		
         $auth = Auth::user();
         if(empty($auth)) {
-            return view('guest');
+            return view('guest', compact('interface'));
         }
-        $auth_access = Menu::select('access_'.$auth['access'])
+        $auth_access = Menus::select('access_'.$auth['access'])
                     ->where('path', $this->path)
                     ->first();
         $access = $auth_access['access_'.$auth['access']];
@@ -59,7 +72,7 @@ class PaychecksController extends BaseCalculationsController {
         // Формируем массив подменю выбранного пункта меню
         $menu = $this->createMenu($this->path);
         if(empty($menu)) {
-            return view('guest');
+            return view('guest', compact('interface'));
         }
         // Формируем массив данных о представлении
         $title = $menu->where('path', $this->path)
@@ -68,7 +81,7 @@ class PaychecksController extends BaseCalculationsController {
         $paychecksList = $this->paychecksRepository->getTable();
 
         return view('calc.paychecks.index',  
-               compact('menu', 'title', 'access', 'paychecksList'));
+               compact('menu', 'interface', 'title', 'access', 'paychecksList'));
     }
 
     /**
@@ -76,13 +89,26 @@ class PaychecksController extends BaseCalculationsController {
      *
      * @return \Illuminate\Http\Response
      */
-    public function show($id) {
+    public function show(Request $request, $id) {
+        
+        $data = $request->input();
+        if(!empty($data['language'])) {
+            $this->setInterface($data['language']);
+            $interface = session('interface');
+        } else {
+            if($request->session()->has('interface')) {
+                $interface = session('interface');
+            } else {
+                $this->setInterface();
+                $interface = session('interface');
+            }
+        }
 		
         $auth = Auth::user();
         if(empty($auth)) {
-            return view('guest');
+            return view('guest', compact('interface'));
         }
-        $auth_access = Menu::select('access_'.$auth['access'])
+        $auth_access = Menus::select('access_'.$auth['access'])
                     ->where('path', $this->path)
                     ->first();
         $access = $auth_access['access_'.$auth['access']];
@@ -90,7 +116,7 @@ class PaychecksController extends BaseCalculationsController {
         // Формируем массив подменю выбранного пункта меню
         $menu = $this->createMenu($this->path);
         if(empty($menu)) {
-            return view('guest');
+            return view('guest', compact('interface'));
         }
         // Формируем массив данных о представлении
         $title = $menu->where('path', $this->path)
@@ -100,7 +126,7 @@ class PaychecksController extends BaseCalculationsController {
         $paychecksList = $this->paychecksRepository->getShow($id);
 
         return view('calc.paychecks.show', 
-               compact('menu', 'title', 'access', 'paychecksList'));
+               compact('menu', 'interface', 'title', 'access', 'paychecksList'));
     }
 
     /**
@@ -108,12 +134,25 @@ class PaychecksController extends BaseCalculationsController {
      *
      * @return \Illuminate\Http\Response
      */
-    public function create() {
+    public function create(Request $request) {
+        
+        $data = $request->input();
+        if(!empty($data['language'])) {
+            $this->setInterface($data['language']);
+            $interface = session('interface');
+        } else {
+            if($request->session()->has('interface')) {
+                $interface = session('interface');
+            } else {
+                $this->setInterface();
+                $interface = session('interface');
+            }
+        }
 
         // Формируем массив подменю выбранного пункта меню
         $menu = $this->createMenu($this->path);
         if(empty($menu)) {
-            return view('guest');
+            return view('guest', compact('interface'));
         }
         // Формируем массив данных о представлении
         $title = $menu->where('path', $this->path)
@@ -125,7 +164,7 @@ class PaychecksController extends BaseCalculationsController {
         $monthsList = $this->paychecksRepository->getListSelect(2);
 
         return view('calc.paychecks.create', 
-               compact('menu', 'title', 
+               compact('menu', 'interface', 'title', 
                       'personalCardsList', 
                       'yearsList', 
                       'monthsList'));
@@ -158,12 +197,25 @@ class PaychecksController extends BaseCalculationsController {
      *
      * @return \Illuminate\Http\Response
      */
-    public function edit($id) {
+    public function edit(Request $request, $id) {
+        
+        $data = $request->input();
+        if(!empty($data['language'])) {
+            $this->setInterface($data['language']);
+            $interface = session('interface');
+        } else {
+            if($request->session()->has('interface')) {
+                $interface = session('interface');
+            } else {
+                $this->setInterface();
+                $interface = session('interface');
+            }
+        }
 
         // Формируем массив подменю выбранного пункта меню
         $menu = $this->createMenu($this->path);
         if(empty($menu)) {
-            return view('guest');
+            return view('guest', compact('interface'));
         }
         // Формируем массив данных о представлении
         $title = $menu->where('path', $this->path)
@@ -178,7 +230,7 @@ class PaychecksController extends BaseCalculationsController {
         $paychecksList = $this->paychecksRepository->getEdit($id);
 
         return view('calc.paychecks.edit', 
-               compact('menu', 'title', 
+               compact('menu', 'interface', 'title', 
                       'personalCardsList', 
                       'yearsList', 
                       'monthsList', 

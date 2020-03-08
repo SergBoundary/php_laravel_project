@@ -17,6 +17,7 @@ class CreateObjectParametrsTable extends Migration {
 
         Schema::create('object_parametrs', function (Blueprint $table) {
             $table->increments('id'); // ID записи
+            $table->string('structura'); // Код организационной структуры
             $table->integer('user_id')->unsigned(); // Код пользователя - автора записи
             $table->integer('object_id')->unsigned(); // Код объекта
             $table->date('start')->nullable(); // Дата начала работ

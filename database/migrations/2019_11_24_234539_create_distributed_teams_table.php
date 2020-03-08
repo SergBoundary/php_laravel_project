@@ -17,6 +17,7 @@ class CreateDistributedTeamsTable extends Migration {
 
         Schema::create('distributed_teams', function (Blueprint $table) {
             $table->increments('id'); // ID записи
+            $table->string('structura'); // Код организационной структуры
             $table->integer('user_id')->unsigned(); // Код пользователя - автора записи
             $table->integer('object_id')->unsigned(); // Код объекта
             $table->integer('team_id')->unsigned(); // Код бригады

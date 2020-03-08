@@ -7,7 +7,7 @@ use App\Models\Settings\Users;
 use App\Repositories\Settings\UsersRepository;
 use App\Http\Requests\Settings\UsersCreateRequest;
 use App\Http\Requests\Settings\UsersUpdateRequest;
-use App\Models\Settings\Menu;
+use App\Models\Settings\Menus;
 use Illuminate\Support\Facades\Auth;
 
 /**
@@ -48,7 +48,7 @@ class UsersController extends BaseSettingsController {
         if(empty($auth)) {
             return view('guest');
         }
-        $auth_access = Menu::select('access_'.$auth['access'])
+        $auth_access = Menus::select('access_'.$auth['access'])
                     ->where('path', $this->path)
                     ->first();
         $access = $auth_access['access_'.$auth['access']];
@@ -78,7 +78,7 @@ class UsersController extends BaseSettingsController {
         if(empty($auth)) {
             return view('guest');
         }
-        $auth_access = Menu::select('access_'.$auth['access'])
+        $auth_access = Menus::select('access_'.$auth['access'])
                     ->where('path', $this->path)
                     ->first();
         $access = $auth_access['access_'.$auth['access']];

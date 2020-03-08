@@ -29,14 +29,14 @@ class PieceworksCreateRequest extends FormRequest {
      */
     public function rules() {
         return [
-            'personal_card_id' => 'required|integer|exists:personal_cards,id',
-            'year_id' => 'required|integer|exists:years,id',
-            'month_id' => 'required|integer|exists:months,id',
-            'object_id' => 'required|integer|exists:objects,id',
-            'type' => 'required|string|max:50',
-            'unit' => 'required|string|max:50',
-            'quantity' => 'required|numeric',
-            'price' => 'required|numeric',
+//            'personal_card_id' => 'required|integer|exists:personal_cards,id',
+//            'year_id' => 'required|integer|exists:years,id',
+//            'month_id' => 'required|integer|exists:months,id',
+//            'object_id' => 'required|integer|exists:objects,id',
+//            'type' => 'required|string|max:50',
+//            'unit' => 'required|string|max:50',
+//            'quantity' => 'required|numeric',
+//            'price' => 'required|numeric',
         ];
     }
 }

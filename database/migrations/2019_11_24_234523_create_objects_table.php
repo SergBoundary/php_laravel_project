@@ -17,8 +17,9 @@ class CreateObjectsTable extends Migration {
 
         Schema::create('objects', function (Blueprint $table) {
             $table->increments('id'); // ID записи
+            $table->string('structura'); // Код организационной структуры
             $table->string('code', 10)->unique(); // Код объекта выполнения работ
-            $table->string('title', 255)->unique(); // Наименование объекта выполнения работ
+            $table->string('title')->unique(); // Наименование объекта выполнения работ
             $table->char('abbr', 10)->unique(); // Аббривиатура объекта выполнения работ
             $table->timestamps(); // Поля с датой создания и датой изменения записи
             $table->softDeletes(); // Поле с датой удаления (исключения) записи из обслуживания

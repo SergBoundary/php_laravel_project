@@ -29,11 +29,11 @@ class ManningOrdersUpdateRequest extends FormRequest {
      */
     public function rules() {
         return [
-            'personal_card_id' => 'required|integer|exists:personal_cards,id',
-            'department_id' => 'required|integer|exists:departments,id',
-            'position_id' => 'required|integer|exists:positions,id',
-            'position_profession_id' => 'required|integer|exists:position_professions,id',
-            'assignment_date' => 'required',
+//            'personal_card_id' => 'required|integer|exists:personal_cards,id',
+//            'department_id' => 'required|integer|exists:departments,id',
+//            'position_id' => 'required|integer|exists:positions,id',
+//            'position_profession_id' => 'required|integer|exists:position_professions,id',
+//            'assignment_date' => 'required',
         ];
     }
 }

@@ -17,6 +17,7 @@ class CreateDepartmentsTable extends Migration {
 
         Schema::create('departments', function (Blueprint $table) {
             $table->increments('id'); // ID записи
+            $table->string('structura'); // Код организационной структуры
             $table->string('title', 50)->unique(); // Наименование подразделения
             $table->char('abbr', 15)->unique(); // Аббривиатура подразделения
             $table->timestamps(); // Поля с датой создания и датой изменения записи

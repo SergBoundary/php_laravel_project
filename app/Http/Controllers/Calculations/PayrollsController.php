@@ -10,7 +10,7 @@ use App\Models\Calculations\Payrolls;
 use App\Repositories\Calculations\PayrollsRepository;
 use App\Http\Requests\Calculations\PayrollsCreateRequest;
 use App\Http\Requests\Calculations\PayrollsUpdateRequest;
-use App\Models\Settings\Menu;
+use App\Models\Settings\Menus;
 use Illuminate\Support\Facades\Auth;
 
 /**
@@ -45,13 +45,26 @@ class PayrollsController extends BaseCalculationsController {
      *
      * @return \Illuminate\Http\Response
      */
-    public function index() {
+    public function index(Request $request) {
+        
+        $data = $request->input();
+        if(!empty($data['language'])) {
+            $this->setInterface($data['language']);
+            $interface = session('interface');
+        } else {
+            if($request->session()->has('interface')) {
+                $interface = session('interface');
+            } else {
+                $this->setInterface();
+                $interface = session('interface');
+            }
+        }
 		
         $auth = Auth::user();
         if(empty($auth)) {
-            return view('guest');
+            return view('guest', compact('interface'));
         }
-        $auth_access = Menu::select('access_'.$auth['access'])
+        $auth_access = Menus::select('access_'.$auth['access'])
                     ->where('path', $this->path)
                     ->first();
         $access = $auth_access['access_'.$auth['access']];
@@ -59,16 +72,15 @@ class PayrollsController extends BaseCalculationsController {
         // Формируем массив подменю выбранного пункта меню
         $menu = $this->createMenu($this->path);
         if(empty($menu)) {
-            return view('guest');
+            return view('guest', compact('interface'));
         }
         // Формируем массив данных о представлении
-        $title = $menu->where('path', $this->path)
-                ->first();
+        $title = "Расчетная ведомость";
 
         $payrollsList = $this->payrollsRepository->getTable();
 
         return view('calc.payrolls.index',  
-               compact('menu', 'title', 'access', 'payrollsList'));
+               compact('menu', 'interface', 'title', 'access', 'payrollsList'));
     }
 
     /**
@@ -76,13 +88,26 @@ class PayrollsController extends BaseCalculationsController {
      *
      * @return \Illuminate\Http\Response
      */
-    public function show($id) {
+    public function show(Request $request, $id) {
+        
+        $data = $request->input();
+        if(!empty($data['language'])) {
+            $this->setInterface($data['language']);
+            $interface = session('interface');
+        } else {
+            if($request->session()->has('interface')) {
+                $interface = session('interface');
+            } else {
+                $this->setInterface();
+                $interface = session('interface');
+            }
+        }
 		
         $auth = Auth::user();
         if(empty($auth)) {
-            return view('guest');
+            return view('guest', compact('interface'));
         }
-        $auth_access = Menu::select('access_'.$auth['access'])
+        $auth_access = Menus::select('access_'.$auth['access'])
                     ->where('path', $this->path)
                     ->first();
         $access = $auth_access['access_'.$auth['access']];
@@ -90,7 +115,7 @@ class PayrollsController extends BaseCalculationsController {
         // Формируем массив подменю выбранного пункта меню
         $menu = $this->createMenu($this->path);
         if(empty($menu)) {
-            return view('guest');
+            return view('guest', compact('interface'));
         }
         // Формируем массив данных о представлении
         $title = $menu->where('path', $this->path)
@@ -100,7 +125,7 @@ class PayrollsController extends BaseCalculationsController {
         $payrollsList = $this->payrollsRepository->getShow($id);
 
         return view('calc.payrolls.show', 
-               compact('menu', 'title', 'access', 'payrollsList'));
+               compact('menu', 'interface', 'title', 'access', 'payrollsList'));
     }
 
     /**
@@ -108,12 +133,25 @@ class PayrollsController extends BaseCalculationsController {
      *
      * @return \Illuminate\Http\Response
      */
-    public function create() {
+    public function create(Request $request) {
+        
+        $data = $request->input();
+        if(!empty($data['language'])) {
+            $this->setInterface($data['language']);
+            $interface = session('interface');
+        } else {
+            if($request->session()->has('interface')) {
+                $interface = session('interface');
+            } else {
+                $this->setInterface();
+                $interface = session('interface');
+            }
+        }
 
         // Формируем массив подменю выбранного пункта меню
         $menu = $this->createMenu($this->path);
         if(empty($menu)) {
-            return view('guest');
+            return view('guest', compact('interface'));
         }
         // Формируем массив данных о представлении
         $title = $menu->where('path', $this->path)
@@ -125,7 +163,7 @@ class PayrollsController extends BaseCalculationsController {
         $monthsList = $this->payrollsRepository->getListSelect(2);
 
         return view('calc.payrolls.create', 
-               compact('menu', 'title', 
+               compact('menu', 'interface', 'title', 
                       'personalCardsList', 
                       'yearsList', 
                       'monthsList'));
@@ -158,12 +196,25 @@ class PayrollsController extends BaseCalculationsController {
      *
      * @return \Illuminate\Http\Response
      */
-    public function edit($id) {
+    public function edit(Request $request, $id) {
+        
+        $data = $request->input();
+        if(!empty($data['language'])) {
+            $this->setInterface($data['language']);
+            $interface = session('interface');
+        } else {
+            if($request->session()->has('interface')) {
+                $interface = session('interface');
+            } else {
+                $this->setInterface();
+                $interface = session('interface');
+            }
+        }
 
         // Формируем массив подменю выбранного пункта меню
         $menu = $this->createMenu($this->path);
         if(empty($menu)) {
-            return view('guest');
+            return view('guest', compact('interface'));
         }
         // Формируем массив данных о представлении
         $title = $menu->where('path', $this->path)
@@ -178,7 +229,7 @@ class PayrollsController extends BaseCalculationsController {
         $payrollsList = $this->payrollsRepository->getEdit($id);
 
         return view('calc.payrolls.edit', 
-               compact('menu', 'title', 
+               compact('menu', 'interface', 'title', 
                       'personalCardsList', 
                       'yearsList', 
                       'monthsList', 

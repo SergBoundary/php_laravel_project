@@ -3,11 +3,12 @@
 @section('content')
     @php 
         /** @var \App\Models\HumanResources\PersonalCards 
-         $user, $personalCardsData, $manningOrderData, $allocationData, 
+         $user, $personalCardData, $manningOrderData, $allocationData, 
          $manningOrderList, $allocationList, 
          $manningOrderCount, $allocationCount
          */
     @endphp
+    <div id="interface-modul" modul="human-resources-add"></div>
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-10">
@@ -17,7 +18,7 @@
                         <div class="card-header">
                             <div class="row col-md-12" style="margin-bottom: -10px">
                                 <div class="mr-auto">
-                                    <h3>{{ $title }}</h3>
+                                    <h3>{{ $interface['title'] }}</h3>
                                 </div>
                                 <div class="ml-auto">
                                     <div class="form-row">
@@ -146,8 +147,8 @@
                                                 </select>
                                             </div>
                                             <div class='col-md-3'>
-                                                <label for='start' class="col-form-label col-form-label-sm">Дата перемещения</label>
-                                                <input name='start' id='start' type='date' maxlength="50" class="form-control form-control-sm" title='Дата перемещения'>
+                                                <label for='start' class="col-form-label col-form-label-sm">Дата прикрепления</label>
+                                                <input name='start' id='start' type='date' maxlength="50" class="form-control form-control-sm" title='Дата прикрепления'>
                                             </div>
                                         </div>
                                     </div>

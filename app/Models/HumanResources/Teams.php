@@ -15,6 +15,7 @@ class Teams extends Model {
     use SoftDeletes;
 
     protected $fillable = [
+        'user_id',
         'personal_card_id',
         'title',
         'abbr',

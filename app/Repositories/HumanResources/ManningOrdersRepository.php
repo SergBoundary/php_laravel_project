@@ -6,6 +6,7 @@ use App\Models\HumanResources\PersonalCards;
 use App\Models\References\Departments;
 use App\Models\References\Positions;
 use App\Models\References\PositionProfessions;
+use App\Models\Settings\Users;
 use App\Models\HumanResources\ManningOrders as Model;
 use Illuminate\Database\Eloquent\Collection;
 use App\Repositories\CoreRepository;
@@ -85,6 +86,91 @@ class ManningOrdersRepository extends CoreRepository {
     }
 
     /**
+     * Получить персональные данные сотрудника
+     *
+     * @param arr $id
+     *
+     * @return Collection
+     */
+    public function getPersonalCard($id) {
+
+        $columns = [
+            'id', 
+            'personal_account', 
+            'surname', 
+            'first_name', 
+            'second_name', 
+            'full_name_latina', 
+            'sex', 
+            'born_date', 
+            'phone', 
+            'photo_url', 
+        ];
+
+        $result = PersonalCards::select($columns)
+            ->find($id);
+
+        return $result;
+    }
+
+    /**
+     * Получить данные об авторе записи
+     *
+     * @param arr $id
+     *
+     * @return Collection
+     */
+    public function getAutor($id) {
+
+        $columns = [
+            'id',
+            'name',
+            'email',
+            'access',
+        ];
+
+        $result = Users::select($columns)
+            ->find($id);
+
+        return $result;
+    }
+
+    /**
+     * Получить данные о назначении 
+     *
+     * @param arr $id
+     *
+     * @return Collection
+     */
+    public function getManningOrder($id) {
+        
+        $columns = [
+            'departments.title AS department', 
+            'positions.title AS position', 
+            'position_professions.title AS profession', 
+            'position_professions.code AS profession_code', 
+            'manning_orders.id',
+            'manning_orders.user_id',
+            'manning_orders.personal_card_id',
+            'manning_orders.department_id', 
+            'manning_orders.position_id', 
+            'manning_orders.position_profession_id', 
+            'manning_orders.assignment_date', 
+            'manning_orders.resignation_date', 
+        ];
+
+        $result = $this->startConditions()
+                ->join('departments', 'manning_orders.department_id', '=', 'departments.id')
+                ->join('positions', 'manning_orders.position_id', '=', 'positions.id')
+                ->join('position_professions', 'manning_orders.position_profession_id', '=', 'position_professions.id')
+                ->select($columns)
+                ->where('manning_orders.id', $id)
+                ->first();
+
+        return $result;
+    }
+
+    /**
      * Получить модель для представления данных одной записи
      *
      * @param int $id
@@ -115,7 +201,7 @@ class ManningOrdersRepository extends CoreRepository {
      */
     public function getEdit($id) {
 
-        $columns = ['id', 'personal_card_id', 'department_id', 'position_id', 'position_profession_id', 'assignment_date', 'resignation_date', ];
+        $columns = ['id', 'user_id', 'personal_card_id', 'department_id', 'position_id', 'position_profession_id', 'assignment_date', 'resignation_date', ];
 
         $result = $this->startConditions()
             ->select($columns)
@@ -135,8 +221,11 @@ class ManningOrdersRepository extends CoreRepository {
 
         switch ($i) {
             case 0:
-                $columns = implode(", ", ['id', 'CONCAT(personal_account, ", ", surname, ", ", first_name) AS personal_card']);
+                $columns = implode(", ", ['id', 'CONCAT(surname, " ", first_name, " ", second_name) AS personal_card']);
                 $result = PersonalCards::selectRaw($columns)
+                    ->orderBy('surname')
+                    ->orderBy('first_name')
+                    ->orderBy('second_name')
                     ->toBase()
                     ->get();
 
@@ -156,7 +245,7 @@ class ManningOrdersRepository extends CoreRepository {
 
                 break;
             case 3:
-                $columns = implode(", ", ['id', 'CONCAT(code, ", ", title) AS position_profession']);
+                $columns = implode(", ", ['id', 'CONCAT(title, " (", code, ")") AS position_profession']);
                 $result = PositionProfessions::selectRaw($columns)
                     ->toBase()
                     ->get();

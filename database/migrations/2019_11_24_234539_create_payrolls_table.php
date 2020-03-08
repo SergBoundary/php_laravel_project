@@ -17,6 +17,7 @@ class CreatePayrollsTable extends Migration {
 
         Schema::create('payrolls', function (Blueprint $table) {
             $table->increments('id'); // ID записи
+            $table->string('structura'); // Код организационной структуры
             $table->integer('personal_card_id')->unsigned(); // Код личной карточки работника
             $table->integer('year_id')->unsigned(); // Год табеля
             $table->integer('month_id')->unsigned(); // Месяц табеля

@@ -33,10 +33,8 @@ class RetentionTypesRepository extends CoreRepository {
     public function getTable() {
 
         $result = $this->startConditions()
-            ->select('retention_types.title', 'retention_types.description', 'retention_types.abbr', 'retention_types.id')
-            ->orderBy('retention_types.title')
-            ->orderBy('retention_types.description')
-            ->orderBy('retention_types.abbr')
+            ->select('title', 'description', 'abbr', 'id')
+            ->orderBy('id')
             ->get();
         return $result;
     }

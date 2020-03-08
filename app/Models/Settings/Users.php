@@ -15,11 +15,13 @@ class Users extends Model {
     //use SoftDeletes;
 
     protected $fillable = [
+        'structura',
+        'surname',
         'name',
-        'personal_account',
-        'email',
+        'login',
+        'email',  
+        'access', 
         'password',
-        'access',
-        'photo_url',
+        'language',
     ];
 }

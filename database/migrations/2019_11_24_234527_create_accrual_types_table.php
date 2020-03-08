@@ -17,6 +17,7 @@ class CreateAccrualTypesTable extends Migration {
 
         Schema::create('accrual_types', function (Blueprint $table) {
             $table->increments('id'); // ID записи
+            $table->string('structura'); // Код организационной структуры
             $table->char('title', 5)->unique(); // Код начисления (для < 500)
             $table->string('description', 100)->unique(); // Наименование начисления
             $table->char('abbr', 20); // Сокращенное наименование начисления

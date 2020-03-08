@@ -6,92 +6,113 @@
          * @var \Illuminate\Database\Eloquent $personalCardsList, $objectsList, $teamsList
          */
     @endphp
+    <div id="interface-modul" modul="allocations-edit"></div>
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-10">
+            <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header"><h3>{{ $title }}</h3></div>
+                    <form method="POST" action="{{ route('hr.allocations.update', $allocationData->id) }}">
+                        @method('PATCH')
+                        @csrf
+                        <div class="card-header">
+                            <div class="row col-md-12" style="margin-bottom: -10px">
+                                <div class="mr-auto">
+                                    <h3>{{ $interface['title'] }}</h3>
+                                </div>
+                                <div class="ml-auto">
+                                    <div class="form-row">
+                                        <div class='form-group col-md-auto'>
+                                            <a class="btn btn-outline-secondary btn-sm" href="{{ route('hr.allocations.index') }}"><img src="/img/visibility_off_black_18dp.png" alt="Закрыть" title="Закрыть"></a>
+                                            <button type="submit" class="btn btn-outline-success btn-sm">
+                                                <img src="/img/save_black_18dp.png" alt="Сохранить" title="Сохранить">
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-                    <div class="card-body">
-
-                        <form method="POST" action="{{ route('hr.allocations.update', $allocationsList->id) }}">
-                            @method('PATCH')
-                            @csrf
+                        <div class="card-body">
                             @php
                                 /** @var \Illuminate\Support\ViewErrorBag @errors */
                             @endphp
                             @include('hr.allocations.includes.result_messages')
                             <div class="row justify-content-center">
-                                <div class='form-group col-md-10'>
-                                    <label for='personal_card_id' class="col-form-label col-form-label-sm">Работник</label>
-                                    <div class="input-group mb-3"
->                                        <select name='personal_card_id' value='{{ $allocationsList->personal_cards_id }}' id='personal_card_id' type='text' placeholder="Работник" class="form-control form-control-sm" title='Работник' required>
-                                            @foreach($personalCardsList as $personalCardsOption)
-                                            <option value="{{ $personalCardsOption->id }}" 
-                                                @if($personalCardsOption->id == $allocationsList->personal_card_id) selected @endif>
-                                                {{ $personalCardsOption->personal_card }}
-                                            </option>
-                                            @endforeach
-                                        </select>
-                                        <div class="input-group-append">
-                                            <a class="btn btn-outline-secondary btn-sm" href="{{ route('hr.personal-cards.create') }}">Добавить</a>
+                                <div class='media form-group col-md-11'>
+                                    <div>
+                                        <img src="{{ $personalCardData->photo_url }}" alt="Фото" class="img-thumbnail mr-3" height="180" width="180">
+                                        <br>
+                                        <input name='photo_url' value="{{ $personalCardData->photo_url }}" id='photo_url' type='text' maxlength="255" readonly class="form-control form-control-sm" style="margin-top: 10px; width: 180px;" title='Фото'>
+                                    </div>
+                                    <div class="media-body">
+                                        <div class='form-row'>
+                                            <div class="col-md-5">
+                                                <label for='personal_card' class="col-form-label col-form-label-sm">Сотрудник</label>
+                                                <input name='personal_card' value='{{ $userData->name }}' id='personal_card' type='text' maxlength="50" readonly class="form-control form-control-sm" title='Бригадир'>
+                                                <input name='personal_card_id' value='{{ $allocationData->personal_card_id }}' id='personal_card_id' type='hidden' maxlength="50" class="form-control form-control-sm" title='Бригада'>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label for='personal_account' class="col-form-label col-form-label-sm">Табельный номер</label>
+                                                <input name='personal_account' value='{{ $personalCardData->personal_account }}' id='personal_account' type='text' maxlength="50" readonly class="form-control form-control-sm" title='Табельный номер'>
+                                            </div>
+                                            <div class='col-md-1'>
+                                                <label for='sex' class="col-form-label col-form-label-sm">Пол</label>
+                                                <input name='sex' value='{{ $personalCardData->sex }}' id='sex' type='text' maxlength="50" readonly class="form-control form-control-sm" title='Пол'>
+                                            </div>
+                                            <div class='col-md-3'>
+                                                <label for='born_date' class="col-form-label col-form-label-sm">Дата рождения</label>
+                                                <input name='born_date' value='{{ $personalCardData->born_date }}' id='born_date' type='date' maxlength="50" readonly class="form-control form-control-sm" title='Дата рождения'>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="col-md-6">
+                                                <label for='phone' class="col-form-label col-form-label-sm">Телефон</label>
+                                                <input name='phone' value='{{ $personalCardData->phone }}' id='phone' type='text' maxlength="50" readonly class="form-control form-control-sm" title='Телефон'>
+                                            </div>
+                                            <div class='col-md-6'>
+                                                <label for='email' class="col-form-label col-form-label-sm">Email</label>
+                                                <input name='email' value='{{ $userData->email }}' id='email' type='email' readonly class="form-control form-control-sm" size="100" title='Email'>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class='col-md-6'>
+                                                <label for='team_id' class="col-form-label col-form-label-sm">Бригада</label>
+                                                <select name='team_id' value='team_id' id='team_id' type='text' placeholder="Бригада" class="form-control form-control-sm" title='Бригада' required>
+                                                    @foreach($teamsList as $teamsOption)
+                                                    <option value="{{ $teamsOption->id }}" 
+                                                        @if($teamsOption->id == $allocationData->team_id) selected @endif>
+                                                        {{ $teamsOption->team }}
+                                                    </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class='col-md-3'>
+                                                <label for='start' class="col-form-label col-form-label-sm">Дата прикрепления</label>
+                                                <input name='start'   value='{{ $allocationData->start }}' id='start' type='date' maxlength="50" class="form-control form-control-sm" title='Дата прикрепления'>
+                                            </div>
+                                            <div class='col-md-3'>
+                                                <label for='expiry' class="col-form-label col-form-label-sm">Дата открепления</label>
+                                                <input name='expiry'   value='{{ $allocationData->expiry }}' id='expiry' type='date' maxlength="50" class="form-control form-control-sm" title='Дата открепления'>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class='col-md-12'>
+                                                <label for='object_id' class="col-form-label col-form-label-sm">Объект</label>
+                                                <select name='object_id' value='object_id' id='object_id' type='text' placeholder="Объект" class="form-control form-control-sm" title='Объект' required>
+                                                    @foreach($objectsList as $objectsOption)
+                                                    <option value="{{ $objectsOption->id }}" 
+                                                        @if($objectsOption->id == $allocationData->object_id) selected @endif>
+                                                        {{ $objectsOption->object }}
+                                                    </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class='form-group col-md-10'>
-                                    <label for='object_id' class="col-form-label col-form-label-sm">Определен на объект</label>
-                                    <div class="input-group mb-3"
->                                        <select name='object_id' value='{{ $allocationsList->objects_id }}' id='object_id' type='text' placeholder="Определен на объект" class="form-control form-control-sm" title='Определен на объект' required>
-                                            @foreach($objectsList as $objectsOption)
-                                            <option value="{{ $objectsOption->id }}" 
-                                                @if($objectsOption->id == $allocationsList->object_id) selected @endif>
-                                                {{ $objectsOption->object }}
-                                            </option>
-                                            @endforeach
-                                        </select>
-                                        <div class="input-group-append">
-                                            <a class="btn btn-outline-secondary btn-sm" href="{{ route('ref.objects.create') }}">Добавить</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class='form-group col-md-10'>
-                                    <label for='team_id' class="col-form-label col-form-label-sm">Определен в бригаду</label>
-                                    <div class="input-group mb-3"
->                                        <select name='team_id' value='{{ $allocationsList->teams_id }}' id='team_id' type='text' placeholder="Определен в бригаду" class="form-control form-control-sm" title='Определен в бригаду' required>
-                                            @foreach($teamsList as $teamsOption)
-                                            <option value="{{ $teamsOption->id }}" 
-                                                @if($teamsOption->id == $allocationsList->team_id) selected @endif>
-                                                {{ $teamsOption->team }}
-                                            </option>
-                                            @endforeach
-                                        </select>
-                                        <div class="input-group-append">
-                                            <a class="btn btn-outline-secondary btn-sm" href="{{ route('hr.teams.create') }}">Добавить</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class='form-group col-md-10'>
-                                    <label for='start' class="col-form-label col-form-label-sm">Дата прикрепления</label>
-                                    <input name='start' value='{{ $allocationsList->start }}' id='start' type='text' maxlength="50" class="form-control form-control-sm" title='Дата прикрепления'>
-                                </div>
-                                <div class='form-group col-md-10'>
-                                    <label for='expiry' class="col-form-label col-form-label-sm">Дата открепления</label>
-                                    <input name='expiry' value='{{ $allocationsList->expiry }}' id='expiry' type='text' maxlength="50" class="form-control form-control-sm" title='Дата открепления'>
-                                </div>
-                                <div class='form-group col-md-10'>
-                                    <button type="submit" class="btn btn-secondary float-left btn-sm">
-                                        {{ __('Сохранить') }}
-                                    </button>
-                                    @if(session('success'))
-                                        <a class='btn btn-outline-secondary btn-sm' style="margin-left: 10px;" href="{{ route('hr.allocations.show', $allocationsList->id) }}">{{ __('Закрыть') }}</a>
-                                    @else
-                                        <a class='btn btn-outline-secondary btn-sm' style="margin-left: 10px;" href="{{ route('hr.allocations.show', $allocationsList->id) }}">{{ __('Отмена') }}</a>
-                                    @endif
                                 </div>
                             </div>
-                        </form>
-
-                    </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>

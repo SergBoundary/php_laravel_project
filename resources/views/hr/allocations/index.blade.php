@@ -4,13 +4,12 @@
     @php
         /** @var \App\Models\HumanResources\Allocations $menu, $title, $allocationsList */
         $personalCards = "";
-        $objects = "";
-        $teams = "";
     @endphp
+    <div id="interface-modul" modul="allocations-index"></div>
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-12">
-                <h3><small class="text-muted text-uppercase">{{ $title }}</small></h3><br />
+                <h3><small class="text-muted text-uppercase">{{ $interface['title'] }}</small></h3><br />
                 @if(count($allocationsList) > 0)
                 <table class="table table-hover table-bordered">
                     <thead>
@@ -30,14 +29,10 @@
                         @foreach($allocationsList as $allocationsRow)
                         <tr>
                             @if ($personalCards != $allocationsRow->personal_card)
-                            <td>
-                                {{ $allocationsRow->surname }} {{ $allocationsRow->first_name }}
-                            </td>
-                            <td>
-                                {{ $allocationsRow->personal_card }}
-                            </td>
+                                <td>{{ $allocationsRow->surname }} {{ $allocationsRow->first_name }}</td>
+                                <td>{{ $allocationsRow->personal_card }}</td>
                             @else
-                            <td colspan="2"> </td>
+                                <td colspan="2"> </td>
                             @endif
                             <td>{{ $allocationsRow->object }}</td>
                             <td>{{ $allocationsRow->team }}</td>

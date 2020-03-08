@@ -10,7 +10,7 @@ use App\Models\References\Positions;
 use App\Repositories\References\PositionsRepository;
 use App\Http\Requests\References\PositionsCreateRequest;
 use App\Http\Requests\References\PositionsUpdateRequest;
-use App\Models\Settings\Menu;
+use App\Models\Settings\Menus;
 use Illuminate\Support\Facades\Auth;
 
 /**
@@ -51,7 +51,7 @@ class PositionsController extends BaseReferencesController {
         if(empty($auth)) {
             return view('guest');
         }
-        $auth_access = Menu::select('access_'.$auth['access'])
+        $auth_access = Menus::select('access_'.$auth['access'])
                     ->where('path', $this->path)
                     ->first();
         $access = $auth_access['access_'.$auth['access']];
@@ -81,7 +81,7 @@ class PositionsController extends BaseReferencesController {
         if(empty($auth)) {
             return view('guest');
         }
-        $auth_access = Menu::select('access_'.$auth['access'])
+        $auth_access = Menus::select('access_'.$auth['access'])
                     ->where('path', $this->path)
                     ->first();
         $access = $auth_access['access_'.$auth['access']];

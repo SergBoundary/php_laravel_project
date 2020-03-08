@@ -5,6 +5,7 @@ namespace App\Repositories\HumanResources;
 use App\Models\HumanResources\PersonalCards;
 use App\Models\References\Objects;
 use App\Models\HumanResources\Teams;
+use App\Models\Settings\Users;
 use App\Models\HumanResources\Allocations as Model;
 use Illuminate\Database\Eloquent\Collection;
 use App\Repositories\CoreRepository;
@@ -43,9 +44,10 @@ class AllocationsRepository extends CoreRepository {
                 ->join('personal_cards', 'allocations.personal_card_id', '=', 'personal_cards.id')
                 ->join('objects', 'allocations.object_id', '=', 'objects.id')
                 ->join('teams', 'allocations.team_id', '=', 'teams.id')
-                ->select('personal_cards.personal_account AS personal_card', 'personal_cards.surname AS surname', 'personal_cards.first_name AS first_name', 'objects.title AS object', 'teams.abbr AS team', 'allocations.start', 'allocations.expiry', 'allocations.id')
+                ->select('personal_cards.personal_account AS personal_card', 'personal_cards.surname', 'personal_cards.first_name', 'objects.title AS object', 'teams.abbr AS team', 'allocations.start', 'allocations.expiry', 'allocations.id')
                 ->where('personal_cards.id', $user['id'])
                 ->orderBy('personal_cards.surname')
+                ->orderBy('personal_cards.first_name')
                 ->orderBy('allocations.start')
                 ->get();
         } elseif($user['access'] == 3) {
@@ -53,9 +55,10 @@ class AllocationsRepository extends CoreRepository {
                 ->join('personal_cards', 'allocations.personal_card_id', '=', 'personal_cards.id')
                 ->join('objects', 'allocations.object_id', '=', 'objects.id')
                 ->join('teams', 'allocations.team_id', '=', 'teams.id')
-                ->select('personal_cards.personal_account AS personal_card', 'personal_cards.surname AS surname', 'personal_cards.first_name AS first_name', 'objects.title AS object', 'teams.abbr AS team', 'allocations.start', 'allocations.expiry', 'allocations.id')
+                ->select('personal_cards.personal_account AS personal_card', 'personal_cards.surname', 'personal_cards.first_name', 'objects.title AS object', 'teams.abbr AS team', 'allocations.start', 'allocations.expiry', 'allocations.id')
                 ->where('teams.personal_card_id', $user['id'])
                 ->orderBy('personal_cards.surname')
+                ->orderBy('personal_cards.first_name')
                 ->orderBy('allocations.start')
                 ->get();
         } else {
@@ -63,13 +66,95 @@ class AllocationsRepository extends CoreRepository {
                 ->join('personal_cards', 'allocations.personal_card_id', '=', 'personal_cards.id')
                 ->join('objects', 'allocations.object_id', '=', 'objects.id')
                 ->join('teams', 'allocations.team_id', '=', 'teams.id')
-                ->select('personal_cards.personal_account AS personal_card', 'personal_cards.surname AS surname', 'personal_cards.first_name AS first_name', 'objects.title AS object', 'teams.abbr AS team', 'allocations.start', 'allocations.expiry', 'allocations.id')
+                ->select('personal_cards.personal_account AS personal_card', 'personal_cards.surname', 'personal_cards.first_name', 'objects.title AS object', 'teams.abbr AS team', 'allocations.start', 'allocations.expiry', 'allocations.id')
                 ->orderBy('personal_cards.surname')
+                ->orderBy('personal_cards.first_name')
                 ->orderBy('allocations.start')
                 ->get();
         }
 
        return $result;
+    }
+
+    /**
+     * Получить персональные данные сотрудника
+     *
+     * @param arr $id
+     *
+     * @return Collection
+     */
+    public function getPersonalCard($id) {
+
+        $columns = [
+            'id', 
+            'personal_account', 
+            'surname', 
+            'first_name', 
+            'second_name', 
+            'full_name_latina', 
+            'sex', 
+            'born_date', 
+            'phone', 
+            'photo_url', 
+        ];
+
+        $result = PersonalCards::select($columns)
+            ->find($id);
+
+        return $result;
+    }
+
+    /**
+     * Получить данные об авторе записи
+     *
+     * @param arr $id
+     *
+     * @return Collection
+     */
+    public function getAutor($id) {
+
+        $columns = [
+            'id',
+            'name',
+            'email',
+            'access',
+        ];
+
+        $result = Users::select($columns)
+            ->find($id);
+
+        return $result;
+    }
+
+    /**
+     * Получить модель для редактирования данных одной записи
+     *
+     * @param int $id
+     *
+     * @return Model
+     */
+    public function getAllocation($id) {
+        
+        $columns = [
+            'objects.title AS object',  
+            'teams.title AS team', 
+            'allocations.id',
+            'allocations.user_id',
+            'allocations.personal_card_id',
+            'allocations.object_id',
+            'allocations.team_id', 
+            'allocations.start', 
+            'allocations.expiry', 
+        ];
+
+        $result = $this->startConditions()
+            ->join('objects', 'allocations.object_id', '=', 'objects.id')
+            ->join('teams', 'allocations.team_id', '=', 'teams.id')
+            ->select($columns)
+            ->where('allocations.id', $id)
+            ->first();
+
+        return $result;
     }
 
     /**
@@ -102,7 +187,7 @@ class AllocationsRepository extends CoreRepository {
      */
     public function getEdit($id) {
 
-        $columns = ['id', 'personal_card_id', 'object_id', 'team_id', 'start', 'expiry', ];
+        $columns = ['id', 'user_id', 'personal_card_id', 'object_id', 'team_id', 'start', 'expiry', ];
 
         $result = $this->startConditions()
             ->select($columns)
@@ -119,7 +204,7 @@ class AllocationsRepository extends CoreRepository {
      * @return Model
      */
     public function getEditExpiry($id, $expiry) {
-
+        // На бригадира не распространяется, кроме случая снятия с должности
         $columns = ['id', 'start', 'expiry', ];
 
         $result = $this->startConditions()
@@ -139,6 +224,34 @@ class AllocationsRepository extends CoreRepository {
     }
 
     /**
+     * Закрыть актуальное перемещение
+     *
+     * @param arr $id
+     *
+     * @return Collection
+     */
+    public function getEditClose($id, $date) {
+        $update = $this->startConditions()
+                ->where('id', $id)
+                ->whereNull('expiry')
+                ->first();
+        $expiry = date("Y-m-d", strtotime("-1 day ".$date));
+        dd($date, $expiry);
+        $update->expiry = $expiry;
+    }
+
+    /**
+     * Открыть новое перемещение
+     *
+     * @param arr $id
+     *
+     * @return Collection
+     */
+    public function openAllocation($id, $date) {
+        
+    }
+
+    /**
      * Получить модель для раскрывающегося списка данных
      *
      * @param int $i
@@ -149,8 +262,11 @@ class AllocationsRepository extends CoreRepository {
 
         switch ($i) {
             case 0:
-                $columns = implode(", ", ['id', 'CONCAT(personal_account, ", ", surname, " ", first_name) AS personal_card']);
+                $columns = implode(", ", ['id', 'CONCAT(surname, " ", first_name, " ", second_name) AS personal_card']);
                 $result = PersonalCards::selectRaw($columns)
+                    ->orderBy('surname')
+                    ->orderBy('first_name')
+                    ->orderBy('second_name')
                     ->toBase()
                     ->get();
 
@@ -165,6 +281,7 @@ class AllocationsRepository extends CoreRepository {
             case 2:
                 $columns = implode(", ", ['id', 'title AS team']);
                 $result = Teams::selectRaw($columns)
+                    ->whereNull('expiry')
                     ->toBase()
                     ->get();
 

@@ -10,7 +10,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-10">
-                <h3><small class="text-muted text-uppercase">{{$title['name']}}</small></h3><br />
+                <h3><small class="text-muted text-uppercase">{{ $title }}</small></h3><br />
                 @if(count($payrollsList) > 0)
                 <table class="table table-hover">
                     <thead>

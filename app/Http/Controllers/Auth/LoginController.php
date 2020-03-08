@@ -18,14 +18,14 @@ class LoginController extends Controller
     |
     */
 
-    use AuthenticatesUsers;
+    use AuthenticatesUsers; // Исправить в username() значение return с 'email' на 'personal_account'
 
     /**
      * Where to redirect users after login.
      *
      * @var string
      */
-    protected $redirectTo = '/user';
+    protected $redirectTo = '/';
 
     /**
      * Create a new controller instance.

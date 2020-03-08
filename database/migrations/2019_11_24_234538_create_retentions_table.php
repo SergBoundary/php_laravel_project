@@ -17,6 +17,7 @@ class CreateRetentionsTable extends Migration {
 
         Schema::create('retentions', function (Blueprint $table) {
             $table->increments('id'); // ID записи
+            $table->string('structura'); // Код организационной структуры
             $table->integer('user_id')->unsigned(); // Код пользователя - автора записи
             $table->integer('personal_card_id')->unsigned(); // Код личной карточки работника
             $table->integer('year_id')->unsigned(); // Год табеля

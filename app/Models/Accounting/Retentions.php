@@ -15,6 +15,7 @@ class Retentions extends Model {
     use SoftDeletes;
 
     protected $fillable = [
+        'user_id',
         'personal_card_id',
         'year_id',
         'month_id',

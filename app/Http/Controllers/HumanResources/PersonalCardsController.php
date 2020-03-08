@@ -10,7 +10,7 @@ use App\Models\HumanResources\ManningOrders;
 use App\Repositories\HumanResources\PersonalCardsRepository;
 use App\Http\Requests\HumanResources\PersonalCardsCreateRequest;
 use App\Http\Requests\HumanResources\PersonalCardsUpdateRequest;
-use App\Models\Settings\Menu;
+use App\Models\Settings\Menus;
 use Illuminate\Support\Facades\Auth;
 
 /**
@@ -45,29 +45,27 @@ class PersonalCardsController extends BaseHumanResourcesController {
      *
      * @return \Illuminate\Http\Response
      */
-    public function index() {
+    public function index(Request $request) {
 		
         $auth = Auth::user();
+        
         if(empty($auth)) {
-            return view('guest');
+            $interface = $this->setInterface($request, 'guest');
+            return view('guest', compact('interface'));
+        } else {
+            $interface = $this->setInterface($request, 'human-resources-index', $auth['id']);
         }
-        $auth_access = Menu::select('access_'.$auth['access'])
+        
+        $auth_access = Menus::select('access_'.$auth['access'])
                     ->where('path', $this->path)
                     ->first();
         $access = $auth_access['access_'.$auth['access']];
-
-        // Формируем массив подменю выбранного пункта меню
-        $menu = $this->createMenu($this->path);
-        if(empty($menu)) {
-            return view('guest');
-        }
-        // Формируем массив данных о представлении
-        $title = "Кадровый ресурс";
-
+        
         $personalCardsList = $this->personalCardsRepository->getTable();
-
+        
         return view('hr.personal-cards.index',  
-               compact('menu', 'title', 'access', 'personalCardsList'));
+               compact('interface', 'access', 
+                       'personalCardsList'));
     }
 
     /**
@@ -75,45 +73,44 @@ class PersonalCardsController extends BaseHumanResourcesController {
      *
      * @return \Illuminate\Http\Response
      */
-    public function show($id) {
+    public function show(Request $request, $id) {
 		
-        $user = Auth::user();
-        if(empty($user)) {
-            return view('guest');
+        $auth = Auth::user();
+        
+        if(empty($auth)) {
+            $interface = $this->setInterface($request, 'guest');
+            return view('guest', compact('interface'));
+        } else {
+            $interface = $this->setInterface($request, 'human-resources-show', $auth['id']);
         }
-        $auth_access = Menu::select('access_'.$user['access'])
+        
+        $auth_access = Menus::select('access_'.$auth['access'])
                     ->where('path', $this->path)
                     ->first();
-        $access = $auth_access['access_'.$user['access']];
-
-        // Формируем массив подменю выбранного пункта меню
-        $menu = $this->createMenu($this->path);
-        if(empty($menu)) {
-            return view('guest');
-        }
-        // Формируем массив данных о представлении
-        $title = "Карточка сотрудника";  
+        $access = $auth_access['access_'.$auth['access']];
+        
         // Формируем содержание списка заполняемых полей input
         $userData = Users::find($id);
-        $personalCardsData = $this->personalCardsRepository->getPersonalActuality($id);
-        $manningOrderData = $this->personalCardsRepository->getManningOrderActuality($id);
-        $allocationData = $this->personalCardsRepository->getAllocationActuality($id);
-        $manningOrderList = $this->personalCardsRepository->getManningOrderHistory($id);
-        $allocationList = $this->personalCardsRepository->getAllocationHistory($id);
-        $manningOrderCount = $this->personalCardsRepository->getManningOrderCount($id);
-        $allocationCount = $this->personalCardsRepository->getAllocationCount($id);
+        $personalCardData = $this->personalCardsRepository->getPersonalActuality($id, $auth['structura']);
+        $manningOrderData = $this->personalCardsRepository->getManningOrderActuality($id, $auth['structura']);
+        $allocationData = $this->personalCardsRepository->getAllocationActuality($id, $auth['structura']);
+        
+        $manningOrderList = $this->personalCardsRepository->getManningOrderHistory($id, $auth['structura']);
+        $allocationList = $this->personalCardsRepository->getAllocationHistory($id, $auth['structura']);
+        
+        $manningOrderCount = $this->personalCardsRepository->getManningOrderCount($id, $auth['structura']);
+        $allocationCount = $this->personalCardsRepository->getAllocationCount($id, $auth['structura']);
 
         return view('hr.personal-cards.show', 
-               compact('user', 'menu', 'title', 'access', 
+               compact('interface', 'access', 
                        'userData',
-                       'personalCardsData', 
+                       'personalCardData', 
                        'manningOrderData', 
                        'allocationData', 
                        'manningOrderList', 
                        'allocationList', 
                        'manningOrderCount', 
-                       'allocationCount'
-                       ));
+                       'allocationCount'));
     }
 
     /**
@@ -121,15 +118,21 @@ class PersonalCardsController extends BaseHumanResourcesController {
      *
      * @return \Illuminate\Http\Response
      */
-    public function create() {
-
-        // Формируем массив подменю выбранного пункта меню
-        $menu = $this->createMenu($this->path);
-        if(empty($menu)) {
-            return view('guest');
+    public function create(Request $request) {
+		
+        $auth = Auth::user();
+        
+        if(empty($auth)) {
+            $interface = $this->setInterface($request, 'guest');
+            return view('guest', compact('interface'));
+        } else {
+            $interface = $this->setInterface($request, 'human-resources-add', $auth['id']);
         }
-        // Формируем массив данных о представлении
-        $title = "Новый сотрудник";
+        
+        $auth_access = Menus::select('access_'.$auth['access'])
+                    ->where('path', $this->path)
+                    ->first();
+        $access = $auth_access['access_'.$auth['access']];
         
         $departmentsList = $this->personalCardsRepository->getListSelect(1);
         $positionsList = $this->personalCardsRepository->getListSelect(2);
@@ -138,7 +141,7 @@ class PersonalCardsController extends BaseHumanResourcesController {
         $objectsList = $this->personalCardsRepository->getListSelect(5);
 
         return view('hr.personal-cards.create', 
-               compact('menu', 'title',
+               compact('interface', 'access',
                        'departmentsList',
                        'positionsList',
                        'positionProfessionsList',
@@ -155,21 +158,22 @@ class PersonalCardsController extends BaseHumanResourcesController {
 
         $data = $request->input();
         
-        $personalCardsData['surname'] = $data['surname'];
-        $personalCardsData['first_name'] = $data['first_name'];
-        $personalCardsData['second_name'] = $data['second_name'];
-        $personalCardsData['personal_account'] = $data['personal_account'];
-        $personalCardsData['full_name_latina'] = mb_convert_case($data['full_name_latina'], MB_CASE_UPPER);
-        $personalCardsData['sex'] = ucwords($data['sex']);
-        $personalCardsData['born_date'] = $data['born_date'];
-        $personalCardsData['phone'] = $data['phone'];
-        $personalCardsData['photo_url'] = "/img/".$data['photo_url'];
+        $personalCardData['user_id'] = Auth::user()->id;
+        $personalCardData['surname'] = $data['surname'];
+        $personalCardData['first_name'] = $data['first_name'];
+        $personalCardData['second_name'] = $data['second_name'];
+        $personalCardData['personal_account'] = $data['personal_account'];
+        $personalCardData['full_name_latina'] = mb_convert_case($data['full_name_latina'], MB_CASE_UPPER);
+        $personalCardData['sex'] = ucwords($data['sex']);
+        $personalCardData['born_date'] = $data['born_date'];
+        $personalCardData['phone'] = $data['phone'];
+        $personalCardData['photo_url'] = "/img/".$data['photo_url'];
         
-        $personalCardsResult = (new PersonalCards($personalCardsData))->create($personalCardsData);
+        $personalCardsResult = (new PersonalCards($personalCardData))->create($personalCardData);
         $id = $personalCardsResult->id;
         
         $userData['name'] = trim($data['surname']." ".$data['first_name']." ".$data['second_name']);
-        $userData['personal_account'] = $data['personal_account'];
+        $userData['login'] = $data['personal_account'];
         $userData['email'] = $data['email'];
         $userData['password'] = bcrypt($data['personal_account']);
         $userData['access'] = 1;
@@ -177,22 +181,24 @@ class PersonalCardsController extends BaseHumanResourcesController {
         
         $userResult = (new Users($userData))->create($userData);
         
-        $manningOrdersData['personal_card_id'] = $id;
-        $manningOrdersData['department_id'] = $data['department_id'];
-        $manningOrdersData['position_id'] = $data['position_id'];
-        $manningOrdersData['position_profession_id'] = $data['position_profession_id'];
-        $manningOrdersData['assignment_date'] = $data['assignment_date'];
+        $manningOrderData['user_id'] = Auth::user()->id;
+        $manningOrderData['personal_card_id'] = $id;
+        $manningOrderData['department_id'] = $data['department_id'];
+        $manningOrderData['position_id'] = $data['position_id'];
+        $manningOrderData['position_profession_id'] = $data['position_profession_id'];
+        $manningOrderData['assignment_date'] = $data['assignment_date'];
         
-        $manningOrdersResult = (new ManningOrders($manningOrdersData))->create($manningOrdersData);
+        $manningOrdersResult = (new ManningOrders($manningOrderData))->create($manningOrderData);
         
-        $allocationsData['personal_card_id'] = $id;
-        $allocationsData['team_id'] = $data['team_id'];
-        $allocationsData['object_id'] = $data['object_id'];
-        $allocationsData['start'] = $data['start'];
+        $allocationData['user_id'] = Auth::user()->id;
+        $allocationData['personal_card_id'] = $id;
+        $allocationData['team_id'] = $data['team_id'];
+        $allocationData['object_id'] = $data['object_id'];
+        $allocationData['start'] = $data['start'];
         
-        $allocationsResult = (new Allocations($allocationsData))->create($allocationsData);
+        $allocationsResult = (new Allocations($allocationData))->create($allocationData);
 
-        if($personalCardsData && $userData && $manningOrdersData && $allocationsResult) {
+        if($personalCardData && $userData && $manningOrderData && $allocationsResult) {
             return redirect()
                 ->route('hr.personal-cards.edit', $personalCardsResult->id)
                 ->with(['success' => "Успешно сохранено"]);
@@ -208,20 +214,28 @@ class PersonalCardsController extends BaseHumanResourcesController {
      *
      * @return \Illuminate\Http\Response
      */
-    public function edit($id) {
-
-        // Формируем массив подменю выбранного пункта меню
-        $menu = $this->createMenu($this->path);
-        if(empty($menu)) {
-            return view('guest');
+    public function edit(Request $request, $id) {
+		
+        $auth = Auth::user();
+        
+        if(empty($auth)) {
+            $interface = $this->setInterface($request, 'guest');
+            return view('guest', compact('interface'));
+        } else {
+            $interface = $this->setInterface($request, 'human-resources-edit', $auth['id']);
         }
-        // Формируем массив данных о представлении
-        $title = "Карточка сотрудника";
+        
+        $auth_access = Menus::select('access_'.$auth['access'])
+                    ->where('path', $this->path)
+                    ->first();
+        $access = $auth_access['access_'.$auth['access']];
+        
         // Формируем содержание списка заполняемых полей input
         $userData = Users::find($id);
-        $personalCardsData = $this->personalCardsRepository->getPersonalActuality($id);
+        $personalCardData = $this->personalCardsRepository->getPersonalActuality($id);
         $manningOrderData = $this->personalCardsRepository->getManningOrderActuality($id);
         $allocationData = $this->personalCardsRepository->getAllocationActuality($id);
+        
         $departmentsList = $this->personalCardsRepository->getListSelect(1);
         $positionsList = $this->personalCardsRepository->getListSelect(2);
         $positionProfessionsList = $this->personalCardsRepository->getListSelect(3);
@@ -229,9 +243,9 @@ class PersonalCardsController extends BaseHumanResourcesController {
         $objectsList = $this->personalCardsRepository->getListSelect(5);
 
         return view('hr.personal-cards.edit', 
-               compact('menu', 'title', 
+               compact('interface', 'access', 
                        'userData',
-                       'personalCardsData',
+                       'personalCardData',
                        'manningOrderData',
                        'allocationData',
                        'departmentsList',
@@ -274,37 +288,38 @@ class PersonalCardsController extends BaseHumanResourcesController {
         }
         $data = $request->all();
         
-        $personalCardsData['surname'] = $data['surname'];
-        $personalCardsData['first_name'] = $data['first_name'];
-        $personalCardsData['second_name'] = $data['second_name'];
-        $personalCardsData['personal_account'] = $data['personal_account'];
-        $personalCardsData['full_name_latina'] = mb_convert_case($data['full_name_latina'], MB_CASE_UPPER);
-        $personalCardsData['sex'] = ucwords($data['sex']);
-        $personalCardsData['born_date'] = $data['born_date'];
-        $personalCardsData['phone'] = $data['phone'];
-        $personalCardsData['photo_url'] = $data['photo_url'];
+        $personalCardData['surname'] = $data['surname'];
+        $personalCardData['first_name'] = $data['first_name'];
+        $personalCardData['second_name'] = $data['second_name'];
+        $personalCardData['personal_account'] = $data['personal_account'];
+        $personalCardData['full_name_latina'] = mb_convert_case($data['full_name_latina'], MB_CASE_UPPER);
+        $personalCardData['sex'] = ucwords($data['sex']);
+        $personalCardData['born_date'] = $data['born_date'];
+        $personalCardData['phone'] = $data['phone'];
+        $personalCardData['photo_url'] = $data['photo_url'];
         
         $userData['name'] = trim($data['surname']." ".$data['first_name']." ".$data['second_name']);
         $userData['personal_account'] = $data['personal_account'];
         $userData['email'] = $data['email'];
         $userData['photo_url'] = $data['photo_url'];
         
-        $manningOrdersData['personal_card_id'] = $id;
-        $manningOrdersData['department_id'] = $data['department_id'];
-        $manningOrdersData['position_id'] = $data['position_id'];
-        $manningOrdersData['position_profession_id'] = $data['position_profession_id'];
-        $manningOrdersData['assignment_date'] = $data['assignment_date'];
+        $manningOrderData['personal_card_id'] = $id;
+        $manningOrderData['department_id'] = $data['department_id'];
+        $manningOrderData['position_id'] = $data['position_id'];
+        $manningOrderData['position_profession_id'] = $data['position_profession_id'];
+        $manningOrderData['assignment_date'] = $data['assignment_date'];
         
-        $allocationsData['personal_card_id'] = $id;
-        $allocationsData['team_id'] = $data['team_id'];
-        $allocationsData['object_id'] = $data['object_id'];
-        $allocationsData['start'] = $data['start'];
+        $allocationData['personal_card_id'] = $id;
+        $allocationData['team_id'] = $data['team_id'];
+        $allocationData['object_id'] = $data['object_id'];
+        $allocationData['start'] = $data['start'];
+        $allocationData['expiry'] = $data['expiry'];
         
-        $personalCardsResult = $personalCardsItem->update($personalCardsData);
+        $personalCardsResult = $personalCardsItem->update($personalCardData);
         $userResult = $userItem->update($userData);
-        $manningOrdersResult = $manningOrdersItem->update($manningOrdersData);
-        $allocationsResult = $allocationsItem->update($allocationsData);
-//dd($data, $personalCardsData, $userData, $manningOrdersItem, $manningOrdersData, $allocationsData);
+        $manningOrdersResult = $manningOrdersItem->update($manningOrderData);
+        $allocationsResult = $allocationsItem->update($allocationData);
+//dd($data, $personalCardData, $userData, $manningOrdersItem, $manningOrderData, $allocationData);
         if($personalCardsResult && $userResult && $manningOrdersResult && $allocationsResult) {
             return redirect()
                 ->route('hr.personal-cards.show', $personalCardsItem->id)

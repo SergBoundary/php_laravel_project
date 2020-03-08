@@ -15,6 +15,8 @@ class PersonalCards extends Model {
     use SoftDeletes;
 
     protected $fillable = [
+        'structura',
+        'user_id',
         'personal_account',
         'surname',
         'first_name',

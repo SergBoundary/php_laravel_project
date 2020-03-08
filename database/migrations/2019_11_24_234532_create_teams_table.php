@@ -17,10 +17,11 @@ class CreateTeamsTable extends Migration {
 
         Schema::create('teams', function (Blueprint $table) {
             $table->increments('id'); // ID записи
+            $table->string('structura'); // Код организационной структуры
             $table->integer('user_id')->unsigned(); // Код пользователя - автора записи
             $table->integer('personal_card_id')->default(0); // Код личной карточки работника
-            $table->string('title', 255)->unique(); // Наименование бригады
-            $table->char('abbr', 10)->unique(); // Аббривиатура бригады
+            $table->string('title'); // Наименование бригады
+            $table->char('abbr', 10); // Аббривиатура бригады
             $table->date('start')->nullable(); // Дата формирования бригады
             $table->date('expiry')->nullable(); // Дата расформирования бригады
             $table->timestamps(); // Поля с датой создания и датой изменения записи

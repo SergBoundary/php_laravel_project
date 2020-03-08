@@ -8,10 +8,11 @@ use App\Models\References\Departments;
 use App\Models\References\Positions;
 use App\Models\References\PositionProfessions;
 use App\Models\HumanResources\ManningOrders;
+use App\Models\Settings\Users;
 use App\Repositories\HumanResources\ManningOrdersRepository;
 use App\Http\Requests\HumanResources\ManningOrdersCreateRequest;
 use App\Http\Requests\HumanResources\ManningOrdersUpdateRequest;
-use App\Models\Settings\Menu;
+use App\Models\Settings\Menus;
 use Illuminate\Support\Facades\Auth;
 
 /**
@@ -46,29 +47,38 @@ class ManningOrdersController extends BaseHumanResourcesController {
      *
      * @return \Illuminate\Http\Response
      */
-    public function index() {
+    public function index(Request $request) {
 		
         $auth = Auth::user();
-        if(empty($auth)) {
-            return view('guest');
+        
+        if($request->session()->has('interface')) {
+            $interface = session('interface');
+        } else {
+            $this->setInterface();
+            $interface = session('interface');
         }
-        $auth_access = Menu::select('access_'.$auth['access'])
+        
+        if($request->session()->has('title')) {
+            $title = session('title');
+        } else {
+            $this->setInterface();
+            $title = session('title');
+        }
+        
+        if(empty($auth)) {
+            return view('guest', compact('interface', 'title'));
+        }
+        
+        $auth_access = Menus::select('access_'.$auth['access'])
                     ->where('path', $this->path)
                     ->first();
         $access = $auth_access['access_'.$auth['access']];
 
-        // Формируем массив подменю выбранного пункта меню
-        $menu = $this->createMenu($this->path);
-        if(empty($menu)) {
-            return view('guest');
-        }
-        // Формируем массив данных о представлении
-        $title = "Должностные назначения";
-
         $manningOrdersList = $this->manningOrdersRepository->getTable();
 
         return view('hr.manning-orders.index',  
-               compact('menu', 'title', 'access', 'manningOrdersList'));
+               compact('interface', 'title', 'access', 
+                       'manningOrdersList'));
     }
 
     /**
@@ -76,30 +86,47 @@ class ManningOrdersController extends BaseHumanResourcesController {
      *
      * @return \Illuminate\Http\Response
      */
-    public function show($id) {
+    public function show(Request $request, $id) {
 		
         $auth = Auth::user();
-        if(empty($auth)) {
-            return view('guest');
+        
+        if($request->session()->has('interface')) {
+            $interface = session('interface');
+        } else {
+            $this->setInterface();
+            $interface = session('interface');
         }
-        $auth_access = Menu::select('access_'.$auth['access'])
+        
+        if($request->session()->has('title')) {
+            $title = session('title');
+        } else {
+            $this->setInterface();
+            $title = session('title');
+        }
+        
+        if(empty($auth)) {
+            return view('guest', compact('interface', 'title'));
+        }
+        
+        $auth_access = Menus::select('access_'.$auth['access'])
                     ->where('path', $this->path)
                     ->first();
         $access = $auth_access['access_'.$auth['access']];
 
-        // Формируем массив подменю выбранного пункта меню
-        $menu = $this->createMenu($this->path);
-        if(empty($menu)) {
-            return view('guest');
-        }
-        // Формируем массив данных о представлении
-        $title = "Карточка назначения";
-
-        // Формируем содержание списка заполняемых полей input
-        $manningOrdersList = $this->manningOrdersRepository->getShow($id);
+        // Данные о назначении
+        $manningOrderData = $this->manningOrdersRepository->getManningOrder($id);
+        // Данные об авторе записи
+        $autorData = $this->manningOrdersRepository->getAutor($manningOrderData['user_id']);
+        // Данные о сотруднике
+        $personalCardData = $this->manningOrdersRepository->getPersonalCard($manningOrderData['personal_card_id']);
+        $userData = Users::find($manningOrderData['personal_card_id']);
 
         return view('hr.manning-orders.show', 
-               compact('menu', 'title', 'access', 'manningOrdersList'));
+               compact('interface', 'title', 'access', 
+                       'personalCardData',
+                       'autorData',
+                       'userData', 
+                       'manningOrderData'));
     }
 
     /**
@@ -107,15 +134,32 @@ class ManningOrdersController extends BaseHumanResourcesController {
      *
      * @return \Illuminate\Http\Response
      */
-    public function create() {
-
-        // Формируем массив подменю выбранного пункта меню
-        $menu = $this->createMenu($this->path);
-        if(empty($menu)) {
-            return view('guest');
+    public function create(Request $request) {
+		
+        $auth = Auth::user();
+        
+        if($request->session()->has('interface')) {
+            $interface = session('interface');
+        } else {
+            $this->setInterface();
+            $interface = session('interface');
         }
-        // Формируем массив данных о представлении
-        $title = "Новое назначение";
+        
+        if($request->session()->has('title')) {
+            $title = session('title');
+        } else {
+            $this->setInterface();
+            $title = session('title');
+        }
+        
+        if(empty($auth)) {
+            return view('guest', compact('interface', 'title'));
+        }
+        
+        $auth_access = Menus::select('access_'.$auth['access'])
+                    ->where('path', $this->path)
+                    ->first();
+        $access = $auth_access['access_'.$auth['access']];
 
         // Формируем содержание списка выбираемых полей полей select
         $personalCardsList = $this->manningOrdersRepository->getListSelect(0);
@@ -124,7 +168,7 @@ class ManningOrdersController extends BaseHumanResourcesController {
         $positionProfessionsList = $this->manningOrdersRepository->getListSelect(3);
 
         return view('hr.manning-orders.create', 
-               compact('menu', 'title', 
+               compact('interface', 'title', 'access', 
                       'personalCardsList', 
                       'departmentsList', 
                       'positionsList', 
@@ -137,11 +181,20 @@ class ManningOrdersController extends BaseHumanResourcesController {
      * @return \Illuminate\Http\Response
      */
     public function store(ManningOrdersCreateRequest $request) {
-
+        
         $data = $request->input();
-
-        $result = (new ManningOrders($data))->create($data);
-
+        
+        // Формируем новое назначение на должность
+        $newData['user_id'] = Auth::user()->id;
+        $newData['personal_card_id'] = $data['personal_card_id'];
+        $newData['department_id'] = $data['department_id'];
+        $newData['position_id'] = $data['position_id'];
+        $newData['position_profession_id'] = $data['position_profession_id'];
+        $newData['assignment_date'] = $data['assignment_date'];
+        $newData['resignation_date'] = $data['resignation_date'];
+        
+        $result = (new ManningOrders($newData))->create($newData);
+        
         if($result) {
             return redirect()
                 ->route('hr.manning-orders.edit', $result->id)
@@ -158,32 +211,55 @@ class ManningOrdersController extends BaseHumanResourcesController {
      *
      * @return \Illuminate\Http\Response
      */
-    public function edit($id) {
-
-        // Формируем массив подменю выбранного пункта меню
-        $menu = $this->createMenu($this->path);
-        if(empty($menu)) {
-            return view('guest');
+    public function edit(Request $request, $id) {
+		
+        $auth = Auth::user();
+        
+        if($request->session()->has('interface')) {
+            $interface = session('interface');
+        } else {
+            $this->setInterface();
+            $interface = session('interface');
         }
-        // Формируем массив данных о представлении
-        $title = "Карточка назначения";
+        
+        if($request->session()->has('title')) {
+            $title = session('title');
+        } else {
+            $this->setInterface();
+            $title = session('title');
+        }
+        
+        if(empty($auth)) {
+            return view('guest', compact('interface', 'title'));
+        }
+        
+        $auth_access = Menus::select('access_'.$auth['access'])
+                    ->where('path', $this->path)
+                    ->first();
+        $access = $auth_access['access_'.$auth['access']];
+
+        // Данные о назначении
+        $manningOrderData = $this->manningOrdersRepository->getEdit($id);
+        // Данные об авторе записи
+        $autorData = $this->manningOrdersRepository->getAutor($manningOrderData['user_id']);
+        // Данные о сотруднике
+        $personalCardData = $this->manningOrdersRepository->getPersonalCard($manningOrderData['personal_card_id']);
+        $userData = Users::find($manningOrderData['personal_card_id']);
 
         // Формируем содержание списка выбираемых полей полей select
-        $personalCardsList = $this->manningOrdersRepository->getListSelect(0);
         $departmentsList = $this->manningOrdersRepository->getListSelect(1);
         $positionsList = $this->manningOrdersRepository->getListSelect(2);
         $positionProfessionsList = $this->manningOrdersRepository->getListSelect(3);
 
-        // Формируем содержание списка заполняемых полей input
-        $manningOrdersList = $this->manningOrdersRepository->getEdit($id);
-
         return view('hr.manning-orders.edit', 
-               compact('menu', 'title', 
-                      'personalCardsList', 
-                      'departmentsList', 
-                      'positionsList', 
-                      'positionProfessionsList', 
-                      'manningOrdersList'));
+               compact('interface', 'title', 'access', 
+                       'personalCardData',
+                       'autorData',
+                       'userData', 
+                       'manningOrderData',
+                       'departmentsList', 
+                       'positionsList', 
+                       'positionProfessionsList'));
     }
 
     /**
@@ -200,10 +276,20 @@ class ManningOrdersController extends BaseHumanResourcesController {
                 ->withInput();
         }
         $data = $request->all();
-        $result = $item->update($data);
+        
+        // Формируем изменения назначения на должность
+        $newData['user_id'] = Auth::user()->id;
+        $newData['personal_card_id'] = $data['personal_card_id'];
+        $newData['department_id'] = $data['department_id'];
+        $newData['position_id'] = $data['position_id'];
+        $newData['position_profession_id'] = $data['position_profession_id'];
+        $newData['assignment_date'] = $data['assignment_date'];
+        $newData['resignation_date'] = $data['resignation_date'];
+        
+        $result = $item->update($newData);
         if($result) {
             return redirect()
-                ->route('hr.manning-orders.edit', $item->id)
+                ->route('hr.manning-orders.show', $item->id)
                 ->with(['success' => "Успешно сохранено"]);
         } else {
             return back()

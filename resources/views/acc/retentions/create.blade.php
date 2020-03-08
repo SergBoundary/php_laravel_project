@@ -10,7 +10,7 @@
         <div class="row justify-content-center">
             <div class="col-md-10">
                 <div class="card">
-                    <div class="card-header"><h3>{{$title['name']}}</h3></div>
+                    <div class="card-header"><h3>{{$title}}</h3></div>
 
                     <div class="card-body">
 
@@ -27,7 +27,7 @@
 >                                        <select name='personal_card_id' value='personal_card_id' id='personal_card_id' type='text' placeholder="Работник" class="form-control" title='Работник' required>
                                             @foreach($personalCardsList as $personalCardsOption)
                                             <option value="{{ $personalCardsOption->id }}" >
-                                                {{ $personalCardsOption->personal_card }}
+                                                {{ $personalCardsOption->surname }} {{ $personalCardsOption->first_name }} ({{ $personalCardsOption->personal_account }})
                                             </option>
                                             @endforeach
                                         </select>

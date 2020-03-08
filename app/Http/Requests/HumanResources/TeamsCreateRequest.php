@@ -29,9 +29,9 @@ class TeamsCreateRequest extends FormRequest {
      */
     public function rules() {
         return [
-            'personal_card_id' => 'required|integer|exists:personal_cards,id',
-            'title' => 'required|string|max:255',
-            'abbr' => 'required|string|max:10',
+//            'personal_card_id' => 'required|integer|exists:personal_cards,id',
+//            'title' => 'required|string|max:255',
+//            'abbr' => 'required|string|max:10',
         ];
     }
 }

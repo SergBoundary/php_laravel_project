@@ -11,7 +11,7 @@ use App\Models\Accounting\Retentions;
 use App\Repositories\Accounting\RetentionsRepository;
 use App\Http\Requests\Accounting\RetentionsCreateRequest;
 use App\Http\Requests\Accounting\RetentionsUpdateRequest;
-use App\Models\Settings\Menu;
+use App\Models\Settings\Menus;
 use Illuminate\Support\Facades\Auth;
 
 /**
@@ -46,13 +46,26 @@ class RetentionsController extends BaseAccountingController {
      *
      * @return \Illuminate\Http\Response
      */
-    public function index() {
+    public function index(Request $request) {
+        
+        $data = $request->input();
+        if(!empty($data['language'])) {
+            $this->setInterface($data['language']);
+            $interface = session('interface');
+        } else {
+            if($request->session()->has('interface')) {
+                $interface = session('interface');
+            } else {
+                $this->setInterface();
+                $interface = session('interface');
+            }
+        }
 		
         $auth = Auth::user();
         if(empty($auth)) {
-            return view('guest');
+            return view('guest', compact('interface'));
         }
-        $auth_access = Menu::select('access_'.$auth['access'])
+        $auth_access = Menus::select('access_'.$auth['access'])
                     ->where('path', $this->path)
                     ->first();
         $access = $auth_access['access_'.$auth['access']];
@@ -60,7 +73,7 @@ class RetentionsController extends BaseAccountingController {
         // Формируем массив подменю выбранного пункта меню
         $menu = $this->createMenu($this->path);
         if(empty($menu)) {
-            return view('guest');
+            return view('guest', compact('interface'));
         }
         // Формируем массив данных о представлении
         $title = "Удержания с сотрудников";
@@ -68,7 +81,7 @@ class RetentionsController extends BaseAccountingController {
         $retentionsList = $this->retentionsRepository->getTable();
 
         return view('acc.retentions.index',  
-               compact('menu', 'title', 'access', 'retentionsList'));
+               compact('menu', 'interface', 'title', 'access', 'retentionsList'));
     }
 
     /**
@@ -76,13 +89,26 @@ class RetentionsController extends BaseAccountingController {
      *
      * @return \Illuminate\Http\Response
      */
-    public function show($id) {
+    public function show(Request $request, $id) {
+        
+        $data = $request->input();
+        if(!empty($data['language'])) {
+            $this->setInterface($data['language']);
+            $interface = session('interface');
+        } else {
+            if($request->session()->has('interface')) {
+                $interface = session('interface');
+            } else {
+                $this->setInterface();
+                $interface = session('interface');
+            }
+        }
 		
         $auth = Auth::user();
         if(empty($auth)) {
-            return view('guest');
+            return view('guest', compact('interface'));
         }
-        $auth_access = Menu::select('access_'.$auth['access'])
+        $auth_access = Menus::select('access_'.$auth['access'])
                     ->where('path', $this->path)
                     ->first();
         $access = $auth_access['access_'.$auth['access']];
@@ -90,7 +116,7 @@ class RetentionsController extends BaseAccountingController {
         // Формируем массив подменю выбранного пункта меню
         $menu = $this->createMenu($this->path);
         if(empty($menu)) {
-            return view('guest');
+            return view('guest', compact('interface'));
         }
         // Формируем массив данных о представлении
         $title = "Карточка удержания";
@@ -99,7 +125,7 @@ class RetentionsController extends BaseAccountingController {
         $retentionsList = $this->retentionsRepository->getShow($id);
 
         return view('acc.retentions.show', 
-               compact('menu', 'title', 'access', 'retentionsList'));
+               compact('menu', 'interface', 'title', 'access', 'retentionsList'));
     }
 
     /**
@@ -107,12 +133,25 @@ class RetentionsController extends BaseAccountingController {
      *
      * @return \Illuminate\Http\Response
      */
-    public function create() {
+    public function create(Request $request) {
+        
+        $data = $request->input();
+        if(!empty($data['language'])) {
+            $this->setInterface($data['language']);
+            $interface = session('interface');
+        } else {
+            if($request->session()->has('interface')) {
+                $interface = session('interface');
+            } else {
+                $this->setInterface();
+                $interface = session('interface');
+            }
+        }
 
         // Формируем массив подменю выбранного пункта меню
         $menu = $this->createMenu($this->path);
         if(empty($menu)) {
-            return view('guest');
+            return view('guest', compact('interface'));
         }
         // Формируем массив данных о представлении
         $title = "Новое удержание";
@@ -124,7 +163,7 @@ class RetentionsController extends BaseAccountingController {
         $retentionTypesList = $this->retentionsRepository->getListSelect(3);
 
         return view('acc.retentions.create', 
-               compact('menu', 'title', 
+               compact('menu', 'interface', 'title', 
                       'personalCardsList', 
                       'yearsList', 
                       'monthsList', 
@@ -139,8 +178,16 @@ class RetentionsController extends BaseAccountingController {
     public function store(RetentionsCreateRequest $request) {
 
         $data = $request->input();
-
-        $result = (new Retentions($data))->create($data);
+        
+        // Формируем удержание сумм с сотрудника
+        $newData['user_id'] = Auth::user()->id;
+        $newData['personal_card_id'] = $data['personal_card_id'];
+        $newData['year_id'] = $data['year_id'];
+        $newData['month_id'] = $data['month_id'];
+        $newData['retention_type_id'] = $data['retention_type_id'];
+        $newData['amount'] = $data['amount'];
+        
+        $result = (new Retentions($newData))->create($newData);
 
         if($result) {
             return redirect()
@@ -158,12 +205,25 @@ class RetentionsController extends BaseAccountingController {
      *
      * @return \Illuminate\Http\Response
      */
-    public function edit($id) {
+    public function edit(Request $request, $id) {
+        
+        $data = $request->input();
+        if(!empty($data['language'])) {
+            $this->setInterface($data['language']);
+            $interface = session('interface');
+        } else {
+            if($request->session()->has('interface')) {
+                $interface = session('interface');
+            } else {
+                $this->setInterface();
+                $interface = session('interface');
+            }
+        }
 
         // Формируем массив подменю выбранного пункта меню
         $menu = $this->createMenu($this->path);
         if(empty($menu)) {
-            return view('guest');
+            return view('guest', compact('interface'));
         }
         // Формируем массив данных о представлении
         $title = "Карточка удержания";
@@ -178,7 +238,7 @@ class RetentionsController extends BaseAccountingController {
         $retentionsList = $this->retentionsRepository->getEdit($id);
 
         return view('acc.retentions.edit', 
-               compact('menu', 'title', 
+               compact('menu', 'interface', 'title', 
                       'personalCardsList', 
                       'yearsList', 
                       'monthsList', 

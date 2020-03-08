@@ -33,10 +33,8 @@ class AccrualTypesRepository extends CoreRepository {
     public function getTable() {
 
         $result = $this->startConditions()
-            ->select('accrual_types.title', 'accrual_types.description', 'accrual_types.abbr', 'accrual_types.id')
-            ->orderBy('accrual_types.title')
-            ->orderBy('accrual_types.description')
-            ->orderBy('accrual_types.abbr')
+            ->select('title', 'description', 'abbr', 'id')
+            ->orderBy('id')
             ->get();
         return $result;
     }

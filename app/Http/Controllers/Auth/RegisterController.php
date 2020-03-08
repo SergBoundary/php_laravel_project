@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\User;
+use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -28,7 +28,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/user';
+    protected $redirectTo = '/';
 
     /**
      * Create a new controller instance.
@@ -49,9 +49,14 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
+            'structura' => ['required', 'string', 'min:8'],
             'name' => ['required', 'string', 'max:255'],
+            'surname' => ['required', 'string', 'max:255'],
+            'login' => ['required', 'string', 'min:8', 'unique:users'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'language' => ['required', 'string', 'max:2'],
+            'package' => ['required', 'integer'],
         ]);
     }
 
@@ -63,10 +68,16 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        
         return User::create([
-            'name' => $data['name'],
+            'structura' => $data['login'],
+            'name' => trim($data['name']),
+            'surname' => trim($data['surname']),
+            'login' => $data['login'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'language' => $data['language'],
+            'package' => $data['package'],
         ]);
     }
 }

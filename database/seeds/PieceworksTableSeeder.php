@@ -14,6 +14,7 @@ class PieceworksTableSeeder extends Seeder
         $data = [
             [
                 'user_id' => 14,
+                'team_id' => 3,
                 'personal_card_id' => 7,
                 'year_id' => 4,
                 'month_id' => 10,
@@ -22,10 +23,12 @@ class PieceworksTableSeeder extends Seeder
                 'unit' => 'м2',
                 'quantity' => 20.00,
                 'price' => 15.00,
+                'total' => 300.00,
                 'created_at' => now(),
             ],
             [
                 'user_id' => 14,
+                'team_id' => 3,
                 'personal_card_id' => 8,
                 'year_id' => 4,
                 'month_id' => 11,
@@ -34,10 +37,12 @@ class PieceworksTableSeeder extends Seeder
                 'unit' => 'м2',
                 'quantity' => 50.00,
                 'price' => 14.00,
+                'total' => 700.00,
                 'created_at' => now(),
             ],
             [
                 'user_id' => 14,
+                'team_id' => 3,
                 'personal_card_id' => 7,
                 'year_id' => 4,
                 'month_id' => 11,
@@ -46,6 +51,7 @@ class PieceworksTableSeeder extends Seeder
                 'unit' => 'м2',
                 'quantity' => 25.00,
                 'price' => 13.00,
+                'total' => 325.00,
                 'created_at' => now(),
             ],
         ];

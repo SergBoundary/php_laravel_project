@@ -115,7 +115,7 @@ class AccrualsRepository extends CoreRepository {
      */
     public function getEdit($id) {
 
-        $columns = ['id', 'personal_card_id', 'year_id', 'month_id', 'accrual_type_id', 'amount', ];
+        $columns = ['id', 'user_id', 'personal_card_id', 'year_id', 'month_id', 'accrual_type_id', 'amount', ];
 
         $result = $this->startConditions()
             ->select($columns)

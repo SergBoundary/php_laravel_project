@@ -7,6 +7,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     @include('layouts.nav-menu')
                     @include('layouts.nav-log')
+                    @include('layouts.nav-lang')
                 </div>
             </div>
         </nav>

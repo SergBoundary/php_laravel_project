@@ -6,12 +6,13 @@
         $personalCards = "";
         $departments = "";
         $positions = "";
-        $positionProfessions = "";
+        $professions = "";
     @endphp
+    <div id="interface-modul" modul="appointments-index"></div>
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-12">
-                <h3><small class="text-muted text-uppercase">{{ $title }}</small></h3><br />
+                <h3><small class="text-muted text-uppercase">{{ $interface['title'] }}</small></h3><br />
                 @if(count($manningOrdersList) > 0)
                 <table class="table table-hover table-bordered">
                     <thead>
@@ -31,20 +32,19 @@
                     <tbody>
                         @foreach($manningOrdersList as $manningOrdersRow)
                         <tr>
-                            <td>
-                                @if ($departments != $manningOrdersRow->department)
-                                {{ $manningOrdersRow->department }}
-                                @endif
-                            </td>
-                            @if ($personalCards != $manningOrdersRow->personal_card)
-                            <td>
-                                {{ $manningOrdersRow->personal_card }}
-                            </td>
-                            <td>
-                                {{ $manningOrdersRow->surname }} {{ $manningOrdersRow->first_name }}
-                            </td>
-                            @else
-                            <td colspan="2"> </td>
+                            @if ($departments != $manningOrdersRow->department && $personalCards != $manningOrdersRow->personal_card)
+                                <td>{{ $manningOrdersRow->department }}</td>
+                                <td>{{ $manningOrdersRow->personal_card }}</td>
+                                <td>{{ $manningOrdersRow->surname }} {{ $manningOrdersRow->first_name }}</td>
+                            @elseif ($departments == $manningOrdersRow->department && $personalCards != $manningOrdersRow->personal_card)
+                                <td> </td>
+                                <td>{{ $manningOrdersRow->personal_card }}</td>
+                                <td>{{ $manningOrdersRow->surname }} {{ $manningOrdersRow->first_name }}</td>
+                            @elseif ($departments != $manningOrdersRow->department && $personalCards == $manningOrdersRow->personal_card)
+                                <td>{{ $manningOrdersRow->department }}</td>
+                                <td colspan="2"> </td>
+                            @elseif ($departments == $manningOrdersRow->department && $personalCards == $manningOrdersRow->personal_card)
+                                <td colspan="3"> </td>
                             @endif
                             <td>{{ $manningOrdersRow->position }}</td>
                             <td>{{ $manningOrdersRow->position_profession }}</td>
@@ -70,6 +70,8 @@
                         @php
                             $departments = $manningOrdersRow->department;
                             $personalCards = $manningOrdersRow->personal_card;
+                            $position = $manningOrdersRow->position;
+                            $profession = $manningOrdersRow->position_profession;
                         @endphp
                         @endforeach
                     </tbody>

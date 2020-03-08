@@ -11,7 +11,7 @@ use App\Models\Accounting\Accruals;
 use App\Repositories\Accounting\AccrualsRepository;
 use App\Http\Requests\Accounting\AccrualsCreateRequest;
 use App\Http\Requests\Accounting\AccrualsUpdateRequest;
-use App\Models\Settings\Menu;
+use App\Models\Settings\Menus;
 use Illuminate\Support\Facades\Auth;
 
 /**
@@ -46,13 +46,26 @@ class AccrualsController extends BaseAccountingController {
      *
      * @return \Illuminate\Http\Response
      */
-    public function index() {
+    public function index(Request $request) {
+        
+        $data = $request->input();
+        if(!empty($data['language'])) {
+            $this->setInterface($data['language']);
+            $interface = session('interface');
+        } else {
+            if($request->session()->has('interface')) {
+                $interface = session('interface');
+            } else {
+                $this->setInterface();
+                $interface = session('interface');
+            }
+        }
 		
         $auth = Auth::user();
         if(empty($auth)) {
-            return view('guest');
+            return view('guest', compact('interface'));
         }
-        $auth_access = Menu::select('access_'.$auth['access'])
+        $auth_access = Menus::select('access_'.$auth['access'])
                     ->where('path', $this->path)
                     ->first();
         $access = $auth_access['access_'.$auth['access']];
@@ -60,7 +73,7 @@ class AccrualsController extends BaseAccountingController {
         // Формируем массив подменю выбранного пункта меню
         $menu = $this->createMenu($this->path);
         if(empty($menu)) {
-            return view('guest');
+            return view('guest', compact('interface'));
         }
         // Формируем массив данных о представлении
         $title = "Начисления сотрудникам";
@@ -68,7 +81,7 @@ class AccrualsController extends BaseAccountingController {
         $accrualsList = $this->accrualsRepository->getTable();
 
         return view('acc.accruals.index',  
-               compact('menu', 'title', 'access', 'accrualsList'));
+               compact('menu', 'interface', 'title', 'access', 'accrualsList'));
     }
 
     /**
@@ -76,13 +89,26 @@ class AccrualsController extends BaseAccountingController {
      *
      * @return \Illuminate\Http\Response
      */
-    public function show($id) {
+    public function show(Request $request, $id) {
+        
+        $data = $request->input();
+        if(!empty($data['language'])) {
+            $this->setInterface($data['language']);
+            $interface = session('interface');
+        } else {
+            if($request->session()->has('interface')) {
+                $interface = session('interface');
+            } else {
+                $this->setInterface();
+                $interface = session('interface');
+            }
+        }
 		
         $auth = Auth::user();
         if(empty($auth)) {
-            return view('guest');
+            return view('guest', compact('interface'));
         }
-        $auth_access = Menu::select('access_'.$auth['access'])
+        $auth_access = Menus::select('access_'.$auth['access'])
                     ->where('path', $this->path)
                     ->first();
         $access = $auth_access['access_'.$auth['access']];
@@ -90,7 +116,7 @@ class AccrualsController extends BaseAccountingController {
         // Формируем массив подменю выбранного пункта меню
         $menu = $this->createMenu($this->path);
         if(empty($menu)) {
-            return view('guest');
+            return view('guest', compact('interface'));
         }
         // Формируем массив данных о представлении
         $title = "Карточка начисления";
@@ -99,7 +125,7 @@ class AccrualsController extends BaseAccountingController {
         $accrualsList = $this->accrualsRepository->getShow($id);
 
         return view('acc.accruals.show', 
-               compact('menu', 'title', 'access', 'accrualsList'));
+               compact('menu', 'interface', 'title', 'access', 'accrualsList'));
     }
 
     /**
@@ -107,12 +133,25 @@ class AccrualsController extends BaseAccountingController {
      *
      * @return \Illuminate\Http\Response
      */
-    public function create() {
+    public function create(Request $request) {
+        
+        $data = $request->input();
+        if(!empty($data['language'])) {
+            $this->setInterface($data['language']);
+            $interface = session('interface');
+        } else {
+            if($request->session()->has('interface')) {
+                $interface = session('interface');
+            } else {
+                $this->setInterface();
+                $interface = session('interface');
+            }
+        }
 
         // Формируем массив подменю выбранного пункта меню
         $menu = $this->createMenu($this->path);
         if(empty($menu)) {
-            return view('guest');
+            return view('guest', compact('interface'));
         }
         // Формируем массив данных о представлении
         $title = "Новое начисление";
@@ -124,7 +163,7 @@ class AccrualsController extends BaseAccountingController {
         $accrualTypesList = $this->accrualsRepository->getListSelect(3);
 
         return view('acc.accruals.create', 
-               compact('menu', 'title', 
+               compact('menu', 'interface', 'title', 
                       'personalCardsList', 
                       'yearsList', 
                       'monthsList', 
@@ -139,8 +178,16 @@ class AccrualsController extends BaseAccountingController {
     public function store(AccrualsCreateRequest $request) {
 
         $data = $request->input();
-
-        $result = (new Accruals($data))->create($data);
+        
+        // Формируем начисление сумм сотруднику
+        $newData['user_id'] = Auth::user()->id;
+        $newData['personal_card_id'] = $data['personal_card_id'];
+        $newData['year_id'] = $data['year_id'];
+        $newData['month_id'] = $data['month_id'];
+        $newData['accrual_type_id'] = $data['accrual_type_id'];
+        $newData['amount'] = $data['amount'];
+        
+        $result = (new Accruals($newData))->create($newData);
 
         if($result) {
             return redirect()
@@ -158,12 +205,25 @@ class AccrualsController extends BaseAccountingController {
      *
      * @return \Illuminate\Http\Response
      */
-    public function edit($id) {
+    public function edit(Request $request, $id) {
+        
+        $data = $request->input();
+        if(!empty($data['language'])) {
+            $this->setInterface($data['language']);
+            $interface = session('interface');
+        } else {
+            if($request->session()->has('interface')) {
+                $interface = session('interface');
+            } else {
+                $this->setInterface();
+                $interface = session('interface');
+            }
+        }
 
         // Формируем массив подменю выбранного пункта меню
         $menu = $this->createMenu($this->path);
         if(empty($menu)) {
-            return view('guest');
+            return view('guest', compact('interface'));
         }
         // Формируем массив данных о представлении
         $title = "Карточка начисления";
@@ -178,7 +238,7 @@ class AccrualsController extends BaseAccountingController {
         $accrualsList = $this->accrualsRepository->getEdit($id);
 
         return view('acc.accruals.edit', 
-               compact('menu', 'title', 
+               compact('menu', 'interface', 'title', 
                       'personalCardsList', 
                       'yearsList', 
                       'monthsList', 

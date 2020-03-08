@@ -15,6 +15,7 @@ class ManningOrders extends Model {
     use SoftDeletes;
 
     protected $fillable = [
+        'user_id',
         'personal_card_id',
         'department_id',
         'position_id',

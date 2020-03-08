@@ -2,164 +2,402 @@
 
 @section('content')
     @php 
-        /** @var \App\Models\Accounting\BaseTimesheets $menu, $title, $baseTimesheetsList
-         * @var \Illuminate\Database\Eloquent $personalCardsList, $yearsList, $monthsList, $objectsList
+        /** @var \App\Models\Accounting\BaseTimesheets $menu, $title, $team, $year, $month
+         * @var \Illuminate\Database\Eloquent $allocationsList, $personalCardsList, $yearsList, $monthsList, $objectsList
          */
+        $team_id = 0;
     @endphp
-    <div class="container">
-        <div class="row justify-content" style="margin-left: -100px;">
-            <h3>{{$title['name']}}</h3>
 
-                <form method="POST" action="{{ route('acc.base-timesheets.store') }}">
-                    @csrf
-                    @php
-                        /** @var \Illuminate\Support\ViewErrorBag @errors */
-                    @endphp
-                    @include('acc.base-timesheets.includes.result_messages')
-                    <div class="row justify-content-center">
-                        <div class='form-row col-md-12'>
-                        <div class='form-row' style="margin-top: 1px;">
-                            <div>
-                                <input name='personal_card_id' id='personal_card_id' value='Котыло Андрей Иванович' readonly style="width: 200px; height: 47px; font-size: 11px" type='text' title='Работник'>
+    <form method="POST" action="{{ route('acc.base-timesheets.store') }}">
+        @csrf
+        <div class="container">
+            @php
+                /** @var \Illuminate\Support\ViewErrorBag @errors */
+            @endphp
+            @include('acc.base-timesheets.includes.result_messages')
+            <div class="row justify-content">
+                <div class="row col-md-12" style="margin-bottom: -10px;">
+                    <div class="mr-auto">
+                        <h3 id="header">{{ $title }}: <small>{{ $month->title }} {{ $year->number }}</small></h3>
+                        <input name='year' id='year_id' value='{{ $year->number }}' type='hidden'>
+                        <input name='year_id' id='year_id' value='{{ $year->id }}' type='hidden'>
+                        <input name='month' id='month_id' value='{{ $month->number }}' type='hidden'>
+                        <input name='month_id' id='month_id' value='{{ $month->id }}' type='hidden'>
+                    </div>
+                    <div class="ml-auto">
+                        <div class="form-row">
+                            <div class='form-group col-md-auto'>
+                                <a class="btn btn-outline-secondary btn-sm" href="{{ route('acc.base-timesheets.index') }}"><img src="/img/visibility_off_black_18dp.png" alt="Закрыть" title="Закрыть"></a>
+                                <button type="submit" class="btn btn-outline-success btn-sm">
+                                    <img src="/img/save_black_18dp.png" alt="Сохранить" title="Сохранить">
+                                </button>
                             </div>
-                            <div>
-                                <input name='year_id' id='year_id' value='2019' type='text' readonly style="width: 50px; height: 47px; font-size: 11px" title='2019 год'>
-                            </div>
-                            <div>
-                                <input name='month_id' id='month_id' value='10' type='text' readonly style="width: 30px; height: 47px; font-size: 11px" title='Октябрь'>
-                            </div>
-                            <div>
-                                <input name='object_id' id='object_id' value='B-86' type='text' readonly style="height: 47px; width: 40px; font-size: 11px" title='B-86 Polbet Warszawa'>
-                            </div>
-                            </div>
-                            <div style="margin-left: 10px;">
-                            <div class='form-row'>
-                                <div>
-                                    <input type='text' value="Часы:" autocomplete="off" style="width: 45px; font-size: 11px" title='Отработанные часы'>
-                                </div>
-                                @for ($i = 1; $i < 32; $i++)
-                                <div>
-                                    <input name='hours_day_{{ $i }}' id='hours_day_{{ $i }}' type='text' autocomplete="off" style="width: 20px; font-size: 11px" title='Часы {{ $i }} дня'>
-                                </div>
-                                @endfor
-                            <div>
-                                <input name='hours' id='hours' value='120' type='text' readonly style="width: 50px; font-size: 11px" title='Отработано часов'>
-                            </div>
-                                </div>
-                                <div class='form-row'>
-                                <div>
-                                    <input type='text' value="Ставка:" autocomplete="off" style="width: 45px; font-size: 11px" title='Цена часа'>
-                                </div>
-                                @for ($i = 1; $i < 32; $i++)
-                                <div>
-                                    <input name='rate_day_{{ $i }}' id='rate_day_{{ $i }}' type='text' autocomplete="off" style="width: 20px; font-size: 11px" title='Цена часа {{ $i }} дня'>
-                                </div>
-                                @endfor
-                            <div>
-                                <input name='rate' id='rate' value='13.5' type='text' readonly style="width: 50px; font-size: 11px" title='Средневзвешенная ставка'>
-                            </div>
-						</div>
-						</div>
-                        <div class='form-row' style="margin-top: 1px; margin-left: 5px;">
-                            <div>
-                                <input name='hourly' id='hourly' value='1620' type='text' readonly style="width: 50px; height: 47px; font-size: 11px" title='Почасово'>
-                            </div>
-                            <div>
-                                <input name='piecework' id='piecework' value='550' type='text' readonly style="width: 50px; height: 47px; font-size: 11px" title='Сдельно'>
-                            </div>
-                            <div>
-                                <input name='total' id='total' value='2170' type='text' readonly style="width: 50px; height: 47px; font-size: 11px" title='Итоговая сумма'>
-                            </div>
-                        </div>
-                        </div>
-						
-                        <div class='form-row col-md-12'>
-                        <div class='form-row' style="margin-top: 1px;">
-                            <div>
-                                <input name='personal_card_id' id='personal_card_id' value='Скробот Александр Васильевич' readonly style="width: 200px; height: 47px; font-size: 11px" type='text' title='Работник'>
-                            </div>
-                            <div>
-                                <input name='year_id' id='year_id' value='2019' type='text' readonly style="width: 50px; height: 47px; font-size: 11px" title='Год'>
-                            </div>
-                            <div>
-                                <input name='month_id' id='month_id' value='10' type='text' readonly style="width: 20px; height: 47px; font-size: 11px" title='Месяц'>
-                            </div>
-                            <div>
-                                <input name='object_id' id='object_id' value='B-20 BUDIMEX Gdańsk' type='text' readonly style="height: 47px; font-size: 11px" title='Объект'>
-                            </div>
-                            </div>
-                            <div style="margin-left: 10px;">
-                            <div class='form-row'>
-                                <div>
-                                    <input type='text' value="Часы:" autocomplete="off" style="width: 45px; font-size: 11px" title='Отработанные часы'>
-                                </div>
-                                @for ($i = 1; $i < 32; $i++)
-                                <div>
-                                    <input name='hours_day_{{ $i }}' id='hours_day_{{ $i }}' type='text' autocomplete="off" style="width: 20px; font-size: 11px" title='Часы {{ $i }} дня'>
-                                </div>
-                                @endfor
-                            <div>
-                                <input name='hours' id='hours' value='120' type='text' readonly style="width: 50px; font-size: 11px" title='Отработано часов'>
-                            </div>
-                            </div>
-                            <div class='form-row'>
-                                <div>
-                                    <input type='text' value="Ставка:" autocomplete="off" style="width: 45px; font-size: 11px" title='Цена часа {{ $i }} дня'>
-                                </div>
-                                @for ($i = 1; $i < 32; $i++)
-                                <div>
-                                    <input name='rate_day_{{ $i }}' id='rate_day_{{ $i }}' type='text' autocomplete="off" style="width: 20px; font-size: 11px" title='Цена часа {{ $i }} дня'>
-                                </div>
-                                @endfor
-                            <div>
-                                <input name='rate' id='rate' value='13.5' type='text' readonly style="width: 50px; font-size: 11px" title='Средневзвешенная ставка'>
-                            </div>
-                        </div>
-                        </div>
-                        <div class='form-row' style="margin-top: 1px; margin-left: 5px;">
-                            <div>
-                                <input name='hourly' id='hourly' value='1620' type='text' readonly style="width: 50px; height: 47px; font-size: 11px" title='Почасово'>
-                            </div>
-                            <div>
-                                <input name='piecework' id='piecework' value='550' type='text' readonly style="width: 50px; height: 47px; font-size: 11px" title='Сдельно'>
-                            </div>
-                            <div>
-                                <input name='total' id='total' value='2170' type='text' readonly style="width: 50px; height: 47px; font-size: 11px" title='Итоговая сумма'>
-                            </div>
-						</div>
-                        </div>
-						
-                        <div>
-                            <input name='return_fix' id='return_fix' type='text' style="width: 50px; font-size: 11px" title='Возврат поправки'>
-                        </div>
-                        <div>
-                            <input name='retention_fix' id='retention_fix' type='text' style="width: 50px; font-size: 11px" title='Удержано поправки'>
-                        </div>
-                        <div>
-                            <input name='penalty' id='penalty' type='text' style="width: 50px; font-size: 11px" title='Штраф'>
-                        </div>
-                        <div>
-                            <input name='prepaid_expense' id='prepaid_expense' type='text' style="width: 50px; font-size: 11px" title='Аванс'>
-                        </div>
-                        <div>
-                            <input name='food' id='food' type='text' style="width: 50px; font-size: 11px" title='Питание'>
-                        </div>
-                        <div>
-                            <input name='work_clothes' id='work_clothes' type='text' style="width: 50px; font-size: 11px" title='Спецодежда'>
-                        </div>
-                        <div class='form-group col-md-10'>
-                            <button type="submit" class="btn btn-outline-secondary float-left btn-sm">
-                                {{ __('Сохранить') }}
-                            </button>
-                            @if(session('success'))
-                                <a class='btn btn-outline-secondary btn-sm' style="margin-left: 10px;" href="{{ route('acc.base-timesheets.index') }}">{{ __('Закрыть') }}</a>
-                            @else
-                                <a class='btn btn-outline-secondary btn-sm' style="margin-left: 10px;" href="{{ route('acc.base-timesheets.index') }}">{{ __('Отмена') }}</a>
-                            @endif
                         </div>
                     </div>
-                </form>
-
+                </div>
+            </div>
+            <div class="row justify-content" style="width: 220%">
+                <div class="row justify-content-center">
+                    <div class='form-row col-md-12'>
+                        <div class='form-row'>
+                            <div>
+                                <input name='personal_card' id='personal_card' value='Сотрудник' disabled class="form-control form-control-sm" style="width: 340px;" type='text' title='Работник'>
+                            </div>
+                            <div>
+                                <input name='object' id='object' value='Объект' type='text' disabled class="form-control form-control-sm" style="width: 60px;" title='B-86 Polbet Warszawa'>
+                            </div>
+                        </div>
+                        <div style="margin-left: 10px;">
+                            <div class='form-row'>
+                                <div>
+                                    <input name='auto' id='auto' value="Автомат" type='text' readonly class="form-control form-control-sm auto-base-timesheets" style="width: 70px; cursor: pointer;" title='Автозаполнение'>
+                                </div>
+                                @for ($i = 1; $i < 32; $i++)
+                                <div>
+                                    @if($i == 1)
+                                    <input name='hours_day_1' id='hours_day_1' value='1   ◄' type='text' readonly class="form-control form-control-sm" style="width: 50px; cursor: pointer;" title='{{ $i }}-й день месяца'>
+                                    @elseif($i == 11)
+                                    <input name='hours_day_11' id='hours_day_11' value='11 ◄' type='text' readonly class="form-control form-control-sm" style="width: 50px; cursor: pointer;" title='{{ $i }}-й день месяца'>
+                                    @elseif($i == 21)
+                                    <input name='hours_day_21' id='hours_day_21' value='21 ◄' type='text' readonly class="form-control form-control-sm" style="width: 50px; cursor: pointer;" title='{{ $i }}-й день месяца'>
+                                    @else
+                                    <input name='hours_day_{{ $i }}' id='hours_day_{{ $i }}' value='{{ $i }}' type='text' disabled class="form-control form-control-sm" style="width: 50px;" title='{{ $i }}-й день месяца'>
+                                    @endif
+                                </div>
+                                @endfor
+                                <div>
+                                    <input name='hours' id='hours' value=' ' type='text' disabled class="form-control form-control-sm" style="width: 60px;" title='Отработано по средневзвешенной ставке'>
+                                </div>
+                            </div>
+                        </div>
+                        <div class='form-row' style="margin-left: 5px;">
+                            <div>
+                                <input name='hourly' id='hourly' value='Почасово' type='text' disabled class="form-control form-control-sm" style="width: 80px;" title='Почасово'>
+                            </div>
+                            <div>
+                                <input name='piecework' id='piecework' value='Сдельно' type='text' disabled class="form-control form-control-sm" style="width: 80px;" title='Сдельно'>
+                            </div>
+                            <div>
+                                <input name='total' id='total' value='Итого' type='text' disabled class="form-control form-control-sm" style="width: 80px;" title='Итоговая сумма'>
+                            </div>
+                        </div>
+                    </div>
+                    @if(count($allocationsList) > 0)
+                    @php 
+                        $order = 0; 
+                    @endphp
+                    @foreach($allocationsList as $allocationRow)
+                    @if($team_id != $allocationRow->team_id)
+                    <div class='form-row col-md-12' style="margin-top: 5px">
+                        <div class='form-row'>
+                            <div>
+                                <input name='department_team_{{ $order }}' id='department_team_{{ $order }}' value='{{ $allocationRow->department_title }} - {{ $allocationRow->team_title }}' disabled class="form-control form-control-sm department-team" style="width: 2320px; font-style: italic; font-weight: bold;" type='text' title='Подразделение - бригада'>
+                            </div>
+                        </div>
+                    </div>
+                    @endif
+                    <div class='form-row col-md-12' style="margin-top: 5px">
+                        <div class='form-row'>
+                            <div>
+                                <input name='personal_card_{{ $order }}' id='personal_card_{{ $order }}' value='{{ $allocationRow->surname }} {{ $allocationRow->first_name }} {{ $allocationRow->second_name }}'  disabled class="form-control form-control-sm" style="width: 240px; height: 58px;" type='text' title='Работник'>
+                                <input name='personal_card_id_{{ $order }}' id='personal_card_id_{{ $order }}' value='{{ $allocationRow->personal_card_id }}' type='hidden'>
+                            </div>
+                            <div>
+                                <input name='personal_account_{{ $order }}' id='personal_account_{{ $order }}' value='{{ $allocationRow->personal_account }}' disabled class="form-control form-control-sm" style="width: 100px; height: 58px;" type='text' title='Работник'>
+                            </div>
+                            <div>
+                                <input name='object_{{ $order }}' id='object_{{ $order }}' value='{{ $allocationRow->object_abbr }}' type='text'  disabled class="form-control form-control-sm" style="width: 60px; height: 58px;" title='{{ $allocationRow->object_title }}'>
+                                <input name='object_id_{{ $order }}' id='object_id_{{ $order }}' value='{{ $allocationRow->object_id }}' type='hidden'>
+                            </div>
+                        </div>
+                        <div style="margin-left: 10px;">
+                            <div class='form-row'>
+                                <div>
+                                    <input name='hours_auto_{{ $order }}' id='hours_auto_{{ $order }}' value="Часы:" type='text' readonly class="form-control form-control-sm auto-base-timesheets" style="width: 70px;; cursor: pointer;" title='Заполнить отработанные часы'>
+                                </div>
+                                <div>
+                                    <input name='hours_day_1_{{ $order }}' id='hours_day_1_{{ $order }}' type='text' autocomplete="off" class="form-control form-control-sm calc-base-timesheets" style="width: 50px;" title='Часы 1-го дня'>
+                                </div>
+                                <div>
+                                    <input name='hours_day_2_{{ $order }}' id='hours_day_2_{{ $order }}' type='text' autocomplete="off" class="form-control form-control-sm calc-base-timesheets" style="width: 50px;" title='Часы 2-го дня'>
+                                </div>
+                                <div>
+                                    <input name='hours_day_3_{{ $order }}' id='hours_day_3_{{ $order }}' type='text' autocomplete="off" class="form-control form-control-sm calc-base-timesheets" style="width: 50px;" title='Часы 3-го дня'>
+                                </div>
+                                <div>
+                                    <input name='hours_day_4_{{ $order }}' id='hours_day_4_{{ $order }}' type='text' autocomplete="off" class="form-control form-control-sm calc-base-timesheets" style="width: 50px;" title='Часы 4-го дня'>
+                                </div>
+                                <div>
+                                    <input name='hours_day_5_{{ $order }}' id='hours_day_5_{{ $order }}' type='text' autocomplete="off" class="form-control form-control-sm calc-base-timesheets" style="width: 50px;" title='Часы 5-го дня'>
+                                </div>
+                                <div>
+                                    <input name='hours_day_6_{{ $order }}' id='hours_day_6_{{ $order }}' type='text' autocomplete="off" class="form-control form-control-sm calc-base-timesheets" style="width: 50px;" title='Часы 6-го дня'>
+                                </div>
+                                <div>
+                                    <input name='hours_day_7_{{ $order }}' id='hours_day_7_{{ $order }}' type='text' autocomplete="off" class="form-control form-control-sm calc-base-timesheets" style="width: 50px;" title='Часы 7-го дня'>
+                                </div>
+                                <div>
+                                    <input name='hours_day_8_{{ $order }}' id='hours_day_8_{{ $order }}' type='text' autocomplete="off" class="form-control form-control-sm calc-base-timesheets" style="width: 50px;" title='Часы 8-го дня'>
+                                </div>
+                                <div>
+                                    <input name='hours_day_9_{{ $order }}' id='hours_day_9_{{ $order }}' type='text' autocomplete="off" class="form-control form-control-sm calc-base-timesheets" style="width: 50px;" title='Часы 9-го дня'>
+                                </div>
+                                <div>
+                                    <input name='hours_day_10_{{ $order }}' id='hours_day_10_{{ $order }}' type='text' autocomplete="off" class="form-control form-control-sm calc-base-timesheets" style="width: 50px;" title='Часы 10-го дня'>
+                                </div>
+                                <div>
+                                    <input name='hours_day_11_{{ $order }}' id='hours_day_11_{{ $order }}' type='text' autocomplete="off" class="form-control form-control-sm calc-base-timesheets" style="width: 50px;" title='Часы 11-го дня'>
+                                </div>
+                                <div>
+                                    <input name='hours_day_12_{{ $order }}' id='hours_day_12_{{ $order }}' type='text' autocomplete="off" class="form-control form-control-sm calc-base-timesheets" style="width: 50px;" title='Часы 12-го дня'>
+                                </div>
+                                <div>
+                                    <input name='hours_day_13_{{ $order }}' id='hours_day_13_{{ $order }}' type='text' autocomplete="off" class="form-control form-control-sm calc-base-timesheets" style="width: 50px;" title='Часы 13-го дня'>
+                                </div>
+                                <div>
+                                    <input name='hours_day_14_{{ $order }}' id='hours_day_14_{{ $order }}' type='text' autocomplete="off" class="form-control form-control-sm calc-base-timesheets" style="width: 50px;" title='Часы 14-го дня'>
+                                </div>
+                                <div>
+                                    <input name='hours_day_15_{{ $order }}' id='hours_day_15_{{ $order }}' type='text' autocomplete="off" class="form-control form-control-sm calc-base-timesheets" style="width: 50px;" title='Часы 15-го дня'>
+                                </div>
+                                <div>
+                                    <input name='hours_day_16_{{ $order }}' id='hours_day_16_{{ $order }}' type='text' autocomplete="off" class="form-control form-control-sm calc-base-timesheets" style="width: 50px;" title='Часы 16-го дня'>
+                                </div>
+                                <div>
+                                    <input name='hours_day_17_{{ $order }}' id='hours_day_17_{{ $order }}' type='text' autocomplete="off" class="form-control form-control-sm calc-base-timesheets" style="width: 50px;" title='Часы 17-го дня'>
+                                </div>
+                                <div>
+                                    <input name='hours_day_18_{{ $order }}' id='hours_day_18_{{ $order }}' type='text' autocomplete="off" class="form-control form-control-sm calc-base-timesheets" style="width: 50px;" title='Часы 18-го дня'>
+                                </div>
+                                <div>
+                                    <input name='hours_day_19_{{ $order }}' id='hours_day_19_{{ $order }}' type='text' autocomplete="off" class="form-control form-control-sm calc-base-timesheets" style="width: 50px;" title='Часы 19-го дня'>
+                                </div>
+                                <div>
+                                    <input name='hours_day_20_{{ $order }}' id='hours_day_20_{{ $order }}' type='text' autocomplete="off" class="form-control form-control-sm calc-base-timesheets" style="width: 50px;" title='Часы 20-го дня'>
+                                </div>
+                                <div>
+                                    <input name='hours_day_21_{{ $order }}' id='hours_day_21_{{ $order }}' type='text' autocomplete="off" class="form-control form-control-sm calc-base-timesheets" style="width: 50px;" title='Часы 21-го дня'>
+                                </div>
+                                <div>
+                                    <input name='hours_day_22_{{ $order }}' id='hours_day_22_{{ $order }}' type='text' autocomplete="off" class="form-control form-control-sm calc-base-timesheets" style="width: 50px;" title='Часы 22-го дня'>
+                                </div>
+                                <div>
+                                    <input name='hours_day_23_{{ $order }}' id='hours_day_23_{{ $order }}' type='text' autocomplete="off" class="form-control form-control-sm calc-base-timesheets" style="width: 50px;" title='Часы 23-го дня'>
+                                </div>
+                                <div>
+                                    <input name='hours_day_24_{{ $order }}' id='hours_day_24_{{ $order }}' type='text' autocomplete="off" class="form-control form-control-sm calc-base-timesheets" style="width: 50px;" title='Часы 24-го дня'>
+                                </div>
+                                <div>
+                                    <input name='hours_day_25_{{ $order }}' id='hours_day_25_{{ $order }}' type='text' autocomplete="off" class="form-control form-control-sm calc-base-timesheets" style="width: 50px;" title='Часы 25-го дня'>
+                                </div>
+                                <div>
+                                    <input name='hours_day_26_{{ $order }}' id='hours_day_26_{{ $order }}' type='text' autocomplete="off" class="form-control form-control-sm calc-base-timesheets" style="width: 50px;" title='Часы 26-го дня'>
+                                </div>
+                                <div>
+                                    <input name='hours_day_27_{{ $order }}' id='hours_day_27_{{ $order }}' type='text' autocomplete="off" class="form-control form-control-sm calc-base-timesheets" style="width: 50px;" title='Часы 27-го дня'>
+                                </div>
+                                <div>
+                                    <input name='hours_day_28_{{ $order }}' id='hours_day_28_{{ $order }}' type='text' autocomplete="off" class="form-control form-control-sm calc-base-timesheets" style="width: 50px;" title='Часы 28-го дня'>
+                                </div>
+                                <div>
+                                    <input name='hours_day_29_{{ $order }}' id='hours_day_29_{{ $order }}' type='text' autocomplete="off" class="form-control form-control-sm calc-base-timesheets" style="width: 50px;" title='Часы 29-го дня'>
+                                </div>
+                                <div>
+                                    <input name='hours_day_30_{{ $order }}' id='hours_day_30_{{ $order }}' type='text' autocomplete="off" class="form-control form-control-sm calc-base-timesheets" style="width: 50px;" title='Часы 30-го дня'>
+                                </div>
+                                <div>
+                                    <input name='hours_day_31_{{ $order }}' id='hours_day_31_{{ $order }}' type='text' autocomplete="off" class="form-control form-control-sm calc-base-timesheets" style="width: 50px;" title='Часы 31-го дня'>
+                                </div>
+                                <div>
+                                    <input name='hours_{{ $order }}' id='hours_{{ $order }}' value='0' type='text' readonly class="form-control form-control-sm" style="width: 60px;" title='Отработано часов'>
+                                </div>
+                            </div>
+                            <div class='form-row'>
+                                <div>
+                                    <input name='rate_auto_{{ $order }}' id='rate_auto_{{ $order }}' value="Ставка:" type='text' readonly class="form-control form-control-sm auto-base-timesheets" style="width: 70px;; cursor: pointer;" title='Заполнить дневные ставки'>
+                                </div>
+                                <div>
+                                    <input name='rate_day_1_{{ $order }}' id='rate_day_1_{{ $order }}' type='text' autocomplete="off" class="form-control form-control-sm calc-base-timesheets" style="width: 50px; background: #ffc;" title='Цена часа 1-го дня'>
+                                </div>
+                                <div>
+                                    <input name='rate_day_2_{{ $order }}' id='rate_day_2_{{ $order }}' type='text' autocomplete="off" class="form-control form-control-sm calc-base-timesheets" style="width: 50px; background: #ffc;" title='Цена часа 2-го дня'>
+                                </div>
+                                <div>
+                                    <input name='rate_day_3_{{ $order }}' id='rate_day_3_{{ $order }}' type='text' autocomplete="off" class="form-control form-control-sm calc-base-timesheets" style="width: 50px; background: #ffc;" title='Цена часа 3-го дня'>
+                                </div>
+                                <div>
+                                    <input name='rate_day_4_{{ $order }}' id='rate_day_4_{{ $order }}' type='text' autocomplete="off" class="form-control form-control-sm calc-base-timesheets" style="width: 50px; background: #ffc;" title='Цена часа 4-го дня'>
+                                </div>
+                                <div>
+                                    <input name='rate_day_5_{{ $order }}' id='rate_day_5_{{ $order }}' type='text' autocomplete="off" class="form-control form-control-sm calc-base-timesheets" style="width: 50px; background: #ffc;" title='Цена часа 5-го дня'>
+                                </div>
+                                <div>
+                                    <input name='rate_day_6_{{ $order }}' id='rate_day_6_{{ $order }}' type='text' autocomplete="off" class="form-control form-control-sm calc-base-timesheets" style="width: 50px; background: #ffc;" title='Цена часа 6-го дня'>
+                                </div>
+                                <div>
+                                    <input name='rate_day_7_{{ $order }}' id='rate_day_7_{{ $order }}' type='text' autocomplete="off" class="form-control form-control-sm calc-base-timesheets" style="width: 50px; background: #ffc;" title='Цена часа 7-го дня'>
+                                </div>
+                                <div>
+                                    <input name='rate_day_8_{{ $order }}' id='rate_day_8_{{ $order }}' type='text' autocomplete="off" class="form-control form-control-sm calc-base-timesheets" style="width: 50px; background: #ffc;" title='Цена часа 8-го дня'>
+                                </div>
+                                <div>
+                                    <input name='rate_day_9_{{ $order }}' id='rate_day_9_{{ $order }}' type='text' autocomplete="off" class="form-control form-control-sm calc-base-timesheets" style="width: 50px; background: #ffc;" title='Цена часа 9-го дня'>
+                                </div>
+                                <div>
+                                    <input name='rate_day_10_{{ $order }}' id='rate_day_10_{{ $order }}' type='text' autocomplete="off" class="form-control form-control-sm calc-base-timesheets" style="width: 50px; background: #ffc;" title='Цена часа 10-го дня'>
+                                </div>
+                                <div>
+                                    <input name='rate_day_11_{{ $order }}' id='rate_day_11_{{ $order }}' type='text' autocomplete="off" class="form-control form-control-sm calc-base-timesheets" style="width: 50px; background: #ffc;" title='Цена часа 11-го дня'>
+                                </div>
+                                <div>
+                                    <input name='rate_day_12_{{ $order }}' id='rate_day_12_{{ $order }}' type='text' autocomplete="off" class="form-control form-control-sm calc-base-timesheets" style="width: 50px; background: #ffc;" title='Цена часа 12-го дня'>
+                                </div>
+                                <div>
+                                    <input name='rate_day_13_{{ $order }}' id='rate_day_13_{{ $order }}' type='text' autocomplete="off" class="form-control form-control-sm calc-base-timesheets" style="width: 50px; background: #ffc;" title='Цена часа 13-го дня'>
+                                </div>
+                                <div>
+                                    <input name='rate_day_14_{{ $order }}' id='rate_day_14_{{ $order }}' type='text' autocomplete="off" class="form-control form-control-sm calc-base-timesheets" style="width: 50px; background: #ffc;" title='Цена часа 14-го дня'>
+                                </div>
+                                <div>
+                                    <input name='rate_day_15_{{ $order }}' id='rate_day_15_{{ $order }}' type='text' autocomplete="off" class="form-control form-control-sm calc-base-timesheets" style="width: 50px; background: #ffc;" title='Цена часа 15-го дня'>
+                                </div>
+                                <div>
+                                    <input name='rate_day_16_{{ $order }}' id='rate_day_16_{{ $order }}' type='text' autocomplete="off" class="form-control form-control-sm calc-base-timesheets" style="width: 50px; background: #ffc;" title='Цена часа 16-го дня'>
+                                </div>
+                                <div>
+                                    <input name='rate_day_17_{{ $order }}' id='rate_day_17_{{ $order }}' type='text' autocomplete="off" class="form-control form-control-sm calc-base-timesheets" style="width: 50px; background: #ffc;" title='Цена часа 17-го дня'>
+                                </div>
+                                <div>
+                                    <input name='rate_day_18_{{ $order }}' id='rate_day_18_{{ $order }}' type='text' autocomplete="off" class="form-control form-control-sm calc-base-timesheets" style="width: 50px; background: #ffc;" title='Цена часа 18-го дня'>
+                                </div>
+                                <div>
+                                    <input name='rate_day_19_{{ $order }}' id='rate_day_19_{{ $order }}' type='text' autocomplete="off" class="form-control form-control-sm calc-base-timesheets" style="width: 50px; background: #ffc;" title='Цена часа 19-го дня'>
+                                </div>
+                                <div>
+                                    <input name='rate_day_20_{{ $order }}' id='rate_day_20_{{ $order }}' type='text' autocomplete="off" class="form-control form-control-sm calc-base-timesheets" style="width: 50px; background: #ffc;" title='Цена часа 20-го дня'>
+                                </div>
+                                <div>
+                                    <input name='rate_day_21_{{ $order }}' id='rate_day_21_{{ $order }}' type='text' autocomplete="off" class="form-control form-control-sm calc-base-timesheets" style="width: 50px; background: #ffc;" title='Цена часа 21-го дня'>
+                                </div>
+                                <div>
+                                    <input name='rate_day_22_{{ $order }}' id='rate_day_22_{{ $order }}' type='text' autocomplete="off" class="form-control form-control-sm calc-base-timesheets" style="width: 50px; background: #ffc;" title='Цена часа 22-го дня'>
+                                </div>
+                                <div>
+                                    <input name='rate_day_23_{{ $order }}' id='rate_day_23_{{ $order }}' type='text' autocomplete="off" class="form-control form-control-sm calc-base-timesheets" style="width: 50px; background: #ffc;" title='Цена часа 23-го дня'>
+                                </div>
+                                <div>
+                                    <input name='rate_day_24_{{ $order }}' id='rate_day_24_{{ $order }}' type='text' autocomplete="off" class="form-control form-control-sm calc-base-timesheets" style="width: 50px; background: #ffc;" title='Цена часа 24-го дня'>
+                                </div>
+                                <div>
+                                    <input name='rate_day_25_{{ $order }}' id='rate_day_25_{{ $order }}' type='text' autocomplete="off" class="form-control form-control-sm calc-base-timesheets" style="width: 50px; background: #ffc;" title='Цена часа 25-го дня'>
+                                </div>
+                                <div>
+                                    <input name='rate_day_26_{{ $order }}' id='rate_day_26_{{ $order }}' type='text' autocomplete="off" class="form-control form-control-sm calc-base-timesheets" style="width: 50px; background: #ffc;" title='Цена часа 26-го дня'>
+                                </div>
+                                <div>
+                                    <input name='rate_day_27_{{ $order }}' id='rate_day_27_{{ $order }}' type='text' autocomplete="off" class="form-control form-control-sm calc-base-timesheets" style="width: 50px; background: #ffc;" title='Цена часа 27-го дня'>
+                                </div>
+                                <div>
+                                    <input name='rate_day_28_{{ $order }}' id='rate_day_28_{{ $order }}' type='text' autocomplete="off" class="form-control form-control-sm calc-base-timesheets" style="width: 50px; background: #ffc;" title='Цена часа 28-го дня'>
+                                </div>
+                                <div>
+                                    <input name='rate_day_29_{{ $order }}' id='rate_day_29_{{ $order }}' type='text' autocomplete="off" class="form-control form-control-sm calc-base-timesheets" style="width: 50px; background: #ffc;" title='Цена часа 29-го дня'>
+                                </div>
+                                <div>
+                                    <input name='rate_day_30_{{ $order }}' id='rate_day_30_{{ $order }}' type='text' autocomplete="off" class="form-control form-control-sm calc-base-timesheets" style="width: 50px; background: #ffc;" title='Цена часа 30-го дня'>
+                                </div>
+                                <div>
+                                    <input name='rate_day_31_{{ $order }}' id='rate_day_31_{{ $order }}' type='text' autocomplete="off" class="form-control form-control-sm calc-base-timesheets" style="width: 50px; background: #ffc;" title='Цена часа 31-го дня'>
+                                </div>
+                                <div>
+                                    <input name='rate_{{ $order }}' id='rate_{{ $order }}' value='0' type='text' readonly class="form-control form-control-sm" style="width: 60px;" title='Средневзвешенная ставка'>
+                                </div>
+                            </div>
+                        </div>
+                        <div class='form-row' style="margin-left: 5px;">
+                            <div>
+                                <input name='hourly_{{ $order }}' id='hourly_{{ $order }}' value='0' type='text' readonly class="form-control form-control-sm" style="width: 80px; height: 58px;" title='Почасово'>
+                            </div>
+                            <div>
+                                <input name='piecework_{{ $order }}' id='piecework_{{ $order }}' value='0' type='text' readonly class="form-control form-control-sm" style="width: 80px; height: 58px;" title='Сдельно'>
+                            </div>
+                            <div>
+                                <input name='total_{{ $order }}' id='total_{{ $order }}' value='0' type='text' readonly class="form-control form-control-sm" style="width: 80px; height: 58px;" title='Итоговая сумма'>
+                            </div>
+                        </div>
+                    </div>
+                    @php 
+                        $order++; 
+                        $team_id = $allocationRow->team_id;
+                    @endphp
+                    @endforeach
+                    @else	
+                    <div class='form-row col-md-12' style="margin-top: 5px">
+                        <div class='form-row'>
+                            <div>
+                                <input name='personal_card_id_0' id='personal_card_id_0' value='Нет прикрепленных сотрудников'  disabled class="form-control form-control-sm" style="width: 240px; height: 58px;" type='text' title='Работник'>
+                            </div>
+                            <div>
+                                <input name='personal_account_0' id='personal_account_0' value='---'  disabled class="form-control form-control-sm" style="width: 100px; height: 58px;" type='text' title='Работник'>
+                            </div>
+                            <div>
+                                <input name='object_id_0' id='object_id_0' value='---' type='text'  disabled class="form-control form-control-sm" style="width: 60px; height: 58px;" title='B-86 Polbet Warszawa'>
+                            </div>
+                        </div>
+                        <div style="margin-left: 10px;">
+                            <div class='form-row'>
+                                <div>
+                                    <input name='hours_auto_0' id='hours_auto_0' value="Часы:" type='text' readonly class="form-control form-control-sm auto-base-timesheets" style="width: 70px; cursor: pointer;" title='Заполнить отработанные часы'>
+                                </div>
+                                @for ($i = 1; $i < 32; $i++)
+                                <div>
+                                    <input name='hours_day_{{ $i }}_0' id='hours_day_{{ $i }}_0' type='text' readonly class="form-control form-control-sm calc-base-timesheets" style="width: 50px;" title='Часы {{ $i }}-го дня'>
+                                </div>
+                                @endfor
+                                <div>
+                                    <input name='hours_0' id='hours_0' value='0' type='text' readonly class="form-control form-control-sm" style="width: 60px;" title='Отработано часов'>
+                                </div>
+                            </div>
+                            <div class='form-row'>
+                                <div>
+                                    <input name='rate_auto' id='rate_auto_0' value="Ставка:" type='text' readonly class="form-control form-control-sm auto-base-timesheets" style="width: 70px; cursor: pointer;" title='Заполнить дневные ставки'>
+                                </div>
+                                @for ($i = 1; $i < 32; $i++)
+                                <div>
+                                    <input name='rate_day_{{ $i }}_0' id='rate_day_{{ $i }}_0' type='text' readonly class="form-control form-control-sm calc-base-timesheets" style="width: 50px;" title='Цена часа {{ $i }}-го дня'>
+                                </div>
+                                @endfor
+                                <div>
+                                    <input name='rate_0' id='rate_0' value='0' type='text' readonly class="form-control form-control-sm" style="width: 60px;" title='Средневзвешенная ставка'>
+                                </div>
+                            </div>
+                        </div>
+                        <div class='form-row' style="margin-left: 5px;">
+                            <div>
+                                <input name='hourly_0' id='hourly_0' value='0' type='text'  disabled class="form-control form-control-sm" style="width: 80px; height: 58px;" title='Почасово'>
+                            </div>
+                            <div>
+                                <input name='piecework_0' id='piecework_0' value='0' type='text'  disabled class="form-control form-control-sm" style="width: 80px; height: 58px;" title='Сдельно'>
+                            </div>
+                            <div>
+                                <input name='total_0' id='total_0' value='0' type='text'  disabled class="form-control form-control-sm" style="width: 80px; height: 58px;" title='Итоговая сумма'>
+                            </div>
+                        </div>
+                    </div>
+                    @endif
+                </div>
+            </div>
         </div>
-    </div>
+    </form>
+    @php
+    if(isset($allocationsList)) { 
+        if(count($allocationsList) > 0) { 
+            echo "<script type='text/javascript'>var gOrderCount = ".count($allocationsList).";</script>";
+        } else { 
+            echo "<script type='text/javascript'>var gOrderCount = 0;</script>";
+        }
+    } else { 
+        echo "<script type='text/javascript'>var gOrderCount = 0;</script>";
+    }
+    @endphp
 @endsection

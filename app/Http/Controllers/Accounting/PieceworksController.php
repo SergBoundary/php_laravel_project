@@ -11,7 +11,7 @@ use App\Models\Accounting\Pieceworks;
 use App\Repositories\Accounting\PieceworksRepository;
 use App\Http\Requests\Accounting\PieceworksCreateRequest;
 use App\Http\Requests\Accounting\PieceworksUpdateRequest;
-use App\Models\Settings\Menu;
+use App\Models\Settings\Menus;
 use Illuminate\Support\Facades\Auth;
 
 /**
@@ -46,13 +46,26 @@ class PieceworksController extends BaseAccountingController {
      *
      * @return \Illuminate\Http\Response
      */
-    public function index() {
+    public function index(Request $request) {
+        
+        $data = $request->input();
+        if(!empty($data['language'])) {
+            $this->setInterface($data['language']);
+            $interface = session('interface');
+        } else {
+            if($request->session()->has('interface')) {
+                $interface = session('interface');
+            } else {
+                $this->setInterface();
+                $interface = session('interface');
+            }
+        }
 		
         $auth = Auth::user();
         if(empty($auth)) {
-            return view('guest');
+            return view('guest', compact('interface'));
         }
-        $auth_access = Menu::select('access_'.$auth['access'])
+        $auth_access = Menus::select('access_'.$auth['access'])
                     ->where('path', $this->path)
                     ->first();
         $access = $auth_access['access_'.$auth['access']];
@@ -60,15 +73,24 @@ class PieceworksController extends BaseAccountingController {
         // Формируем массив подменю выбранного пункта меню
         $menu = $this->createMenu($this->path);
         if(empty($menu)) {
-            return view('guest');
+            return view('guest', compact('interface'));
         }
         // Формируем массив данных о представлении
         $title = "Сдельные работы";
-
+        
+        $year = $this->pieceworksRepository->getYearNumer(date("Y"));
+        $month = $this->pieceworksRepository->getMonth(date("m"));
+        $yearsList = $this->pieceworksRepository->getListSelect(1);
+        $monthsList = $this->pieceworksRepository->getListSelect(2);
         $pieceworksList = $this->pieceworksRepository->getTable();
-
+//        dd($year['id']);
         return view('acc.pieceworks.index',  
-               compact('menu', 'title', 'access', 'pieceworksList'));
+               compact('menu', 'interface', 'title', 'access', 
+                       'year', 
+                       'month',
+                       'yearsList', 
+                       'monthsList', 
+                       'pieceworksList'));
     }
 
     /**
@@ -76,13 +98,26 @@ class PieceworksController extends BaseAccountingController {
      *
      * @return \Illuminate\Http\Response
      */
-    public function show($id) {
+    public function show(Request $request, $id) {
+        
+        $data = $request->input();
+        if(!empty($data['language'])) {
+            $this->setInterface($data['language']);
+            $interface = session('interface');
+        } else {
+            if($request->session()->has('interface')) {
+                $interface = session('interface');
+            } else {
+                $this->setInterface();
+                $interface = session('interface');
+            }
+        }
 		
         $auth = Auth::user();
         if(empty($auth)) {
-            return view('guest');
+            return view('guest', compact('interface'));
         }
-        $auth_access = Menu::select('access_'.$auth['access'])
+        $auth_access = Menus::select('access_'.$auth['access'])
                     ->where('path', $this->path)
                     ->first();
         $access = $auth_access['access_'.$auth['access']];
@@ -90,16 +125,31 @@ class PieceworksController extends BaseAccountingController {
         // Формируем массив подменю выбранного пункта меню
         $menu = $this->createMenu($this->path);
         if(empty($menu)) {
-            return view('guest');
+            return view('guest', compact('interface'));
         }
         // Формируем массив данных о представлении
         $title = "Сдельная работа";
-
-        // Формируем содержание списка заполняемых полей input
-        $pieceworksList = $this->pieceworksRepository->getShow($id);
-
+        // Параметры отбора данных
+        $row = explode("-", $id);
+        $team = $this->pieceworksRepository->getTeam($row[0]);
+        $year = $this->pieceworksRepository->getYear($row[1]);
+        $month = $this->pieceworksRepository->getMonth($row[2]);
+        // Данные табеля для данной группы в данном периоде
+        $pieceworksList = $this->pieceworksRepository->getEdit($row[0], $row[1], $row[2]);
+        // Формируем содержание списка выбираемых полей полей select
+        $personalCardsList = $this->pieceworksRepository->getListSelect(0);
+        $yearsList = $this->pieceworksRepository->getListSelect(1);
+        $monthsList = $this->pieceworksRepository->getListSelect(2);
+        $objectsList = $this->pieceworksRepository->getListSelect(3);
+//        $id = "3-4-12";
+//        dd($pieceworksList);
         return view('acc.pieceworks.show', 
-               compact('menu', 'title', 'access', 'pieceworksList'));
+               compact('menu', 'interface', 'title', 'access', 'team', 'year', 'month', 'id', 
+                       'pieceworksList',
+                       'personalCardsList', 
+                       'yearsList', 
+                       'monthsList', 
+                       'objectsList'));
     }
 
     /**
@@ -107,28 +157,56 @@ class PieceworksController extends BaseAccountingController {
      *
      * @return \Illuminate\Http\Response
      */
-    public function create() {
-
+    public function create(Request $request) {
+        
+        $data = $request->input();
+        if(!empty($data['language'])) {
+            $this->setInterface($data['language']);
+            $interface = session('interface');
+        } else {
+            if($request->session()->has('interface')) {
+                $interface = session('interface');
+            } else {
+                $this->setInterface();
+                $interface = session('interface');
+            }
+        }
+        
+        $auth = Auth::user();
         // Формируем массив подменю выбранного пункта меню
         $menu = $this->createMenu($this->path);
         if(empty($menu)) {
-            return view('guest');
+            return view('guest', compact('interface'));
         }
         // Формируем массив данных о представлении
         $title = "Новая сдельная работа";
-
+        // Параметры отбора данных
+        $data = $request->input();
+        $teamLeader = $this->pieceworksRepository->getTeamLeader($auth['id']);
+        $team = $this->pieceworksRepository->getTeam($teamLeader['id']);
+        if($team) {
+            $teamId = $team['id'];
+        } else {
+            $teamId = 0;
+        }
+//        dd($data);
+        $year = $this->pieceworksRepository->getYear($data['year_id']);
+        $month = $this->pieceworksRepository->getMonth($data['month_id']);
+        // Данные о перемещениях в данном периоде
+        $allocationsList = $this->pieceworksRepository->getCreate($team['id'], $year['number'], $month['number']);
         // Формируем содержание списка выбираемых полей полей select
         $personalCardsList = $this->pieceworksRepository->getListSelect(0);
         $yearsList = $this->pieceworksRepository->getListSelect(1);
         $monthsList = $this->pieceworksRepository->getListSelect(2);
         $objectsList = $this->pieceworksRepository->getListSelect(3);
-
+        
         return view('acc.pieceworks.create', 
-               compact('menu', 'title', 
-                      'personalCardsList', 
-                      'yearsList', 
-                      'monthsList', 
-                      'objectsList'));
+               compact('menu', 'interface', 'title', 'team', 'year', 'month',
+                       'allocationsList',
+                       'personalCardsList', 
+                       'yearsList', 
+                       'monthsList', 
+                       'objectsList'));
     }
 
     /**
@@ -137,19 +215,65 @@ class PieceworksController extends BaseAccountingController {
      * @return \Illuminate\Http\Response
      */
     public function store(PieceworksCreateRequest $request) {
-
+        
         $data = $request->input();
-
-        $result = (new Pieceworks($data))->create($data);
-
-        if($result) {
-            return redirect()
-                ->route('acc.pieceworks.edit', $result->id)
-                ->with(['success' => "Успешно сохранено"]);
+        
+        $auth = Auth::user();
+        $teamLeader = $this->pieceworksRepository->getTeamLeader($auth['id']);
+        $team = $this->pieceworksRepository->getTeam($teamLeader['id']);
+        if($team) {
+            $teamId = $team['id'];
         } else {
-            return back()
-                ->withErrors(['msg' => "Ошибка сохранения.."])
-                ->withInput();
+            $teamId = 0;
+        }
+        // Данные о перемещениях в данном периоде
+        $allocationList = $this->pieceworksRepository->getCreate($teamId, $data['year'], $data['month']);
+        foreach ($allocationList as $key => $value) {
+            for ($i = 1; $i < 3; $i++) {
+                $newData['user_id'] = Auth::user()->id;
+                $newData['team_id'] = $value['team_id'];
+                $newData['personal_card_id'] = $data['personal_card_id_'.$key];
+                $newData['object_id'] = $data['object_id_'.$key];
+                $newData['year_id'] = $data['year_id'];
+                $newData['month_id'] = $data['month_id'];
+                $newData['type'] = $data['type_'.$i.'_'.$key];
+                $newData['unit'] = $data['unit_'.$i.'_'.$key];
+                $newData['quantity'] = $data['quantity_'.$i.'_'.$key];
+                $newData['price'] = $data['price_'.$i.'_'.$key];
+                $newData['total'] = $data['total_'.$i.'_'.$key];
+                
+                $baseTimesheetsData['user_id'] = $newData['user_id'];
+                $baseTimesheetsData['team_id'] = $newData['team_id'];
+                $baseTimesheetsData['personal_card_id'] = $newData['personal_card_id'];
+                $baseTimesheetsData['object_id'] = $newData['object_id'];
+                $baseTimesheetsData['year_id'] = $newData['year_id'];
+                $baseTimesheetsData['month_id'] = $newData['month_id'];
+                $baseTimesheetsData['piecework'] = $newData['total'];
+
+                if($newData['type'] !== null && $newData['total'] != 0) {
+                    $result = (new Pieceworks($newData))->create($newData);
+                    $baseTimesheetsItem = $this->pieceworksRepository->getBaseTimesheets($newData['team_id'], $newData['personal_card_id'], $newData['object_id'], $newData['year_id'], $newData['month_id']);
+                    if(!empty($baseTimesheetsItem)) {
+//                        dd($newData, $baseTimesheetsItem);
+                        $baseTimesheetsResult = $baseTimesheetsItem->update($baseTimesheetsData);
+                    }
+                }
+            }
+        }
+        
+        if(isset($result)) {
+            if($result) {
+                return redirect()
+                    ->route('acc.pieceworks.index')
+                    ->with(['success' => "Успешно сохранено"]);
+            } else {
+                return back()
+                    ->withErrors(['msg' => "Ошибка сохранения.."])
+                    ->withInput();
+            }
+        } else {
+            return redirect()
+                ->route('acc.pieceworks.index');
         }
     }
 
@@ -158,32 +282,49 @@ class PieceworksController extends BaseAccountingController {
      *
      * @return \Illuminate\Http\Response
      */
-    public function edit($id) {
+    public function edit(Request $request, $id) {
+        
+        $data = $request->input();
+        if(!empty($data['language'])) {
+            $this->setInterface($data['language']);
+            $interface = session('interface');
+        } else {
+            if($request->session()->has('interface')) {
+                $interface = session('interface');
+            } else {
+                $this->setInterface();
+                $interface = session('interface');
+            }
+        }
 
         // Формируем массив подменю выбранного пункта меню
         $menu = $this->createMenu($this->path);
         if(empty($menu)) {
-            return view('guest');
+            return view('guest', compact('interface'));
         }
         // Формируем массив данных о представлении
         $title = "Сдельная работа";
-
+        // Параметры отбора данных
+        $row = explode("-", $id);
+        $team = $this->pieceworksRepository->getTeam($row[0]);
+        $year = $this->pieceworksRepository->getYear($row[1]);
+        $month = $this->pieceworksRepository->getMonth($row[2]);
+        // Данные табеля для данной группы в данном периоде
+        $pieceworksList = $this->pieceworksRepository->getEdit($row[0], $row[1], $row[2]);
         // Формируем содержание списка выбираемых полей полей select
         $personalCardsList = $this->pieceworksRepository->getListSelect(0);
         $yearsList = $this->pieceworksRepository->getListSelect(1);
         $monthsList = $this->pieceworksRepository->getListSelect(2);
         $objectsList = $this->pieceworksRepository->getListSelect(3);
-
-        // Формируем содержание списка заполняемых полей input
-        $pieceworksList = $this->pieceworksRepository->getEdit($id);
-
+//        $id = "3-4-12";
+//        dd($id, $pieceworksList);
         return view('acc.pieceworks.edit', 
-               compact('menu', 'title', 
-                      'personalCardsList', 
-                      'yearsList', 
-                      'monthsList', 
-                      'objectsList', 
-                      'pieceworksList'));
+               compact('menu', 'interface', 'title', 'team', 'year', 'month', 'id', 
+                       'pieceworksList',
+                       'personalCardsList', 
+                       'yearsList', 
+                       'monthsList', 
+                       'objectsList'));
     }
 
     /**
@@ -192,18 +333,32 @@ class PieceworksController extends BaseAccountingController {
      * @return \Illuminate\Http\Response
      */
     public function update(PieceworksUpdateRequest $request, $id) {
-
-        $item = $this->pieceworksRepository->getEdit($id);
-        if(empty($item)) {
-            return back()
-                ->withErrors(['msg' => "Запись #{$id} не найдена.."])
-                ->withInput();
-        }
+        
+        $row = explode("-", $id);
         $data = $request->all();
-        $result = $item->update($data);
+//        dd($row, $data);
+        // Данные о перемещениях в данном периоде
+        $countEdit = $this->pieceworksRepository->getEdit($row[0], $row[1], $row[2]);
+//        dd($row[0], $row[1], $row[2], count($countEdit));
+        for ($order = 0; $order < count($countEdit); $order++) {
+            $newData['user_id'] = Auth::user()->id;
+            $newData['team_id'] = $data['team_id'];
+            $newData['year_id'] = $data['year_id'];
+            $newData['month_id'] = $data['month_id'];
+            $newData['personal_card_id'] = $data['personal_card_id_'.$order];
+            $newData['object_id'] = $data['object_id_'.$order];
+            $newData['type'] = $data['type_'.$order];
+            $newData['unit'] = $data['unit_'.$order];
+            $newData['quantity'] = $data['quantity_'.$order];
+            $newData['price'] = $data['price_'.$order];
+            $newData['total'] = $data['total_'.$order];
+            $item = $this->pieceworksRepository->getUpdate($data['id_'.$order]);
+            $result = $item->update($newData);
+        }
+        
         if($result) {
             return redirect()
-                ->route('acc.pieceworks.edit', $item->id)
+                ->route('acc.pieceworks.show', $id)
                 ->with(['success' => "Успешно сохранено"]);
         } else {
             return back()
@@ -218,6 +373,20 @@ class PieceworksController extends BaseAccountingController {
      * @return \Illuminate\Http\Response
      */
     public function destroy($id) {
+        
+        $pos = strpos($id, "-");
+        
+        if ($pos === false) {
+            dd($id);
+            $result = $this->pieceworksRepository->getUpdate($id)->forceDelete();
+        } else {
+            // Параметры отбора данных
+            $row = explode("-", $id);
+            dd($id, $row);
+            $team = $this->pieceworksRepository->getTeam($row[0]);
+            $year = $this->pieceworksRepository->getYear($row[1]);
+            $month = $this->pieceworksRepository->getMonth($row[2]);
+        }
 
         $result = $this->pieceworksRepository->getEdit($id)->forceDelete();
 

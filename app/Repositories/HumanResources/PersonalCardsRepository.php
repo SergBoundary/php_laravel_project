@@ -46,8 +46,9 @@ class PersonalCardsRepository extends CoreRepository {
 
         if($user['access'] == 4) {
             $result = $this->startConditions()
-                ->select('personal_cards.personal_account', 'personal_cards.surname', 'personal_cards.first_name', 'personal_cards.born_date', 'personal_cards.id')
+                ->select('personal_cards.personal_account', 'personal_cards.surname', 'personal_cards.first_name', 'personal_cards.second_name', 'personal_cards.born_date', 'personal_cards.sex', 'personal_cards.phone', 'personal_cards.id')
                 ->where('personal_cards.id', $user['id'])
+                ->where('personal_cards.structura', $user['structura'])
                 ->orderBy('personal_cards.surname')
                 ->orderBy('personal_cards.first_name')
                 ->get();
@@ -55,14 +56,16 @@ class PersonalCardsRepository extends CoreRepository {
             $result = $this->startConditions()
                 ->join('allocations', 'personal_cards.id', '=', 'allocations.personal_card_id')
                 ->join('teams', 'allocations.team_id', '=', 'teams.id')
-                ->select('personal_cards.personal_account', 'personal_cards.surname', 'personal_cards.first_name', 'personal_cards.born_date', 'personal_cards.id')
+                ->select('personal_cards.personal_account', 'personal_cards.surname', 'personal_cards.first_name', 'personal_cards.second_name', 'personal_cards.born_date', 'personal_cards.sex', 'personal_cards.phone', 'personal_cards.id')
                 ->where('teams.personal_card_id', $user['id'])
+                ->where('personal_cards.structura', $user['structura'])
                 ->orderBy('personal_cards.surname')
                 ->orderBy('personal_cards.first_name')
                 ->get();
         } else {
             $result = $this->startConditions()
-                ->select('personal_cards.personal_account', 'personal_cards.surname', 'personal_cards.first_name', 'personal_cards.born_date', 'personal_cards.id')
+                ->select('personal_cards.personal_account', 'personal_cards.surname', 'personal_cards.first_name', 'personal_cards.second_name', 'personal_cards.born_date', 'personal_cards.sex', 'personal_cards.phone', 'personal_cards.id')
+                ->where('personal_cards.structura', $user['structura'])
                 ->orderBy('personal_cards.surname')
                 ->orderBy('personal_cards.first_name')
                 ->get();
@@ -78,10 +81,12 @@ class PersonalCardsRepository extends CoreRepository {
      *
      * @return Collection
      */
-    public function getPersonalActuality($id) {
+    public function getPersonalActuality($id, $structura) {
 
         $columns = [
             'id', 
+            'structura',
+            'user_id',
             'personal_account', 
             'surname', 
             'first_name', 
@@ -94,8 +99,10 @@ class PersonalCardsRepository extends CoreRepository {
         ];
 
         $result = $this->startConditions()
-            ->select($columns)
-            ->find($id);
+                ->select($columns)
+                ->where('structura', $structura)
+                ->where('id', $id)
+                ->first();
 
         return $result;
     }
@@ -107,13 +114,14 @@ class PersonalCardsRepository extends CoreRepository {
      *
      * @return Collection
      */
-    public function getManningOrderActuality($id) {
+    public function getManningOrderActuality($id, $structura) {
         
         $columns = [
             'departments.title AS department', 
             'positions.title AS position', 
             'position_professions.title AS profession', 
             'position_professions.code AS profession_code', 
+            'manning_orders.user_id',
             'manning_orders.department_id', 
             'manning_orders.position_id', 
             'manning_orders.position_profession_id', 
@@ -122,13 +130,13 @@ class PersonalCardsRepository extends CoreRepository {
         ];
 
         $result = ManningOrders::join('departments', 'manning_orders.department_id', '=', 'departments.id')
-            ->join('positions', 'manning_orders.position_id', '=', 'positions.id')
-            ->join('position_professions', 'manning_orders.position_profession_id', '=', 'position_professions.id')
-            ->select($columns)
-            ->where('personal_card_id', $id)
-            ->whereNull('resignation_date')
-            ->orderBy('assignment_date', 'desc')
-            ->first();
+                ->join('positions', 'manning_orders.position_id', '=', 'positions.id')
+                ->select($columns)
+                ->where('manning_orders.structura', $structura)
+                ->where('personal_card_id', $id)
+                ->whereNull('resignation_date')
+                ->orderBy('assignment_date', 'desc')
+                ->first();
 
         return $result;
     }
@@ -140,11 +148,12 @@ class PersonalCardsRepository extends CoreRepository {
      *
      * @return Collection
      */
-    public function getAllocationActuality($id) {
+    public function getAllocationActuality($id, $structura) {
         
         $columns = [
             'objects.title AS object',  
             'teams.title AS team', 
+            'allocations.user_id',
             'allocations.object_id',
             'allocations.team_id', 
             'allocations.start', 
@@ -169,7 +178,7 @@ class PersonalCardsRepository extends CoreRepository {
      *
      * @return Collection
      */
-    public function getManningOrderHistory($id) {
+    public function getManningOrderHistory($id, $structura) {
         
         $columns = [
             'departments.title AS department', 
@@ -198,7 +207,7 @@ class PersonalCardsRepository extends CoreRepository {
      *
      * @return Collection
      */
-    public function getAllocationHistory($id) {
+    public function getAllocationHistory($id, $structura) {
         
         $columns = [
             'objects.title AS object', 
@@ -224,7 +233,7 @@ class PersonalCardsRepository extends CoreRepository {
      *
      * @return Collection
      */
-    public function getManningOrderCount($id) {
+    public function getManningOrderCount($id, $structura) {
 
         $result = ManningOrders::where('personal_card_id', $id)->count();
 
@@ -238,7 +247,7 @@ class PersonalCardsRepository extends CoreRepository {
      *
      * @return Collection
      */
-    public function getAllocationCount($id) {
+    public function getAllocationCount($id, $structura) {
 
         $result = Allocations::where('personal_card_id', $id)->count();
 
@@ -252,7 +261,7 @@ class PersonalCardsRepository extends CoreRepository {
      *
      * @return Model
      */
-    public function getShow($id) {
+    public function getShow($id, $structura) {
 
         $result = $this->startConditions()
             ->select('personal_cards.personal_account', 'personal_cards.tax_number', 'personal_cards.surname', 'personal_cards.first_name', 'personal_cards.second_name', 'personal_cards.full_name_latina', 'personal_cards.sex', 'personal_cards.born_date', 'personal_cards.photo_url', 'personal_cards.id')
@@ -270,7 +279,7 @@ class PersonalCardsRepository extends CoreRepository {
      *
      * @return Model
      */
-    public function getEdit($id) {
+    public function getEdit($id, $structura) {
 
         $columns = ['id', 'personal_account', 'surname', 'first_name', 'second_name', 'full_name_latina', 'sex', 'born_date', 'phone', 'photo_url', ];
 
@@ -288,12 +297,15 @@ class PersonalCardsRepository extends CoreRepository {
      *
      * @return Model
      */
-    public function getListSelect($i) {
+    public function getListSelect($i, $structura) {
 
         switch ($i) {
             case 0:
                 $columns = implode(", ", ['id', 'CONCAT(personal_account, ", ", surname, ", ", first_name) AS personal_card']);
                 $result = PersonalCards::selectRaw($columns)
+                    ->orderBy('surname')
+                    ->orderBy('first_name')
+                    ->orderBy('second_name')
                     ->toBase()
                     ->get();
 
