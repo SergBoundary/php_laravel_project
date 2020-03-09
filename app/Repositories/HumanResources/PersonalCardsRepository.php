@@ -119,7 +119,7 @@ class PersonalCardsRepository extends CoreRepository {
         $columns = [
             'departments.title AS department', 
             'positions.title AS position', 
-            'position_professions.title AS profession', 
+            'position_professions.title AS position', 
             'position_professions.code AS profession_code', 
             'manning_orders.user_id',
             'manning_orders.department_id', 
@@ -130,6 +130,7 @@ class PersonalCardsRepository extends CoreRepository {
         ];
 
         $result = ManningOrders::join('departments', 'manning_orders.department_id', '=', 'departments.id')
+                ->join('position_professions', 'manning_orders.position_profession_id', '=', 'position_professions.id')
                 ->join('positions', 'manning_orders.position_id', '=', 'positions.id')
                 ->select($columns)
                 ->where('manning_orders.structura', $structura)
